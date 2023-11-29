@@ -26,6 +26,10 @@ for file in "${NECESSARY_FILES[@]}"; do
   fi
 done
 
+# Pull new versions
+echo "Pulling  containers"
+find $DOCKER_COMPOSE_DIR -mindepth 1 -type d -exec bash -c "cd '{}' && docker pull" \;
+
 # Stop docker containers
 echo "Stopping containers"
 find $DOCKER_COMPOSE_DIR -mindepth 1 -type d -exec bash -c "cd '{}' && docker compose down" \;
@@ -36,13 +40,12 @@ backup_filename="$BACKUP_PREFIX$current_time.backup"
 
 echo "Backing up files in $BACKUP_FILES_FILE to $backup_filename"
 tar czf - -T $BACKUP_FILES_FILE | gpg --symmetric --batch --passphrase "$(cat $PASSPHRASE_FILE)" 1> /dev/null > $BACKUP_DIR/$backup_filename
+ls -td $BACKUP_DIR/* | tail -n +$BACKUPS_TO_STORE_PLUS1 | xargs rm -f || true
 
 # Start docker containers
 echo "Starting containers"
 find $DOCKER_COMPOSE_DIR -mindepth 1 -type d -exec bash -c "cd '{}' && docker compose up -d" \;
 
 # Sync backup dir to remote
-echo "Cleaning up old backups"
-ls -td $BACKUP_DIR/* | tail -n +$BACKUPS_TO_STORE_PLUS1 | xargs rm -f || true
 echo "Syncing $BACKUP_DIR to $REMOTE_BACKUP_DIR"
 rclone sync $BACKUP_DIR $REMOTE_BACKUP_DIR
