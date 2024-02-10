@@ -28,7 +28,7 @@ done
 
 # Pull new versions
 echo "Pulling  containers"
-find $DOCKER_COMPOSE_DIR -mindepth 1 -type d -exec bash -c "cd '{}' && docker pull" \;
+find $DOCKER_COMPOSE_DIR -mindepth 1 -type d -exec bash -c "cd '{}' && docker compose pull" \;
 
 # Stop docker containers
 echo "Stopping containers"
