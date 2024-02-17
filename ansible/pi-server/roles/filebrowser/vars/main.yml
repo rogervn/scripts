@@ -1,0 +1,5 @@
+---
+filebrowser_container_name: filebrowser
+filebrowser_config_volume: "{{ docker_config_dir }}/{{ filebrowser_container_name }}"
+filebrowser_data_volume: "{{ docker_local_data_dir }}/{{ filebrowser_container_name }}"
+filebrowser_port: 8004

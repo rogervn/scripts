@@ -1,0 +1,9 @@
+---
+pihole_container_name: pihole
+pihole_config_volume: "{{ docker_config_dir }}/{{ pihole_container_name }}"
+pihole_dnsmasq_config_volume: "{{ docker_config_dir }}/dnsmasq.d"
+pihole_database_volume: "{{ docker_local_data_dir }}/{{ pihole_container_name }}"
+pihole_dns: 1.1.1.1
+pihole_admin_port: 8001
+pihole_tcp_port: 53
+pihole_udp_port: 53

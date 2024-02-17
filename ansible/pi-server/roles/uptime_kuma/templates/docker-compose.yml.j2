@@ -1,0 +1,17 @@
+version: "3.3"
+
+services:
+  uptime-kuma:
+    image: louislam/uptime-kuma:1
+    container_name: {{ uptime_kuma_container_name }}
+    restart: unless-stopped
+    environment:
+      TZ: {{ default_tz }}
+      PUID: {{ docker_user_uid }}
+      PGID: {{ docker_group_gid }}
+    volumes:
+      - {{ uptime_kuma_data_volume }}:/app/data
+      - {{ docker_socket }}:/var/run/docker.sock
+    ports:
+      - {{ uptime_kuma_port }}:3001
+

@@ -1,0 +1,5 @@
+---
+uptime_kuma_container_name: uptime-kuma
+uptime_kuma_config_volume: "{{ docker_config_dir }}/{{ uptime_kuma_container_name }}"
+uptime_kuma_data_volume: "{{ docker_data_dir }}/{{ uptime_kuma_container_name }}"
+uptime_kuma_port: 8003

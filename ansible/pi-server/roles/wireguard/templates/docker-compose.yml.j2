@@ -1,0 +1,29 @@
+---
+version: "3"
+
+services:
+  wireguard:
+    image: lscr.io/linuxserver/wireguard:latest
+    container_name: {{ wireguard_container_name }}
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    environment:
+      - PUID={{ docker_user_uid }}
+      - PGID={{ docker_group_gid }}
+      - TZ={{ default_tz }}
+      - SERVERURL={{ ansible_default_ipv4.address }}
+      - SERVERPORT={{ wireguard_port }}
+      - PEERS={{ wireguard_peers_number }}
+      - PEERDNS={{ wireguard_peer_dns }}
+      - INTERNAL_SUBNET={{ wireguard_internal_subnet }}
+      - ALLOWEDIPS={{ wireguard_allowed_ips }}
+      - LOG_CONFS=false
+    volumes:
+      - {{ wireguard_config_volume }}:/config
+      - {{ wireguard_lib_modules_volume }}:/lib/modules
+    ports:
+      - {{ wireguard_port }}:51820/udp
+    sysctls:
+      - net.ipv4.conf.all.src_valid_mark=1
+    restart: unless-stopped

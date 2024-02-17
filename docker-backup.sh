@@ -6,6 +6,9 @@
 # restore it at the end, updating them all as part of the process.
 # A gpg passphrase will be used for encryption and should be long enough to provide
 # good security.
+# To decrypt the backup run:
+# gpg --decrypt --batch --passphrase "$(cat /backup/gpgpassphrase)" \
+# --output backup.tar.gz BACKUP_FILE
 
 # Fill up all <> placeholders with your own configs
 DOCKER_COMPOSE_DIR=<docker-compose-root-dir>
@@ -13,9 +16,9 @@ BACKUP_FILES_FILE=<text-file-with-files-or-dirs-to-backup>
 BACKUP_DIR=<local-directory-to-store-backups>
 REMOTE_BACKUP_DIR=<rclone-format-remote-backup-dir>
 PASSPHRASE_FILE=<gpg-passphrase-file>
+BACKUP_PREFIX=<backup-file-prefix>
 
 NECESSARY_FILES=($DOCKER_COMPOSE_DIR $BACKUP_FILES_FILE $BACKUP_DIR $PASSPHRASE_FILE)
-BACKUP_PREFIX=<backup-file-prefix>
 BACKUPS_TO_STORE_PLUS1=11  # We store 10 backups
 
 # Validation
@@ -28,11 +31,11 @@ done
 
 # Pull new versions
 echo "Pulling  containers"
-find $DOCKER_COMPOSE_DIR -mindepth 1 -type d -exec bash -c "cd '{}' && docker compose pull" \;
+find $DOCKER_COMPOSE_DIR -mindepth 1 -type d -exec bash -c "cd '{}' && docker-compose pull" \;
 
 # Stop docker containers
 echo "Stopping containers"
-find $DOCKER_COMPOSE_DIR -mindepth 1 -type d -exec bash -c "cd '{}' && docker compose down" \;
+find $DOCKER_COMPOSE_DIR -mindepth 1 -type d -exec bash -c "cd '{}' && docker-compose down" \;
 
 # Compress and encrypt files, keeping only the latest
 current_time=$(date "+%Y%m%d-%H%M%S")
@@ -44,7 +47,7 @@ ls -td $BACKUP_DIR/* | tail -n +$BACKUPS_TO_STORE_PLUS1 | xargs rm -f || true
 
 # Start docker containers
 echo "Starting containers"
-find $DOCKER_COMPOSE_DIR -mindepth 1 -type d -exec bash -c "cd '{}' && docker compose up -d" \;
+find $DOCKER_COMPOSE_DIR -mindepth 1 -type d -exec bash -c "cd '{}' && docker-compose up -d" \;
 
 # Sync backup dir to remote
 echo "Syncing $BACKUP_DIR to $REMOTE_BACKUP_DIR"

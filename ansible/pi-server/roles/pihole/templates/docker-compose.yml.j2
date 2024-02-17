@@ -1,0 +1,25 @@
+version: "3"
+
+# More info at https://github.com/pi-hole/docker-pi-hole/ and https://docs.pi-hole.net/
+services:
+  pihole:
+    container_name: {{ pihole_container_name }}
+    image: pihole/pihole:latest
+    ports:
+      - {{ pihole_tcp_port }}:53/tcp
+      - {{ pihole_udp_port }}:53/udp
+      - {{ pihole_admin_port }}:80/tcp
+    environment:
+      TZ: {{ default_tz }}
+      WEBPASSWORD: {{ pihole_web_passwd }}
+      PIHOLE_DNS_: {{ pihole_dns }}
+      PIHOLE_UID: {{ docker_user_uid }}
+      PIHOLE_GID: {{ docker_group_gid }}
+      WEB_UID: {{ docker_user_uid }}
+      WEB_GID: {{ docker_group_gid }}
+      FTLCONF_DBFILE: /database/pihole-FTL.db
+    volumes:
+      - {{ pihole_config_volume }}:/etc/pihole
+      - {{ pihole_dnsmasq_config_volume }}:/etc/dnsmasq.d
+      - {{ pihole_database_volume }}:/database
+    restart: unless-stopped

@@ -1,0 +1,15 @@
+---
+- name: Raspberry pi server playbook
+  hosts: all
+  gather_facts: true
+  become: true
+
+  roles:
+    - docker
+    - filebrowser
+    - pihole
+    - wireguard
+    - cloudflared
+    - uptime_kuma
+    - vaultwarden
+    - rclone_backup

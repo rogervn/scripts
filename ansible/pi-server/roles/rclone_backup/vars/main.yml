@@ -1,0 +1,18 @@
+rclone_backup_packages:
+  - rclone
+rclone_backup_timer_oncalendar: Sat *-*-* 03:30:00
+rclone_backup_username: root
+rclone_backup_group: root
+rclone_backup_backup_dir: /backup
+rclone_backup_dropbox_dir: /backup/dropbox
+rclone_backup_config_dir: /root/.config/rclone
+rclone_backup_config_file: "{{ rclone_backup_config_dir }}/rclone.conf"
+rclone_backup_script_git_dir: ~/backup-scripts
+rclone_backup_script_systemd_name: docker-backup
+rclone_backup_systemd_service_file: "/etc/systemd/system/{{ rclone_backup_script_systemd_name }}.service"
+rclone_backup_systemd_timer_file: "/etc/systemd/system/{{ rclone_backup_script_systemd_name }}.timer"
+rclone_backup_backup_script_path: "{{ rclone_backup_backup_dir }}/docker-backup.sh"
+rclone_backup_dirs:
+  - "{{ rclone_backup_backup_dir }}"
+  - "{{ rclone_backup_config_dir }}"
+  - "{{ rclone_backup_dropbox_dir }}"

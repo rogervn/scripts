@@ -1,0 +1,53 @@
+---
+- name: Install necessary packages
+  ansible.builtin.apt:
+    name: "{{ rclone_backup_packages }}"
+    update_cache: true
+
+- name: Set main dirs and permissions
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ rclone_backup_username }}"
+    group: "{{ rclone_backup_group }}"
+    mode: '0750'
+  with_items: "{{ rclone_backup_dirs }}"
+
+- name: Set rclone config file
+  ansible.builtin.template:
+    src: rclone.conf.j2
+    dest: "{{ rclone_backup_config_file }}"
+    owner: "{{ rclone_backup_username }}"
+    group: "{{ rclone_backup_group }}"
+    mode: '0750'
+
+- name: Copy backup script files
+  ansible.builtin.copy:
+    src: "{{ item }}"
+    dest: "{{ rclone_backup_backup_dir }}"
+    owner: "{{ rclone_backup_username }}"
+    mode: '0750'
+  with_fileglob:
+    - "{{ rclone_backup_script_git_dir }}/*"
+
+- name: Set backup script service
+  ansible.builtin.template:
+    src: docker-backup.service.j2
+    dest: "{{ rclone_backup_systemd_service_file }}"
+    owner: "{{ rclone_backup_username }}"
+    group: "{{ rclone_backup_group }}"
+    mode: '0750'
+
+- name: Set backup script timer
+  ansible.builtin.template:
+    src: docker-backup.timer.j2
+    dest: "{{ rclone_backup_systemd_timer_file }}"
+    owner: "{{ rclone_backup_username }}"
+    group: "{{ rclone_backup_group }}"
+    mode: '0750'
+
+- name: Set backup script systemd timer
+  ansible.builtin.systemd_service:
+    name: "{{ rclone_backup_script_systemd_name }}.timer"
+    state: started
+    enabled: true

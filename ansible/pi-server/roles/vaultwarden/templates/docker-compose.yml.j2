@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  vaultwarden:
+    image: vaultwarden/server:latest
+    container_name: {{ vaultwarden_container_name }}
+    user: {{ docker_user_uid }}:{{ docker_group_gid }}
+    restart: unless-stopped
+    environment:
+      DOMAIN: {{ vaultwarden_domain }}
+      TZ: {{ default_tz }}
+      SIGNUPS_ALLOWED: {{ vaultwarden_signups_allowed }}
+      ROCKET_WORKERS: 4
+      PUSH_ENABLED: {{ vaultwarden_push_enabled }}
+      PUSH_INSTALLATION_ID: {{ vaultwarden_push_installation_id }}
+      PUSH_INSTALLATION_KEY: {{ vaultwarden_push_installation_key }}
+      PUSH_RELAY_BASE_URI: {{ vaultwarden_push_relay_base_uri }}
+      SMTP_HOST: {{ smtp_host }}
+      SMTP_PORT: {{ smtp_port }}
+      SMTP_SECURITY: {{ smtp_security }}
+      SMTP_FROM: {{ vaultwarden_smtp_from }}
+      SMTP_USERNAME: {{ smtp_username }}
+      SMTP_PASSWORD: {{ smtp_password }}
+      HELO_NAME: {{ vaultwarden_smtp_helo_name }}
+{% if vaultwarden_admin_token %}
+      ADMIN_TOKEN: {{ vaultwarden_admin_token }}
+{% endif %}
+    volumes:
+      - {{ vaultwarden_data_volume }}:/data
+    ports:
+      - {{ vaultwarden_port }}:80

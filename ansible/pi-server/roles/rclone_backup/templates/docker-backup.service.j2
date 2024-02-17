@@ -1,0 +1,6 @@
+[Unit]
+Description=Backs up all docker containers and send them to remote backup
+
+[Service]
+Type=oneshot
+ExecStart={{ rclone_backup_backup_script_path }}

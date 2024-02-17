@@ -1,0 +1,37 @@
+---
+
+# system shared
+default_tz: <CHANGEME>
+smtp_host: <CHANGEME>
+smtp_port: <CHANGEME>
+smtp_security: starttls
+
+# docker
+docker_username: docker
+docker_groups:
+  - docker
+docker_main_group: "{{ docker_groups[0] }}"
+docker_socket: /var/run/docker.sock
+docker_config_dir: <CHANGEME>
+docker_compose_dir: <CHANGEME>
+docker_data_dir: <CHANGEME>
+docker_local_data_dir: <CHANGEME>
+docker_dirs:
+  - "{{ docker_config_dir }}"
+  - "{{ docker_compose_dir }}"
+  - "{{ docker_data_dir }}"
+  - "{{ docker_local_data_dir }}"
+
+# secrets
+smtp_username: <CHANGEME>
+smtp_password: <CHANGEME>
+
+pihole_web_passwd: <CHANGEME>
+
+wireguard_connector_token: <CHANGEME>
+
+vaultwarden_admin_token: <CHANGEME>
+vaultwarden_push_installation_id: <CHANGEME>
+vaultwarden_push_installation_key: <CHANGEME>
+
+rclone_backup_token: <CHANGEME>
