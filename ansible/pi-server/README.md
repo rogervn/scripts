@@ -14,7 +14,7 @@ raspberry pi zero 2 at the time of initial commit. The rclone_backup role
 requires the docker-backup script in this same git repo and all the extra files
 it's missing.
 
-The variables replaced by placeholders with "<CHANGEME>" are often secrets and
+The variables replaced by placeholders with "\<CHANGEME\>" are often secrets and
 it's suggested to be stored in a vault somewhere and replaced.
 
 Use at your own risk.
