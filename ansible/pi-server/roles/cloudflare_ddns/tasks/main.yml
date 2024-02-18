@@ -15,23 +15,9 @@
     group: "{{ docker_main_group }}"
     mode: '0750'
 
-- name: Set compose dir
-  ansible.builtin.file:
-    path: "{{ docker_compose_dir }}/{{ cloudflare_ddns_container_name }}"
-    state: directory
-    owner: "{{ docker_username }}"
-    group: "{{ docker_main_group }}"
-    mode: '0750'
-
-- name: Set compose file
-  ansible.builtin.template:
-    src: docker-compose.yml.j2
-    dest: "{{ docker_compose_dir }}/{{ cloudflare_ddns_container_name }}/docker-compose.yml"
-    owner: "{{ docker_username }}"
-    group: "{{ docker_main_group }}"
-    mode: '0750'
-
-- name: Run docker compose
-  community.docker.docker_compose:
-    project_src: "{{ docker_compose_dir }}/{{ cloudflare_ddns_container_name }}"
-    pull: true
+- name: Set and run docker compose
+  ansible.builtin.include_role:
+    name: docker
+    tasks_from: docker-compose
+  vars:
+    docker_container_name: "{{ cloudflare_ddns_container_name }}"
