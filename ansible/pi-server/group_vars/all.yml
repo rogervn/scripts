@@ -34,4 +34,7 @@ vaultwarden_admin_token: <CHANGEME>
 vaultwarden_push_installation_id: <CHANGEME>
 vaultwarden_push_installation_key: <CHANGEME>
 
+cloudflare_ddns_api_token: <CHANGEME>
+cloudflare_ddns_zone_id: <CHANGEME>
+
 rclone_backup_token: <CHANGEME>

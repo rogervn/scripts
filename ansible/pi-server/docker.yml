@@ -10,6 +10,7 @@
     - pihole
     - wireguard
     - cloudflared
+    - cloudflare_ddns
     - uptime_kuma
     - vaultwarden
     - rclone_backup

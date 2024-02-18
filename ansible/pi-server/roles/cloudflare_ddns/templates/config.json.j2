@@ -1,0 +1,18 @@
+{
+  "cloudflare": [
+    {
+      "authentication": {
+        "api_token": "{{ cloudflare_ddns_api_token }}"
+      },
+      "zone_id": "{{ cloudflare_ddns_zone_id }}",
+      "subdomains": [
+        {
+          "name": "{{ cloudflare_ddns_subdomain }}",
+          "proxied": {{ cloudflare_ddns_proxied }}
+        }
+      ]
+    }
+  ],
+  "a": {{ cloudflare_ddns_enable_ipv4 }},
+  "aaaa": {{ cloudflare_ddns_enable_ipv6 }}
+}
