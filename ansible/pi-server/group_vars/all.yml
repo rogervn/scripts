@@ -28,7 +28,7 @@ smtp_password: <CHANGEME>
 
 pihole_web_passwd: <CHANGEME>
 
-wireguard_connector_token: <CHANGEME>
+cloudflared_connector_token: <CHANGEME>
 
 vaultwarden_admin_token: <CHANGEME>
 vaultwarden_push_installation_id: <CHANGEME>

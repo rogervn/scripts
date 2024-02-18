@@ -5,4 +5,4 @@ services:
     image: cloudflare/cloudflared
     container_name: {{ cloudflared_container_name }}
     restart: unless-stopped
-    command: tunnel run --protocol quic --token {{ wireguard_connector_token }}
+    command: tunnel run --protocol quic --token {{ cloudflared_connector_token }}
