@@ -15,14 +15,6 @@
     group: "{{ docker_main_group }}"
     mode: '0750'
 
-- name: Set compose dir
-  ansible.builtin.file:
-    path: "{{ docker_compose_dir }}/{{ filebrowser_container_name }}"
-    state: directory
-    owner: "{{ docker_username }}"
-    group: "{{ docker_main_group }}"
-    mode: '0750'
-
 - name: Set and run docker compose
   ansible.builtin.include_role:
     name: docker
