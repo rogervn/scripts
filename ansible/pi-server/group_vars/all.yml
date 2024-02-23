@@ -37,4 +37,8 @@ vaultwarden_push_installation_key: <CHANGEME>
 cloudflare_ddns_api_token: <CHANGEME>
 cloudflare_ddns_zone_id: <CHANGEME>
 
+tailscale_auth_key: <CHANGEME>
+tailscale_advertised_routes: <CHANGEME>
+
+
 rclone_backup_token: <CHANGEME>

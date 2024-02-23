@@ -1,0 +1,7 @@
+---
+tailscale_container_name: tailscale
+tailscale_state_volume: "{{ docker_local_data_dir }}/{{ tailscale_container_name }}"
+tailscale_ephemeral_node: 'false'
+tailscale_preauthorized_node: 'true'
+tailscale_server_tag: server
+tailscale_extra_args: --accept-routes --advertise-exit-node

@@ -13,4 +13,5 @@
     - cloudflare_ddns
     - uptime_kuma
     - vaultwarden
+    - tailscale
     - rclone_backup

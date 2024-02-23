@@ -1,0 +1,15 @@
+---
+- name: Verify tailscale state dir
+  ansible.builtin.file:
+    path: "{{ tailscale_state_volume }}"
+    state: directory
+    owner: "{{ docker_username }}"
+    group: "{{ docker_main_group }}"
+    mode: '0750'
+
+- name: Set and run docker compose
+  ansible.builtin.include_role:
+    name: docker
+    tasks_from: docker-compose
+  vars:
+    docker_container_name: "{{ tailscale_container_name }}"
