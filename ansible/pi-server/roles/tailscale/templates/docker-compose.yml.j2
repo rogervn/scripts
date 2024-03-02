@@ -3,7 +3,8 @@ version: "3.7"
 services:
   tailscale:
     image: tailscale/tailscale:latest
-    hostname: {{ tailscale_container_name }}
+    hostname: {{ ansible_hostname }}
+    container_name: {{ tailscale_container_name }}
     environment:
       - TS_AUTHKEY={{ tailscale_auth_key }}?ephemeral={{ tailscale_ephemeral_node}}&preauthorized={{ tailscale_preauthorized_node }}
       - TS_EXTRA_ARGS=--advertise-tags=tag:{{ tailscale_server_tag }} {{ tailscale_extra_args }}
