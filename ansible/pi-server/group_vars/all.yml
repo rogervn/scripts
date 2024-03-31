@@ -40,5 +40,7 @@ cloudflare_ddns_zone_id: <CHANGEME>
 tailscale_auth_key: <CHANGEME>
 tailscale_advertised_routes: <CHANGEME>
 
+homeassistant_internal_url: <CHANGEME>
+homeassistant_external_url: <CHANGEME>
 
 rclone_backup_token: <CHANGEME>
