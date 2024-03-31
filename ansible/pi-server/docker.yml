@@ -14,4 +14,5 @@
     - uptime_kuma
     - vaultwarden
     - tailscale
+    - homeassistant
     - rclone_backup

@@ -1,0 +1,23 @@
+---
+homeassistant_container_name: homeassistant
+homeassistant_backup_volume: "{{ docker_data_dir }}/{{ homeassistant_container_name }}"
+homeassistant_scratch_volume: "{{ docker_local_data_dir }}/{{ homeassistant_container_name }}"
+homeassistant_scratch_config_volume: "{{ homeassistant_scratch_volume }}/config"
+homeassistant_scratch_recorder_volume: "{{ homeassistant_scratch_volume }}/recorder"
+homeassistant_scratch_media_volume: "{{ homeassistant_scratch_volume }}/media"
+homeassistant_scratch_custom_components: "{{ homeassistant_scratch_config_volume }}/custom_components"
+homeassistant_config_file: "{{ homeassistant_scratch_config_volume }}/configuration.yaml"
+homeassistant_local_network: 10.0.0.0/24
+homeassistant_unit_system: metric
+homeassistant_currency: GBP
+homeassistant_country: GB
+homeassistant_port: 8005
+homeassistant_packages:
+  - rsync
+homeassistant_devices:
+  - /dev/ttyACM0
+homeassistant_github_components:
+  - name: heatmiserneo
+    repo: https://github.com/MindrustUK/Heatmiser-for-home-assistant.git
+    subdir: custom_components/heatmiserneo
+    version: master

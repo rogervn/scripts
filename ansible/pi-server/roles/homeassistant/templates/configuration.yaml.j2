@@ -1,0 +1,31 @@
+# Configure a default setup of Home Assistant (frontend, api, etc)
+default_config:
+
+# The configuration required for the UI to work
+automation: !include automations.yaml
+
+# https://www.home-assistant.io/docs/configuration/basic/
+homeassistant:
+  name: Home
+  unit_system: {{ homeassistant_unit_system }}
+  currency: {{ homeassistant_currency }}
+  country: {{ homeassistant_country }}
+  time_zone: {{ default_tz }}
+  media_dirs:
+    media: /media
+  auth_providers:
+    - type: homeassistant
+    - type: trusted_networks
+      trusted_networks:
+        - {{ homeassistant_local_network }}
+
+http:
+  server_port: {{ homeassistant_port }}
+  ip_ban_enabled: true
+  login_attempts_threshold: 5
+
+recorder:
+  purge_keep_days: 5
+
+logger:
+  default: warning

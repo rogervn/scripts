@@ -1,0 +1,41 @@
+---
+- name: Install necessary packages
+  ansible.builtin.apt:
+    name: "{{ homeassistant_packages }}"
+
+- name: Verify homeassistant base dirs
+  ansible.builtin.file:
+    path: "{{ homeassistant_backup_volume }}"
+    state: directory
+    owner: "{{ docker_username }}"
+    group: "{{ docker_main_group }}"
+    mode: '0750'
+  loop:
+    - "{{ homeassistant_backup_volume }}"
+    - "{{ homeassistant_scratch_volume }}"
+    - "{{ homeassistant_scratch_config_volume }}"
+    - "{{ homeassistant_scratch_recorder_volume }}"
+    - "{{ homeassistant_scratch_media_volume }}"
+    - "{{ homeassistant_scratch_custom_components }}"
+
+- name: Verify homeassistant configuration.yaml file
+  ansible.builtin.template:
+    src: configuration.yaml.j2
+    dest: "{{ homeassistant_config_file }}"
+    owner: "{{ docker_username }}"
+    group: "{{ docker_main_group }}"
+    mode: '0750'
+
+- name: Create custom components
+  ansible.builtin.include_tasks: custom_component.yml
+  vars:
+    component: "{{ item }}"
+  loop: "{{ homeassistant_github_components }}"
+
+
+- name: Set and run docker compose
+  ansible.builtin.include_role:
+    name: docker
+    tasks_from: docker-compose
+  vars:
+    docker_container_name: "{{ homeassistant_container_name }}"

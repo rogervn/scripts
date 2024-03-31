@@ -1,0 +1,21 @@
+---
+- name: Compose tmpdir
+  ansible.builtin.set_fact:
+    tmpdir: "/tmp/{{ component.name }}"
+
+- name: Clone the repository in a temp dir
+  ansible.builtin.git:
+    repo: "{{ component.repo }}"
+    dest: "{{ tmpdir }}"
+    version: "{{ component.version }}"
+
+- name: Rsync the component subdir into the dest dir
+  ansible.posix.synchronize:
+    src: "{{ tmpdir }}/{{ component.subdir }}/"
+    dest: "{{ homeassistant_scratch_custom_components }}/{{ component.name }}/"
+  delegate_to: "{{ inventory_hostname }}"
+
+- name: Remove the temp dir
+  ansible.builtin.file:
+    state: absent
+    path: "{{ tmpdir }}"

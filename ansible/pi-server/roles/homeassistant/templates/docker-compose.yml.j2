@@ -1,0 +1,27 @@
+version: '2'
+services:
+  homeassistant:
+    container_name: {{ homeassistant_container_name }}
+    image: lscr.io/linuxserver/homeassistant:latest
+    volumes:
+      - {{ homeassistant_scratch_config_volume }}:/config
+      - {{ homeassistant_scratch_recorder_volume }}:/recorder
+      - {{ homeassistant_scratch_media_volume }}:/media
+      - {{ homeassistant_backup_volume }}:/backup
+      - /etc/localtime:/etc/localtime:ro
+      - /run/dbus:/run/dbus:ro
+    restart: unless-stopped
+    network_mode: host
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    environment:
+      - PUID={{ docker_user_uid }}
+      - PGID={{ docker_group_gid }}
+      - TZ={{ default_tz }}
+{% if homeassistant_devices %}
+    devices:
+    {% for device in homeassistant_devices %}
+  - {{ device }}:{{ device }}
+    {% endfor %}
+{% endif %}
