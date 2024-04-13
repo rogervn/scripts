@@ -5,7 +5,7 @@
 
 - name: Verify homeassistant base dirs
   ansible.builtin.file:
-    path: "{{ homeassistant_backup_volume }}"
+    path: "{{ item }}"
     state: directory
     owner: "{{ docker_username }}"
     group: "{{ docker_main_group }}"
