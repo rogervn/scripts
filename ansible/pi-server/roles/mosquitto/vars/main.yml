@@ -1,0 +1,8 @@
+---
+mosquitto_container_name: mosquitto
+mosquitto_config_volume: "{{ docker_config_dir }}/{{ mosquitto_container_name }}"
+mosquitto_data_volume: "{{ docker_local_data_dir }}/{{ mosquitto_container_name }}"
+mosquitto_config_file: "{{ mosquitto_config_volume }}/mosquitto.conf"
+mosquitto_password_file_name: "passwordfile"
+mosquitto_password_file: "{{ mosquitto_config_volume }}/{{ mosquitto_password_file_name }}"
+mosquitto_mqtt_port: 8006

@@ -1,0 +1,18 @@
+version: "3.7"
+
+services:
+  mosquitto:
+    container_name: {{ mosquitto_container_name }}
+    image: eclipse-mosquitto
+    hostname: mosquitto
+    container_name: mosquitto
+    restart: unless-stopped
+    ports:
+      - {{ mosquitto_mqtt_port }}:1883
+    volumes:
+      - {{ mosquitto_config_volume }}:/mosquitto/config
+      - {{ mosquitto_data_volume }}:/mosquitto/data
+    environment:
+      - PUID={{ docker_user_uid }}
+      - PGID={{ docker_group_gid }}
+      - TZ={{ default_tz }}
