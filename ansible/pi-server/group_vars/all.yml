@@ -45,5 +45,7 @@ homeassistant_external_url: <CHANGEME>
 
 mosquitto_homeassistant_user: <CHANGEME>
 mosquitto_homeassistant_password_hash: <CHANGEME>
+mosquitto_tasmota_user: <CHANGEME>
+mosquitto_tasmota_password_hash: <CHANGEME>
 
 rclone_backup_token: <CHANGEME>
