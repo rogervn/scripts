@@ -1,0 +1,26 @@
+---
+version: "3.7"
+
+services:
+  ocis:
+    container_name: {{ ocis_container_name }}
+    image: owncloud/ocis:latest@{{ ocis_version_digest }}
+    user: {{ docker_user_uid }}:{{ docker_group_gid }}
+    volumes:
+      - {{ ocis_config_volume }}:/etc/ocis
+      - {{ ocis_data_volume }}:/var/lib/ocis
+    environment:
+      OCIS_INSECURE: "{{ ocis_insecure }}"
+      OCIS_URL: {{ ocis_url }}
+      OCIS_LOG_LEVEL: "{{ ocis_log_level }}"
+      NOTIFICATIONS_SMTP_HOST: "{{ smtp_host }}"
+      NOTIFICATIONS_SMTP_PORT: "{{ smtp_port }}"
+      NOTIFICATIONS_SMTP_SENDER: "{{ smtp_username }}"
+      NOTIFICATIONS_SMTP_USERNAME: "{{ smtp_username }}"
+      NOTIFICATIONS_SMTP_PASSWORD: "{{ smtp_password }}"
+      NOTIFICATIONS_SMTP_ENCRYPTION: "{{ smtp_security }}"
+    ports:
+      - {{ ocis_port }}:9200
+    restart: always
+    logging:
+      driver: local

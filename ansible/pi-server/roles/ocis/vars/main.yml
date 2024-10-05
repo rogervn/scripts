@@ -1,0 +1,9 @@
+---
+ocis_container_name: ocis
+ocis_version_digest: sha256:1b2b0fa91fc768f22eeacd12e2253c7a3db9a93516d0d3145175de6f170b2710
+ocis_config_volume: "{{ docker_config_dir }}/{{ ocis_container_name }}"
+ocis_data_volume: "{{ docker_data_dir }}/{{ ocis_container_name }}"
+ocis_port: 8007
+ocis_url: "https://{{ ocis_fqdn }}:{{ ocis_port }}"
+ocis_log_level: info
+ocis_insecure: "true"

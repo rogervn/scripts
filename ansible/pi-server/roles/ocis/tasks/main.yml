@@ -1,0 +1,19 @@
+---
+
+- name: Verify ocis base dirs
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ docker_username }}"
+    group: "{{ docker_main_group }}"
+    mode: '0750'
+  loop:
+    - "{{ ocis_config_volume }}"
+    - "{{ ocis_data_volume }}"
+
+- name: Set and run docker compose
+  ansible.builtin.include_role:
+    name: docker
+    tasks_from: docker-compose
+  vars:
+    docker_container_name: "{{ ocis_container_name }}"
