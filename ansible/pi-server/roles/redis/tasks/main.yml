@@ -1,0 +1,19 @@
+---
+
+- name: Verify redis base dirs
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ redis_uid }}"
+    group: "{{ redis_gid }}"
+    mode: '0750'
+  loop:
+    - "{{ redis_config_volume }}"
+    - "{{ redis_data_volume }}"
+
+- name: Set and run docker compose
+  ansible.builtin.include_role:
+    name: docker
+    tasks_from: docker-compose
+  vars:
+    docker_container_name: "{{ redis_container_name }}"

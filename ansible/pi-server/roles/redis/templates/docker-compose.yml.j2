@@ -1,0 +1,19 @@
+---
+version: '3.3'
+
+services:
+  redis:
+    container_name: {{ redis_container_name }}
+    image: redis:latest
+    restart: unless-stopped
+    ports:
+      - {{ redis_port }}:6379
+    volumes:
+      - {{ redis_data_volume }}:/root/redis
+      - {{ redis_config_volume }}:/usr/local/etc/redis
+    environment:
+      - REDIS_PASSWORD={{ redis_passwd }}
+      - REDIS_PORT=6379
+      - REDIS_DATABASES={{ redis_databases }}
+      - PUID={{ docker_user_uid }}
+      - PGID={{ docker_group_gid }}

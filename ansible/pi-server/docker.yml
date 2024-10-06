@@ -16,6 +16,7 @@
     - tailscale
     - homeassistant
     - mariadb
+    - redis
     - nextcloud
     - ocis
     - rclone_backup
