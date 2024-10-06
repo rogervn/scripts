@@ -15,4 +15,7 @@
     - vaultwarden
     - tailscale
     - homeassistant
+    - mariadb
+    - nextcloud
+    - ocis
     - rclone_backup

@@ -48,6 +48,7 @@ mosquitto_homeassistant_password_hash: <CHANGEME>
 mosquitto_tasmota_user: <CHANGEME>
 mosquitto_tasmota_password_hash: <CHANGEME>
 
+mariadb_root_passwd: <CHANGEME>
 ocis_fqdn: <CHANGEME>
 
 rclone_backup_token: <CHANGEME>

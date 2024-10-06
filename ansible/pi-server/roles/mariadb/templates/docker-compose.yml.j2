@@ -1,0 +1,15 @@
+---
+services:
+  mariadb:
+    image: linuxserver/mariadb:latest
+    container_name: mariadb
+    environment:
+      - PUID={{ docker_user_uid }}
+      - PGID={{ docker_group_gid }}
+      - TZ={{ default_tz }}
+      - MYSQL_ROOT_PASSWORD={{ mariadb_root_passwd }}
+    volumes:
+      - {{ mariadb_config_volume }}:/config
+    ports:
+      - {{ mariadb_port }}:3306
+    restart: unless-stopped

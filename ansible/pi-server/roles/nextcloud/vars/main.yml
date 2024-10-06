@@ -1,8 +1,5 @@
 ---
-nextcloud_container_name: nextcloud-aio-mastercontainer
+nextcloud_container_name: nextcloud
 nextcloud_config_volume: "{{ docker_config_dir }}/{{ nextcloud_container_name }}"
 nextcloud_data_volume: "{{ docker_data_dir }}/{{ nextcloud_container_name }}"
-nextcloud_http_port: 10080
-nextcloud_admin_https_port: 18080
-nextcloud_https_port: 8007
-nextcloud_internal_http_port: 11000
+nextcloud_https_port: 8008

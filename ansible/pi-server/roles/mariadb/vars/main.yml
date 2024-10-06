@@ -1,0 +1,4 @@
+---
+mariadb_container_name: mariadb
+mariadb_config_volume: "{{ docker_config_dir }}/{{ mariadb_container_name }}"
+mariadb_port: 3306

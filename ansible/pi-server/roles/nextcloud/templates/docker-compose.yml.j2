@@ -1,30 +1,15 @@
 ---
-version: "3.7"
 services:
-  nextcloud-aio-mastercontainer:
-    hostname: {{ ansible_hostname }}
-    image: nextcloud/all-in-one:latest
-    init: true
-    restart: always
-    container_name: {{ nextcloud_container_name }}
-    volumes:
-      - nextcloud_aio_mastercontainer:/mnt/docker-aio-config
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-    ports:
-      - {{ nextcloud_http_port }}:80
-      - {{ nextcloud_admin_https_port }}:8080
-      - {{ nextcloud_https_port }}:8443
+  nextcloud:
+    image: lscr.io/linuxserver/nextcloud:latest
+    container_name: nextcloud
     environment:
-      APACHE_PORT: {{ nextcloud_internal_http_port }}
-      APACHE_IP_BINDING: 0.0.0.0
-      NEXTCLOUD_DATADIR: {{ nextcloud_data_volume }}
-      SKIP_DOMAIN_VALIDATION: 1
-
-volumes:
-  nextcloud_aio_mastercontainer:
-    name: nextcloud_aio_mastercontainer
-    driver: local
-    driver_opts:
-      type: none
-      device: {{ nextcloud_config_volume }}
-      o: bind
+      - PUID={{ docker_user_uid }}
+      - PGID={{ docker_group_gid }}
+      - TZ={{ default_tz }}
+    volumes:
+      - {{ nextcloud_config_volume }}:/config
+      - {{ nextcloud_data_volume }}:/data
+    ports:
+      - {{ nextcloud_https_port }}:443
+    restart: unless-stopped
