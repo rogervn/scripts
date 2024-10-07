@@ -1,5 +1,6 @@
 rclone_backup_packages:
   - rclone
+  - borgbackup
 rclone_backup_timer_oncalendar: Sat *-*-* 03:30:00
 rclone_backup_username: root
 rclone_backup_group: root
