@@ -1,0 +1,7 @@
+---
+immich_container_name: immich
+immich_data_volume: "{{ docker_data_dir }}/{{ immich_container_name }}"
+immich_postgres_data_volume: "{{ docker_data_dir }}/{{ immich_container_name }}-postgres"
+immich_model_cache_volume: "{{ docker_local_data_dir }}/{{ immich_container_name }}-modelcache"
+immich_compose_dir: "{{ docker_compose_dir }}/{{ immich_container_name }}"
+immich_port: 8009

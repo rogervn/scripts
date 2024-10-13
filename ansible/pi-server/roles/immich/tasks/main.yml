@@ -1,0 +1,29 @@
+---
+
+- name: Verify immich base dirs
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ docker_username }}"
+    group: "{{ docker_main_group }}"
+    mode: '0750'
+  loop:
+    - "{{ immich_data_volume }}"
+    - "{{ immich_postgres_data_volume }}"
+    - "{{ immich_compose_dir }}"
+
+- name: Verify .env file
+  ansible.builtin.template:
+    src: .env.j2
+    dest: "{{ immich_compose_dir }}/.env"
+    owner: "{{ docker_username }}"
+    group: "{{ docker_main_group }}"
+    mode: '0750'
+
+
+- name: Set and run docker compose
+  ansible.builtin.include_role:
+    name: docker
+    tasks_from: docker-compose
+  vars:
+    docker_container_name: "{{ immich_container_name }}"

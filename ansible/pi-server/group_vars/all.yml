@@ -52,4 +52,7 @@ mariadb_root_passwd: <CHANGEME>
 redis_passwd: <CHANGEME>
 ocis_fqdn: <CHANGEME>
 
+immich_postgres_user: <CHANGEME>
+immich_postgres_passwd: <CHANGEME>
+
 rclone_backup_token: <CHANGEME>
