@@ -21,7 +21,7 @@ services:
     env_file:
       - .env
     ports:
-      - {{ immich_port }}:2283
+      - {{ immich_port }}:3001
     depends_on:
       - redis
       - database
@@ -49,7 +49,6 @@ services:
   redis:
     container_name: immich_redis
     image: docker.io/redis:6.2-alpine@sha256:2ba50e1ac3a0ea17b736ce9db2b0a9f6f8b85d4c27d5f5accc6a416d8f42c6d5
-    user: {{ docker_user_uid }}:{{ docker_group_gid }}
     healthcheck:
       test: redis-cli ping || exit 1
     restart: unless-stopped
@@ -57,6 +56,7 @@ services:
   database:
     container_name: immich_postgres
     image: docker.io/tensorchord/pgvecto-rs:pg14-v0.2.0@sha256:90724186f0a3517cf6914295b5ab410db9ce23190a2d9d0b9dd6463e3fa298f0
+    user: {{ docker_user_uid }}:{{ docker_group_gid }}
     environment:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_USER: ${DB_USERNAME}
