@@ -10,6 +10,7 @@
   loop:
     - "{{ immich_data_volume }}"
     - "{{ immich_postgres_data_volume }}"
+    - "{{ immich_model_cache_volume }}"
     - "{{ immich_compose_dir }}"
 
 - name: Verify .env file

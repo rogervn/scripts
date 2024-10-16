@@ -21,7 +21,7 @@ services:
     env_file:
       - .env
     ports:
-      - {{ immich_port }}:3001
+      - {{ immich_port }}:2283
     depends_on:
       - redis
       - database
