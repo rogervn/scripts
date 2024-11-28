@@ -1,0 +1,26 @@
+- name: Install docker repository key
+  ansible.builtin.apt_key:
+    url: "{{ docker_repo_key_url }}"
+    keyring: "{{ docker_key_file }}"
+    state: present
+
+- name: Fetch Debian architecture
+  ansible.builtin.command: dpkg --print-architecture
+  register: debian_arch_cmd
+
+- name: Set Debian architecture fact
+  set_fact:
+    debian_arch: "{{ debian_arch_cmd.stdout }}"
+
+- name: Install docker repository
+  ansible.builtin.apt_repository:
+    repo: "deb [arch={{ debian_arch }} signed-by={{ docker_key_file }}] {{ docker_repo_url }} {{ ansible_distribution_release }} stable"
+    filename: docker
+    update_cache: true
+
+- name: Install necessary packages
+  ansible.builtin.apt:
+    name: "{{ docker_packages }}"
+    update_cache: true
+
+

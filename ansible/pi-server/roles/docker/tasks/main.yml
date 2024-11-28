@@ -1,8 +1,7 @@
 ---
-- name: Install necessary packages
-  ansible.builtin.apt:
-    name: "{{ docker_packages }}"
-    update_cache: true
+- name: Install docker packages
+  ansible.builtin.include_tasks: tasks/docker-packages.yml
+  when: docker_install_packages
 
 - name: Add docker user
   ansible.builtin.user:

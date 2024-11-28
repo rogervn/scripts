@@ -7,6 +7,7 @@ smtp_port: <CHANGEME>
 smtp_security: starttls
 
 # docker
+docker_install_packages: true
 docker_username: docker
 docker_groups:
   - docker
