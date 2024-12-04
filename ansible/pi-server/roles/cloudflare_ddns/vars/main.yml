@@ -1,9 +1,6 @@
 ---
 cloudflare_ddns_container_name: cloudflare-ddns
 cloudflare_ddns_config_volume: "{{ docker_config_dir }}/{{ cloudflare_ddns_container_name }}"
-cloudflare_ddns_subdomain: <CHANGEME>
-cloudflare_ddns_enable_ipv4: <CHANGEME>
-cloudflare_ddns_enable_ipv6: <CHANGEME>
-cloudflare_ddns_proxied: <CHANGEME>
+cloudflare_ddns_proxied: 'false'
 cloudflare_ddns_config_filename: config.json
 cloudflare_ddns_config_filepath: "{{ cloudflare_ddns_config_volume }}/{{ cloudflare_ddns_config_filename }}"

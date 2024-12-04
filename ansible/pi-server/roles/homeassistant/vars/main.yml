@@ -20,4 +20,4 @@ homeassistant_github_components:
   - name: heatmiserneo
     repo: https://github.com/MindrustUK/Heatmiser-for-home-assistant.git
     subdir: custom_components/heatmiserneo
-    version: master
+    version: Version_1.6

@@ -34,9 +34,17 @@ cloudflared_connector_token: <CHANGEME>
 vaultwarden_admin_token: <CHANGEME>
 vaultwarden_push_installation_id: <CHANGEME>
 vaultwarden_push_installation_key: <CHANGEME>
+vaultwarden_domain: <CHANGEME>
+vaultwarden_smtp_from: <CHANGEME>
+vaultwarden_smtp_helo_name: <CHANGEME>
+
 
 cloudflare_ddns_api_token: <CHANGEME>
 cloudflare_ddns_zone_id: <CHANGEME>
+cloudflare_ddns_subdomain: <CHANGEME>
+cloudflare_ddns_enable_ipv4: <CHANGEME>
+cloudflare_ddns_enable_ipv6: <CHANGEME>
+
 
 tailscale_auth_key: <CHANGEME>
 tailscale_advertised_routes: <CHANGEME>

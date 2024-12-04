@@ -1,11 +1,8 @@
-version: "3.7"
-
 services:
   mosquitto:
     container_name: {{ mosquitto_container_name }}
     image: eclipse-mosquitto
     hostname: mosquitto
-    container_name: mosquitto
     restart: unless-stopped
     ports:
       - {{ mosquitto_mqtt_port }}:1883

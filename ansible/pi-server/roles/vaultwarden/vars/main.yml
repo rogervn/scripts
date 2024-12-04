@@ -1,10 +1,7 @@
 ---
 vaultwarden_container_name: vaultwarden
 vaultwarden_data_volume: "{{ docker_data_dir }}/{{ vaultwarden_container_name }}"
-vaultwarden_port: <CHANGEME>
-vaultwarden_domain: <CHANGEME>
+vaultwarden_port: 8002
 vaultwarden_signups_allowed: "\"true\""
 vaultwarden_push_enabled: "\"true\""
 vaultwarden_push_relay_base_uri: https://push.bitwarden.com
-vaultwarden_smtp_from: <CHANGEME>
-vaultwarden_smtp_helo_name: <CHANGEME>

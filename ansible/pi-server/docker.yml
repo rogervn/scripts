@@ -15,6 +15,7 @@
     - vaultwarden
     - tailscale
     - homeassistant
+    - mosquitto
     - mariadb
     - redis
     - nextcloud
