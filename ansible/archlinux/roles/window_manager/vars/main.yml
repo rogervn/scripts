@@ -1,25 +1,30 @@
 ---
 window_manager_packages:
   - archlinux-wallpaper
+  - cliphist
+  - dolphin
   - firefox
   - gnome
   - grim
+  - gsimplecal
+  - hypridle
+  - hyprland
+  - kitty
   - network-manager-applet
-  - rofi
-  - sway
+  - polkit-gnome
+  - slurp
   - swaylock
-  - terminator
+  - swaync
+  - ttf-font-awesome
+  - waybar
+  - wireplumber
+  - wofi
+  - xdg-desktop-portal-hyprland
 
 window_manager_aur_packages:
-  - yay
-  - bumblebee-status
-  - clipman
-  - icon-slicer
   - prezto-git
-  - ttf-ms-fonts
-  - ttf-vista-fonts
+  - yay
 
 
 window_manager_services:
-  - sshd
-  # - gdm
+  - gdm
