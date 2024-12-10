@@ -1,0 +1,20 @@
+---
+- name: Install window_manager and dependencies packages
+  community.general.pacman:
+    name: "{{ window_manager_packages }}"
+    state: present
+
+- name: Install AUR packages
+  kewlfft.aur.aur:
+    name: "{{ item }}"
+    use: yay
+    state: present
+  become: true
+  become_user: "{{ base_user.username }}"
+  loop: "{{ window_manager_aur_packages }}"
+
+- name: Enable window_manager services
+  ansible.builtin.service:
+    name: "{{ item }}"
+    enabled: true
+  loop: "{{ window_manager_services }}"

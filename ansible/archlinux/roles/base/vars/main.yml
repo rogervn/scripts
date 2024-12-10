@@ -1,0 +1,25 @@
+---
+base_packages:
+  - curl
+  - chrony
+  - fzf
+  - git
+  - less
+  - linux-firmware
+  - linux-headers
+  - man-db
+  - networkmanager
+  - openssh
+  - pipewire
+  - tmux
+  - rsync
+  - vim
+  - wget
+  - zsh
+  - zsh-completions
+  - zsh-syntax-highlighting
+
+base_services:
+  - chronyd
+  - sshd
+  - NetworkManager

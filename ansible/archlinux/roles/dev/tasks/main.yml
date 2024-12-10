@@ -1,0 +1,5 @@
+---
+- name: Install dev packages
+  community.general.pacman:
+    name: "{{ dev_packages }}"
+    state: present

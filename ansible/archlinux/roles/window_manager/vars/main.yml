@@ -1,0 +1,25 @@
+---
+window_manager_packages:
+  - archlinux-wallpaper
+  - firefox
+  - gnome
+  - grim
+  - network-manager-applet
+  - rofi
+  - sway
+  - swaylock
+  - terminator
+
+window_manager_aur_packages:
+  - yay
+  - bumblebee-status
+  - clipman
+  - icon-slicer
+  - prezto-git
+  - ttf-ms-fonts
+  - ttf-vista-fonts
+
+
+window_manager_services:
+  - sshd
+  # - gdm

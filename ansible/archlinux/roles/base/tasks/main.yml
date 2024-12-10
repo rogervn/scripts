@@ -1,0 +1,40 @@
+---
+
+- name: Install base packages
+  community.general.pacman:
+    name: "{{ base_packages }}"
+    state: present
+
+- name: Configure base user
+  ansible.builtin.user:
+    name: "{{ base_user.username }}"
+    shell: "{{ base_user.shell }}"
+    groups: "{{ base_user.groups }}"
+    home: "{{ base_user.homedir }}"
+
+- name: Check yay installed
+  ansible.builtin.stat: 
+    path: /usr/bin/yay
+  register: yay_stat
+
+- name: Clone yay code
+  ansible.builtin.git:
+    repo: https://aur.archlinux.org/yay-git.git
+    dest: /tmp/yay
+    version: master
+  become: true
+  become_user: "{{ base_user.username }}"
+  when: not yay_stat.stat.exists
+
+- name: Install yay
+  ansible.builtin.shell: "cd /tmp/yay && yes | makepkg -si"
+  become: true
+  become_user: "{{ base_user.username }}"
+  when: not yay_stat.stat.exists
+
+- name: Enable base services
+  ansible.builtin.service:
+    name: "{{ item }}"
+    enabled: true
+    state: "started"
+  loop: "{{ base_services }}"
