@@ -1,6 +1,7 @@
 ---
 window_manager_packages:
   - archlinux-wallpaper
+  - bluez-utils
   - cliphist
   - dolphin
   - firefox
@@ -12,19 +13,22 @@ window_manager_packages:
   - kitty
   - network-manager-applet
   - polkit-gnome
+  - rofi-wayland
   - slurp
   - swaylock
   - swaync
   - ttf-font-awesome
+  - ttf-jetbrains-mono-nerd
   - waybar
   - wireplumber
-  - wofi
   - xdg-desktop-portal-hyprland
 
 window_manager_aur_packages:
+  - bluetui
   - prezto-git
   - yay
 
 
 window_manager_services:
+  - bluetooth
   - gdm
