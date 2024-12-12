@@ -13,6 +13,7 @@ window_manager_packages:
   - kitty
   - network-manager-applet
   - nextcloud-client
+  - nwg-look
   - pavucontrol
   - polkit-gnome
   - rofi-wayland
