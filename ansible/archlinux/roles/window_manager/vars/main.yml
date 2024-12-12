@@ -12,6 +12,7 @@ window_manager_packages:
   - hyprland
   - kitty
   - network-manager-applet
+  - nextcloud-client
   - polkit-gnome
   - rofi-wayland
   - slurp
