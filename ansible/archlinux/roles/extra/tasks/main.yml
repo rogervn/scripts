@@ -1,0 +1,5 @@
+---
+- name: Install extra packages
+  community.general.pacman:
+    name: "{{ extra_packages }}"
+    state: present
