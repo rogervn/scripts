@@ -9,9 +9,11 @@ window_manager_packages:
   - gsimplecal
   - hypridle
   - hyprland
+  - hyprpaper
   - kitty
   - network-manager-applet
   - nextcloud-client
+  - noto-fonts
   - nwg-look
   - pavucontrol
   - polkit-gnome
@@ -28,6 +30,7 @@ window_manager_packages:
 window_manager_aur_packages:
   - bluetui
   - prezto-git
+  - python-pywal16
   - yay
 
 
