@@ -1,0 +1,12 @@
+---
+- name: Install laptop packages
+  community.general.pacman:
+    name: "{{ laptop_packages }}"
+    state: present
+
+- name: Enable laptop services
+  ansible.builtin.service:
+    name: "{{ item }}"
+    enabled: true
+    state: "started"
+  loop: "{{ laptop_services }}"

@@ -1,0 +1,6 @@
+---
+laptop_packages:
+  - tlp
+
+laptop_services:
+  - tlp
