@@ -1,0 +1,14 @@
+---
+services:
+  authelia:
+    container_name: {{ authelia_container_name }}
+    image: 'docker.io/authelia/authelia:latest'
+    restart: 'unless-stopped'
+    ports:
+      - {{ authelia_port }}:9091
+    environment:
+      PUID: {{ docker_user_uid }}
+      PGID: {{ docker_group_gid }}
+    volumes:
+      - {{ authelia_data_volume }}:/data
+      - {{ authelia_config_volume }}:/config

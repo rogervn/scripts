@@ -1,0 +1,27 @@
+---
+
+- name: Verify authelia base dirs
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ docker_username }}"
+    group: "{{ docker_main_group }}"
+    mode: '0750'
+  loop:
+    - "{{ authelia_config_volume }}"
+    - "{{ authelia_data_volume }}"
+
+- name: Verify authelia configuration.yml file
+  ansible.builtin.template:
+    src: configuration.yml.j2
+    dest: "{{ authelia_config_volume }}/configuration.yml"
+    owner: "{{ docker_username }}"
+    group: "{{ docker_main_group }}"
+    mode: '0750'
+
+- name: Set and run docker compose
+  ansible.builtin.include_role:
+    name: docker
+    tasks_from: docker-compose
+  vars:
+    docker_container_name: "{{ authelia_container_name }}"

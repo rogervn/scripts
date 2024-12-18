@@ -1,0 +1,5 @@
+---
+authelia_container_name: authelia
+authelia_config_volume: "{{ docker_config_dir }}/{{ authelia_container_name }}"
+authelia_data_volume: "{{ docker_data_dir }}/{{ authelia_container_name }}"
+authelia_port: 8010

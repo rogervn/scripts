@@ -21,4 +21,5 @@
     - nextcloud
     - ocis
     - immich
+    - authelia
     - rclone_backup

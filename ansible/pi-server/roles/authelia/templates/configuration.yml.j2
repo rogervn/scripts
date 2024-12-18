@@ -1,0 +1,103 @@
+---
+###############################################################
+#                   Authelia configuration                    #
+###############################################################
+
+server:
+  address: 'tcp://:9091'
+
+log:
+  level: 'info'
+
+totp:
+  issuer: '{{ authelia_totp_issuer }}'
+
+identity_validation:
+  reset_password:
+    jwt_secret: '{{ authelia_jwt_secret }}'
+
+authentication_backend:
+  file:
+    path: '/config/users_database.yml'
+
+identity_providers:
+  oidc:
+    hmac_secret: '{{ authelia_oidc_hmac_secret }}'
+    jwks:
+      - key_id: 'example'
+        algorithm: 'RS256'
+        use: 'sig'
+        key: |
+          {{ authelia_oidc_jwks_private_key | indent(10) }}
+    lifespans.access_token: 1h
+    lifespans.authorize_code: 1m
+    lifespans.id_token: 1h
+    lifespans.refresh_token: 90m
+    enable_client_debug_messages: false
+    enforce_pkce: public_clients_only
+    cors:
+      endpoints:
+        - authorization
+        - token
+        - revocation
+        - introspection
+      allowed_origins:
+        - "*"
+      allowed_origins_from_client_redirect_uris: false
+    clients:
+      - client_id: '{{ authelia_oidc_client_id }}'
+        client_name: '{{ authelia_oidc_client_name }}'
+        client_secret: ' {{ authelia_oidc_client_digest }}'
+        public: false
+        authorization_policy: 'two_factor'
+        redirect_uris:
+          - '{{ authelia_oidc_client_redirect_url }}'
+        scopes:
+          - 'openid'
+          - 'profile'
+          - 'email'
+        userinfo_signed_response_alg: 'none'
+
+access_control:
+  default_policy: 'deny'
+  rules:
+    # Rules applied to everyone
+    - domain: '{{ authelia_public_domain }}'
+      policy: 'two_factor'
+
+session:
+  # This secret can also be set using the env variables AUTHELIA_SESSION_SECRET_FILE
+  secret: '{{ authelia_session_secret }}'
+
+  cookies:
+    - name: 'authelia_session'
+      domain: '{{ authelia_public_domain }}'  # Should match whatever your root protected domain is
+      authelia_url: '{{ authelia_public_url }}'
+      expiration: '1 hour'
+      inactivity: '5 minutes'
+
+  redis:
+    host: '{{ redis_host }}'
+    port: 6379
+    # This secret can also be set using the env variables AUTHELIA_SESSION_REDIS_PASSWORD_FILE
+    password: {{ redis_passwd }}
+
+regulation:
+  max_retries: 3
+  find_time: '2 minutes'
+  ban_time: '5 minutes'
+
+storage:
+  encryption_key: '{{ authelia_encryption_key }}'
+  local:
+    path: '/config/db.sqlite3'
+
+notifier:
+  smtp:
+    username: '{{ smtp_username }}'
+    # This secret can also be set using the env variables AUTHELIA_NOTIFIER_SMTP_PASSWORD_FILE
+    password: '{{ smtp_password }}'
+    address: 'smtp://{{ smtp_host }}:{{ smtp_port }}'
+    sender: '{{ authelia_smtp_sender }}'
+    disable_require_tls: false
+...

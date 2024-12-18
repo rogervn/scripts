@@ -52,7 +52,7 @@ tailscale_advertised_routes: <CHANGEME>
 homeassistant_internal_url: <CHANGEME>
 homeassistant_external_url: <CHANGEME>
 
-mosquitto_homeassistant_user: <CHANGEME>
+:mosquitto_homeassistant_user: <CHANGEME>
 mosquitto_homeassistant_password_hash: <CHANGEME>
 mosquitto_tasmota_user: <CHANGEME>
 mosquitto_tasmota_password_hash: <CHANGEME>
@@ -63,5 +63,18 @@ ocis_fqdn: <CHANGEME>
 
 immich_postgres_user: <CHANGEME>
 immich_postgres_passwd: <CHANGEME>
+
+authelia_totp_issuer: <CHANGEME>
+authelia_public_domain: <CHANGEME>
+authelia_public_url: <CHANGEME>
+authelia_smtp_sender: <CHANGEME>
+authelia_jwt_secret: <CHANGEME>
+authelia_session_secret: <CHANGEME>
+authelia_encryption_key: <CHANGEME>
+authelia_oidc_client_id: <CHANGEME>
+authelia_oidc_client_name: <CHANGEME>
+authelia_oidc_client_digest: <CHANGEME>
+authelia_oidc_client_redirect_url: <CHANGEME>
+authelia_oidc_jwks_private_key: <CHANGEME>
 
 rclone_backup_token: <CHANGEME>
