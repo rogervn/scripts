@@ -47,7 +47,7 @@ identity_providers:
     clients:
       - client_id: '{{ authelia_oidc_client_id }}'
         client_name: '{{ authelia_oidc_client_name }}'
-        client_secret: ' {{ authelia_oidc_client_digest }}'
+        client_secret: '{{ authelia_oidc_client_digest }}'
         public: false
         authorization_policy: 'two_factor'
         redirect_uris:

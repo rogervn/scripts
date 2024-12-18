@@ -72,6 +72,7 @@ authelia_jwt_secret: <CHANGEME>
 authelia_session_secret: <CHANGEME>
 authelia_encryption_key: <CHANGEME>
 authelia_oidc_client_id: <CHANGEME>
+authelia_oidc_hmac_secret: <CHANGEME>
 authelia_oidc_client_name: <CHANGEME>
 authelia_oidc_client_digest: <CHANGEME>
 authelia_oidc_client_redirect_url: <CHANGEME>
