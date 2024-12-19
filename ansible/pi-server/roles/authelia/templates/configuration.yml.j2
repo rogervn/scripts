@@ -3,6 +3,7 @@
 #                   Authelia configuration                    #
 ###############################################################
 
+theme: dark
 server:
   address: 'tcp://:9091'
 
@@ -44,6 +45,7 @@ identity_providers:
       allowed_origins:
         - "*"
       allowed_origins_from_client_redirect_uris: false
+
     clients:
       - client_id: '{{ authelia_oidc_client_id }}'
         client_name: '{{ authelia_oidc_client_name }}'
@@ -57,6 +59,7 @@ identity_providers:
           - 'profile'
           - 'email'
         userinfo_signed_response_alg: 'none'
+        pre_configured_consent_duration: '1 month'
 
 access_control:
   default_policy: 'deny'
@@ -90,7 +93,7 @@ regulation:
 storage:
   encryption_key: '{{ authelia_encryption_key }}'
   local:
-    path: '/config/db.sqlite3'
+    path: '/data/db.sqlite3'
 
 notifier:
   smtp:
@@ -100,4 +103,7 @@ notifier:
     address: 'smtp://{{ smtp_host }}:{{ smtp_port }}'
     sender: '{{ authelia_smtp_sender }}'
     disable_require_tls: false
+    tls:
+      skip_verify: false
+      minimum_version: TLS1.2
 ...
