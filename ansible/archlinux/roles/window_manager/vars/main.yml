@@ -23,6 +23,7 @@ window_manager_packages:
   - swaync
   - ttf-font-awesome
   - ttf-jetbrains-mono-nerd
+  - vlc
   - waybar
   - wireplumber
   - xdg-desktop-portal-hyprland
