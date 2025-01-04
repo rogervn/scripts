@@ -40,6 +40,6 @@ window_manager_github_modules:
 
   - name: nwg-look
     repo: https://github.com/nwg-piotr/nwg-look.git
-    build_cmd: "mkdir -p ~/bin && make build && sudo make install"
+    build_cmd: sh -c "make build && sudo make install"
     dst_path: /usr/bin/nwg-look
-    version: master
+    version: main
