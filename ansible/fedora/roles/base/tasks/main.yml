@@ -1,0 +1,20 @@
+---
+
+- name: Install base packages
+  ansible.builtin.package:
+    name: "{{ base_packages }}"
+    state: present
+
+- name: Configure base user
+  ansible.builtin.user:
+    name: "{{ base_user.username }}"
+    shell: "{{ base_user.shell }}"
+    groups: "{{ base_user.groups }}"
+    home: "{{ base_user.homedir }}"
+
+- name: Enable base services
+  ansible.builtin.service:
+    name: "{{ item }}"
+    enabled: true
+    state: "started"
+  loop: "{{ base_services }}"

@@ -1,0 +1,32 @@
+---
+window_manager_packages:
+  - bluez
+  - cliphist
+  - firefox
+  - fontawesome-fonts
+  - gnome-software
+  - google-noto-fonts-all
+  - grim
+  - hypridle
+  - hyprland
+  - hyprpaper
+  - jetbrains-mono-fonts
+  - kitty
+  - nwg-look
+  - pavucontrol
+  - python3-pip
+  - rofi-wayland
+  - slurp
+  - swaylock
+  - swaync
+  - vlc
+  - waybar
+  - wireplumber
+  - xdg-desktop-portal-hyprland
+
+window_manager_pip_packages:
+  - pywal16
+
+window_manager_services:
+  - bluetooth
+  - gdm

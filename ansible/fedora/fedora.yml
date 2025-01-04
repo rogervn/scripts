@@ -1,0 +1,11 @@
+---
+- name: Fedora configuration playbook
+  hosts: all
+  gather_facts: true
+  become: true
+
+  roles:
+    - base
+    # - extra
+    - dotfiles
+    - window_manager

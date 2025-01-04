@@ -1,0 +1,16 @@
+---
+- name: Install window_manager and dependencies packages
+  ansible.builtin.package:
+    name: "{{ window_manager_packages }}"
+    state: present
+
+- name: Install window_manager pip packages
+  ansible.builtin.pip:
+    name: "{{ window_manager_pip_packages }}"
+    state: present
+
+- name: Enable window_manager services
+  ansible.builtin.service:
+    name: "{{ item }}"
+    enabled: true
+  loop: "{{ window_manager_services }}"
