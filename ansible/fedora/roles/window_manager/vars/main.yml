@@ -1,7 +1,8 @@
 ---
 window_manager_packages:
   - bluez
-  - cliphist
+  - go
+  - gtk3-devel
   - firefox
   - fontawesome-fonts
   - gnome-software
@@ -12,7 +13,6 @@ window_manager_packages:
   - hyprpaper
   - jetbrains-mono-fonts
   - kitty
-  - nwg-look
   - pavucontrol
   - python3-pip
   - rofi-wayland
@@ -30,3 +30,16 @@ window_manager_pip_packages:
 window_manager_services:
   - bluetooth
   - gdm
+
+window_manager_github_modules:
+  - name: cliphist
+    repo: https://github.com/sentriz/cliphist.git
+    build_cmd: "go install go.senan.xyz/cliphist@latest"
+    dst_path: ~/go/bin/cliphist
+    version: master
+
+  - name: nwg-look
+    repo: https://github.com/nwg-piotr/nwg-look.git
+    build_cmd: "mkdir -p ~/bin && make build && sudo make install"
+    dst_path: /usr/bin/nwg-look
+    version: master

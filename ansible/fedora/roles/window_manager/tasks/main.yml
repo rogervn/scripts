@@ -9,6 +9,14 @@
     name: "{{ window_manager_pip_packages }}"
     state: present
 
+- name: Build github modules
+  ansible.builtin.include_role:
+    name: base
+    tasks_from: build_from_git
+  vars:
+    module: "{{ item }}"
+  loop: "{{ window_manager_github_modules }}"
+
 - name: Enable window_manager services
   ansible.builtin.service:
     name: "{{ item }}"
