@@ -34,8 +34,8 @@ window_manager_services:
 window_manager_github_modules:
   - name: cliphist
     repo: https://github.com/sentriz/cliphist.git
-    build_cmd: "go install go.senan.xyz/cliphist@latest"
-    dst_path: ~/go/bin/cliphist
+    build_cmd: sh -c "go install go.senan.xyz/cliphist@latest && sudo cp -f ~/go/bin/cliphist /usr/bin/"
+    dst_path: /ust/bin/cliphist
     version: master
 
   - name: nwg-look
