@@ -10,6 +10,7 @@ window_manager_packages:
   - grim
   - hypridle
   - hyprland
+  - hyprlock
   - hyprpaper
   - jetbrains-mono-fonts
   - kitty
