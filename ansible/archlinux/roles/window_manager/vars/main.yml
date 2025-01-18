@@ -1,7 +1,7 @@
 ---
 window_manager_packages:
   - archlinux-wallpaper
-  - bluez-utils
+  - blueman
   - cliphist
   - firefox
   - gnome
