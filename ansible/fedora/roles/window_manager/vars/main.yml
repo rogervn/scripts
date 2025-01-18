@@ -1,6 +1,6 @@
 ---
 window_manager_packages:
-  - bluez
+  - blueman
   - go
   - gtk3-devel
   - firefox
@@ -13,6 +13,7 @@ window_manager_packages:
   - hyprpaper
   - jetbrains-mono-fonts
   - kitty
+  - network-manager-applet
   - pavucontrol
   - python3-pip
   - rofi-wayland
@@ -28,7 +29,6 @@ window_manager_pip_packages:
   - pywal16
 
 window_manager_services:
-  - bluetooth
   - gdm
 
 window_manager_github_modules:
