@@ -9,6 +9,7 @@ window_manager_packages:
   - gsimplecal
   - hypridle
   - hyprland
+  - hyprlock
   - hyprpaper
   - kitty
   - network-manager-applet
@@ -19,7 +20,6 @@ window_manager_packages:
   - polkit-gnome
   - rofi-wayland
   - slurp
-  - swaylock
   - swaync
   - ttf-font-awesome
   - ttf-jetbrains-mono-nerd
