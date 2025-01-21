@@ -1,10 +1,14 @@
 ---
+window_manager_coprs:
+  - pgdev/ghostty
+
 window_manager_packages:
   - blueman
   - go
   - gtk3-devel
   - firefox
   - fontawesome-fonts
+  - ghostty
   - gnome-software
   - google-noto-fonts-all
   - grim
@@ -13,7 +17,6 @@ window_manager_packages:
   - hyprlock
   - hyprpaper
   - jetbrains-mono-fonts
-  - kitty
   - mate-polkit
   - network-manager-applet
   - pavucontrol

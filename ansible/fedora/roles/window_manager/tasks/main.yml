@@ -1,4 +1,11 @@
 ---
+- name: Enable window_manager coprs
+  community.general.copr:
+    name: "{{ item }}"
+    state: enabled
+  loop: "{{ window_manager_coprs }}"
+
+
 - name: Install window_manager and dependencies packages
   ansible.builtin.package:
     name: "{{ window_manager_packages }}"
