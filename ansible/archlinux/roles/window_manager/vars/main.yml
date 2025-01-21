@@ -4,6 +4,7 @@ window_manager_packages:
   - blueman
   - cliphist
   - firefox
+  - ghostty
   - gnome
   - grim
   - gsimplecal
@@ -11,7 +12,6 @@ window_manager_packages:
   - hyprland
   - hyprlock
   - hyprpaper
-  - kitty
   - network-manager-applet
   - nextcloud-client
   - noto-fonts
