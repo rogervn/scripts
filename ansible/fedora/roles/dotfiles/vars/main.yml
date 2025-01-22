@@ -1,3 +1,5 @@
 ---
 dotfiles_git_repo: https://github.com/rogervn/configs
-dotfiles_git_repo_subdir: .
+dotfiles_stow_packages:
+  - common
+  - fedora

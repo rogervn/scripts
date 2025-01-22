@@ -2,15 +2,15 @@
 - name: Clone dotfiles repo
   ansible.builtin.git:
     repo: "{{ dotfiles_git_repo }}"
-    dest: /tmp/dotfiles
+    dest: "{{ base_user.homedir }}/dotfiles"
     version: master
   become: true
   become_user: "{{ base_user.username }}"
 
-- name: Synchronise dotfiles into user home
-  ansible.posix.synchronize:
-    src: "/tmp/dotfiles/{{ dotfiles_git_repo_subdir }}/"
-    dest: "{{ base_user.homedir }}/"
-  delegate_to: "{{ inventory_hostname }}"
+- name: Stow config files
+  ansible.builtin.shell:
+    chdir: "{{ base_user.homedir }}/dotfiles"
+    cmd: "stow -t {{ base_user.homedir }} {{ item }}"
   become: true
   become_user: "{{ base_user.username }}"
+  loop: "{{ dotfiles_stow_packages }}""

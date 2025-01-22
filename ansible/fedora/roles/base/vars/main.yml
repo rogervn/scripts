@@ -9,6 +9,7 @@ base_packages:
   - openssh
   - tmux
   - rsync
+  - stow
   - vim
   - wget
   - zsh

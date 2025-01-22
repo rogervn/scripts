@@ -13,6 +13,7 @@ base_packages:
   - pipewire
   - tmux
   - rsync
+  - stow
   - vim
   - wget
   - zsh
