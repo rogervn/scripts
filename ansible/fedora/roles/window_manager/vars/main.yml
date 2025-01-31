@@ -2,6 +2,7 @@
 window_manager_coprs:
   - pgdev/ghostty
   - solopasha/hyprland
+  - che/nerd-fonts
 
 window_manager_packages:
   - blueman
@@ -19,6 +20,7 @@ window_manager_packages:
   - hyprpaper
   - jetbrains-mono-fonts
   - mate-polkit
+  - nerd-fonts
   - network-manager-applet
   - pavucontrol
   - python3-pip
