@@ -1,6 +1,7 @@
 ---
 window_manager_coprs:
   - pgdev/ghostty
+  - solopasha/hyprland
 
 window_manager_packages:
   - blueman
