@@ -6,6 +6,7 @@ window_manager_coprs:
 
 window_manager_packages:
   - blueman
+  - cliphist
   - go
   - gtk3-devel
   - firefox
@@ -40,10 +41,10 @@ window_manager_services:
   - gdm
 
 window_manager_github_modules:
-  - name: cliphist
-    repo: https://github.com/sentriz/cliphist.git
-    build_cmd: sh -c "go install go.senan.xyz/cliphist@latest && sudo cp -f ~/go/bin/cliphist /usr/bin/"
-    dst_path: /ust/bin/cliphist
+  - name: prezto
+    repo: https://github.com/sorin-ionescu/prezto.git
+    build_cmd: cp -r . ~/.zprezto
+    dst_path: ~/.zprezto
     version: master
 
   - name: nwg-look
