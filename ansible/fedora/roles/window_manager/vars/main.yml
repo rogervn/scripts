@@ -3,6 +3,7 @@ window_manager_coprs:
   - pgdev/ghostty
   - solopasha/hyprland
   - che/nerd-fonts
+  - tofik/nwg-shell
 
 window_manager_packages:
   - blueman
@@ -24,6 +25,7 @@ window_manager_packages:
   - mate-polkit
   - nerd-fonts
   - network-manager-applet
+  - nwg-look
   - pavucontrol
   - python3-pip
   - rofi-wayland
@@ -47,9 +49,3 @@ window_manager_github_modules:
     build_cmd: cp -r . ~/.zprezto
     dst_path: ~/.zprezto
     version: master
-
-  - name: nwg-look
-    repo: https://github.com/nwg-piotr/nwg-look.git
-    build_cmd: sh -c "make build && sudo make install"
-    dst_path: /usr/bin/nwg-look
-    version: main
