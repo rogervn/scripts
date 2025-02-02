@@ -8,9 +8,11 @@
   become_user: "{{ base_user.username }}"
 
 - name: Stow config files
-  ansible.builtin.shell:
-    chdir: "{{ base_user.homedir }}/dotfiles"
-    cmd: "stow -t {{ base_user.homedir }} --ignore default.png {{ item }}"
+  ansible.builtin.shell: |
+    cd "{{ base_user.homedir }}/dotfiles"
+    git adopt --ignore default.png {{ item }}
+    git restore .
+    stow -t {{ base_user.homedir }} --ignore default.png {{ item }}
   become: true
   become_user: "{{ base_user.username }}"
   loop: "{{ dotfiles_stow_packages }}"

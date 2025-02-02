@@ -7,5 +7,5 @@
   roles:
     - base
     # - extra
-    # - dotfiles
+    - dotfiles
     - window_manager
