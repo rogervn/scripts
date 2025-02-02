@@ -19,6 +19,7 @@ window_manager_packages:
   - hyprland
   - hyprlock
   - hyprpaper
+  - hyprpolkitagent
   - jetbrains-mono-fonts
   - mate-polkit
   - nerd-fonts

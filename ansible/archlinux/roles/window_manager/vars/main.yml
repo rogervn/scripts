@@ -12,6 +12,7 @@ window_manager_packages:
   - hyprland
   - hyprlock
   - hyprpaper
+  - hyprpolkitagent
   - network-manager-applet
   - nextcloud-client
   - noto-fonts
