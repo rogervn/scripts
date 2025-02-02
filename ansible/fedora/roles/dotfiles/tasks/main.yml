@@ -10,7 +10,7 @@
 - name: Stow config files
   ansible.builtin.shell: |
     cd "{{ base_user.homedir }}/dotfiles"
-    git adopt --ignore default.png {{ item }}
+    stow --adopt --ignore default.png {{ item }}
     git restore .
     stow -t {{ base_user.homedir }} --ignore default.png {{ item }}
   become: true
