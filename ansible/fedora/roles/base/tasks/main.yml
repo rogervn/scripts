@@ -12,9 +12,9 @@
     groups: "{{ base_user.groups }}"
     home: "{{ base_user.homedir }}"
 
-# - name: Enable base services
-#   ansible.builtin.service:
-#     name: "{{ item }}"
-#     enabled: true
-#     state: "started"
-#   loop: "{{ base_services }}"
+- name: Enable base services
+  ansible.builtin.service:
+    name: "{{ item }}"
+    enabled: true
+    state: "started"
+  loop: "{{ base_services }}"
