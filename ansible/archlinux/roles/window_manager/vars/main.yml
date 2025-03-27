@@ -19,6 +19,7 @@ window_manager_packages:
   - nwg-look
   - pavucontrol
   - polkit-gnome
+  - qt5-wayland
   - rofi-wayland
   - slurp
   - swaync
