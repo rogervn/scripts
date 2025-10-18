@@ -1,0 +1,21 @@
+---
+steam_packages:
+  - gamescope
+  - lib32-mesa
+  - lib32-pipewire
+  - lib32-vulkan-radeon
+  - mesa
+  - steam
+  - ttf-liberation
+  - vulkan-radeon
+
+window_manager_aur_packages:
+  - bluetui
+  - prezto-git
+  - python-pywal16
+  - yay
+
+
+window_manager_services:
+  - bluetooth
+  - gdm

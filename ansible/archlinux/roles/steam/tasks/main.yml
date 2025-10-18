@@ -1,0 +1,32 @@
+---
+- name: Enable archlinux multilib repository
+  ansible.builtin.blockinfile:
+    path: /etc/pacman.conf
+    block: |
+      [multilib]
+      Include = /etc/pacman.d/mirrorlist
+    marker: '# {mark} ANSIBLE MANAGED BLOCK - multilib'
+    state: present
+  become: yes
+  notify: pacman_refresh
+
+- name: Force handlers run
+  meta: flush_handlers
+
+- name: Install steam and dependencies packages
+  community.general.pacman:
+    name: "{{ steam_packages }}"
+    state: present
+
+- name: Create gamescope desktop entry
+  ansible.builtin.copy:
+    dest: /usr/share/wayland-sessions/steam-big-picture.desktop
+    owner: root
+    group: root
+    mode: '0755'
+    content: |
+      [Desktop Entry]
+      Name=Steam Big Picture Mode
+      Comment=Start Steam in Big Picture Mode
+      Exec=/usr/bin/gamescope --hdr-enabled -e -- /usr/bin/steam -tenfoot
+      Type=Application

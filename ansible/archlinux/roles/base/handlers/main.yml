@@ -1,0 +1,5 @@
+---
+- name: refresh pacman cache
+  listen: pacman_refresh
+  command: pacman -Sy
+  become: yes
