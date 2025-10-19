@@ -1,9 +1,11 @@
 ---
 steam_packages:
   - gamescope
+  - lib32-mangohud
   - lib32-mesa
   - lib32-pipewire
   - lib32-vulkan-radeon
+  - mangohud
   - mesa
   - steam
   - ttf-liberation
