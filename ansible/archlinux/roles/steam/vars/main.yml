@@ -12,4 +12,5 @@ steam_packages:
   - vulkan-radeon
 
 steam_aur_packages:
+  - gamescope-session-steam-git
   - heroic-games-launcher-bin
