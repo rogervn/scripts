@@ -18,6 +18,15 @@
     name: "{{ steam_packages }}"
     state: present
 
+- name: Install AUR packages
+  kewlfft.aur.aur:
+    name: "{{ item }}"
+    use: yay
+    state: present
+  become: true
+  become_user: "{{ base_user.username }}"
+  loop: "{{ steam_aur_packages }}"
+
 - name: Create gamescope desktop entry
   ansible.builtin.copy:
     dest: /usr/share/wayland-sessions/steam-big-picture.desktop
@@ -28,5 +37,5 @@
       [Desktop Entry]
       Name=Steam Big Picture Mode
       Comment=Start Steam in Big Picture Mode
-      Exec=/usr/bin/gamescope --adaptive-sync --hdr-enabled -e -- /usr/bin/steam -steamdeck -steamos3
+      Exec=/usr/bin/gamescope --adaptive-sync --hdr-enabled -r 120 -e -- /usr/bin/steam -steamdeck -steamos3
       Type=Application

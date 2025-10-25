@@ -7,8 +7,8 @@
   roles:
     - base
     - extra
-    - laptop
+    # - laptop
     - dev
     - dotfiles
-    - steam
     - window_manager
+    - steam

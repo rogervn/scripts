@@ -11,13 +11,5 @@ steam_packages:
   - ttf-liberation
   - vulkan-radeon
 
-window_manager_aur_packages:
-  - bluetui
-  - prezto-git
-  - python-pywal16
-  - yay
-
-
-window_manager_services:
-  - bluetooth
-  - gdm
+steam_aur_packages:
+  - heroic-games-launcher-bin
