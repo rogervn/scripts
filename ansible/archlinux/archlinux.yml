@@ -6,9 +6,9 @@
 
   roles:
     - base
-    - extra
-    - laptop
-    - dev
-    - dotfiles
-    - window_manager
+    # - extra
+    # - laptop
+    # - dev
+    # - dotfiles
+    # - window_manager
     - steam

@@ -27,20 +27,25 @@
   become_user: "{{ base_user.username }}"
   loop: "{{ steam_aur_packages }}"
 
-- name: Install heroic flatpak
-  community.general.flatpak:
-    name: "{{ steam_heroic_flatpak }}"
-    state: present
-  become: true
-  become_user: "{{ base_user.username }}"
-  register: heroic_flatpak_install
+- name: Create heroic wrapper script
+  ansible.builtin.copy:
+    src: heroic-wrapper.sh
+    dest: /usr/bin/heroic-wrapper.sh
+    owner: root
+    group: root
+    mode: '0755'
 
-- name: Override heroic filesystem
-  ansible.builtin.command:
-    cmd: flatpak override --user "{{ steam_heroic_flatpak }}" --filesystem="{{ steam_heroic_filesystem  }}"
+- name: Override heroic desktop
+  ansible.builtin.copy:
+    src: heroic.desktop
+    dest: "{{ base_user.homedir  }}/.local/share/applications/heroic.desktop"
+    owner: "{{ base_user.username }}"
+    group: "{{ base_user.username }}"
+    mode: '0640'
+    directory_mode: '0750'
   become: true
   become_user: "{{ base_user.username }}"
-  when: heroic_flatpak_install.changed
+  notify: desktop_database_refresh
 
 - name: Create gamescope desktop entry
   ansible.builtin.copy:
