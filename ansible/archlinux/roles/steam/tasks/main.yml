@@ -27,15 +27,25 @@
   become_user: "{{ base_user.username }}"
   loop: "{{ steam_aur_packages }}"
 
+- name: Install heroic flatpak
+  community.general.flatpak:
+    name: "{{ steam_heroic_flatpak }}"
+    state: present
+  become: true
+  become_user: "{{ base_user.username }}"
+  register: heroic_flatpak_install
+
+- name: Override heroic filesystem
+  ansible.builtin.command:
+    cmd: flatpak override --user "{{ steam_heroic_flatpak }}" --filesystem="{{ steam_heroic_filesystem  }}"
+  become: true
+  become_user: "{{ base_user.username }}"
+  when: heroic_flatpak_install.changed
+
 - name: Create gamescope desktop entry
   ansible.builtin.copy:
+    src: steam-big-picture.desktop
     dest: /usr/share/wayland-sessions/steam-big-picture.desktop
     owner: root
     group: root
     mode: '0755'
-    content: |
-      [Desktop Entry]
-      Name=Steam Big Picture Mode
-      Comment=Start Steam in Big Picture Mode
-      Exec=/usr/bin/gamescope --adaptive-sync --hdr-enabled -r 120 -e -- /usr/bin/steam -steamdeck -steamos3
-      Type=Application

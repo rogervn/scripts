@@ -3,3 +3,9 @@
   listen: pacman_refresh
   command: pacman -Sy
   become: yes
+
+- name: refresh applications desktop
+  listen: desktop_database_refresh
+  command: update-desktop-database "{{ base_user.homedir  }}/.local/share/applications"
+  become: yes
+  become_user: "{{ base_user.username  }}"

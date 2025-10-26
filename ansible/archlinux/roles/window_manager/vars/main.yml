@@ -21,11 +21,14 @@ window_manager_packages:
   - polkit-gnome
   - qt5-wayland
   - rofi-wayland
+  - shotwell
   - slurp
   - swaync
   - ttf-font-awesome
   - ttf-jetbrains-mono-nerd
   - vlc
+  - vlc-plugin-ffmpeg
+  - vlc-plugin-x265
   - waybar
   - wireplumber
   - xdg-desktop-portal-hyprland

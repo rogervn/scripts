@@ -1,5 +1,6 @@
 ---
 steam_packages:
+  - flatpak
   - gamescope
   - lib32-mangohud
   - lib32-mesa
@@ -13,4 +14,6 @@ steam_packages:
 
 steam_aur_packages:
   - gamescope-session-steam-git
-  - heroic-games-launcher-bin
+
+steam_heroic_flatpak: com.heroicgameslauncher.hgl
+steam_heroic_filesystem: /data/heroic

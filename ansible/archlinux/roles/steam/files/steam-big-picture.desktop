@@ -1,0 +1,5 @@
+[Desktop Entry]
+Name=Steam Big Picture Mode
+Comment=Start Steam in Big Picture Mode
+Exec=/usr/bin/gamescope --mangoapp --adaptive-sync --hdr-enabled -r 120 -e -- /usr/bin/steam -steamdeck -steamos3
+Type=Application
