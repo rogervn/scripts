@@ -13,6 +13,7 @@ window_manager_packages:
   - hyprlock
   - hyprpaper
   - hyprpolkitagent
+  - mako
   - network-manager-applet
   - nextcloud-client
   - noto-fonts
@@ -23,7 +24,6 @@ window_manager_packages:
   - rofi-wayland
   - shotwell
   - slurp
-  - swaync
   - ttf-font-awesome
   - ttf-jetbrains-mono-nerd
   - vlc

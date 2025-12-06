@@ -23,6 +23,7 @@ window_manager_packages:
   - hyprpolkitagent
   - jetbrains-mono-fonts
   - mate-polkit
+  - mako
   - nerd-fonts
   - network-manager-applet
   - nwg-look
@@ -31,7 +32,6 @@ window_manager_packages:
   - rofi-wayland
   - slurp
   - swaylock
-  - swaync
   - vlc
   - waybar
   - wireplumber
