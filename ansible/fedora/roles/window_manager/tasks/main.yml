@@ -11,11 +11,6 @@
     name: "{{ window_manager_packages }}"
     state: present
 
-- name: Install window_manager pip packages
-  ansible.builtin.pip:
-    name: "{{ window_manager_pip_packages }}"
-    state: present
-
 - name: Build github modules
   ansible.builtin.include_role:
     name: base

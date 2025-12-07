@@ -19,11 +19,11 @@
     networkmanagerapplet
     noto-fonts
     pavucontrol
-    pywal16
     rofi
     shotwell
     slurp
     vlc
+    wallust
     waybar
     wl-clipboard-rs
     zsh-powerlevel10k

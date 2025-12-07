@@ -36,7 +36,7 @@ window_manager_packages:
 window_manager_aur_packages:
   - bluetui
   - prezto-git
-  - python-pywal16
+  - wallust
   - yay
 
 

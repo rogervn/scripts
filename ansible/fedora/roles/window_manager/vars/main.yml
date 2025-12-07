@@ -4,6 +4,7 @@ window_manager_coprs:
   - solopasha/hyprland
   - che/nerd-fonts
   - tofik/nwg-shell
+  - errornointernet/packages 
 
 window_manager_packages:
   - blueman
@@ -33,12 +34,10 @@ window_manager_packages:
   - slurp
   - swaylock
   - vlc
+  - wallust
   - waybar
   - wireplumber
   - xdg-desktop-portal-hyprland
-
-window_manager_pip_packages:
-  - pywal16
 
 window_manager_services:
   - gdm
