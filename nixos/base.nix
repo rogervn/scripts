@@ -1,27 +1,18 @@
 { config, lib, pkgs, ... }:
 
-let 
-  home-manager = builtins.fetchTarball "https://github.com/nix-community/home-manager/archive/release-${lib.versions.majorMinor lib.version}.tar.gz";
-in
 {
-  imports = [
-    (import "${home-manager}/nixos")
-  ];
-
-  # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
   networking.hostName = "nixos-vm"; # Define your hostname.
 
-  # Configure network connections interactively with nmcli or nmtui.
   networking.networkmanager.enable = true;
 
-  # Set your time zone.
   time.timeZone = "Europe/London";
 
-  # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
+
+  hardware.bluetooth.enable = true;
 
   # Enable sound.
   services.pipewire = {
@@ -55,7 +46,7 @@ in
     tmux
     rsync
     stow
-    vim
+    vim-full
     wget
   ];
 

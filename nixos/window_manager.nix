@@ -9,13 +9,23 @@
     ghostty
     grim
     gsimplecal
+    hyprpaper
+    hypridle
+    hyprlock
+    imagemagick
+    libnotify
+    mako
     nextcloud-client
+    networkmanagerapplet
     noto-fonts
     pavucontrol
-    pywal
+    pywal16
+    rofi
     shotwell
     slurp
     vlc
+    waybar
+    wl-clipboard-rs
     zsh-powerlevel10k
   ];
 
