@@ -1,11 +1,5 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, userName, ... }:
 
-let
-  # Script to fix bug with "Switch to desktop"
-  steamos-session-select = pkgs.writeShellScriptBin "steamos-session-select" ''
-  steam -shutdown
-  '';
-in
 {
   programs.steam = {
     enable = true;
@@ -29,6 +23,9 @@ in
         "-steamdeck"
         "-steamos3"
       ];
+      env = {
+        PATH = "/usr/bin:$PATH";
+      };
     };
   };
 
@@ -52,9 +49,23 @@ in
     "steam-unwrapped"
   ];
 
-  # Switch to desktop will shutdown steam
-  systemd.tmpfiles.rules = [
-    "L+ /usr/bin/steamos-session-select - - - - ${steamos-session-select}/bin/steamos-session-select"
-  ];
 
+  home-manager.users.${userName} = {
+    # Allows heroic to be ran inside steam
+    xdg.desktopEntries.heroic = {
+        name = "Heroic Games Launcher (Steam embedded)";
+        exec = "env -u LD_PRELOAD heroic %u";
+        icon = "heroic";
+        terminal = false;
+        categories = [ "Game" ];
+        mimeType = [ "x-scheme-handler/heroic" ];
+      };
+
+      home.packages = with pkgs; [
+        # Switch to desktop will shutdown steam
+        (writeShellScriptBin "steamos-session-select" ''
+            steam -shutdown
+          '')
+      ];
+  };
 }

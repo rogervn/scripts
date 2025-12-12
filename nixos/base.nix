@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, userName, ... }:
 
 {
   boot.loader.systemd-boot.enable = true;
@@ -38,11 +38,11 @@
   };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.rogervn = {
+  users.users.${userName} = {
     isNormalUser = true;
     extraGroups = [ "wheel" "disk" ];
   };
-  home-manager.users.rogervn = {pkgs, ... }: {
+  home-manager.users.${userName} = {pkgs, ... }: {
     imports = [
       ./dotfiles.nix
     ];

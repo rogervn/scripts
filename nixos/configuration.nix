@@ -4,6 +4,9 @@
 
 { config, lib, pkgs, ... }:
 
+let
+  userName = "rogervn";
+in
 {
   imports =
     [ # Include the results of the hardware scan.
@@ -13,6 +16,9 @@
       ./window_manager.nix
     ];
 
+  _module.args = {
+    inherit userName;
+  };
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   system.stateVersion = "26.05";

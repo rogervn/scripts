@@ -2,15 +2,17 @@
 
 let
   dotfilesRoot = "${config.home.homeDirectory}/dotfiles";
+  dotfilesRepo = "https://github.com/rogervn/configs.git";
   username = config.home.username;
 in
 {
   programs.fzf.enable = true;
   home.activation.setupDotfiles = config.lib.dag.entryAfter ["writeBoundary"] ''
     DOTFILES_DIR="${dotfilesRoot}"
+    DOTFILES_REPO="${dotfilesRepo}"
     
     if [ ! -d "$DOTFILES_DIR" ]; then
-      $DRY_RUN_CMD ${pkgs.git}/bin/git clone https://github.com/rogervn/configs.git "$DOTFILES_DIR"
+      $DRY_RUN_CMD ${pkgs.git}/bin/git clone "$DOTFILES_REPO" "$DOTFILES_DIR"
     else
       $DRY_RUN_CMD cd "$DOTFILES_DIR" && ${pkgs.git}/bin/git pull --ff-only 2>/dev/null || true
     fi
