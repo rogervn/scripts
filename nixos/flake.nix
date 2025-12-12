@@ -10,7 +10,7 @@
   };
 
   outputs = { self, nixpkgs, home-manager, ... }@inputs: {
-    nixosConfigurations.nixos-vm = nixpkgs.lib.nixosSystem {
+    nixosConfigurations.amdesktop = nixpkgs.lib.nixosSystem {
       modules = [
         ./configuration.nix
         home-manager.nixosModules.home-manager

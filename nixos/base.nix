@@ -6,7 +6,7 @@
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
-  networking.hostName = "nixos-vm"; # Define your hostname.
+  networking.hostName = "amdesktop"; # Define your hostname.
 
   networking.networkmanager.enable = true;
 

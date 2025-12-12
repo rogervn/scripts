@@ -31,7 +31,7 @@ in
     vlc
     wallust
     waybar
-    wl-clipboard-rs
+    wl-clipboard
     zsh-powerlevel10k
   ];
 
@@ -59,6 +59,8 @@ in
   };
 
   security.polkit.enable = true;
+
+  environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
   xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-hyprland ];
 }
