@@ -1,20 +1,26 @@
 { config, lib, pkgs, ... }:
 
+let 
+  regreetWallpaper = "${pkgs.nixos-artwork.wallpapers.nineish-dark-gray}/share/backgrounds/nixos/nix-wallpaper-nineish-dark-gray.png";
+in
 {
   environment.systemPackages = with pkgs; [
     blueman
     bluetui
     cliphist
     firefox
+    gedit
     ghostty
     grim
     gsimplecal
+    evince
     hyprpaper
     hypridle
     hyprlock
     imagemagick
     libnotify
     mako
+    nautilus
     nextcloud-client
     networkmanagerapplet
     noto-fonts
@@ -37,10 +43,20 @@
   programs.hyprland.enable = true;
   programs.zsh.ohMyZsh.enable = true;
  
-  services.gnome.gnome-keyring.enable = true;
-  services.displayManager.gdm.enable = true; 
-  services.displayManager.gdm.wayland = true;
-  services.desktopManager.gnome.enable = true;
+  programs.regreet = {
+    enable = true;
+    settings = {
+      background = {
+        path = regreetWallpaper;
+        fit = "Cover";
+      };
+      GTK = {
+        application_prefer_dark_theme = true;
+        theme_name = lib.mkForce "Adwaita-dark";
+        font_name = lib.mkForce "Noto Serif 16";
+      };
+    };
+  };
 
   security.polkit.enable = true;
 
