@@ -1,4 +1,5 @@
-{ config, lib, pkgs, userName, ... }:
+{ config, lib, pkgs, userName, hostName, ... }:
+
 
 {
   boot.loader.systemd-boot.enable = true;
@@ -6,7 +7,7 @@
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
-  networking.hostName = "amdesktop"; # Define your hostname.
+  networking.hostName = hostName;
 
   networking.networkmanager.enable = true;
 

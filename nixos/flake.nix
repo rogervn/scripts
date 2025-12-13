@@ -11,8 +11,15 @@
 
   outputs = { self, nixpkgs, home-manager, ... }@inputs: {
     nixosConfigurations.amdesktop = nixpkgs.lib.nixosSystem {
+      specialArgs = {
+        userName = "rogervn";
+        hostName = "amdesktop";
+      };
       modules = [
         ./configuration.nix
+        ./base.nix
+        ./steam.nix
+        ./window_manager.nix
         home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
