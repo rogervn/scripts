@@ -55,6 +55,7 @@
     chrony
     git
     less
+    linux-firmware
     man-db
     noto-fonts
     openssh
