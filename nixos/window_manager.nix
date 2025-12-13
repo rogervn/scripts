@@ -38,6 +38,7 @@ in
   fonts.packages = with pkgs; [
     font-awesome
     jetbrains-mono
+    nerd-fonts.symbols-only
   ];
 
   programs.hyprland.enable = true;
@@ -76,7 +77,7 @@ in
       };
 
       iconTheme = {
-        name = "Tela-black";
+        name = "Tela-blue-dark";
         package = pkgs.tela-icon-theme;
       };
 

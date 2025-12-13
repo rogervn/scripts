@@ -54,6 +54,7 @@
     curl
     chrony
     git
+    killall
     less
     linux-firmware
     man-db
