@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, userName, ... }:
 
 let 
   regreetWallpaper = "${pkgs.nixos-artwork.wallpapers.nineish-dark-gray}/share/backgrounds/nixos/nix-wallpaper-nineish-dark-gray.png";
@@ -54,6 +54,39 @@ in
         application_prefer_dark_theme = true;
         theme_name = lib.mkForce "Adwaita-dark";
         font_name = lib.mkForce "Noto Serif 16";
+      };
+    };
+  };
+
+  services.gnome.gnome-keyring.enable = true;
+  programs.seahorse.enable = true; # enable the graphical frontend for managing
+
+  security.pam.services = {
+    greetd.enableGnomeKeyring = true;
+    greetd-password.enableGnomeKeyring = true;
+    login.enableGnomeKeyring = true;
+  };
+
+  home-manager.users.${userName} = {
+    gtk = {
+      enable = true;
+      theme = {
+        name = "Orchis-Dark";
+        package = pkgs.orchis-theme;
+      };
+
+      iconTheme = {
+        name = "Tela-black";
+        package = pkgs.tela-icon-theme;
+      };
+
+      gtk3.extraConfig.gtk-application-prefer-dark-theme = true;
+    };
+
+    # Dconf Settings for Global Dark Mode (Libadwaita/Modern GTK4)
+    dconf.settings = {
+      "org/gnome/desktop/interface" = {
+        color-scheme = "prefer-dark";
       };
     };
   };
