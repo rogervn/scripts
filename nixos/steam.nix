@@ -49,6 +49,7 @@
     "steam-unwrapped"
   ];
 
+  users.users.${userName}.extraGroups = [ "gamemode" ];
 
   home-manager.users.${userName} = {
     # Allows heroic to be ran inside steam
