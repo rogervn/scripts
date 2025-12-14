@@ -4,20 +4,22 @@
 {
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
   networking.hostName = hostName;
-
   networking.networkmanager.enable = true;
+  networking.firewall = {
+    enable = true;
+    allowedTCPPorts = [ 22 ];
+  };
 
   time.timeZone = "Europe/London";
 
   i18n.defaultLocale = "en_US.UTF-8";
 
   hardware.bluetooth.enable = true;
+  hardware.enableAllFirmware = true;
 
-  # Enable sound.
   services.pipewire = {
     enable = true;
     pulse.enable = true;
@@ -32,6 +34,9 @@
     fonts = [ { name = "Noto Sans Mono"; package = pkgs.noto-fonts; } ];
   };
 
+  services.openssh.enable = true;
+  services.chrony.enable = true;
+
   nix.gc = {
     automatic = true;
     dates = "weekly";
@@ -42,13 +47,6 @@
   users.users.${userName} = {
     isNormalUser = true;
     extraGroups = [ "wheel" "disk" ];
-  };
-  home-manager.users.${userName} = {pkgs, ... }: {
-    imports = [
-      ./dotfiles.nix
-    ];
-
-    home.stateVersion = "25.11";
   };
 
   environment.systemPackages = with pkgs; [
@@ -81,13 +79,4 @@
   programs.tmux.enable = true;
 
   users.defaultUserShell = pkgs.zsh;
-
-  services.openssh.enable = true;
-  services.chrony.enable = true;
-
-  # Open ports in the firewall.
-  networking.firewall = {
-    enable = true;
-    allowedTCPPorts = [ 22 ];
-  };
 }

@@ -1,5 +1,5 @@
 {
-  description = "A simple NixOS flake";
+  description = "A not-so-simple NixOS flake";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
@@ -18,6 +18,7 @@
       modules = [
         ./configuration.nix
         ./base.nix
+        ./dotfiles.nix
         ./steam.nix
         ./window_manager.nix
         home-manager.nixosModules.home-manager
