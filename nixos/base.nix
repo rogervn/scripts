@@ -1,6 +1,5 @@
 { config, lib, pkgs, userName, hostName, ... }:
 
-
 {
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -46,6 +45,7 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.${userName} = {
     isNormalUser = true;
+    hashedPasswordFile = config.age.secrets.rogervn_pass_hash.path;
     extraGroups = [ "wheel" "disk" ];
   };
 
