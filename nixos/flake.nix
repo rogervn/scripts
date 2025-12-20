@@ -36,5 +36,29 @@
         }
       ];
     };
+    nixosConfigurations.nixos-vm = nixpkgs.lib.nixosSystem {
+      system = "x86_64-linux";
+      specialArgs = {
+        userName = "rogervn";
+        hostName = "nixos-vm";
+      };
+      modules = [
+        ./configuration.nix
+        ./base.nix
+        ./dotfiles.nix
+        ./secrets.nix
+        ./vm_guest.nix
+        ./window_manager.nix
+        agenix.nixosModules.default
+        home-manager.nixosModules.home-manager
+        {
+          home-manager.useGlobalPkgs = true;
+          home-manager.useUserPackages = true;
+        }
+        {
+          environment.systemPackages = [ agenix.packages.x86_64-linux.default ];
+        }
+      ];
+    };
   };
 }
