@@ -8,7 +8,6 @@ in
     blueman
     bluetui
     cliphist
-    firefox
     gedit
     ghostty
     grim
@@ -29,6 +28,7 @@ in
     shotwell
     slurp
     vlc
+    vivaldi
     wallust
     waybar
     wl-clipboard
