@@ -8,6 +8,10 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    noctalia = {
+      url = "github:noctalia-dev/noctalia-shell";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = { self, nixpkgs, agenix, home-manager,  ... }@inputs:
@@ -17,11 +21,12 @@
       specialArgs = {
         userName = "rogervn";
         hostName = "amdesktop";
+        inherit inputs;
       };
       modules = [
         ./configuration.nix
         ./base.nix
-        ./dotfiles.nix
+        ./home.nix
         ./secrets.nix
         ./steam.nix
         ./window_manager.nix
@@ -30,6 +35,7 @@
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
+          home-manager.extraSpecialArgs = { inherit inputs; };
         }
         {
           environment.systemPackages = [ agenix.packages.x86_64-linux.default ];
@@ -41,11 +47,12 @@
       specialArgs = {
         userName = "rogervn";
         hostName = "nixos-vm";
+        inherit inputs;
       };
       modules = [
         ./configuration.nix
         ./base.nix
-        ./dotfiles.nix
+        ./home.nix
         ./secrets.nix
         ./vm_guest.nix
         ./window_manager.nix

@@ -18,7 +18,7 @@ in
     hyprlock
     imagemagick
     libnotify
-    mako
+    matugen
     nautilus
     nextcloud-client
     networkmanagerapplet
@@ -61,6 +61,9 @@ in
 
   services.gnome.gnome-keyring.enable = true;
   programs.seahorse.enable = true; # enable the graphical frontend for managing
+
+  services.upower.enable = true;
+  services.power-profiles-daemon.enable = true;
 
   security.pam.services = {
     greetd.enableGnomeKeyring = true;
