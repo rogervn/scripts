@@ -19,6 +19,20 @@
     module: "{{ item }}"
   loop: "{{ window_manager_github_modules }}"
 
+- name: Check if noctalia-shell is installed
+  ansible.builtin.stat:
+    path: "{{ window_manager_noctalia_quickshell_dir }}"
+  register: noctalia_dir
+  become: true
+  become_user: "{{ base_user.username }}"
+
+- name: Init noctalia quickshell dir
+  ansible.builtin.command:
+    cmd: noctalia-shell
+  become: true
+  become_user: "{{ base_user.username }}"
+  when: not noctalia_dir.stat.exists
+
 - name: Enable window_manager services
   ansible.builtin.service:
     name: "{{ item }}"

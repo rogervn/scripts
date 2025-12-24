@@ -1,10 +1,11 @@
 ---
 window_manager_coprs:
-  - pgdev/ghostty
+  - scottames/ghostty
   - solopasha/hyprland
   - che/nerd-fonts
   - tofik/nwg-shell
   - errornointernet/packages 
+  - zhangyi6324/noctalia-shell
 
 window_manager_packages:
   - blueman
@@ -20,13 +21,12 @@ window_manager_packages:
   - hypridle
   - hyprland
   - hyprlock
-  - hyprpaper
   - hyprpolkitagent
   - jetbrains-mono-fonts
   - mate-polkit
-  - mako
   - nerd-fonts
   - network-manager-applet
+  - noctalia-shell
   - nwg-look
   - pavucontrol
   - python3-pip
@@ -34,8 +34,6 @@ window_manager_packages:
   - slurp
   - swaylock
   - vlc
-  - wallust
-  - waybar
   - wireplumber
   - xdg-desktop-portal-hyprland
 
@@ -48,3 +46,5 @@ window_manager_github_modules:
     build_cmd: cp -r . ~/.zprezto
     dst_path: ~/.zprezto
     version: master
+
+window_manager_noctalia_quickshell_dir: ~/.config/quickshell/noctalia-shell
