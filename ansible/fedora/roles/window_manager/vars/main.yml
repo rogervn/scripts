@@ -30,7 +30,6 @@ window_manager_packages:
   - nwg-look
   - pavucontrol
   - python3-pip
-  - rofi-wayland
   - slurp
   - swaylock
   - vlc

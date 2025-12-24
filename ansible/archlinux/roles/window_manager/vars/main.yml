@@ -11,9 +11,8 @@ window_manager_packages:
   - hypridle
   - hyprland
   - hyprlock
-  - hyprpaper
   - hyprpolkitagent
-  - mako
+  - matugen
   - network-manager-applet
   - nextcloud-client
   - noto-fonts
@@ -21,7 +20,6 @@ window_manager_packages:
   - pavucontrol
   - polkit-gnome
   - qt5-wayland
-  - rofi-wayland
   - shotwell
   - slurp
   - ttf-font-awesome
@@ -29,12 +27,12 @@ window_manager_packages:
   - vlc
   - vlc-plugin-ffmpeg
   - vlc-plugin-x265
-  - waybar
   - wireplumber
   - xdg-desktop-portal-hyprland
 
 window_manager_aur_packages:
   - bluetui
+  - noctalia-shell
   - prezto-git
   - wallust
   - yay
