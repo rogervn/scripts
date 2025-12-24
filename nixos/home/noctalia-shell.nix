@@ -50,6 +50,17 @@
         name = "London";
       };
 
+      sessionMenu = {
+        enableCountdown = false;
+      };
+
+      ui = {
+        fontDefault = "Noto Sans";
+        fontFixed = "Noto Sans Mono";
+        fontDefaultScale = 1.1;
+        fontFixedScale = 1.2;
+      };
+
       bar = {
         density = "comfortable";
         transparent = true;
@@ -82,7 +93,12 @@
               displayMode = "alwaysShow";
             }
             {
+              id = "PowerProfile";
+            }
+            {
               id = "SystemMonitor";
+              diskPath = "/";
+              showDiskUsage = true;
             }
             {
               id = "Battery";
@@ -101,7 +117,7 @@
             }
             {
               id = "Clock";
-                    formatHorizontal =  "HH:mm ddd dd MMM";
+              formatHorizontal =  "HH:mm ddd dd MMM";
             }
             {
               id = "NotificationHistory";

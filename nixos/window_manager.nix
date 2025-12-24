@@ -13,7 +13,6 @@ in
     grim
     gsimplecal
     evince
-    hyprpaper
     hypridle
     hyprlock
     imagemagick
@@ -24,13 +23,10 @@ in
     networkmanagerapplet
     noto-fonts
     pavucontrol
-    rofi
     shotwell
     slurp
     vlc
     vivaldi
-    wallust
-    waybar
     wl-clipboard
     zsh-powerlevel10k
   ];
