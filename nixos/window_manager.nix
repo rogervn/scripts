@@ -1,8 +1,5 @@
 { config, lib, pkgs, userName, ... }:
 
-let 
-  regreetWallpaper = "${pkgs.nixos-artwork.wallpapers.nineish-dark-gray}/share/backgrounds/nixos/nix-wallpaper-nineish-dark-gray.png";
-in
 {
   environment.systemPackages = with pkgs; [
     blueman
@@ -11,7 +8,6 @@ in
     gedit
     ghostty
     grim
-    gsimplecal
     evince
     hypridle
     hyprlock
@@ -23,6 +19,7 @@ in
     networkmanagerapplet
     noto-fonts
     pavucontrol
+    sddm-astronaut
     shotwell
     slurp
     vlc
@@ -40,19 +37,15 @@ in
   programs.hyprland.enable = true;
   programs.zsh.ohMyZsh.enable = true;
  
-  programs.regreet = {
+  services.displayManager.sddm = {
     enable = true;
-    settings = {
-      background = {
-        path = regreetWallpaper;
-        fit = "Cover";
-      };
-      GTK = {
-        application_prefer_dark_theme = true;
-        theme_name = lib.mkForce "Adwaita-dark";
-        font_name = lib.mkForce "Noto Serif 16";
-      };
-    };
+    wayland.enable = true;
+    extraPackages = with pkgs; [
+      kdePackages.qtsvg
+      kdePackages.qtvirtualkeyboard
+      kdePackages.qtmultimedia
+    ];
+    theme = "sddm-astronaut-theme";
   };
 
   services.gnome.gnome-keyring.enable = true;
