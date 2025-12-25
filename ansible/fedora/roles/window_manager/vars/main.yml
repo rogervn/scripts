@@ -20,7 +20,6 @@ window_manager_packages:
   - grim
   - hypridle
   - hyprland
-  - hyprlock
   - hyprpolkitagent
   - jetbrains-mono-fonts
   - mate-polkit
@@ -31,7 +30,6 @@ window_manager_packages:
   - pavucontrol
   - python3-pip
   - slurp
-  - swaylock
   - vlc
   - wireplumber
   - xdg-desktop-portal-hyprland

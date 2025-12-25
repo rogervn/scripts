@@ -7,10 +7,8 @@ window_manager_packages:
   - ghostty
   - gnome
   - grim
-  - gsimplecal
   - hypridle
   - hyprland
-  - hyprlock
   - hyprpolkitagent
   - matugen
   - network-manager-applet
@@ -34,7 +32,6 @@ window_manager_aur_packages:
   - bluetui
   - noctalia-shell
   - prezto-git
-  - wallust
   - yay
 
 

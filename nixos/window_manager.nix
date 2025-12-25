@@ -10,7 +10,6 @@
     grim
     evince
     hypridle
-    hyprlock
     imagemagick
     libnotify
     matugen

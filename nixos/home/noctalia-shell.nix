@@ -113,7 +113,7 @@
             }
             {
               id = "Tray";
-              displayMode = "alwaysShow";
+              drawerEnabled = false;
             }
             {
               id = "Clock";
