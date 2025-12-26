@@ -24,6 +24,7 @@
         inherit inputs;
       };
       modules = [
+        hosts/amdesktop/hardware-configuration.nix
         ./configuration.nix
         ./base.nix
         ./home.nix
@@ -50,6 +51,7 @@
         inherit inputs;
       };
       modules = [
+        ./hosts/nixos-vm/hardware-configuration.nix
         ./configuration.nix
         ./base.nix
         ./home.nix
