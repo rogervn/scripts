@@ -1,0 +1,34 @@
+---
+
+# system shared
+default_tz: Europe/London
+smtp_host: smtp-relay.brevo.com
+smtp_port: 587
+smtp_security: starttls
+
+# docker
+docker_install_packages: true
+docker_username: docker
+docker_groups:
+  - docker
+docker_main_group: "{{ docker_groups[0] }}"
+docker_socket: /var/run/docker.sock
+docker_config_dir: /docker/config
+docker_compose_dir: /docker/compose
+docker_data_dir: /docker/data
+docker_local_data_dir: /docker/localdata
+docker_dirs:
+  - "{{ docker_config_dir }}"
+  - "{{ docker_compose_dir }}"
+  - "{{ docker_data_dir }}"
+  - "{{ docker_local_data_dir }}"
+
+# secrets
+cloudflare_ddns_subdomain: "{{ vault_cloudflare_ddns_subdomain }}"
+cloudflare_ddns_enable_ipv4: "{{ vault_cloudflare_ddns_enable_ipv4 }}"
+cloudflare_ddns_enable_ipv6: "{{ vault_cloudflare_ddns_enable_ipv6 }}"
+cloudflare_ddns_api_token: "{{ vault_cloudflare_ddns_api_token }}"
+cloudflare_ddns_zone_id: "{{ vault_cloudflare_ddns_zone_id }}"
+
+tailscale_auth_key: "{{ vault_tailscale_auth_key }}"
+tailscale_advertised_routes: "{{ vault_tailscale_advertised_routes }}"

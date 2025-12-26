@@ -1,0 +1,59 @@
+---
+
+# system shared
+default_tz: Europe/London
+smtp_host: smtp-relay.brevo.com
+smtp_port: 587
+smtp_security: starttls
+
+# docker
+docker_install_packages: true
+docker_username: docker
+docker_groups:
+  - docker
+docker_main_group: "{{ docker_groups[0] }}"
+docker_socket: /var/run/docker.sock
+docker_config_dir: /docker/config
+docker_compose_dir: /docker/compose
+docker_data_dir: /docker/data
+docker_local_data_dir: /docker/localdata
+docker_dirs:
+  - "{{ docker_config_dir }}"
+  - "{{ docker_compose_dir }}"
+  - "{{ docker_data_dir }}"
+  - "{{ docker_local_data_dir }}"
+
+# secrets
+smtp_username: "{{ vault_smtp_username }}"
+smtp_password: "{{ vault_smtp_password }}"
+
+pihole_web_passwd: "{{ vault_pihole_web_passwd }}"
+
+cloudflare_ddns_subdomain: "{{ vault_cloudflare_ddns_subdomain }}"
+cloudflare_ddns_enable_ipv4: "{{ vault_cloudflare_ddns_enable_ipv4 }}"
+cloudflare_ddns_enable_ipv6: "{{ vault_cloudflare_ddns_enable_ipv6 }}"
+
+cloudflared_connector_token: "{{ vault_cloudflared_connector_token }}"
+
+vaultwarden_admin_token: "{{ vault_vaultwarden_admin_token }}"
+vaultwarden_push_installation_id: "{{ vault_vaultwarden_push_installation_id }}"
+vaultwarden_push_installation_key: "{{ vault_vaultwarden_push_installation_key }}"
+vaultwarden_domain: "{{ vault_vaultwarden_domain }}"
+vaultwarden_smtp_from: "{{ vault_vaultwarden_smtp_from }}"
+vaultwarden_smtp_helo_name: "{{ vault_vaultwarden_smtp_helo_name }}"
+
+cloudflare_ddns_api_token: "{{ vault_cloudflare_ddns_api_token }}"
+cloudflare_ddns_zone_id: "{{ vault_cloudflare_ddns_zone_id }}"
+
+tailscale_auth_key: "{{ vault_tailscale_auth_key }}"
+tailscale_advertised_routes: "{{ vault_tailscale_advertised_routes }}"
+
+homeassistant_internal_url: "{{ vault_homeassistant_internal_url }}"
+homeassistant_external_url: "{{ vault_homeassistant_external_url }}"
+
+mosquitto_homeassistant_user: "{{ vault_mosquitto_homeassistant_user }}"
+mosquitto_homeassistant_password_hash: "{{ vault_mosquitto_homeassistant_password_hash }}"
+mosquitto_tasmota_user: "{{ vault_mosquitto_tasmota_user }}"
+mosquitto_tasmota_password_hash: "{{ vault_mosquitto_tasmota_password_hash }}"
+
+rclone_backup_token: "{{ vault_rclone_backup_token }}"
