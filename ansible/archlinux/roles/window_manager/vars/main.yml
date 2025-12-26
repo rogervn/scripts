@@ -30,6 +30,7 @@ window_manager_packages:
 
 window_manager_aur_packages:
   - bluetui
+  - joplin-desktop
   - noctalia-shell
   - prezto-git
   - yay
