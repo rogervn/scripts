@@ -2,6 +2,7 @@
 
 {
   environment.systemPackages = with pkgs; [
+    bitwarden-desktop
     blueman
     bluetui
     cliphist
@@ -11,6 +12,7 @@
     evince
     hypridle
     imagemagick
+    joplin-desktop
     libnotify
     matugen
     nautilus
