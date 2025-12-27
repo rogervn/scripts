@@ -54,14 +54,14 @@
               style = "powerline";
               powerline_symbol = "";
               background = "11"; # ANSI Bright Yellow
+              foreground = "0"; # ANSI Black
               background_templates = [
                 "{{ if or (.Working.Changed) (.Staging.Changed) }}3{{ end }}" # ANSI Yellow/Orange
                 "{{ if and (gt .Ahead 0) (gt .Behind 0) }}10{{ end }}" # ANSI Bright Green
                 "{{ if gt .Ahead 0 }}13{{ end }}" # ANSI Bright Magenta
                 "{{ if gt .Behind 0 }}13{{ end }}"
               ];
-              foreground = "0"; # ANSI Black
-              template = " {{ .UpstreamIcon }}{{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }}  {{ .Working.String }}{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }}<1>  {{ .Staging.String }}</>{{ end }} ";
+              template = " {{ .UpstreamIcon }}{{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }} <#c75809> {{ .Working.String }}{{ end }}</>{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }}<#6cb30b>  {{ .Staging.String }}</>{{ end }} ";
               properties = {
                 branch_icon = " ";
                 fetch_status = true;
