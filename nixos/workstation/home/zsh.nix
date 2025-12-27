@@ -1,8 +1,21 @@
 { pkgs, ... }:
 
 {
-  home.sessionVariables = {
-    EDITOR = "vim";
+  programs.zsh = {
+    enable = true;
+    enableCompletion = true;
+    autosuggestion.enable = true;
+
+    history = {
+      size = 130000;
+      save = 130000;
+      path = "$HOME/.histfile";
+      ignoreAllDups = true;
+      expireDuplicatesFirst = true;
+      share = true;
+    };
+
+    defaultKeymap = "viins";
   };
 
   programs.fzf.enable = true;
@@ -127,21 +140,5 @@
         }
       ];
     };
-  };
-  programs.zsh = {
-    enable = true;
-    enableCompletion = true;
-    autosuggestion.enable = true;
-
-    history = {
-      size = 130000;
-      save = 130000;
-      path = "$HOME/.histfile";
-      ignoreAllDups = true;
-      expireDuplicatesFirst = true;
-      share = true;
-    };
-
-    defaultKeymap = "viins";
   };
 }
