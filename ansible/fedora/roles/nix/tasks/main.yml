@@ -15,7 +15,7 @@
   ansible.builtin.git:
     repo: "{{ nix_git_repo }}"
     dest: "{{ nix_repo_dest_path }}"
-    version: master
+    version: main
   become: true
   become_user: "{{ base_user.username }}"
 

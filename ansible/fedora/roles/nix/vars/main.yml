@@ -6,6 +6,6 @@ nix_packages:
 nix_services:
   - nix-daemon
 
-nix_git_repo: https://github.com/rogervn/configs
+nix_git_repo: https://github.com/rogervn/scripts
 nix_git_relative_path: nix/
 nix_repo_dest_path: "{{ base_user.homedir }}/git/scripts"
