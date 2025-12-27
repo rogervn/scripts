@@ -1,0 +1,29 @@
+---
+- name: Install nix packages
+  ansible.builtin.package:
+    name: "{{ nix_packages }}"
+    state: present
+
+- name: Enable nix services
+  ansible.builtin.service:
+    name: "{{ item }}"
+    enabled: true
+    state: "started"
+  loop: "{{ nix_services }}"
+
+- name: Clone nix scripts repo
+  ansible.builtin.git:
+    repo: "{{ nix_git_repo }}"
+    dest: "{{ nix_repo_dest_path }}"
+    version: master
+  become: true
+  become_user: "{{ base_user.username }}"
+
+- name: Run home-manager switch
+  ansible.builtin.shell: |
+    cd "{{ nix_repo_dest_path }}/{{ nix_git_relative_path }}"
+    git pull
+    nix run nixpkgs#home-manager -- switch --flake .
+  become: true
+  become_user: "{{ base_user.username }}"
+  loop: "{{ dotfiles_stow_packages }}"

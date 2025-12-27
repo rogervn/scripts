@@ -37,11 +37,6 @@ window_manager_packages:
 window_manager_services:
   - gdm
 
-window_manager_github_modules:
-  - name: prezto
-    repo: https://github.com/sorin-ionescu/prezto.git
-    build_cmd: cp -r . ~/.zprezto
-    dst_path: ~/.zprezto
-    version: master
+window_manager_github_modules: []
 
 window_manager_noctalia_quickshell_dir: ~/.config/quickshell/noctalia-shell

@@ -19,7 +19,7 @@
     homeConfigurations = {
       ${userName} = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
-	    extraSpecialArgs = { inherit inputs userName; };
+	    extraSpecialArgs = { inherit userName; };
 	    modules = [
 	      ./home.nix
 	    ];

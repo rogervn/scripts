@@ -8,4 +8,5 @@
     - base
     # - extra
     - dotfiles
+    - nix
     - window_manager
