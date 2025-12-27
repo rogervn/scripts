@@ -42,11 +42,15 @@
     options = "--delete-older-than 14d";
   };
 
-  # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.${userName} = {
     isNormalUser = true;
-    hashedPasswordFile = config.age.secrets.rogervn_pass_hash.path;
+    hashedPasswordFile = config.age.secrets."${userName}_pass_hash".path;
     extraGroups = [ "wheel" "disk" ];
+  };
+  age.secrets."${userName}_private_key" = {
+    path = "/home/${userName}/.ssh/id_rsa";
+    owner = userName;
+    mode = "600";
   };
 
   environment.systemPackages = with pkgs; [

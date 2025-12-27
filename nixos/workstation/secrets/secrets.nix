@@ -3,4 +3,5 @@ let
 in
 {
   "rogervn_pass_hash.age".publicKeys = [ amdesktop ];
+  "rogervn_private_key.age".publicKeys = [ amdesktop ];
 }
