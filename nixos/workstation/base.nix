@@ -30,7 +30,7 @@
   services.kmscon = {
     enable = true;
     hwRender = true;
-    fonts = [ { name = "Noto Sans Mono"; package = pkgs.noto-fonts; } ];
+    fonts = [ { name = "JetbrainsMono NL Nerd Font Mono"; package = pkgs.nerd-fonts.jetbrains-mono; } ];
   };
 
   services.openssh.enable = true;
@@ -70,13 +70,7 @@
     enable = true;
     enableCompletion = true;
     syntaxHighlighting.enable = true;
-    ohMyZsh = {
-      enable = true;
-      theme = "powerlevel10k";
-      custom = "${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k";
-    };
   };
-  programs.tmux.enable = true;
 
   users.defaultUserShell = pkgs.zsh;
 }
