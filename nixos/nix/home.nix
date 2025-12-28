@@ -9,5 +9,6 @@
 
   imports = [
     (import ../home/zsh.nix { inherit pkgs; })
+    (import ../home/vim.nix { inherit pkgs; })
   ];
 }
