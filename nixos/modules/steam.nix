@@ -17,6 +17,7 @@
         "--mangoapp"
         "--adaptive-sync"
         "--hdr-enabled"
+        "--rt"
         "-r"
         "120"
         "-W"
