@@ -34,7 +34,7 @@
               style = "diamond";
               leading_diamond = "╭─";
               background = "15"; # ANSI Bright White
-              foreground = "0";  # ANSI Black
+              foreground = "0"; # ANSI Black
               template = " {{ if .WSL }}WSL at {{ end }}{{.Icon}} ";
               properties = {
                 linux = "";
@@ -45,7 +45,7 @@
             {
               type = "root";
               style = "diamond";
-              background = "1";  # ANSI Red
+              background = "1"; # ANSI Red
               foreground = "15"; # ANSI White
               template = "<parentBackground></>  ";
             }
@@ -53,7 +53,7 @@
               type = "path";
               style = "powerline";
               powerline_symbol = "";
-              background = "4";  # ANSI Blue
+              background = "4"; # ANSI Blue
               foreground = "0"; # ANSI White
               template = "   {{ .Path }} ";
               properties = {

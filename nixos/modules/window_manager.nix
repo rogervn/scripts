@@ -1,4 +1,10 @@
-{ config, lib, pkgs, userName, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  userName,
+  ...
+}:
 
 {
   environment.systemPackages = with pkgs; [
@@ -35,7 +41,7 @@
   ];
 
   programs.hyprland.enable = true;
- 
+
   services.displayManager.sddm = {
     enable = true;
     wayland.enable = true;

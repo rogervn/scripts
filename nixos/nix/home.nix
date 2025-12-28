@@ -8,6 +8,6 @@
   programs.home-manager.enable = true;
 
   imports = [
-    (import ../home/zsh.nix {inherit pkgs;})
+    (import ../home/zsh.nix { inherit pkgs; })
   ];
 }

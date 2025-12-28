@@ -1,4 +1,11 @@
-{ config, lib, pkgs, userName, hostName, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  userName,
+  hostName,
+  ...
+}:
 
 {
   boot.loader.systemd-boot.enable = true;
@@ -30,7 +37,12 @@
   services.kmscon = {
     enable = true;
     hwRender = true;
-    fonts = [ { name = "JetbrainsMono NL Nerd Font Mono"; package = pkgs.nerd-fonts.jetbrains-mono; } ];
+    fonts = [
+      {
+        name = "JetbrainsMono NL Nerd Font Mono";
+        package = pkgs.nerd-fonts.jetbrains-mono;
+      }
+    ];
   };
 
   services.openssh.enable = true;
@@ -45,7 +57,10 @@
   users.users.${userName} = {
     isNormalUser = true;
     hashedPasswordFile = config.age.secrets."${userName}_pass_hash".path;
-    extraGroups = [ "wheel" "disk" ];
+    extraGroups = [
+      "wheel"
+      "disk"
+    ];
   };
   age.secrets."${userName}_private_key" = {
     path = "/home/${userName}/.ssh/id_rsa";

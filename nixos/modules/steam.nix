@@ -1,4 +1,10 @@
-{ config, lib, pkgs, userName, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  userName,
+  ...
+}:
 
 {
   programs.steam = {
@@ -11,11 +17,16 @@
         "--mangoapp"
         "--adaptive-sync"
         "--hdr-enabled"
-        "-r" "120"
-        "-W" "3840" "-H" "2160"
+        "-r"
+        "120"
+        "-W"
+        "3840"
+        "-H"
+        "2160"
         "-f"
         "-e"
-        "--xwayland-count" "2"
+        "--xwayland-count"
+        "2"
       ];
       steamArgs = [
         "-pipewire-dmabuf"
@@ -44,29 +55,31 @@
     mangohud
   ];
 
-  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
-    "steam"
-    "steam-unwrapped"
-  ];
+  nixpkgs.config.allowUnfreePredicate =
+    pkg:
+    builtins.elem (lib.getName pkg) [
+      "steam"
+      "steam-unwrapped"
+    ];
 
   users.users.${userName}.extraGroups = [ "gamemode" ];
 
   home-manager.users.${userName} = {
     # Allows heroic to be ran inside steam
     xdg.desktopEntries.heroic = {
-        name = "Heroic Games Launcher (Steam embedded)";
-        exec = "env -u LD_PRELOAD heroic %u";
-        icon = "heroic";
-        terminal = false;
-        categories = [ "Game" ];
-        mimeType = [ "x-scheme-handler/heroic" ];
-      };
+      name = "Heroic Games Launcher (Steam embedded)";
+      exec = "env -u LD_PRELOAD heroic %u";
+      icon = "heroic";
+      terminal = false;
+      categories = [ "Game" ];
+      mimeType = [ "x-scheme-handler/heroic" ];
+    };
 
-      home.packages = with pkgs; [
-        # Switch to desktop will shutdown steam
-        (writeShellScriptBin "steamos-session-select" ''
-            steam -shutdown
-          '')
-      ];
+    home.packages = with pkgs; [
+      # Switch to desktop will shutdown steam
+      (writeShellScriptBin "steamos-session-select" ''
+        steam -shutdown
+      '')
+    ];
   };
 }

@@ -1,4 +1,4 @@
-{userName, ...}:
+{ userName, ... }:
 {
   age = {
     identityPaths = [ "/root/.ssh/id_rsa" ];

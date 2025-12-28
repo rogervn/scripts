@@ -8,11 +8,16 @@
     ansible
     ansible-lint
     docker-compose-language-service
-    hadooplint
+    hadolint
     nodejs
     nixfmt-rfc-style
     nil
-    (python3.withPackages (ps: with ps; [ black pyright ]))
+    (python3.withPackages (
+      ps: with ps; [
+        black
+        pyright
+      ]
+    ))
     rust-analyzer
     rustfmt
     shellcheck
@@ -43,22 +48,6 @@
       number = true;
       ignorecase = true;
       smartcase = true;
-    };
-
-    coc.settings ={
-      "languageserver" = {
-        "nix" = {
-          "command" = "nil";
-          "filetypes" = [ "nix" ];
-          "rootPatterns" = [ "flake.nix" ];
-        };
-        "rust" = {
-          "command" = "rust-analyzer";
-          "filetypes" = [ "rust" ];
-          "rootPatterns" = [ "Cargo.toml" ];
-        };
-      };
-      "coc.preferences.formatOnSaveFiletypes" = [ "nix" "python" "rust" "sh" ];
     };
 
     extraConfig = ''
