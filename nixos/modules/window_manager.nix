@@ -26,7 +26,6 @@
     vlc
     vivaldi
     wl-clipboard
-    zsh-powerlevel10k
   ];
 
   fonts.packages = with pkgs; [
@@ -36,7 +35,6 @@
   ];
 
   programs.hyprland.enable = true;
-  programs.zsh.ohMyZsh.enable = true;
  
   services.displayManager.sddm = {
     enable = true;

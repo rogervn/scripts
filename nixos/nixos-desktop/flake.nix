@@ -24,13 +24,13 @@
         inherit inputs;
       };
       modules = [
-        hosts/amdesktop/hardware-configuration.nix
         ./configuration.nix
-        ./base.nix
         ./home.nix
-        ./secrets.nix
-        ./steam.nix
-        ./window_manager.nix
+        ../hosts/amdesktop/hardware-configuration.nix
+        ../modules/base.nix
+        ../modules/secrets.nix
+        ../modules/steam.nix
+        ../modules/window_manager.nix
         agenix.nixosModules.default
         home-manager.nixosModules.home-manager
         {
@@ -51,13 +51,13 @@
         inherit inputs;
       };
       modules = [
-        ./hosts/nixos-vm/hardware-configuration.nix
         ./configuration.nix
-        ./base.nix
         ./home.nix
-        ./secrets.nix
-        ./vm_guest.nix
-        ./window_manager.nix
+        ../hosts/nixos-vm/hardware-configuration.nix
+        ../modules/base.nix
+        ../modules/secrets.nix
+        ../modules/vm_guest.nix
+        ../modules/window_manager.nix
         agenix.nixosModules.default
         home-manager.nixosModules.home-manager
         {

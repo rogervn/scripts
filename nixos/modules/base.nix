@@ -56,6 +56,7 @@
   environment.systemPackages = with pkgs; [
     curl
     chrony
+    file
     git
     killall
     less
