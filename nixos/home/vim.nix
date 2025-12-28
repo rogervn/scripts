@@ -2,8 +2,9 @@
 
 {
   home.sessionVariables = {
-    EDITOR = "vim";
+    EDITOR = "nvim";
   };
+
   home.packages = with pkgs; [
     ansible
     ansible-lint
@@ -22,61 +23,76 @@
     rustfmt
     shellcheck
     shfmt
-
   ];
-  programs.ghostty.installVimSyntax = true;
-  programs.vim = {
+
+  programs.neovim = {
     enable = true;
     defaultEditor = true;
+    vimAlias = true;
     plugins = with pkgs.vimPlugins; [
-      ale
       coc-docker
       coc-json
-      coc-nvim
       coc-yaml
       fzf-vim
-      gruvbox
       polyglot
       vim-nix
+      {
+        plugin = ale;
+        config = ''
+          let g:ale_fix_on_save = 1
+          let g:ale_fixers = {
+            \ 'sh': ['shfmt'],
+            \ 'python': ['black'],
+            \ 'nix': ['nixfmt'],
+            \ 'rust': ['rustfmt'],
+            \ 'yaml': ['prettier'],
+            \ 'ansible': ['ansible-lint'],
+            \ 'dockerfile': ['hadolint'],
+          \ }
+        '';
+      }
+      {
+        plugin = coc-nvim;
+        config = ''
+          inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
+          inoremap <silent><expr> <TAB> coc#pum#visible() ? coc#pum#next(1) : "\<TAB>"
+          inoremap <silent><expr> <S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<S-TAB>"
+        '';
+      }
     ];
 
-    settings = {
-      tabstop = 4;
-      shiftwidth = 2;
-      expandtab = true;
-      copyindent = true;
-      number = true;
-      ignorecase = true;
-      smartcase = true;
+    coc = {
+      enable = true;
+      settings = {
+        "suggest.noselect" = true;
+        "suggest.enablePreview" = true;
+        "suggest.snippetIndicator" = " ►";
+        "suggest.triggerAfterInsertEnter" = true;
+        "diagnostic.displayByAle" = true;
+
+        "languageserver" = {
+          "nix" = {
+            "command" = "nil";
+            "filetypes" = [ "nix" ];
+            "rootPatterns" = [ "flake.nix" ];
+          };
+        };
+
+        "python.formatting.provider" = "black";
+        "python.linting.enabled" = true;
+      };
     };
 
     extraConfig = ''
-      syntax enable
-      set hlsearch
-      set showmatch
+      set number
+      set tabstop=2
+      set shiftwidth=2
+      set expandtab
+      set ignorecase
+      set smartcase
       set softtabstop=1
       set nosmarttab
-
-      let g:ale_fix_on_save = 1
-      let g:ale_fixers = {
-      \   'sh': ['shfmt'],
-      \   'python': ['black'],
-      \   'nix': ['nixfmt'],
-      \   'rust': ['rustfmt'],
-      \   'yaml': ['prettier'],
-      \   'ansible': ['ansible-lint'],
-      \   'dockerfile': ['hadolint'],
-      \}
-
-      inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
-      inoremap <silent><expr> <TAB> coc#pum#visible() ? coc#pum#next(1) : "\<TAB>"
-      inoremap <silent><expr> <S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<S-TAB>"
-
-      highlight CocFloating ctermbg=Black ctermfg=Cyan
-      highlight CocMenuSel ctermbg=Cyan ctermfg=Black
-      highlight CocSearch ctermfg=Green ctermbg=Black gui=bold
-      highlight CocHoverRange ctermbg=Black
-      highlight CocCursorRange ctermbg=Black
     '';
+
   };
 }
