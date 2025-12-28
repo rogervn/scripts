@@ -26,12 +26,18 @@
     networkmanagerapplet
     noto-fonts
     pavucontrol
-    sddm-astronaut
     shotwell
     slurp
     vlc
     vivaldi
     wl-clipboard
+    (sddm-astronaut.override {
+      themeConfig = {
+        Background = "${nixos-artwork.wallpapers.nineish-dark-gray.src}";
+        FormPosition = "left";
+        FontSize = "18";
+      };
+    })
   ];
 
   fonts.packages = with pkgs; [
@@ -50,11 +56,12 @@
       kdePackages.qtvirtualkeyboard
       kdePackages.qtmultimedia
     ];
+    package = pkgs.kdePackages.sddm;
     theme = "sddm-astronaut-theme";
   };
 
   services.gnome.gnome-keyring.enable = true;
-  programs.seahorse.enable = true; # enable the graphical frontend for managing
+  programs.seahorse.enable = true;
 
   services.upower.enable = true;
   services.power-profiles-daemon.enable = true;
