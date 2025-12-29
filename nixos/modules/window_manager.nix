@@ -1,6 +1,4 @@
 {
-  config,
-  lib,
   pkgs,
   userName,
   ...
@@ -24,6 +22,7 @@
     nautilus
     nextcloud-client
     networkmanagerapplet
+    noctalia-shell
     noto-fonts
     pavucontrol
     shotwell
