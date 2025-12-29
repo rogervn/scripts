@@ -45,38 +45,9 @@
       ignorecase = true;
       smartcase = true;
       smarttab = false;
-      termguicolors = true;
+      smartindent = true;
+      termguicolors = false;
     };
-
-    keymaps = [
-      {
-        mode = "n";
-        key = "<leader>ff";
-        action = "<cmd>FzfLua files<CR>";
-        options = {
-          silent = true;
-          desc = "Fzf Files";
-        };
-      }
-      {
-        mode = "n";
-        key = "<leader>fg"; # 'g' for Grep
-        action = "<cmd>FzfLua live_grep<CR>";
-        options = {
-          silent = true;
-          desc = "Fzf Grep";
-        };
-      }
-      {
-        mode = "n";
-        key = "<leader>fb"; # 'b' for Buffers
-        action = "<cmd>FzfLua buffers<CR>";
-        options = {
-          silent = true;
-          desc = "Fzf Buffers";
-        };
-      }
-    ];
 
     plugins = {
       cmp = {
@@ -124,6 +95,14 @@
 
       lsp = {
         enable = true;
+        keymaps = {
+          "gd" = "definition";
+          "gi" = "implementation";
+          "gr" = "references";
+          "K" = "hover";
+          "<leader>rn" = "rename";
+          "<leader>ca" = "code_action";
+        };
         servers = {
           bashls.enable = true;
           jsonls.enable = true;
@@ -151,8 +130,30 @@
               };
             };
           };
+          yamlls = {
+            enable = true;
+            extraOptions = {
+              settings = {
+                yaml = {
+                  schemas = {
+                    "http://json.schemastore.org/ansible-stable-2.9" = "roles/*/tasks/*.{yml,yaml}";
+                    "http://json.schemastore.org/chart" = "Chart.{yml,yaml}";
+                  };
+                };
+              };
+            };
+          };
+        };
+      };
 
-          yamlls.enable = true;
+      telescope = {
+        enable = true;
+        extensions = {fzf-native.enable = true;};
+        keymaps = {
+          "<leader>ff" = "find_files";
+          "<leader>fg" = "live_grep";
+          "<leader>fb" = "buffers";
+          "<leader>fh" = "help_tags";
         };
       };
 
@@ -170,7 +171,7 @@
       lsp-format.enable = true;
       dressing.enable = true;
       fugitive.enable = true;
-      fzf-lua.enable = true;
+      plugins.web-devicons.enable = true;
     };
   };
 }
