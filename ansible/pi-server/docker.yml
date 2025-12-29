@@ -1,26 +1,23 @@
----
 - name: Raspberry pi server playbook
   hosts: all
   gather_facts: true
   become: true
-
   roles:
     - docker
-      # - filebrowser
-      # - pihole
-      # - wireguard
-      # - cloudflared
-      # - cloudflare_ddns
-      # - uptime_kuma
-      # - vaultwarden
-      # - tailscale
-      # - homeassistant
-      # - mosquitto
-      # - mariadb
-      # - redis
-      # - nextcloud
-      # - ocis
-    - opencloud
-      # - immich
-      # - authelia
-      # - rclone_backup
+    - filebrowser
+    - pihole
+    - wireguard
+    - cloudflared
+    - cloudflare_ddns
+    - uptime_kuma
+    - vaultwarden
+    - tailscale
+    - homeassistant
+    - mosquitto
+    - mariadb
+    - redis
+    - nextcloud
+    - ocis
+    - immich
+    - authelia
+    - rclone_backup

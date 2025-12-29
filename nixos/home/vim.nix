@@ -20,6 +20,7 @@
     rustfmt
     shellcheck
     shfmt
+    yamlfmt
   ];
 
   programs.nixvim = {
@@ -28,7 +29,6 @@
     vimAlias = true;
     nixpkgs.useGlobalPackages = true;
     luaLoader.enable = true;
-    colorscheme = "vim";
 
     diagnostic.settings = {
       virtual_text = true;
@@ -161,6 +161,17 @@
         enable = true;
         highlight.enable = true;
         indent.enable = true;
+        grammarPackages = with pkgs.vimPlugins.nvim-treesitter.builtGrammars; [
+          bash
+          json
+          make
+          markdown
+          nix
+          regex
+          rust
+          toml
+          yaml
+        ];
       };
 
       lspkind = {
