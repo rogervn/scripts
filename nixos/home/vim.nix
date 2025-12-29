@@ -171,7 +171,7 @@
       lsp-format.enable = true;
       dressing.enable = true;
       fugitive.enable = true;
-      plugins.web-devicons.enable = true;
+      web-devicons.enable = true;
     };
   };
 }
