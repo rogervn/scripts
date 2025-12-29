@@ -40,13 +40,13 @@
         plugin = ale;
         config = ''
           let g:ale_fix_on_save = 1
+
           let g:ale_fixers = {
             \ 'sh': ['shfmt'],
             \ 'python': ['black'],
             \ 'nix': ['nixfmt'],
             \ 'rust': ['rustfmt'],
             \ 'yaml': ['prettier'],
-            \ 'ansible': ['ansible-lint'],
             \ 'dockerfile': ['hadolint'],
           \ }
         '';
