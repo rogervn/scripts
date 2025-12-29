@@ -1,6 +1,4 @@
-{ pkgs, ... }:
-
-{
+{pkgs, ...}: {
   programs.zsh = {
     enable = true;
     enableCompletion = true;
@@ -130,7 +128,7 @@
               type = "status";
               style = "plain";
               foreground = "#e0f8ff";
-              foreground_templates = [ "{{ if gt .Code 0 }}#ef5350{{ end }}" ]; # Red on Error
+              foreground_templates = ["{{ if gt .Code 0 }}#ef5350{{ end }}"]; # Red on Error
               template = "";
               properties = {
                 always_enabled = true;

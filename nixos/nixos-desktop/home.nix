@@ -1,5 +1,6 @@
 {
   pkgs,
+  inputs,
   userName,
   ...
 }:
@@ -12,7 +13,7 @@
 
       imports = [
         (import ../home/dotfiles.nix { inherit config lib pkgs; })
-        (import ../home/vim.nix { inherit pkgs; })
+        (import ../home/vim.nix { inherit inputs pkgs; })
         (import ../home/zsh.nix { inherit pkgs; })
       ];
 
