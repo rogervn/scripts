@@ -20,4 +20,5 @@
     - ocis
     - immich
     - authelia
+    - authentik
     - rclone_backup

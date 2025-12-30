@@ -1,0 +1,8 @@
+authentik_container_name: authentik
+authentik_compose_dir: "{{ docker_compose_dir }}/{{ authentik_container_name }}"
+authentik_config_volume: "{{ docker_config_dir }}/{{ authentik_container_name }}"
+authentik_data_volume: "{{ docker_data_dir }}/{{ authentik_container_name }}"
+authentik_postgresql_data_volume: "{{ docker_data_dir }}/{{ authentik_container_name }}-postgresql"
+authentik_http_port: 8011
+authentik_https_port: 8012
+authentik_smtp_sender: authentik-admin@vnunes.win

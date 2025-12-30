@@ -1,0 +1,25 @@
+- name: Verify authentik base dirs
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ docker_username }}"
+    group: "{{ docker_main_group }}"
+    mode: "0750"
+  loop:
+    - "{{ authentik_config_volume }}"
+    - "{{ authentik_data_volume }}"
+    - "{{ authentik_compose_dir }}"
+    - "{{ authentik_postgresql_data_volume }}"
+- name: Verify .env file
+  ansible.builtin.template:
+    src: env.j2
+    dest: "{{ authentik_compose_dir }}/.env"
+    owner: "{{ docker_username }}"
+    group: "{{ docker_main_group }}"
+    mode: "0750"
+- name: Set and run docker compose
+  ansible.builtin.include_role:
+    name: docker
+    tasks_from: docker-compose
+  vars:
+    docker_container_name: "{{ authentik_container_name }}"

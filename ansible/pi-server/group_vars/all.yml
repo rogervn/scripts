@@ -1,11 +1,8 @@
----
-
 # system shared
 default_tz: <CHANGEME>
 smtp_host: <CHANGEME>
 smtp_port: <CHANGEME>
 smtp_security: starttls
-
 # docker
 docker_install_packages: true
 docker_username: docker
@@ -22,48 +19,35 @@ docker_dirs:
   - "{{ docker_compose_dir }}"
   - "{{ docker_data_dir }}"
   - "{{ docker_local_data_dir }}"
-
 # secrets
 smtp_username: <CHANGEME>
 smtp_password: <CHANGEME>
-
 pihole_web_passwd: <CHANGEME>
-
 cloudflared_connector_token: <CHANGEME>
-
 vaultwarden_admin_token: <CHANGEME>
 vaultwarden_push_installation_id: <CHANGEME>
 vaultwarden_push_installation_key: <CHANGEME>
 vaultwarden_domain: <CHANGEME>
 vaultwarden_smtp_from: <CHANGEME>
 vaultwarden_smtp_helo_name: <CHANGEME>
-
-
 cloudflare_ddns_api_token: <CHANGEME>
 cloudflare_ddns_zone_id: <CHANGEME>
 cloudflare_ddns_subdomain: <CHANGEME>
 cloudflare_ddns_enable_ipv4: <CHANGEME>
 cloudflare_ddns_enable_ipv6: <CHANGEME>
-
-
 tailscale_auth_key: <CHANGEME>
 tailscale_advertised_routes: <CHANGEME>
-
 homeassistant_internal_url: <CHANGEME>
 homeassistant_external_url: <CHANGEME>
-
-:mosquitto_homeassistant_user: <CHANGEME>
+mosquitto_homeassistant_user: <CHANGEME>
 mosquitto_homeassistant_password_hash: <CHANGEME>
 mosquitto_tasmota_user: <CHANGEME>
 mosquitto_tasmota_password_hash: <CHANGEME>
-
 mariadb_root_passwd: <CHANGEME>
 redis_passwd: <CHANGEME>
 ocis_fqdn: <CHANGEME>
-
 immich_postgres_user: <CHANGEME>
 immich_postgres_passwd: <CHANGEME>
-
 authelia_totp_issuer: <CHANGEME>
 authelia_public_domain: <CHANGEME>
 authelia_public_url: <CHANGEME>
@@ -77,5 +61,6 @@ authelia_oidc_client_name: <CHANGEME>
 authelia_oidc_client_digest: <CHANGEME>
 authelia_oidc_client_redirect_url: <CHANGEME>
 authelia_oidc_jwks_private_key: <CHANGEME>
-
+authentik_pg_pass: <CHANGEME>
+authentik_secret_key: <CHANGEME>
 rclone_backup_token: <CHANGEME>

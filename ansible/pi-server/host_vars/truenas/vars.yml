@@ -1,11 +1,8 @@
----
-
 # system shared
 default_tz: Europe/London
 smtp_host: smtp-relay.brevo.com
 smtp_port: 587
 smtp_security: starttls
-
 # docker
 docker_install_packages: false
 docker_username: docker
@@ -22,18 +19,14 @@ docker_dirs:
   - "{{ docker_compose_dir }}"
   - "{{ docker_data_dir }}"
   - "{{ docker_local_data_dir }}"
-
 mariadb_root_passwd: "{{ vault_mariadb_root_passwd }}"
 redis_passwd: "{{ vault_redis_passwd }}"
 redis_host: "{{ vault_redis_host }}"
 ocis_fqdn: "{{ vault_ocis_fqdn }}"
-
 smtp_username: "{{ vault_smtp_username }}"
 smtp_password: "{{ vault_smtp_password }}"
-
 immich_postgres_user: "{{ vault_immich_postgres_user }}"
 immich_postgres_passwd: "{{ vault_immich_postgres_passwd }}"
-
 authelia_totp_issuer: "{{ vault_authelia_totp_issuer }}"
 authelia_public_domain: "{{ vault_authelia_public_domain }}"
 authelia_public_url: "{{ vault_authelia_public_url }}"
@@ -47,3 +40,5 @@ authelia_oidc_client_name: "{{ vault_authelia_oidc_client_name }}"
 authelia_oidc_client_digest: "{{ vault_authelia_oidc_client_digest }}"
 authelia_oidc_client_redirect_url: "{{ vault_authelia_oidc_client_redirect_url }}"
 authelia_oidc_jwks_private_key: "{{ vault_authelia_oidc_jwks_private_key }}"
+authentik_pg_pass: "{{ vault_authentik_pg_pass }}"
+authentik_secret_key: "{{ vault_authentik_secret_key }}"
