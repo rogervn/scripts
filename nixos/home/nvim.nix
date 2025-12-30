@@ -11,6 +11,7 @@
 
   home.packages = with pkgs; [
     alejandra
+    ansible-lint
     black
     isort
     nodePackages.prettier
@@ -50,6 +51,10 @@
       termguicolors = false;
     };
 
+    extraPlugins = with pkgs.vimPlugins; [
+      ansible-vim
+    ];
+
     plugins = {
       cmp = {
         enable = true;
@@ -79,6 +84,11 @@
               return { timeout_ms = 500, lsp_fallback = true }
             end
           '';
+          formatters = {
+            yamlfmt = {
+              prepend_args = ["-formatter" "retain_line_breaks=true"];
+            };
+          };
           formatters_by_ft = {
             sh = ["shfmt"];
             markdown = ["prettier"];
@@ -88,6 +98,7 @@
               "isort"
               "black"
             ];
+            ansible = ["yamlfmt"];
             yaml = ["yamlfmt"];
             json = ["prettier"];
           };
@@ -107,10 +118,13 @@
         servers = {
           bashls.enable = true;
           jsonls.enable = true;
+          yamlls.enable = true;
+
           lua_ls = {
             enable = true;
             settings.telemetry.enable = false;
           };
+
           marksman.enable = true;
           nil_ls = {
             enable = true;
@@ -118,6 +132,7 @@
               formatting.command = ["nixpkgs-fmt"];
             };
           };
+
           pyright = {
             enable = true;
             settings = {
@@ -127,19 +142,6 @@
                   autoSearchPaths = true;
                   useLibraryCodeForTypes = true;
                   diagnosticMode = "workspace";
-                };
-              };
-            };
-          };
-          yamlls = {
-            enable = true;
-            extraOptions = {
-              settings = {
-                yaml = {
-                  schemas = {
-                    "http://json.schemastore.org/ansible-stable-2.9" = "roles/*/tasks/*.{yml,yaml}";
-                    "http://json.schemastore.org/chart" = "Chart.{yml,yaml}";
-                  };
                 };
               };
             };
