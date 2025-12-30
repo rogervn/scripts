@@ -1,6 +1,8 @@
-{ pkgs, userName, ... }:
-
 {
+  pkgs,
+  userName,
+  ...
+}: {
   targets.genericLinux.enable = true;
   home.stateVersion = "25.11";
   home.username = userName;
@@ -8,7 +10,7 @@
   programs.home-manager.enable = true;
 
   imports = [
-    (import ../home/zsh.nix { inherit pkgs; })
-    (import ../home/vim.nix { inherit pkgs; })
+    (import ../home/zsh.nix {inherit pkgs;})
+    (import ../home/nvim.nix {inherit pkgs;})
   ];
 }

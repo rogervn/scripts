@@ -16,6 +16,7 @@
     nodePackages.prettier
     nixfmt-rfc-style
     nil
+    ripgrep
     rust-analyzer
     rustfmt
     shellcheck
