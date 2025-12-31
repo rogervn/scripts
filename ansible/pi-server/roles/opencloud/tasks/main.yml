@@ -1,0 +1,38 @@
+- name: Verify opencloud base dirs
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ docker_username }}"
+    group: "{{ docker_main_group }}"
+    mode: '0750'
+  loop:
+    - "{{ opencloud_config_volume }}"
+    - "{{ opencloud_data_volume }}"
+    - "{{ opencloud_apps_dir }}"
+    - "{{ opencloud_compose_dir }}"
+
+- name: Verify .env file
+  ansible.builtin.template:
+    src: env.j2
+    dest: "{{ opencloud_compose_dir }}/.env"
+    owner: "{{ docker_username }}"
+    group: "{{ docker_main_group }}"
+    mode: "0750"
+
+- name: Create config files
+  ansible.builtin.copy:
+    src: "{{ item }}"
+    dest: "{{ opencloud_config_volume }}/{{ item }}"
+    owner: "{{ docker_username }}"
+    group: "{{ docker_main_group }}"
+    mode: '0755'
+  loop:
+    - banned-password-list.txt
+    - csp.yaml
+
+- name: Set and run docker compose
+  ansible.builtin.include_role:
+    name: docker
+    tasks_from: docker-compose
+  vars:
+    docker_container_name: "{{ opencloud_container_name }}"

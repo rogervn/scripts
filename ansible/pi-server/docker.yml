@@ -21,4 +21,5 @@
     - immich
     - authelia
     - authentik
+    - opencloud
     - rclone_backup

@@ -42,3 +42,4 @@ authelia_oidc_client_redirect_url: "{{ vault_authelia_oidc_client_redirect_url }
 authelia_oidc_jwks_private_key: "{{ vault_authelia_oidc_jwks_private_key }}"
 authentik_pg_pass: "{{ vault_authentik_pg_pass }}"
 authentik_secret_key: "{{ vault_authentik_secret_key }}"
+opencloud_initial_admin_password: "{{ vault_opencloud_initial_admin_password }}"

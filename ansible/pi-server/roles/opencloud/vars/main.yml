@@ -1,0 +1,8 @@
+opencloud_container_name: opencloud
+opencloud_config_volume: "{{ docker_config_dir }}/{{ opencloud_container_name }}"
+opencloud_data_volume: "{{ docker_data_dir }}/{{ opencloud_container_name }}"
+opencloud_apps_dir: "{{ opencloud_data_volume }}/web/assets/apps"
+opencloud_compose_dir: "{{ docker_compose_dir }}/{{ opencloud_container_name }}"
+opencloud_port: 8013
+opencloud_smtp_sender: opencloud-admin@vnunes.win
+opencloud_domain: opencloud.vnunes.win
