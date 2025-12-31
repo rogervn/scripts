@@ -4,6 +4,7 @@
   become: true
   roles:
     - docker
+    - rclone_backup
     - filebrowser
     - pihole
     - wireguard
@@ -22,4 +23,4 @@
     - authelia
     - authentik
     - opencloud
-    - rclone_backup
+    - joplin_server

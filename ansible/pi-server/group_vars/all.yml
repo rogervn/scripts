@@ -81,4 +81,8 @@ authentik_secret_key: <CHANGEME>
 
 opencloud_initial_admin_password: <CHANGEME>
 
+joplin_server_postgresql_password: <CHANGEME>
+joplin_server_postgresql_user: <CHANGEME>
+joplin_server_iam_metadata_xml: <CHANGEME>
+
 rclone_backup_token: <CHANGEME>

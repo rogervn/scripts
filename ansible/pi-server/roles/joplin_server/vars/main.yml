@@ -1,0 +1,13 @@
+joplin_server_container_name: joplin_server
+joplin_server_config_volume: "{{ docker_config_dir }}/{{ joplin_server_container_name }}"
+joplin_server_data_volume: "{{ docker_data_dir }}/{{ joplin_server_container_name }}"
+joplin_server_postgresql_dir: "{{ joplin_server_data_volume }}/postgresql"
+joplin_server_data_dir: "{{ joplin_server_data_volume }}/data"
+joplin_server_sp_file: "{{ joplin_server_config_volume }}/joplin-sp.xml"
+joplin_server_idp_file: "{{ joplin_server_config_volume }}/joplin-idp.xml"
+joplin_server_port: 8014
+joplin_server_data_uid: 1001
+joplin_server_data_gid: 1001
+joplin_server_postgresql_uid: 999
+joplin_server_postgresql_gid: 999
+joplin_server_url: "https://joplin.vnunes.win"

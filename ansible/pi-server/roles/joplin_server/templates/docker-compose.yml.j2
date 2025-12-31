@@ -1,0 +1,45 @@
+---
+networks:
+    joplin-network:
+
+services:
+  db:
+    container_name: {{ joplin_server_container_name }}_postgresql
+    image: postgres:16
+    volumes:
+      - {{ joplin_server_postgresql_dir }}:/var/lib/postgresql/data
+    networks:
+      - joplin-network
+    restart: unless-stopped
+    environment:
+      - POSTGRES_PASSWORD={{ joplin_server_postgresql_password }}
+      - POSTGRES_USER={{ joplin_server_postgresql_user }}
+      - POSTGRES_DB=joplin
+  joplin_server:
+    container_name: {{ joplin_server_container_name }}
+    image: joplin/server:latest
+    depends_on:
+      - db
+    ports:
+      - {{ joplin_server_port }}:22300
+    networks:
+      - joplin-network
+    volumes:
+      - {{ joplin_server_config_volume }}:/etc/saml
+      - {{ joplin_server_data_dir }}:/data
+    restart: unless-stopped
+    environment:
+      - APP_BASE_URL={{ joplin_server_url }}
+      - API_BASE_URL={{ joplin_server_url }}
+      - DB_CLIENT=pg
+      - POSTGRES_PORT=5432
+      - POSTGRES_HOST=db
+      - POSTGRES_PASSWORD={{ joplin_server_postgresql_password }}
+      - POSTGRES_USER={{ joplin_server_postgresql_user }}
+      - POSTGRES_DATABASE=joplin
+      - STORAGE_DRIVER=Type=Filesystem; Path=/data
+      - SAML_ENABLED=true
+      - SAML_IDP_CONFIG_FILE=/etc/saml/joplin-idp.xml
+      - SAML_SP_CONFIG_FILE=/etc/saml/joplin-sp.xml
+      - DELETE_EXPIRED_SESSIONS_SCHEDULE=""
+      - LOCAL_AUTH_ENABLED=false

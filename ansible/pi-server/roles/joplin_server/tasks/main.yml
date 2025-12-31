@@ -1,0 +1,44 @@
+
+- name: Verify joplin_server base dirs
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ joplin_server_data_uid }}"
+    group: "{{ joplin_server_data_gid }}"
+    mode: '0750'
+  loop:
+    - "{{ joplin_server_config_volume }}"
+    - "{{ joplin_server_data_volume }}"
+    - "{{ joplin_server_postgresql_dir }}"
+    - "{{ joplin_server_data_dir }}"
+
+- name: Verify joplin_server postgresql dir
+  ansible.builtin.file:
+    path: "{{ joplin_server_postgresql_dir }}"
+    state: directory
+    owner: "{{ joplin_server_postgresql_uid }}"
+    group: "{{ joplin_server_postgresql_gid }}"
+    mode: '0750'
+
+- name: Create sp file
+  ansible.builtin.template:
+    src: joplin-sp.xml.j2
+    dest: "{{ joplin_server_sp_file }}"
+    owner: "{{ joplin_server_data_uid }}"
+    group: "{{ joplin_server_data_gid }}"
+    mode: "0750"
+
+- name: Create idp file
+  ansible.builtin.copy:
+    content: "{{ joplin_server_iam_metadata_xml }}"
+    dest: "{{ joplin_server_idp_file }}"
+    owner: "{{ joplin_server_data_uid }}"
+    group: "{{ joplin_server_data_gid }}"
+    mode: '0755'
+
+- name: Set and run docker compose
+  ansible.builtin.include_role:
+    name: docker
+    tasks_from: docker-compose
+  vars:
+    docker_container_name: "{{ joplin_server_container_name }}"
