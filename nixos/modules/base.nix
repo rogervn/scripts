@@ -9,6 +9,10 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
+  # Uncomment these to be able to build a aarch64 image
+  # boot.binfmt.emulatedSystems = ["aarch64-linux"];
+  # nix.settings.trusted-users = [userName];
+
   networking.hostName = hostName;
   networking.networkmanager.enable = true;
   networking.firewall = {
