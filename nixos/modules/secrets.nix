@@ -18,6 +18,12 @@
         group = "users";
         mode = "600";
       };
+      rogervn_authorized_keys = {
+        file = ./secrets/rogervn_authorized_keys.age;
+        owner = "${userName}";
+        group = "users";
+        mode = "600";
+      };
     };
   };
 }

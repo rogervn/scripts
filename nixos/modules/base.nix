@@ -1,13 +1,10 @@
 {
   config,
-  lib,
   pkgs,
   userName,
   hostName,
   ...
-}:
-
-{
+}: {
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelPackages = pkgs.linuxPackages_latest;
@@ -16,7 +13,7 @@
   networking.networkmanager.enable = true;
   networking.firewall = {
     enable = true;
-    allowedTCPPorts = [ 22 ];
+    allowedTCPPorts = [22];
   };
 
   time.timeZone = "Europe/London";
@@ -63,7 +60,12 @@
     ];
   };
   age.secrets."${userName}_private_key" = {
-    path = "/home/${userName}/.ssh/id_rsa";
+    path = "/home/${userName}/.ssh/id_ed25519";
+    owner = userName;
+    mode = "600";
+  };
+  age.secrets."${userName}_authorized_keys" = {
+    path = "/home/${userName}/.ssh/authorized_keys";
     owner = userName;
     mode = "600";
   };
