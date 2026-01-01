@@ -21,90 +21,101 @@
     home-manager,
     ...
   } @ inputs: {
-    nixosConfigurations.amdesktop = nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
-      specialArgs = {
-        userName = "rogervn";
-        hostName = "amdesktop";
-        keyPath = "/root/.ssh/id_ed25519";
-        inherit inputs;
-      };
-      modules = [
-        ./configuration.nix
-        ./home.nix
-        ../hosts/amdesktop/hardware-configuration.nix
-        ../modules/base.nix
-        ../modules/secrets.nix
-        ../modules/steam.nix
-        ../modules/window_manager.nix
-        agenix.nixosModules.default
-        home-manager.nixosModules.home-manager
-        {
-          home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
-          home-manager.extraSpecialArgs = {inherit inputs;};
-        }
-        {
-          environment.systemPackages = [agenix.packages.x86_64-linux.default];
-        }
-      ];
-    };
+    nixosConfigurations = {
+      amdesktop = let
+        host = "amdesktop";
+      in
+        nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          specialArgs = {
+            userName = "rogervn";
+            hostName = host;
+            keyPath = "/root/.ssh/id_ed25519";
+            inherit inputs;
+          };
+          modules = [
+            ./configuration.nix
+            ./home.nix
+            ../hosts/${host}/hardware-configuration.nix
+            ../modules/base.nix
+            ../modules/secrets.nix
+            ../modules/steam.nix
+            ../modules/window_manager.nix
+            agenix.nixosModules.default
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.extraSpecialArgs = {inherit inputs;};
+            }
+            {
+              environment.systemPackages = [agenix.packages.x86_64-linux.default];
+            }
+          ];
+        };
 
-    nixosConfigurations.thinknixos = nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
-      specialArgs = {
-        userName = "rogervn";
-        hostName = "thinknixos";
-        keyPath = "/root/.ssh/id_ed25519";
-        inherit inputs;
-      };
-      modules = [
-        ./configuration.nix
-        ./home.nix
-        ../hosts/amdesktop/hardware-configuration.nix
-        ../modules/base.nix
-        ../modules/secrets.nix
-        ../modules/window_manager.nix
-        agenix.nixosModules.default
-        home-manager.nixosModules.home-manager
-        {
-          home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
-          home-manager.extraSpecialArgs = {inherit inputs;};
-        }
-        {
-          environment.systemPackages = [agenix.packages.x86_64-linux.default];
-        }
-      ];
-    };
+      thinknixos = let
+        host = "thinknixos";
+      in
+        nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          specialArgs = {
+            userName = "rogervn";
+            hostName = host;
+            keyPath = "/root/.ssh/id_ed25519";
+            inherit inputs;
+          };
+          modules = [
+            ./configuration.nix
+            ./home.nix
+            ../hosts/${host}/hardware-configuration.nix
+            ../modules/base.nix
+            ../modules/secrets.nix
+            ../modules/window_manager.nix
+            agenix.nixosModules.default
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.extraSpecialArgs = {inherit inputs;};
+            }
+            {
+              environment.systemPackages = [agenix.packages.x86_64-linux.default];
+            }
+          ];
+        };
 
-    nixosConfigurations.nixos-vm = nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
-      specialArgs = {
-        userName = "rogervn";
-        hostName = "nixos-vm";
-        keyPath = "/root/.ssh/id_ed25519";
-        inherit inputs;
-      };
-      modules = [
-        ./configuration.nix
-        ./home.nix
-        ../hosts/nixos-vm/hardware-configuration.nix
-        ../modules/base.nix
-        ../modules/secrets.nix
-        ../modules/vm_guest.nix
-        ../modules/window_manager.nix
-        agenix.nixosModules.default
-        home-manager.nixosModules.home-manager
-        {
-          home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
-          home-manager.extraSpecialArgs = {inherit inputs;};
-        }
-        {
-          environment.systemPackages = [agenix.packages.x86_64-linux.default];
-        }
-      ];
+      nixos-vm = let
+        host = "nixos-vm";
+      in
+        nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          specialArgs = {
+            userName = "rogervn";
+            hostName = host;
+            keyPath = "/root/.ssh/id_ed25519";
+            inherit inputs;
+          };
+          modules = [
+            ./configuration.nix
+            ./home.nix
+            ../hosts/${host}/hardware-configuration.nix
+            ../modules/base.nix
+            ../modules/secrets.nix
+            ../modules/vm_guest.nix
+            ../modules/window_manager.nix
+            agenix.nixosModules.default
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.extraSpecialArgs = {inherit inputs;};
+            }
+            {
+              environment.systemPackages = [agenix.packages.x86_64-linux.default];
+            }
+          ];
+        };
     };
   };
 }
