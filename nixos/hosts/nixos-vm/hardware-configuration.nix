@@ -27,7 +27,7 @@
   };
 
   swapDevices = [
-    {device = "/dev/disk/vda2";}
+    {device = "/dev/vda2";}
   ];
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
