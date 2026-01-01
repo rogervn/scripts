@@ -26,6 +26,7 @@
       specialArgs = {
         userName = "rogervn";
         hostName = "amdesktop";
+        keyPath = "/root/.ssh/id_ed25519";
         inherit inputs;
       };
       modules = [
@@ -54,6 +55,7 @@
       specialArgs = {
         userName = "rogervn";
         hostName = "thinknixos";
+        keyPath = "/root/.ssh/id_ed25519";
         inherit inputs;
       };
       modules = [
@@ -81,6 +83,7 @@
       specialArgs = {
         userName = "rogervn";
         hostName = "nixos-vm";
+        keyPath = "/root/.ssh/id_ed25519";
         inherit inputs;
       };
       modules = [

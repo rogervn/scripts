@@ -1,7 +1,10 @@
-{ userName, ... }:
 {
+  userName,
+  keyPath,
+  ...
+}: {
   age = {
-    identityPaths = [ "/root/.ssh/id_rsa" ];
+    identityPaths = [keyPath];
     secrets = {
       rogervn_pass_hash = {
         file = ./secrets/rogervn_pass_hash.age;
