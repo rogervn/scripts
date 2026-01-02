@@ -26,9 +26,18 @@
     };
   };
 
+  swapDevices = [
+    {
+      device = "/var/lib/swapfile";
+      size = 8 * 1024;
+    }
+  ];
+
   networking.useNetworkd = true;
-  # mdns
-  networking.firewall.allowedUDPPorts = [5353];
+  networking.firewall = {
+    allowedTCPPorts = [22];
+    allowedUDPPorts = [5353];
+  };
   systemd.network.networks = {
     "99-ethernet-default-dhcp".networkConfig.MulticastDNS = "yes";
     "99-wireless-client-dhcp".networkConfig.MulticastDNS = "yes";
@@ -91,13 +100,17 @@
       ENV{UDISKS_IGNORE}="1"
   '';
 
-  environment.systemPackages = with pkgs; [
-    tree
-  ];
-
   services.openssh = {
     enable = true;
   };
+
+  environment.systemPackages = with pkgs; [
+    git
+    tree
+    zsh
+    tmux
+    neovim
+  ];
 
   # allow nix-copy to live system
   nix.settings.trusted-users = [userName];

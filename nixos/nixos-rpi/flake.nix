@@ -40,7 +40,7 @@
               imports = with nixos-raspberrypi.nixosModules; [
                 raspberry-pi-3.base
                 usb-gadget-ethernet
-                "${inputs.nixpkgs}/nixos/modules/installer/sd-card/sd-image-aarch64.nix"
+                sd-image
               ];
             }
             ./configuration.nix
