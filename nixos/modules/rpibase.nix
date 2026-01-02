@@ -8,31 +8,6 @@
   time.timeZone = "Europe/London";
   networking.hostName = hostName;
 
-  fileSystems = {
-    "/boot/firmware" = {
-      device = "/dev/disk/by-label/FIRMWARE";
-      fsType = "vfat";
-      options = [
-        "noatime"
-        "noauto"
-        "x-systemd.automount"
-        "x-systemd.idle-timeout=1min"
-      ];
-    };
-    "/" = {
-      device = "/dev/disk/by-label/NIXOS_SD";
-      fsType = "ext4";
-      options = ["noatime"];
-    };
-  };
-
-  swapDevices = [
-    {
-      device = "/var/lib/swapfile";
-      size = 8 * 1024;
-    }
-  ];
-
   networking.useNetworkd = true;
   networking.firewall = {
     allowedTCPPorts = [22];
@@ -67,12 +42,6 @@
       "networkmanager"
       "video"
     ];
-    hashedPasswordFile = config.age.secrets."${userName}_pass_hash".path;
-  };
-  age.secrets."${userName}_private_key" = {
-    path = "/home/${userName}/.ssh/id_ed25519";
-    owner = userName;
-    mode = "600";
   };
   age.secrets."${userName}_authorized_keys" = {
     path = "/home/${userName}/.ssh/authorized_keys";
@@ -80,13 +49,9 @@
     mode = "600";
   };
 
-  # Allow the user to log in as root without a password.
-  users.users.root.initialHashedPassword = "";
-
   # Don't require sudo/root to `reboot` or `poweroff`.
   security.polkit.enable = true;
 
-  # Allow passwordless sudo from nixos user
   security.sudo = {
     enable = true;
     wheelNeedsPassword = false;
@@ -109,7 +74,7 @@
     tree
     zsh
     tmux
-    neovim
+    vim-full
   ];
 
   # allow nix-copy to live system

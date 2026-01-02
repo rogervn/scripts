@@ -30,9 +30,10 @@
         nixos-raspberrypi.lib.nixosSystemFull {
           system = "aarch64-linux";
           specialArgs = {
-            userName = "rogervn";
+            userName = "piuk";
             hostName = host;
             keyPath = "/root/.ssh/id_ed25519";
+            swapSizeGB = 8;
             inherit inputs nixos-raspberrypi;
           };
           modules = [
@@ -45,7 +46,41 @@
             }
             ./configuration.nix
             ../modules/rpibase.nix
+            ../modules/rpisdcard.nix
             ../modules/secrets.nix
+            ../modules/adguardhome.nix
+            agenix.nixosModules.default
+            {
+              environment.systemPackages = [agenix.packages.aarch64-linux.default];
+            }
+          ];
+        };
+
+      piuk = let
+        host = "piuk";
+      in
+        nixos-raspberrypi.lib.nixosSystemFull {
+          system = "aarch64-linux";
+          specialArgs = {
+            userName = "piuk";
+            hostName = host;
+            keyPath = "/root/.ssh/id_ed25519";
+            swapSizeGB = 8;
+            inherit inputs nixos-raspberrypi;
+          };
+          modules = [
+            {
+              imports = with nixos-raspberrypi.nixosModules; [
+                raspberry-pi-02.base
+                usb-gadget-ethernet
+                sd-image
+              ];
+            }
+            ./configuration.nix
+            ../modules/rpibase.nix
+            ../modules/rpisdcard.nix
+            ../modules/secrets.nix
+            ../modules/adguardhome.nix
             agenix.nixosModules.default
             {
               environment.systemPackages = [agenix.packages.aarch64-linux.default];
@@ -55,6 +90,7 @@
     };
     images = {
       pi3nixos = self.nixosConfigurations.pi3nixos.config.system.build.sdImage;
+      piuk = self.nixosConfigurations.piuk.config.system.build.sdImage;
     };
   };
 }
