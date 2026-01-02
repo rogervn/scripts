@@ -3,7 +3,7 @@
     "nix-command"
     "flakes"
   ];
-  # nixpkgs.config.allowUnfree = true;
 
+  boot.loader.raspberryPi.bootloader = "kernel";
   system.stateVersion = "26.05";
 }
