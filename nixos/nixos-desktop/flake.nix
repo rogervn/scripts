@@ -38,7 +38,7 @@
             ./home.nix
             ../hosts/${host}/hardware-configuration.nix
             ../modules/base.nix
-            ../modules/secrets.nix
+            ../modules/secrets-rogervn.nix
             ../modules/steam.nix
             ../modules/window_manager.nix
             agenix.nixosModules.default
@@ -70,7 +70,7 @@
             ./home.nix
             ../hosts/${host}/hardware-configuration.nix
             ../modules/base.nix
-            ../modules/secrets.nix
+            ../modules/secrets-rogervn.nix
             ../modules/window_manager.nix
             agenix.nixosModules.default
             home-manager.nixosModules.home-manager
@@ -101,7 +101,7 @@
             ./home.nix
             ../hosts/${host}/hardware-configuration.nix
             ../modules/base.nix
-            ../modules/secrets.nix
+            ../modules/secrets-rogervn.nix
             ../modules/vm_guest.nix
             ../modules/window_manager.nix
             agenix.nixosModules.default

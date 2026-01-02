@@ -47,7 +47,7 @@
             ./configuration.nix
             ../modules/rpibase.nix
             ../modules/rpisdcard.nix
-            ../modules/secrets.nix
+            ../modules/secrets-piuk.nix
             ../modules/adguardhome.nix
             agenix.nixosModules.default
             {
