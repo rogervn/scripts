@@ -33,7 +33,7 @@
             userName = "piuk";
             hostName = host;
             keyPath = "/root/.ssh/id_ed25519";
-            swapSizeGB = 8;
+            swapSizeGB = 1;
             inherit inputs nixos-raspberrypi;
           };
           modules = [
@@ -65,7 +65,7 @@
             userName = "piuk";
             hostName = host;
             keyPath = "/root/.ssh/id_ed25519";
-            swapSizeGB = 8;
+            swapSizeGB = 1;
             inherit inputs nixos-raspberrypi;
           };
           modules = [
