@@ -29,7 +29,7 @@ in {
   systemd.timers."${borgrepo_unit}" = {
     wantedBy = ["timers.target"];
     timerConfig = {
-      OnCalender = "Sat *-*-* 4:00:00";
+      OnCalendar = "Sat *-*-* 4:00:00";
       Persistent = true;
       Unit = "${borgrepo_unit}.service";
     };
@@ -40,11 +40,14 @@ in {
       ${pkgs.rsync}/bin/rsync \
       -avz \
       --delete \
-      --rsync-path="sudo rsync"
-      ${baserepo_location} ${backuprepo_location}
+      -e "${pkgs.openssh}/bin/ssh -i /home/${userName}/.ssh/id_ed25519 -o StrictHostKeyChecking=accept-new" \
+      --rsync-path="sudo rsync" \
+      ${userName}@${baserepo_location} ${backuprepo_location}
     '';
+
     serviceConfig = {
       Type = "oneshot";
+      User = "root";
     };
   };
 }
