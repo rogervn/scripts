@@ -44,8 +44,8 @@
                 sd-image
               ];
             }
-            ./configuration.nix
-            ../modules/rpibase.nix
+            ../hosts/${host}/configuration.nix
+            ../modules/base.nix
             ../modules/rpisdcard.nix
             ../modules/secrets-piuk.nix
             ../modules/adguardhome.nix
@@ -76,8 +76,8 @@
                 sd-image
               ];
             }
-            ./configuration.nix
-            ../modules/rpibase.nix
+            ../hosts/${host}/configuration.nix
+            ../modules/base.nix
             ../modules/rpisdcard.nix
             ../modules/secrets.nix
             ../modules/adguardhome.nix

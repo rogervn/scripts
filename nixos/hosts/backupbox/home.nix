@@ -11,7 +11,7 @@
     home.stateVersion = "26.05";
 
     imports = [
-      (import ../home/zsh.nix {inherit pkgs;})
+      (import ../../home/zsh.nix {inherit pkgs;})
     ];
   };
 }

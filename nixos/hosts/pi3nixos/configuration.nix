@@ -1,11 +1,20 @@
 {
-  config,
-  pkgs,
   userName,
   hostName,
   ...
 }: {
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
+
   time.timeZone = "Europe/London";
+
+  boot.loader.raspberryPi.bootloader = "kernel";
+
+  # allow nix-copy to live system
+  nix.settings.trusted-users = [userName];
+
   networking.hostName = hostName;
 
   networking.useNetworkd = true;
@@ -35,6 +44,14 @@
     };
   };
 
+  services.udev.extraRules = ''
+    # Ignore partitions with "Required Partition" GPT partition attribute
+    # On our RPis this is firmware (/boot/firmware) partition
+    ENV{ID_PART_ENTRY_SCHEME}=="gpt", \
+      ENV{ID_PART_ENTRY_FLAGS}=="0x1", \
+      ENV{UDISKS_IGNORE}="1"
+  '';
+
   users.users.${userName} = {
     isNormalUser = true;
     extraGroups = [
@@ -57,26 +74,5 @@
     wheelNeedsPassword = false;
   };
 
-  services.udev.extraRules = ''
-    # Ignore partitions with "Required Partition" GPT partition attribute
-    # On our RPis this is firmware (/boot/firmware) partition
-    ENV{ID_PART_ENTRY_SCHEME}=="gpt", \
-      ENV{ID_PART_ENTRY_FLAGS}=="0x1", \
-      ENV{UDISKS_IGNORE}="1"
-  '';
-
-  services.openssh = {
-    enable = true;
-  };
-
-  environment.systemPackages = with pkgs; [
-    git
-    tree
-    zsh
-    tmux
-    vim-full
-  ];
-
-  # allow nix-copy to live system
-  nix.settings.trusted-users = [userName];
+  system.stateVersion = "26.05";
 }

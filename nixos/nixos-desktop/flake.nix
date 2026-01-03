@@ -34,9 +34,9 @@
             inherit inputs;
           };
           modules = [
-            ./configuration.nix
-            ./home.nix
+            ../hosts/${host}/configuration.nix
             ../hosts/${host}/hardware-configuration.nix
+            ../hosts/${host}/home.nix
             ../modules/base.nix
             ../modules/secrets-rogervn.nix
             ../modules/steam.nix
@@ -66,9 +66,9 @@
             inherit inputs;
           };
           modules = [
-            ./configuration.nix
-            ./home.nix
+            ../hosts/${host}/configuration.nix
             ../hosts/${host}/hardware-configuration.nix
+            ../hosts/${host}/home.nix
             ../modules/base.nix
             ../modules/secrets-rogervn.nix
             ../modules/window_manager.nix
@@ -97,9 +97,9 @@
             inherit inputs;
           };
           modules = [
-            ./configuration.nix
-            ./home.nix
+            ../hosts/${host}/configuration.nix
             ../hosts/${host}/hardware-configuration.nix
+            ../hosts/${host}/home.nix
             ../modules/base.nix
             ../modules/secrets-rogervn.nix
             ../modules/vm_guest.nix
