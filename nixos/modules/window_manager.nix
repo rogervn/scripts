@@ -2,9 +2,7 @@
   pkgs,
   userName,
   ...
-}:
-
-{
+}: {
   environment.systemPackages = with pkgs; [
     bitwarden-desktop
     blueman
@@ -33,8 +31,9 @@
     (sddm-astronaut.override {
       themeConfig = {
         Background = "${nixos-artwork.wallpapers.nineish-dark-gray.src}";
+        ScreenWidth = "1920";
+        ScreenHeight = "1080";
         FormPosition = "left";
-        FontSize = "18";
       };
     })
   ];
@@ -99,5 +98,5 @@
 
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
-  xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-hyprland ];
+  xdg.portal.extraPortals = [pkgs.xdg-desktop-portal-hyprland];
 }
