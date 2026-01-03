@@ -83,6 +83,7 @@
     less
     linux-firmware
     man-db
+    ncurses
     noto-fonts
     openssh
     tmux

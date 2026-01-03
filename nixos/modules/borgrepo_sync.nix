@@ -11,12 +11,15 @@
   baserepo_location = "truenas.localdomain:/mnt/zfspool/backup/borgrepo/";
   backuprepo_location = "/mnt/external/backup/borgrepo";
 in {
+  environment.systemPackages = with pkgs; [
+    rsync
+  ];
   security.sudo.extraRules = [
     {
       users = ["${userName}"];
       commands = [
         {
-          command = "${pkgs.rsync}/bin/rsync";
+          command = "/run/current-system/sw/bin/rsync";
           options = ["NOPASSWD"];
         }
       ];
