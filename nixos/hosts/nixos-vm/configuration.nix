@@ -1,5 +1,6 @@
 {
   config,
+  lib,
   pkgs,
   userName,
   hostName,
@@ -13,11 +14,6 @@
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.kernelPackages = pkgs.linuxPackages_latest;
-
-  # Uncomment these to be able to build a aarch64 image
-  boot.binfmt.emulatedSystems = ["aarch64-linux"];
-  nix.settings.trusted-users = [userName];
 
   time.timeZone = "Europe/London";
 

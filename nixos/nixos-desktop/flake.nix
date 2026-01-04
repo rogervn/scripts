@@ -104,6 +104,7 @@
             ../modules/secrets-rogervn.nix
             ../modules/vm_guest.nix
             ../modules/window_manager.nix
+            ../modules/zfs.nix
             agenix.nixosModules.default
             home-manager.nixosModules.home-manager
             {

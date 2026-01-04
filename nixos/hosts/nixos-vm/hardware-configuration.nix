@@ -26,6 +26,12 @@
     options = ["fmask=0022" "dmask=0022"];
   };
 
+  fileSystems."/znas" = {
+    device = "znas";
+    fsType = "zfs";
+    options = ["zfsutil"];
+  };
+
   swapDevices = [
     {device = "/dev/vda2";}
   ];
