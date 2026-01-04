@@ -22,6 +22,10 @@ in {
           command = "/run/current-system/sw/bin/rsync";
           options = ["NOPASSWD"];
         }
+        {
+          command = "/run/current-system/sw/bin/poweroff";
+          options = ["NOPASSWD"];
+        }
       ];
     }
   ];
