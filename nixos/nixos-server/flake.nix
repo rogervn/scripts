@@ -15,6 +15,7 @@
     nixpkgs,
     agenix,
     home-manager,
+    nixvim,
     ...
   } @ inputs: {
     nixosConfigurations = {
@@ -41,7 +42,7 @@
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
-              home-manager.extraSpecialArgs = {inherit inputs;};
+              home-manager.extraSpecialArgs = {inherit nixvim;};
             }
             {
               environment.systemPackages = [agenix.packages.x86_64-linux.default];

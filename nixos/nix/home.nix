@@ -1,6 +1,7 @@
 {
   pkgs,
   userName,
+  nixvim,
   ...
 }: {
   targets.genericLinux.enable = true;
@@ -11,6 +12,6 @@
 
   imports = [
     (import ../home/zsh.nix {inherit pkgs;})
-    (import ../home/nvim.nix {inherit pkgs;})
+    (import ../home/nvim.nix {inherit pkgs nixvim;})
   ];
 }

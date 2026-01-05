@@ -1,13 +1,13 @@
 {
   pkgs,
-  inputs,
+  nixvim,
   ...
 }: {
   home.sessionVariables = {
     EDITOR = "nvim";
   };
 
-  imports = [inputs.nixvim.homeModules.nixvim];
+  imports = [nixvim.homeModules.nixvim];
 
   home.packages = with pkgs; [
     alejandra
