@@ -13,28 +13,24 @@
     };
   };
 
-  outputs =
-    {
-      self,
-      nixpkgs,
-      home-manager,
-      nixvim,
-      ...
-    }@inputs:
-    let
-      system = "x86_64-linux";
-      pkgs = nixpkgs.legacyPackages.${system};
-      userName = "rogervn";
-    in
-    {
-      homeConfigurations = {
-        ${userName} = home-manager.lib.homeManagerConfiguration {
-          inherit pkgs;
-          extraSpecialArgs = { inherit userName nixvim; };
-          modules = [
-            ./home.nix
-          ];
-        };
+  outputs = {
+    nixpkgs,
+    home-manager,
+    nixvim,
+    ...
+  }: let
+    system = "x86_64-linux";
+    pkgs = nixpkgs.legacyPackages.${system};
+    userName = "rogervn";
+  in {
+    homeConfigurations = {
+      ${userName} = home-manager.lib.homeManagerConfiguration {
+        inherit pkgs;
+        extraSpecialArgs = {inherit userName nixvim;};
+        modules = [
+          ./home.nix
+        ];
       };
     };
+  };
 }

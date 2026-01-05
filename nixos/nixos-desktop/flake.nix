@@ -21,7 +21,7 @@
     home-manager,
     nixvim,
     ...
-  } @ inputs: {
+  }: {
     nixosConfigurations = {
       amdesktop = let
         host = "amdesktop";
@@ -32,7 +32,7 @@
             userName = "rogervn";
             hostName = host;
             keyPath = "/root/.ssh/id_ed25519";
-            inherit inputs;
+            inherit nixvim;
           };
           modules = [
             ../hosts/${host}/configuration.nix
@@ -64,7 +64,7 @@
             userName = "rogervn";
             hostName = host;
             keyPath = "/root/.ssh/id_ed25519";
-            inherit inputs;
+            inherit nixvim;
           };
           modules = [
             ../hosts/${host}/configuration.nix
@@ -95,7 +95,7 @@
             userName = "rogervn";
             hostName = host;
             keyPath = "/root/.ssh/id_ed25519";
-            inherit inputs;
+            inherit nixvim;
           };
           modules = [
             ../hosts/${host}/configuration.nix

@@ -17,7 +17,7 @@
     home-manager,
     nixvim,
     ...
-  } @ inputs: {
+  }: {
     nixosConfigurations = {
       backupbox = let
         host = "backupbox";
@@ -28,7 +28,7 @@
             userName = "backupuser";
             hostName = host;
             keyPath = "/root/.ssh/id_ed25519";
-            inherit inputs;
+            inherit nixvim;
           };
           modules = [
             ../hosts/${host}/configuration.nix
