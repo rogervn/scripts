@@ -48,6 +48,14 @@
               template = "<parentBackground></>  ";
             }
             {
+              type = "session";
+              style = "powerline";
+              powerline_symbol = "";
+              background = "2"; # ANSI Green
+              foreground = "0"; # ANSI Black
+              template = " {{ if .SSHSession }}  {{ .UserName }}@{{ .HostName }}{{ end }} ";
+            }
+            {
               type = "path";
               style = "powerline";
               powerline_symbol = "";
