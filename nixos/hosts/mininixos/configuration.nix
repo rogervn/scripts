@@ -46,11 +46,6 @@
       "disk"
     ];
   };
-  age.secrets."${userName}_private_key" = {
-    path = "/home/${userName}/.ssh/id_ed25519";
-    owner = userName;
-    mode = "600";
-  };
   age.secrets."${userName}_authorized_keys" = {
     path = "/home/${userName}/.ssh/authorized_keys";
     owner = userName;

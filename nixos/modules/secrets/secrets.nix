@@ -11,7 +11,7 @@ in {
   "piuk_authorized_keys.age".publicKeys = [amdesktop piuk];
   "backupuser_pass_hash.age".publicKeys = [amdesktop backupbox];
   "backupuser_private_key.age".publicKeys = [amdesktop backupbox];
-  "backupuser_authorized_keys.age".publicKeys = [amdesktop mininixos];
+  "backupuser_authorized_keys.age".publicKeys = [amdesktop backupbox];
   "serveruser_pass_hash.age".publicKeys = [amdesktop mininixos];
   "serveruser_authorized_keys.age".publicKeys = [amdesktop mininixos];
 }
