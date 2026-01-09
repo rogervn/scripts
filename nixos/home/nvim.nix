@@ -55,6 +55,14 @@
       ansible-vim
     ];
 
+    keymaps = [
+      {
+        mode = "v";
+        key = "<C-S-c>";
+        action = "\"+y";
+      }
+    ];
+
     plugins = {
       cmp = {
         enable = true;
