@@ -53,5 +53,9 @@ in {
       Type = "oneshot";
       User = "root";
     };
+
+    # Wait for both network AND the resolver to be ready
+    after = [ "network-online.target" "nss-lookup.target" ];
+    wants = [ "network-online.target" "nss-lookup.target" ];
   };
 }
