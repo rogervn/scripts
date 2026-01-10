@@ -32,7 +32,7 @@
   };
 
   networking.hostName = hostName;
-  networking.networkmanager.enable = true;
+  networking.useNetworkd = true;
   networking.firewall = {
     enable = true;
     allowedTCPPorts = [22];
@@ -44,6 +44,7 @@
     extraGroups = [
       "wheel"
       "disk"
+      "libvirtd"
     ];
   };
   age.secrets."${userName}_authorized_keys" = {

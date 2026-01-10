@@ -8,6 +8,14 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nixvim = {
+      url = "github:nix-community/nixvim";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    nixvirt = {
+      url = "https://flakehub.com/f/AshleyYakeley/NixVirt/*.tar.gz";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
@@ -15,6 +23,7 @@
     agenix,
     home-manager,
     nixvim,
+    nixvirt,
     ...
   }: {
     nixosConfigurations = {
@@ -58,15 +67,16 @@
             userName = "serveruser";
             hostName = host;
             keyPath = "/root/.ssh/id_ed25519";
-            inherit nixvim;
+            inherit nixvim nixvirt;
           };
           modules = [
+            nixvirt.nixosModules.default
             ../hosts/${host}/configuration.nix
             ../hosts/${host}/hardware-configuration.nix
             ../hosts/${host}/home.nix
             ../modules/base.nix
             ../modules/secrets-serveruser.nix
-            ../modules/borgrepo_sync.nix
+            ../modules/home_assistant.nix
             agenix.nixosModules.default
             home-manager.nixosModules.home-manager
             {
