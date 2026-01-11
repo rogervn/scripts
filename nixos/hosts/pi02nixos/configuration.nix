@@ -25,6 +25,9 @@
   };
   boot.kernelParams = ["console=ttyS1,115200n8"];
   hardware.enableRedistributableFirmware = lib.mkForce false;
+  boot.extraModprobeConfig = ''
+    options brcmfmac roamoff=1 feature_disable=0x82000
+  '';
   hardware.firmware = [pkgs.raspberrypiWirelessFirmware];
 
   zramSwap.enable = true;

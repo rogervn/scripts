@@ -73,7 +73,6 @@
             {
               imports = with nixos-raspberrypi.nixosModules; [
                 raspberry-pi-02.base
-                usb-gadget-ethernet
                 sd-image
               ];
             }
