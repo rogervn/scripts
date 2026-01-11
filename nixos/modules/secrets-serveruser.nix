@@ -18,6 +18,12 @@
         group = "users";
         mode = "600";
       };
+      vaultwarden_env_file = {
+        file = ./secrets/vaultwarden_env_file.age;
+        owner = "vaultwarden";
+        group = "vaultwarden";
+        mode = "600";
+      };
     };
   };
 }
