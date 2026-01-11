@@ -9,11 +9,11 @@
     chrony
     file
     git
-    ghostty.terminfo
     killall
     less
     linux-firmware
     man-db
+    ncurses
     noto-fonts
     openssh
     tmux
