@@ -10,6 +10,28 @@
   services.adguardhome = {
     enable = true;
     openFirewall = true;
-    mutableSettings = true;
+    port = 8001;
+    settings = {
+      schema_version = 20;
+      httsp.address = "0.0.0.0:8001";
+      dns = {
+        upstream_dns = [
+          "9.9.9.9#dns.quad9.net"
+          "149.112.112.112#dns.quad9.net"
+        ];
+      };
+      filtering = {
+        protection_enabled = true;
+        filtering_enabled = true;
+      };
+      filters = [
+        {
+          enabled = true;
+          url = "https://adguardteam.github.io/HostlistsRegistry/assets/filter_1.txt";
+          name = "AdGuard DNS filter";
+          id = 1;
+        }
+      ];
+    };
   };
 }

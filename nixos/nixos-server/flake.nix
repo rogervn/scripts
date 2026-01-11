@@ -76,6 +76,7 @@
             ../hosts/${host}/home.nix
             ../modules/base.nix
             ../modules/secrets-serveruser.nix
+            ../modules/adguardhome.nix
             ../modules/home_assistant.nix
             agenix.nixosModules.default
             home-manager.nixosModules.home-manager
