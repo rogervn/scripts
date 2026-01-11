@@ -1,4 +1,6 @@
 {
+  lib,
+  pkgs,
   userName,
   hostName,
   ...
@@ -11,12 +13,19 @@
   time.timeZone = "Europe/London";
 
   boot.loader.raspberryPi.bootloader = "uboot";
-  hardware.raspberry-pi.config.all.options.gpu_mem = {
-    enable = true;
-    value = 16;
+  hardware.raspberry-pi.config.all.options = {
+    gpu_mem = {
+      enable = true;
+      value = 16;
+    };
+    start_x = {
+      enable = true;
+      value = 0;
+    };
   };
   boot.kernelParams = ["console=ttyS1,115200n8"];
-  hardware.enableRedistributableFirmware = true;
+  hardware.enableRedistributableFirmware = lib.mkForce false;
+  hardware.firmware = [pkgs.raspberrypiWirelessFirmware];
 
   zramSwap.enable = true;
 
@@ -40,6 +49,7 @@
     systemd-resolved.stopIfChanged = false;
   };
 
+  networking.interfaces."wlan0".useDHCP = true;
   networking.wireless.iwd = {
     enable = true;
     settings = {
@@ -81,5 +91,5 @@
     wheelNeedsPassword = false;
   };
 
-  system.stateVersion = "26.05";
+  system.stateVersion = "25.11";
 }
