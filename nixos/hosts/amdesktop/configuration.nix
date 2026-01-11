@@ -23,6 +23,7 @@
 
   hardware.bluetooth.enable = true;
   hardware.enableAllFirmware = true;
+  hardware.xone.enable = true;
 
   services.kmscon = {
     enable = true;
