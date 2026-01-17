@@ -46,16 +46,19 @@
 
   programs.hyprland.enable = true;
 
-  services.displayManager.sddm = {
-    enable = true;
-    wayland.enable = true;
-    extraPackages = with pkgs; [
-      kdePackages.qtsvg
-      kdePackages.qtvirtualkeyboard
-      kdePackages.qtmultimedia
-    ];
-    package = pkgs.kdePackages.sddm;
-    theme = "sddm-astronaut-theme";
+  services.displayManager = {
+    defaultSession = "hyprland";
+    sddm = {
+      enable = true;
+      wayland.enable = true;
+      extraPackages = with pkgs; [
+        kdePackages.qtsvg
+        kdePackages.qtvirtualkeyboard
+        kdePackages.qtmultimedia
+      ];
+      package = pkgs.kdePackages.sddm;
+      theme = "sddm-astronaut-theme";
+    };
   };
 
   services.gnome.gnome-keyring.enable = true;

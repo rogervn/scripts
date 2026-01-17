@@ -6,7 +6,7 @@
   jovian = {
     steam = {
       enable = true;
-      desktopSession = "Hyprland";
+      desktopSession = "hyprland";
     };
     hardware.has.amd.gpu = true;
   };
