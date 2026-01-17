@@ -85,17 +85,17 @@ in {
                       }
                     ];
                     # Adapt to USB device
-                    # hostdev = [
-                    #   {
-                    #     mode = "subsystem";
-                    #     type = "usb";
-                    #     managed = true;
-                    #     source = {
-                    #       vendor = {id = 7409;}; # 0x1cf1
-                    #       product = {id = 48;}; # 0x0030
-                    #     };
-                    #   }
-                    # ];
+                    hostdev = [
+                      {
+                        mode = "subsystem";
+                        type = "usb";
+                        managed = true;
+                        source = {
+                          vendor = {id = 6790;}; # 0x1a86
+                          product = {id = 21972;}; # 0x55d4
+                        };
+                      }
+                    ];
                     console = [
                       {
                         type = "pty";
