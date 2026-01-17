@@ -24,7 +24,7 @@
         group = "vaultwarden";
         mode = "600";
       };
-      mininixos_backup_restic_pass.age = {
+      mininixos_backup_restic_pass = {
         file = ./secrets/mininixos_backup_restic_pass.age;
         owner = "root";
         group = "root";

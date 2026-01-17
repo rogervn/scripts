@@ -10,8 +10,8 @@
 in {
   services.restic.backups."${hostName}" = {
     paths = [backupDir];
-    repository = "sftp:${backupUser}@${remoteBackupServer}:${remoteBackupDir}";
-    sshKeyIt = "/root/.ssh/id_ed25519";
+    repository = "sftp://${backupUser}@${remoteBackupServer}:${remoteBackupDir}";
+    initialize = true;
     passwordFile = config.age.secrets.mininixos_backup_restic_pass.path;
     timerConfig = {
       OnCalendar = "daily";

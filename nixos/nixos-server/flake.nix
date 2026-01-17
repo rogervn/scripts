@@ -79,6 +79,7 @@
             ../modules/adguardhome.nix
             ../modules/home_assistant.nix
             ../modules/uptime_kuma.nix
+            ../modules/restic-backup.nix
             ../modules/vaultwarden.nix
             agenix.nixosModules.default
             home-manager.nixosModules.home-manager
