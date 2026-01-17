@@ -15,4 +15,5 @@ in {
   "serveruser_pass_hash.age".publicKeys = [amdesktop mininixos];
   "serveruser_authorized_keys.age".publicKeys = [amdesktop mininixos];
   "vaultwarden_env_file.age".publicKeys = [amdesktop mininixos];
+  "mininixos_backup_restic_pass.age".publicKeys = [amdesktop mininixos];
 }
