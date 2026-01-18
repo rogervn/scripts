@@ -45,6 +45,9 @@
                 sd-image
               ];
             }
+            {
+              imports = [nixos-raspberrypi.nixosModules.trusted-nix-caches];
+            }
             ../hosts/${host}/configuration.nix
             ../modules/base.nix
             ../modules/rpisdcard.nix
@@ -60,7 +63,7 @@
       pi02nixos = let
         host = "pi02nixos";
       in
-        nixos-raspberrypi.lib.nixosSystemFull {
+        nixos-raspberrypi.lib.nixosSystem {
           system = "aarch64-linux";
           specialArgs = {
             userName = "piuk";
