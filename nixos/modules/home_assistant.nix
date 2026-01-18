@@ -6,6 +6,19 @@
   haos_disk = "/vms/haos/haos.qcow2";
   net_if = "enp2s0";
 in {
+  # libvirt-guests sometimes start before the USB stick becomes available
+  # We create a target and start libvirt-guests after it to prevent this
+  services.udev.extraRules = ''
+    SUBSYSTEM=="usb", ATTRS{idVendor}=="1a86", ATTRS{idProduct}=="55d4", TAG+="systemd", ENV{SYSTEMD_WANTS}="usb-zigbee-ready.target"
+  '';
+  systemd.targets.usb-zigbee-ready = {
+    description = "USB Zigbee dongle is ready";
+  };
+  systemd.services.libvirt-guests = {
+    after = ["usb-zigbee-ready.target"];
+    requires = ["usb-zigbee-ready.target"];
+  };
+
   virtualisation.libvirtd.enable = true;
   virtualisation.libvirt = {
     enable = true;
@@ -84,7 +97,6 @@ in {
                         model = {type = "virtio";};
                       }
                     ];
-                    # Adapt to USB device
                     hostdev = [
                       {
                         mode = "subsystem";
