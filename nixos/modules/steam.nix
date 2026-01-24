@@ -1,22 +1,57 @@
 {
+  lib,
   pkgs,
   userName,
   ...
 }: {
-  jovian = {
-    steam = {
+  programs.steam = {
+    enable = true;
+    remotePlay.openFirewall = true;
+    dedicatedServer.openFirewall = true;
+    gamescopeSession = {
       enable = true;
-      desktopSession = "hyprland";
+      args = [
+        "--mangoapp"
+        "--hdr-enabled"
+        "--rt"
+        "-r"
+        "120"
+        "-f"
+        "-e"
+        "--xwayland-count"
+        "2"
+      ];
+      steamArgs = [
+        "-pipewire-dmabuf"
+        "-gamepadui"
+        "-steamdeck"
+        "-steamos3"
+      ];
+      env = {
+        PATH = "/usr/bin:$PATH";
+      };
     };
-    hardware.has.amd.gpu = true;
+  };
+
+  programs.gamescope = {
+    enable = true;
+    capSysNice = true;
   };
 
   programs.gamemode.enable = true;
+  programs.xwayland.enable = true;
 
   environment.systemPackages = with pkgs; [
+    gamescope-wsi
     heroic
     mangohud
   ];
+
+  nixpkgs.config.allowUnfreePredicate = pkg:
+    builtins.elem (lib.getName pkg) [
+      "steam"
+      "steam-unwrapped"
+    ];
 
   users.users.${userName}.extraGroups = ["gamemode"];
 

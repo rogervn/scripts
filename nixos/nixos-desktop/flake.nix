@@ -12,7 +12,6 @@
       url = "github:nix-community/nixvim";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    jovian.url = "github:Jovian-Experiments/Jovian-NixOS";
   };
 
   outputs = {
@@ -20,7 +19,6 @@
     agenix,
     home-manager,
     nixvim,
-    jovian,
     ...
   }: {
     nixosConfigurations = {
@@ -33,7 +31,7 @@
             userName = "rogervn";
             hostName = host;
             keyPath = "/root/.ssh/id_ed25519";
-            inherit nixvim jovian;
+            inherit nixvim;
           };
           modules = [
             ../hosts/${host}/configuration.nix
@@ -43,7 +41,6 @@
             ../modules/secrets-rogervn.nix
             ../modules/steam.nix
             ../modules/window_manager.nix
-            jovian.nixosModules.default
             agenix.nixosModules.default
             home-manager.nixosModules.home-manager
             {
