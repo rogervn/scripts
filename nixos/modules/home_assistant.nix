@@ -95,8 +95,8 @@ in {
                         type = "usb";
                         managed = true;
                         source = {
-                          vendor = {id = 6790;}; # 0x1a86
-                          product = {id = 21972;}; # 0x55d4
+                          vendor = {id = 12346;}; # 0x303a
+                          product = {id = 33562;}; # 0x831a
                         };
                       }
                       {
