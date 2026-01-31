@@ -15,7 +15,7 @@
     black
     isort
     nodePackages.prettier
-    nixfmt-rfc-style
+    nixfmt
     nil
     ripgrep
     rust-analyzer

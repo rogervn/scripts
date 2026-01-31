@@ -2,9 +2,7 @@
   # free up port 53 locally
   services.resolved = {
     enable = true;
-    extraConfig = ''
-      DNSStubListener=no
-    '';
+    settings.Resolve.DNSStubListener = "no";
   };
 
   services.adguardhome = {

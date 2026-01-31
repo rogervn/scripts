@@ -20,6 +20,7 @@
     openssh
     tmux
     rsync
+    usbutils
     vim-full
     wget
   ];

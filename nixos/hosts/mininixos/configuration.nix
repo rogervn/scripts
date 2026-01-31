@@ -17,6 +17,8 @@
 
   time.timeZone = "Europe/London";
 
+  nix.settings.trusted-users = [userName];
+
   hardware.bluetooth.enable = true;
   hardware.enableAllFirmware = true;
 
