@@ -1,4 +1,3 @@
----
 - name: Install nix packages
   ansible.builtin.package:
     name: "{{ nix_packages }}"
@@ -45,6 +44,14 @@
   loop: "{{ dotfiles_stow_packages }}"
 
 - name: Create nixGL hyprland session
+  ansible.builtin.template:
+    src: nix-hyprland.desktop.j2
+    dest: /usr/share/wayland-sessions/nix-hyprland.desktop
+    owner: root
+    group: root
+    mode: '0755'
+
+- name:
   ansible.builtin.copy:
     src: nix-hyprland.desktop
     dest: /usr/share/wayland-sessions/nix-hyprland.desktop
