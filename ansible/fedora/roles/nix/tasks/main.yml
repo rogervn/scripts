@@ -46,7 +46,7 @@
 - name: Create nixGL hyprland script
   ansible.builtin.template:
     src: nix-hyprland.sh.j2
-    dest: {? {nix_hyrpland_wrapper_path: ''} : ''}
+    dest: "{{ nix_hyrpland_wrapper_path }}"
     owner: root
     group: root
     mode: '0755'
