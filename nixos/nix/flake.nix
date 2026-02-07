@@ -13,34 +13,32 @@
     };
   };
 
-  outputs =
-    {
-      nixpkgs,
-      home-manager,
-      nixvim,
-      ...
-    }:
-    let
-      system = "x86_64-linux";
-      pkgs = nixpkgs.legacyPackages.${system};
-      userName = "rogervn";
-    in
-    {
-      packages.${system}.fedora = pkgs.buildEnv {
-        name = "fedora";
-        paths = [
-          pkgs.hyprland
-          pkgs.noctalia-shell
+  outputs = {
+    nixpkgs,
+    home-manager,
+    nixvim,
+    ...
+  }: let
+    system = "x86_64-linux";
+    pkgs = nixpkgs.legacyPackages.${system};
+    userName = "rogervn";
+  in {
+    packages.${system}.fedora = pkgs.buildEnv {
+      name = "fedora";
+      paths = [
+        pkgs.hyprland
+        pkgs.noctalia-shell
+        pkgs.xdg-desktop-portal-hyprland
+      ];
+    };
+    homeConfigurations = {
+      ${userName} = home-manager.lib.homeManagerConfiguration {
+        inherit pkgs;
+        extraSpecialArgs = {inherit userName nixvim;};
+        modules = [
+          ./home.nix
         ];
       };
-      homeConfigurations = {
-        ${userName} = home-manager.lib.homeManagerConfiguration {
-          inherit pkgs;
-          extraSpecialArgs = { inherit userName nixvim; };
-          modules = [
-            ./home.nix
-          ];
-        };
-      };
     };
+  };
 }

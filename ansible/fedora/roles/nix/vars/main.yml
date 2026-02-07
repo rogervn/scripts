@@ -9,4 +9,4 @@ nix_git_repo: https://github.com/rogervn/scripts
 nix_git_relative_path: nixos/nix
 nix_repo_dest_path: "{{ base_user.homedir }}/git/scripts"
 nix_profile_bin_path: "{{ base_user.homedir }}/.nix-profile/bin"
-nix_hyrpland_wrapper_path: "/usr/bin/nix-hyrpland.sh"
+nix_hyrpland_wrapper_path: "/usr/bin/nix-hyprland.sh"
