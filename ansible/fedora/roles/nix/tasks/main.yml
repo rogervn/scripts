@@ -19,6 +19,22 @@
   become: true
   become_user: "{{ base_user.username }}"
 
+- name: Install nixGL
+  ansible.builtin.shell: |
+    nix profile install github:nix-community/nixGL --impure
+  become: true
+  become_user: "{{ base_user.username }}"
+  loop: "{{ dotfiles_stow_packages }}"
+
+- name: Install fedora profile
+  ansible.builtin.shell: |
+    cd "{{ nix_repo_dest_path }}/{{ nix_git_relative_path }}"
+    git pull
+    nix profile install .#fedora
+  become: true
+  become_user: "{{ base_user.username }}"
+  loop: "{{ dotfiles_stow_packages }}"
+
 - name: Run home-manager switch
   ansible.builtin.shell: |
     cd "{{ nix_repo_dest_path }}/{{ nix_git_relative_path }}"
@@ -27,3 +43,11 @@
   become: true
   become_user: "{{ base_user.username }}"
   loop: "{{ dotfiles_stow_packages }}"
+
+- name: Create nixGL hyprland session
+  ansible.builtin.copy:
+    src: nix-hyprland.desktop
+    dest: /usr/share/wayland-sessions/nix-hyprland.desktop
+    owner: root
+    group: root
+    mode: '0755'
