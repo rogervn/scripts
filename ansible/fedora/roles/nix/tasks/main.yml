@@ -50,11 +50,3 @@
     owner: root
     group: root
     mode: '0755'
-
-- name:
-  ansible.builtin.copy:
-    src: nix-hyprland.desktop
-    dest: /usr/share/wayland-sessions/nix-hyprland.desktop
-    owner: root
-    group: root
-    mode: '0755'
