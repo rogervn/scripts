@@ -27,6 +27,7 @@
       name = "fedora";
       paths = [
         pkgs.hyprland
+        pkgs.hyprpolkitagent
         pkgs.noctalia-shell
         pkgs.xdg-desktop-portal-hyprland
       ];
