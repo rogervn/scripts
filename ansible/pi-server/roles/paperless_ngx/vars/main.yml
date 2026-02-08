@@ -1,0 +1,11 @@
+paperless_ngx_container_name: paperlessngx
+paperless_ngx_port: 8015
+paperless_ngx_data_volume: "{{ docker_data_dir }}/{{ paperless_ngx_container_name }}"
+paperless_ngx_consume_dir: "{{ paperless_ngx_data_volume }}/consume"
+paperless_ngx_export_dir: "{{ paperless_ngx_data_volume }}/export"
+paperless_ngx_media_dir: "{{ paperless_ngx_data_volume }}/media"
+paperless_ngx_data_dir_sub: "{{ paperless_ngx_data_volume }}/data"
+paperless_ngx_redisdata_dir_sub: "{{ paperless_ngx_data_volume }}/redisdata"
+paperless_ngx_compose_dir: "{{ docker_compose_dir }}/{{ paperless_ngx_container_name }}"
+paperless_ngx_domain: https://paperless.vnunes.win
+paperless_ngx_sender: paperlessngx@vnunes.win

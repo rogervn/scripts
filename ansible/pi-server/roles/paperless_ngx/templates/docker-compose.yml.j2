@@ -1,0 +1,29 @@
+---
+version: "3.4"
+services:
+  broker:
+    container_name: "{{ paperless_ngx_container_name }}-redis"
+    image: redis:7
+    restart: unless-stopped
+    volumes:
+      - "{{ paperless_ngx_redisdata_dir_sub }}:/data"
+    environment:
+      - PUID={{ docker_user_uid }}
+      - PGID={{ docker_group_gid }}
+
+  webserver:
+    container_name: "{{ paperless_ngx_container_name }}"
+    image: ghcr.io/paperless-ngx/paperless-ngx:latest
+    restart: unless-stopped
+    depends_on:
+      - broker
+    ports:
+      - "{{ paperless_ngx_port }}:8000"
+    volumes:
+      - "{{ paperless_ngx_data_dir_sub }}:/usr/src/paperless/data"
+      - "{{ paperless_ngx_media_dir }}:/usr/src/paperless/media"
+      - "{{ paperless_ngx_export_dir }}:/usr/src/paperless/export"
+      - "{{ paperless_ngx_consume_dir }}:/usr/src/paperless/consume"
+    env_file: .env
+    environment:
+      PAPERLESS_REDIS: redis://broker:6379

@@ -1,0 +1,30 @@
+- name: Create paperless-ngx directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ docker_username }}"
+    group: "{{ docker_main_group }}"
+    mode: '0750'
+  with_items:
+    - "{{ paperless_ngx_data_volume }}"
+    - "{{ paperless_ngx_consume_dir }}"
+    - "{{ paperless_ngx_export_dir }}"
+    - "{{ paperless_ngx_media_dir }}"
+    - "{{ paperless_ngx_data_dir_sub }}"
+    - "{{ paperless_ngx_redisdata_dir_sub }}"
+    - "{{ paperless_ngx_compose_dir }}"
+
+- name: Verify .env file
+  ansible.builtin.template:
+    src: env.j2
+    dest: "{{ paperless_ngx_compose_dir }}/.env"
+    owner: "{{ docker_username }}"
+    group: "{{ docker_main_group }}"
+    mode: "0750"
+
+- name: Set and run docker compose
+  ansible.builtin.include_role:
+    name: docker
+    tasks_from: docker-compose
+  vars:
+    docker_container_name: "{{ paperless_ngx_container_name }}"

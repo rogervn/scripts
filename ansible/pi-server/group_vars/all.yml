@@ -85,4 +85,11 @@ joplin_server_postgresql_password: <CHANGEME>
 joplin_server_postgresql_user: <CHANGEME>
 joplin_server_iam_metadata_xml: <CHANGEME>
 
+paperless_ngx_secret_key: <CHANGEME>
+paperless_ngx_admin_password: <CHANGEME>
+paperless_ngx_oidc_client_id: <CHANGEME>
+paperless_ngx_oidc_client_secret: <CHANGEME>
+paperless_ngx_oidc_slug: <CHANGEME>
+paperless_ngx_oidc_domain: <CHANGEME>
+
 rclone_backup_token: <CHANGEME>
