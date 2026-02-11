@@ -1,7 +1,9 @@
 {
+  config,
   pkgs,
   userName,
   nixvim,
+  pam_shim,
   ...
 }: {
   targets.genericLinux.enable = true;
@@ -13,20 +15,6 @@
   imports = [
     (import ../home/zsh.nix {inherit pkgs;})
     (import ../home/nvim.nix {inherit pkgs nixvim;})
-    ({pkgs, ...}: {
-      systemd.user.services.hyprpolkitagent = {
-        Unit = {
-          Description = "Hyprland Polkit Agent";
-          After = ["graphical-session.target"];
-        };
-        Service = {
-          ExecStart = "${pkgs.hyprpolkitagent}/libexec/hyprpolkitagent";
-          Restart = "on-failure";
-        };
-        Install = {
-          WantedBy = ["graphical-session.target"];
-        };
-      };
-    })
+    (import ../home/window_manager.nix {inherit pkgs config pam_shim;})
   ];
 }

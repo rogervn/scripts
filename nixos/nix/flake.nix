@@ -11,31 +11,27 @@
       url = "github:nix-community/nixvim";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    pam_shim = {
+      url = "github:Cu3PO42/pam_shim";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
     nixpkgs,
     home-manager,
     nixvim,
+    pam_shim,
     ...
   }: let
     system = "x86_64-linux";
     pkgs = nixpkgs.legacyPackages.${system};
     userName = "rogervn";
   in {
-    packages.${system}.fedora = pkgs.buildEnv {
-      name = "fedora";
-      paths = [
-        pkgs.hyprland
-        pkgs.hyprpolkitagent
-        pkgs.noctalia-shell
-        pkgs.xdg-desktop-portal-hyprland
-      ];
-    };
     homeConfigurations = {
       ${userName} = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
-        extraSpecialArgs = {inherit userName nixvim;};
+        extraSpecialArgs = {inherit userName nixvim pam_shim;};
         modules = [
           ./home.nix
         ];

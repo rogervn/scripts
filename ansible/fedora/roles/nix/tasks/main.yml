@@ -25,15 +25,6 @@
   become_user: "{{ base_user.username }}"
   loop: "{{ dotfiles_stow_packages }}"
 
-- name: Install fedora profile
-  ansible.builtin.shell: |
-    cd "{{ nix_repo_dest_path }}/{{ nix_git_relative_path }}"
-    git pull
-    nix profile install .#fedora
-  become: true
-  become_user: "{{ base_user.username }}"
-  loop: "{{ dotfiles_stow_packages }}"
-
 - name: Run home-manager switch
   ansible.builtin.shell: |
     cd "{{ nix_repo_dest_path }}/{{ nix_git_relative_path }}"
