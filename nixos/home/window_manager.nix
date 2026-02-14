@@ -12,17 +12,39 @@
     })
   ];
 
-  home.packages = [
-    pkgs.hyprland
-    pkgs.hyprpolkitagent
-    pkgs.noctalia-shell
-    pkgs.xdg-desktop-portal-hyprland
+  home.packages = with pkgs; [
+    blueman
+    bluetui
+    cliphist
+    font-awesome
+    gedit
+    ghostty
+    grim
+    evince
+    hypridle
+    hyprland
+    hyprpolkitagent
+    imagemagick
+    jetbrains-mono
+    libnotify
+    networkmanagerapplet
+    nerd-fonts.symbols-only
+    noctalia-shell
+    noto-fonts
+    pavucontrol
+    shotwell
+    slurp
+    wl-clipboard
+    xdg-desktop-portal-hyprland
   ];
 
   systemd.user.services.hyprpolkitagent = {
     Unit = {
       Description = "Hyprland Polkit Agent";
-      After = ["graphical-session.target"];
+      After = [
+        "graphical-session.target"
+        "dbus.service"
+      ];
     };
     Service = {
       ExecStart = "${pkgs.hyprpolkitagent}/libexec/hyprpolkitagent";

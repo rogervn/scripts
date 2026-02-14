@@ -20,7 +20,7 @@
 
 - name: Install nixGL
   ansible.builtin.shell: |
-    nix profile install github:nix-community/nixGL --impure
+    nix profile add github:nix-community/nixGL --impure
   become: true
   become_user: "{{ base_user.username }}"
   loop: "{{ dotfiles_stow_packages }}"
