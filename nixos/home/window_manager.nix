@@ -54,4 +54,26 @@
       WantedBy = ["graphical-session.target"];
     };
   };
+
+  gtk = {
+    enable = true;
+    theme = {
+      name = "Orchis-Dark";
+      package = pkgs.orchis-theme;
+    };
+
+    iconTheme = {
+      name = "Tela-blue-dark";
+      package = pkgs.tela-icon-theme;
+    };
+
+    gtk3.extraConfig.gtk-application-prefer-dark-theme = true;
+  };
+
+  # Dconf Settings for Global Dark Mode (Libadwaita/Modern GTK4)
+  dconf.settings = {
+    "org/gnome/desktop/interface" = {
+      color-scheme = "prefer-dark";
+    };
+  };
 }
