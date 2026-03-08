@@ -4,6 +4,7 @@
   ...
 }: {
   environment.systemPackages = with pkgs; [
+    bibata-cursors
     bitwarden-desktop
     blueman
     bluetui
@@ -34,6 +35,7 @@
         ScreenWidth = "1920";
         ScreenHeight = "1080";
         FormPosition = "left";
+        CursorTheme = "Bibata-Modern-Classic";
       };
     })
   ];
@@ -52,13 +54,30 @@
       enable = true;
       wayland.enable = true;
       extraPackages = with pkgs; [
+        bibata-cursors
         kdePackages.qtsvg
         kdePackages.qtvirtualkeyboard
         kdePackages.qtmultimedia
       ];
       package = pkgs.kdePackages.sddm;
       theme = "sddm-astronaut-theme";
+      settings = {
+        General = {
+          CursorTheme = "Bibata-Modern-Classic";
+          CursorSize = 24;
+        };
+        Theme = {
+          CursorTheme = "Bibata-Modern-Classic";
+          CursorSize = 24;
+        };
+      };
     };
+  };
+
+  systemd.services.display-manager.environment = {
+    XCURSOR_THEME = "Bibata-Modern-Classic";
+    XCURSOR_SIZE = "24";
+    XCURSOR_PATH = "/run/current-system/sw/share/icons";
   };
 
   services.gnome.gnome-keyring.enable = true;
@@ -74,6 +93,14 @@
   };
 
   home-manager.users.${userName} = {
+    home.pointerCursor = {
+      gtk.enable = true;
+      x11.enable = true;
+      package = pkgs.bibata-cursors;
+      name = "Bibata-Modern-Classic";
+      size = 24;
+    };
+
     gtk = {
       enable = true;
       theme = {
@@ -99,7 +126,11 @@
 
   security.polkit.enable = true;
 
-  environment.sessionVariables.NIXOS_OZONE_WL = "1";
+  environment.sessionVariables = {
+    NIXOS_OZONE_WL = "1";
+    XCURSOR_THEME = "Bibata-Modern-Classic";
+    XCURSOR_SIZE = "24";
+  };
 
   xdg.portal.extraPortals = [pkgs.xdg-desktop-portal-hyprland];
 }

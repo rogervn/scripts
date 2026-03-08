@@ -193,6 +193,7 @@
       lsp-format.enable = true;
       dressing.enable = true;
       fugitive.enable = true;
+      gitsigns.enable = true;
       web-devicons.enable = true;
     };
   };
