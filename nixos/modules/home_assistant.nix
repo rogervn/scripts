@@ -108,6 +108,15 @@ in {
                           product = {id = 21972;}; # 0x55d4
                         };
                       }
+                      {
+                        mode = "subsystem";
+                        type = "usb";
+                        managed = true;
+                        source = {
+                          vendor = {id = 2578;}; # 0x0a12
+                          product = {id = 1;}; # 0x0001
+                        };
+                      }
                     ];
                     console = [
                       {
