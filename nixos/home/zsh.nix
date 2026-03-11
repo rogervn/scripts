@@ -53,7 +53,7 @@
               powerline_symbol = "";
               background = "2"; # ANSI Green
               foreground = "0"; # ANSI Black
-              template = " {{ if .SSHSession }}  {{ .UserName }}@{{ .HostName }}{{ end }} ";
+              template = " {{ if .SSHSession }}  {{ .UserName }}@{{ index (splitList \".\" .HostName) 0 }}{{ end }} ";
             }
             {
               type = "path";
