@@ -74,12 +74,6 @@
     };
   };
 
-  systemd.services.display-manager.environment = {
-    XCURSOR_THEME = "Bibata-Modern-Classic";
-    XCURSOR_SIZE = "24";
-    XCURSOR_PATH = "/run/current-system/sw/share/icons";
-  };
-
   services.gnome.gnome-keyring.enable = true;
   programs.seahorse.enable = true;
 
@@ -126,11 +120,7 @@
 
   security.polkit.enable = true;
 
-  environment.sessionVariables = {
-    NIXOS_OZONE_WL = "1";
-    XCURSOR_THEME = "Bibata-Modern-Classic";
-    XCURSOR_SIZE = "24";
-  };
+  environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
   xdg.portal.extraPortals = [pkgs.xdg-desktop-portal-hyprland];
 }
