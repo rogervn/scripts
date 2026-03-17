@@ -36,6 +36,7 @@
     slurp
     wl-clipboard
     xdg-desktop-portal-hyprland
+    xdg-user-dirs
     bibata-cursors
   ];
 
