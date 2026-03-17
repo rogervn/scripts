@@ -29,6 +29,7 @@
     vlc
     vivaldi
     wl-clipboard
+    xdg-user-dirs
     (sddm-astronaut.override {
       themeConfig = {
         Background = "${nixos-artwork.wallpapers.nineish-dark-gray.src}";
