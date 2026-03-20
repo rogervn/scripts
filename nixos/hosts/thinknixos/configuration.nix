@@ -14,9 +14,13 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.extraModprobeConfig = ''
+    options cfg80211 ieee80211_regdom="GB"
+  '';
 
   time.timeZone = "Europe/London";
 
+  hardware.wirelessRegulatoryDatabase = true;
   hardware.bluetooth.enable = true;
   hardware.enableAllFirmware = true;
 
@@ -32,7 +36,10 @@
   };
 
   networking.hostName = hostName;
-  networking.networkmanager.enable = true;
+  networking.networkmanager = {
+    enable = true;
+    wifi.backend = "iwd";
+  };
   networking.firewall = {
     enable = true;
     allowedTCPPorts = [22];

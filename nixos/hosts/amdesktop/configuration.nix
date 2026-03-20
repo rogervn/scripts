@@ -14,6 +14,9 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.extraModprobeConfig = ''
+    options cfg80211 ieee80211_regdom="GB"
+  '';
 
   # Uncomment these to be able to build a aarch64 image
   boot.binfmt.emulatedSystems = ["aarch64-linux"];
@@ -21,6 +24,7 @@
 
   time.timeZone = "Europe/London";
 
+  hardware.wirelessRegulatoryDatabase = true;
   hardware.bluetooth.enable = true;
   hardware.enableAllFirmware = true;
   hardware.xone.enable = true;
@@ -37,7 +41,10 @@
   };
 
   networking.hostName = hostName;
-  networking.networkmanager.enable = true;
+  networking.networkmanager = {
+    enable = true;
+    wifi.backend = "iwd";
+  };
   networking.firewall = {
     enable = true;
     allowedTCPPorts = [22];
