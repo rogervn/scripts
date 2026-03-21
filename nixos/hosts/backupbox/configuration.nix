@@ -34,7 +34,6 @@
   networking.hostName = hostName;
   networking.networkmanager = {
     enable = true;
-    wifi.backend = "iwd";
   };
   networking.firewall = {
     enable = true;
