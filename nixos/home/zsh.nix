@@ -104,25 +104,6 @@
 
         {
           type = "prompt";
-          alignment = "right";
-          segments = [
-            {
-              type = "time";
-              style = "diamond";
-              leading_diamond = "";
-              trailing_diamond = "";
-              background = "6"; # ANSI Cyan
-              foreground = "0"; # ANSI Black
-              template = " {{ .CurrentDate | date .Format }}  ";
-              properties = {
-                time_format = "15:04:05";
-              };
-            }
-          ];
-        }
-
-        {
-          type = "prompt";
           alignment = "left";
           newline = true;
           segments = [
