@@ -108,6 +108,7 @@
         package = pkgs.tela-icon-theme;
       };
 
+      gtk4.theme = null;
       gtk3.extraConfig.gtk-application-prefer-dark-theme = true;
     };
 

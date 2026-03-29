@@ -53,6 +53,8 @@
 
     extraPlugins = with pkgs.vimPlugins; [
       ansible-vim
+      plenary-nvim
+      popup-nvim
     ];
 
     keymaps = [
@@ -79,7 +81,7 @@
             "<CR>" = "cmp.mapping.confirm({ select = true })";
           };
         };
-        cmp-nvm-lsp.enable = true;
+        cmp-nvim-lsp.enable = true;
         cmp-path.enable = true;
         cmp-buffer.enable = true;
       };
