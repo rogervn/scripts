@@ -1,12 +1,12 @@
 {
   config,
+  lib,
   pkgs,
   pam_shim,
   ...
 }: {
   imports = [
     pam_shim.homeModules.default
-    ./hyprland.nix
   ];
   pamShim.enable = true;
   nixpkgs.overlays = [
