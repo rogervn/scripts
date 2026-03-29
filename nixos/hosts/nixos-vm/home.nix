@@ -13,7 +13,7 @@
 
     imports = [
       (import ../../home/dotfiles.nix {inherit config lib pkgs;})
-      (import ../../home/hyprland.nix {inherit pkgs;})
+      (import ../../home/hyprland.nix {inherit pkgs lib;})
       (import ../../home/nvim.nix {inherit pkgs nixvim;})
       (import ../../home/zsh.nix {inherit pkgs;})
     ];
