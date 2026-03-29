@@ -49,13 +49,14 @@
 
   programs.hyprland.enable = true;
 
+  # This is needed for sddm as wayland has an invisible cursor bug
+  services.xserver.enable = true;
+
   services.displayManager = {
     defaultSession = "hyprland";
     sddm = {
       enable = true;
-      wayland.enable = true;
       extraPackages = with pkgs; [
-        bibata-cursors
         kdePackages.qtsvg
         kdePackages.qtvirtualkeyboard
         kdePackages.qtmultimedia
@@ -64,10 +65,6 @@
       theme = "sddm-astronaut-theme";
       settings = {
         General = {
-          CursorTheme = "Bibata-Modern-Classic";
-          CursorSize = 24;
-        };
-        Theme = {
           CursorTheme = "Bibata-Modern-Classic";
           CursorSize = 24;
         };
@@ -81,11 +78,7 @@
   services.upower.enable = true;
   services.power-profiles-daemon.enable = true;
 
-  security.pam.services = {
-    greetd.enableGnomeKeyring = true;
-    greetd-password.enableGnomeKeyring = true;
-    login.enableGnomeKeyring = true;
-  };
+  security.pam.services.login.enableGnomeKeyring = true;
 
   home-manager.users.${userName} = {
     home.pointerCursor = {
