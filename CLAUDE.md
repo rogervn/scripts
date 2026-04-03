@@ -40,6 +40,16 @@ cd ansible/fedora
 ansible-playbook --ask-become-pass fedora.yml       # Requires python
 ```
 
+### NixOS — Validate (no sudo required)
+```bash
+# NixOS hosts — dry-build from the flake directory (no activation, no sudo):
+cd nixos/nixos-desktop && nixos-rebuild dry-build --flake .#amdesktop
+cd nixos/nixos-server  && nixos-rebuild dry-build --flake .#mininixos
+
+# Non-NixOS home-manager flake — evaluate and check outputs:
+cd nixos/nix && nix flake check
+```
+
 ### NixOS — Rebuild (run on target host)
 ```bash
 # NixOS hosts — if the machine's hostname matches the flake output name, the #<name> can be omitted:

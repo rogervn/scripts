@@ -14,7 +14,7 @@
     ansible-lint
     black
     isort
-    nodePackages.prettier
+    prettier
     nixfmt
     nil
     ripgrep
