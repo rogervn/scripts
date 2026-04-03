@@ -4,13 +4,13 @@
   nixvim,
   ...
 }: {
+  home-manager.backupFileExtension = "backup";
   home-manager.users.${userName} = {
     config,
     lib,
     ...
   }: {
     home.stateVersion = "25.11";
-    home.backupFileExtension = "backup";
 
     imports = [
       (import ../../home/dotfiles.nix {inherit config lib pkgs;})
