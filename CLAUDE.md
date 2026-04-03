@@ -48,7 +48,8 @@ sudo nixos-rebuild switch --flake nixos/nixos-server/#mininixos
 sudo nixos-rebuild switch --flake nixos/nixos-rpi/#pi3nixos
 
 # Non-NixOS home-manager (Arch, Fedora) — from nixos/nix/:
-home-manager switch --flake .#rogervn
+home-manager switch --flake .#rogervn-desktop   # desktop machine (Hyprland, window manager)
+home-manager switch --flake .#rogervn-headless  # headless machine (zsh, nvim only)
 ```
 
 ## Architecture

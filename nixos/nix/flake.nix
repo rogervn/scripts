@@ -29,12 +29,15 @@
     userName = "rogervn";
   in {
     homeConfigurations = {
-      ${userName} = home-manager.lib.homeManagerConfiguration {
+      rogervn-desktop = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         extraSpecialArgs = {inherit userName nixvim pam_shim;};
-        modules = [
-          ./home.nix
-        ];
+        modules = [./home-desktop.nix];
+      };
+      rogervn-headless = home-manager.lib.homeManagerConfiguration {
+        inherit pkgs;
+        extraSpecialArgs = {inherit userName nixvim;};
+        modules = [./home-headless.nix];
       };
     };
   };
