@@ -10,6 +10,7 @@
     ...
   }: {
     home.stateVersion = "25.11";
+    home.backupFileExtension = "backup";
 
     imports = [
       (import ../../home/dotfiles.nix {inherit config lib pkgs;})
