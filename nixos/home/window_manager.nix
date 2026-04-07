@@ -27,6 +27,7 @@
     hypridle
     hyprland
     hyprpolkitagent
+    qt6.qtwayland
     imagemagick
     jetbrains-mono
     libnotify

@@ -18,6 +18,10 @@
     Service = {
       ExecStart = "${pkgs.hyprpolkitagent}/libexec/hyprpolkitagent";
       Restart = "on-failure";
+      Environment = [
+        "QT_QPA_PLATFORM=wayland"
+        "QT_PLUGIN_PATH=${pkgs.qt6.qtwayland}/${pkgs.qt6.qtbase.qtPluginPrefix}"
+      ];
     };
     Install = {
       WantedBy = ["graphical-session.target"];

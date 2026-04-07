@@ -5,24 +5,23 @@
   wayland.windowManager.hyprland = {
     settings = {
       monitor = [
-        "# Laptop"
-        "monitor=desc:California Institute of Technology 0x1403,3840x2400@60,0x0,2"
-        "monitor=desc:Chimei Innolux Corporation 0x1488,1920x1200@60,0x0,1"
+        # Laptop
+        "desc:California Institute of Technology 0x1403,3840x2400@60,0x0,2"
+        "desc:Chimei Innolux Corporation 0x1488,1920x1200@60,0x0,1"
 
-        "# Office"
-        "monitor=desc:Dell Inc. DELL P3223QE JG6KWN3,3840x2160@60,1920x-1200,1.25"
-        "monitor=desc:Dell Inc. DELL UP3017 Y7NWN74M118L,2560x1600@60,5000x-1200,1,transform,1"
+        # Office
+        "desc:Dell Inc. DELL P3223QE JG6KWN3,3840x2160@60,1920x-1200,1.25"
+        "desc:Dell Inc. DELL UP3017 Y7NWN74M118L,2560x1600@60,5000x-1200,1,transform,1"
 
-        "workspace=1,monitor:desc:California Institute of Technology 0x1403,default:true"
-        "workspace=2,monitor:desc:Dell Inc. DELL P3223QE JG6KWN3,default:true"
-        "workspace=3,monitor:desc:Dell Inc. DELL UP3017 Y7NWN74M118L,default:true"
-
-        "# Home"
-        "monitor=desc:BNQ BenQ EW3270U TBK02382019,3840x2160@60,1920x-1200,1"
-        "monitor=desc:Dell Inc. DELL P2317H 4WY7076L06QB,1920x1080@60,5760x-1200,1,transform,1"
-        "monitor=Virtual-1,preferred,0x0,1"
+        # Home
+        "desc:BNQ BenQ EW3270U TBK02382019,3840x2160@60,1920x-1200,1"
+        "desc:Dell Inc. DELL P2317H 4WY7076L06QB,1920x1080@60,5760x-1200,1,transform,1"
+        "Virtual-1,preferred,0x0,1"
       ];
       workspace = [
+        "1,monitor:desc:California Institute of Technology 0x1403,default:true"
+        "2,monitor:desc:Dell Inc. DELL P3223QE JG6KWN3,default:true"
+        "3,monitor:desc:Dell Inc. DELL UP3017 Y7NWN74M118L,default:true"
         "1,monitor:desc:LG Electronics LG TV SSCR2 0x01010101,default:true"
         "1,monitor:desc:BOE 0x0791,default:true"
       ];
