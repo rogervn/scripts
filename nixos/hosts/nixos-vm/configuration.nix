@@ -32,6 +32,7 @@
   };
 
   networking.hostName = hostName;
+  networking.hostId = "8425e349";
   networking.networkmanager.enable = true;
   networking.firewall = {
     enable = true;

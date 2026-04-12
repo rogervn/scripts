@@ -20,9 +20,11 @@
   );
 in {
   environment.systemPackages = with pkgs; [zfs];
-  networking.hostId = "8425e349";
   boot.kernelPackages = lib.mkForce latestKernelPackage;
+  boot.kernelParams = ["nohibernate"];
+  boot.zfs.forceImportRoot = false;
   boot.supportedFilesystems = ["zfs"];
   services.zfs.autoScrub.enable = true;
+  services.zfs.autoSnapshot.enable = true;
   services.zfs.trim.enable = true;
 }

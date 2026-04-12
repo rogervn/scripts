@@ -93,6 +93,37 @@
             }
           ];
         };
+
+      datanixos = let
+        host = "datanixos";
+      in
+        nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          specialArgs = {
+            userName = "datauser";
+            hostName = host;
+            keyPath = "/root/.ssh/id_ed25519";
+            inherit nixvim;
+          };
+          modules = [
+            ../hosts/${host}/configuration.nix
+            ../hosts/${host}/hardware-configuration.nix
+            ../hosts/${host}/home.nix
+            ../modules/base.nix
+            ../modules/secrets-datauser.nix
+            ../modules/zfs.nix
+            agenix.nixosModules.default
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.extraSpecialArgs = {inherit nixvim;};
+            }
+            {
+              environment.systemPackages = [agenix.packages.x86_64-linux.default];
+            }
+          ];
+        };
     };
   };
 }

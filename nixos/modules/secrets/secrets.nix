@@ -4,6 +4,7 @@ let
   piuk = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFFCnPLdKwtfQ/MmwhQnHwOunOpEQ9f6jCg0AYfbytPx";
   backupbox = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIA7oBoq6qfSegWYiov46W11wuOZMq+B4zaGt45SfN/g/";
   mininixos = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINeIjCWbfG/0k8wpBAN5WQu5ikl8mSAOiLEbqsSD0WaP";
+  datanixos = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIflQBy+YtPvpu2N5XVAsUn3c6lY8uNYExDv2THYFyYA";
 in {
   "rogervn_pass_hash.age".publicKeys = [amdesktop thinknixos];
   "rogervn_private_key.age".publicKeys = [amdesktop thinknixos];
@@ -14,6 +15,9 @@ in {
   "backupuser_authorized_keys.age".publicKeys = [amdesktop backupbox];
   "serveruser_pass_hash.age".publicKeys = [amdesktop mininixos];
   "serveruser_authorized_keys.age".publicKeys = [amdesktop mininixos];
+  "datauser_pass_hash.age".publicKeys = [amdesktop datanixos];
+  "datauser_private_key.age".publicKeys = [amdesktop datanixos];
+  "datauser_authorized_keys.age".publicKeys = [amdesktop datanixos];
   "vaultwarden_env_file.age".publicKeys = [amdesktop mininixos];
   "mininixos_backup_restic_pass.age".publicKeys = [amdesktop mininixos];
 }
