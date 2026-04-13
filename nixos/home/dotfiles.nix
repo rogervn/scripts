@@ -20,8 +20,8 @@ in
     fi
 
     $DRY_RUN_CMD cd "$DOTFILES_DIR"
-    $DRY_RUN_CMD ${pkgs.stow}/bin/stow --adopt --ignore default.png common nixos
+    $DRY_RUN_CMD ${pkgs.stow}/bin/stow --adopt --ignore default.png common
     $DRY_RUN_CMD ${pkgs.git}/bin/git restore .
-    $DRY_RUN_CMD ${pkgs.stow}/bin/stow --ignore default.png common nixos
+    $DRY_RUN_CMD ${pkgs.stow}/bin/stow --ignore default.png common
   '';
 }

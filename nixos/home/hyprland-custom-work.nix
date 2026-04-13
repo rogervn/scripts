@@ -48,6 +48,7 @@
       exec-once = noctalia-shell
       exec-once = ~/.nix-profile/libexec/xdg-desktop-portal-hyprland
       exec-once = /usr/bin/gnome-keyring-daemon --start --components=pkcs11
+      exec-once = systemctl --user start hypridle
 
       windowrule = workspace 1, match:initial_title Outlook \(PWA\)
       windowrule = float on, match:title Calculator
