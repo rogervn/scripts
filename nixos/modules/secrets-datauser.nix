@@ -24,6 +24,11 @@
         group = "users";
         mode = "600";
       };
+      authentik_env_file = {
+        file = ./secrets/authentik_env_file.age;
+        owner = "authentik";
+        mode = "400";
+      };
     };
   };
 }

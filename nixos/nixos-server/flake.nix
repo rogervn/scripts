@@ -16,6 +16,10 @@
       url = "https://flakehub.com/f/AshleyYakeley/NixVirt/*.tar.gz";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    authentik-nix = {
+      url = "github:nix-community/authentik-nix";
+      # DO NOT add inputs.nixpkgs.follows — explicitly unsupported by authentik-nix
+    };
   };
 
   outputs = {
@@ -24,6 +28,7 @@
     home-manager,
     nixvim,
     nixvirt,
+    authentik-nix,
     ...
   }: {
     nixosConfigurations = {
@@ -112,6 +117,8 @@
             ../modules/base.nix
             ../modules/secrets-datauser.nix
             ../modules/zfs.nix
+            ../modules/authentik.nix
+            authentik-nix.nixosModules.default
             agenix.nixosModules.default
             home-manager.nixosModules.home-manager
             {
