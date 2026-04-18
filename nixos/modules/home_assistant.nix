@@ -1,136 +1,147 @@
-{
-  nixvirt,
-  pkgs,
-  ...
-}: let
-  haos_disk = "/vms/haos/haos.qcow2";
-  net_if = "enp2s0";
+{ config, lib, pkgs, nixvirt, ... }:
+let
+  cfg = config.services.homeAssistantVM;
 in {
-  virtualisation.libvirtd = {
-    enable = true;
-    # Device passthrough doesn't like suspend and reboot.
-    # Can remove it if ho hostdev set. This might delay shutdown by up to 5m
-    onShutdown = "shutdown";
+  options.services.homeAssistantVM = {
+    diskPath = lib.mkOption {
+      type = lib.types.path;
+      default = "/vms/haos/haos.qcow2";
+      description = "Path to the HAOS qcow2 disk image";
+    };
+    networkInterface = lib.mkOption {
+      type = lib.types.str;
+      default = "enp2s0";
+      description = "Host NIC to use for macvtap bridge";
+    };
   };
-  virtualisation.libvirt = {
-    enable = true;
-    verbose = true;
-    connections."qemu:///system" = {
-      # No networks as we use macvtap
-      networks = [];
-      pools = [];
 
-      domains = [
-        {
-          active = true;
-          definition =
-            nixvirt.lib.domain.writeXML
-            (let
-              base = nixvirt.lib.domain.templates.linux {
-                name = "haos";
-                uuid = "c58ee3e9-7989-4c87-a30c-8df7f5c8871f";
-                vcpu = {count = 2;};
-                memory = {
-                  count = 4;
-                  unit = "GiB";
+  config = {
+    virtualisation.libvirtd = {
+      enable = true;
+      # Device passthrough doesn't like suspend and reboot.
+      # Can remove it if ho hostdev set. This might delay shutdown by up to 5m
+      onShutdown = "shutdown";
+    };
+    virtualisation.libvirt = {
+      enable = true;
+      verbose = true;
+      connections."qemu:///system" = {
+        # No networks as we use macvtap
+        networks = [];
+        pools = [];
+
+        domains = [
+          {
+            active = true;
+            definition =
+              nixvirt.lib.domain.writeXML
+              (let
+                base = nixvirt.lib.domain.templates.linux {
+                  name = "haos";
+                  uuid = "c58ee3e9-7989-4c87-a30c-8df7f5c8871f";
+                  vcpu = {count = 2;};
+                  memory = {
+                    count = 4;
+                    unit = "GiB";
+                  };
+                  virtio_video = false;
                 };
-                virtio_video = false;
-              };
-            in
-              base
-              // {
-                os = {
-                  type = "hvm";
-                  arch = "x86_64";
-                  machine = "q35";
-                  loader = {
-                    readonly = true;
-                    type = "pflash";
-                    path = "${pkgs.OVMFFull.fd}/FV/OVMF_CODE.fd";
+              in
+                base
+                // {
+                  os = {
+                    type = "hvm";
+                    arch = "x86_64";
+                    machine = "q35";
+                    loader = {
+                      readonly = true;
+                      type = "pflash";
+                      path = "${pkgs.OVMFFull.fd}/FV/OVMF_CODE.fd";
+                    };
+                    nvram = {
+                      template = "${pkgs.OVMFFull.fd}/FV/OVMF_VARS.fd";
+                      path = "/var/lib/libvirt/qemu/nvram/haos_VARS.fd";
+                    };
                   };
-                  nvram = {
-                    template = "${pkgs.OVMFFull.fd}/FV/OVMF_VARS.fd";
-                    path = "/var/lib/libvirt/qemu/nvram/haos_VARS.fd";
-                  };
-                };
-                devices =
-                  base.devices
-                  // {
-                    controller = [
-                      {
-                        type = "scsi";
-                        index = 0;
-                        model = "virtio-scsi";
-                      }
-                    ];
-                    disk = [
-                      {
-                        type = "file";
-                        source = {file = "${haos_disk}";};
-                        target = {
-                          dev = "sda";
-                          bus = "scsi";
-                        };
-                        driver = {
-                          name = "qemu";
-                          type = "qcow2";
-                        };
-                        boot = {order = 1;};
-                      }
-                    ];
-                    interface = [
-                      {
-                        type = "direct";
-                        source = {
-                          dev = "${net_if}";
-                          mode = "bridge";
-                        };
-                        mac = {address = "52:54:00:e0:f9:a3";};
-                        model = {type = "virtio";};
-                      }
-                    ];
-                    hostdev = [
-                      {
-                        mode = "subsystem";
-                        type = "usb";
-                        managed = true;
-                        source = {
-                          vendor = {id = 12346;}; # 0x303a
-                          product = {id = 33562;}; # 0x831a
-                        };
-                      }
-                      {
-                        mode = "subsystem";
-                        type = "usb";
-                        managed = true;
-                        source = {
-                          vendor = {id = 6790;}; # 0x1a86
-                          product = {id = 21972;}; # 0x55d4
-                        };
-                      }
-                      {
-                        mode = "subsystem";
-                        type = "usb";
-                        managed = true;
-                        source = {
-                          vendor = {id = 2578;}; # 0x0a12
-                          product = {id = 1;}; # 0x0001
-                        };
-                      }
-                    ];
-                    console = [
-                      {
-                        type = "pty";
-                        target = {
-                          type = "serial";
-                          port = 0;
-                        };
-                      }
-                    ];
-                  };
-              });
-        }
-      ];
+                  devices =
+                    base.devices
+                    // {
+                      controller = [
+                        {
+                          type = "scsi";
+                          index = 0;
+                          model = "virtio-scsi";
+                        }
+                      ];
+                      disk = [
+                        {
+                          type = "file";
+                          source = {file = "${cfg.diskPath}";};
+                          target = {
+                            dev = "sda";
+                            bus = "scsi";
+                          };
+                          driver = {
+                            name = "qemu";
+                            type = "qcow2";
+                          };
+                          boot = {order = 1;};
+                        }
+                      ];
+                      interface = [
+                        {
+                          type = "direct";
+                          source = {
+                            dev = "${cfg.networkInterface}";
+                            mode = "bridge";
+                          };
+                          mac = {address = "52:54:00:e0:f9:a3";};
+                          model = {type = "virtio";};
+                        }
+                      ];
+                      hostdev = [
+                        {
+                          mode = "subsystem";
+                          type = "usb";
+                          managed = true;
+                          source = {
+                            vendor = {id = 12346;}; # 0x303a
+                            product = {id = 33562;}; # 0x831a
+                          };
+                        }
+                        {
+                          mode = "subsystem";
+                          type = "usb";
+                          managed = true;
+                          source = {
+                            vendor = {id = 6790;}; # 0x1a86
+                            product = {id = 21972;}; # 0x55d4
+                          };
+                        }
+                        {
+                          mode = "subsystem";
+                          type = "usb";
+                          managed = true;
+                          source = {
+                            vendor = {id = 2578;}; # 0x0a12
+                            product = {id = 1;}; # 0x0001
+                          };
+                        }
+                      ];
+                      console = [
+                        {
+                          type = "pty";
+                          target = {
+                            type = "serial";
+                            port = 0;
+                          };
+                        }
+                      ];
+                    };
+                });
+          }
+        ];
+      };
     };
   };
 }

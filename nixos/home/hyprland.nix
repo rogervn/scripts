@@ -1,4 +1,9 @@
-{pkgs, lib, ...}: {
+{ pkgs, lib
+, monitors ? [], workspaces ? []
+, browser ? "", noteEditor ? "", codeEditor ? ""
+, extraConfig ? ""
+, ...
+}: {
   home.pointerCursor = {
     gtk.enable = true;
     x11.enable = true;
@@ -70,7 +75,9 @@
 
     extraConfig = ''
       source = ~/.config/hypr/noctalia/noctalia-colors.conf
-    '';
+      exec-once = noctalia-shell
+      windowrule = float on, match:title Calculator
+    '' + extraConfig;
 
     settings = {
       general = {
@@ -136,8 +143,25 @@
         numlock_by_default = true;
       };
 
-      "$mainMod" = "SUPER";
-      "$clipboardManager" = "cliphist";
+      monitor   = monitors;
+      workspace = workspaces;
+
+      "$mainMod"                 = "SUPER";
+      "$clipboardManager"        = "cliphist";
+      "$terminal"                = "ghostty";
+      "$fileManager"             = "nautilus";
+      "$browser"                 = browser;
+      "$locker"                  = "noctalia-shell ipc call lockScreen lock";
+      "$noteEditor"              = noteEditor;
+      "$codeEditor"              = codeEditor;
+      "$screenshot_file"         = "$(xdg-user-dir PICTURES)/Screenshots/$(date +'screenshot_%Y%m%d_%H%M%S.png')";
+      "$clipboardLauncher"       = "noctalia-shell ipc call launcher clipboard";
+      "$appLauncher"             = "noctalia-shell ipc call launcher toggle";
+      "$runLauncher"             = "noctalia-shell ipc call launcher command";
+      "$dismissLastNotification" = "noctalia-shell ipc call notifications dismissOldest";
+      "$dismissAllNotification"  = "noctalia-shell ipc call notifications clear";
+      "$toggleNotification"      = "noctalia-shell ipc call notifications toggleHistory";
+      "$wallpaperChange"         = "noctalia-shell ipc call wallpaper random";
 
       # hyprpolkitagent: handled by systemd.user.services.hyprpolkitagent
       # hypridle: handled by services.hypridle below
