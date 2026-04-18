@@ -121,6 +121,7 @@
             ../modules/immich.nix
             ../modules/paperlessngx.nix
             ../modules/joplin_server.nix
+            ../modules/nextcloud.nix
             authentik-nix.nixosModules.default
             agenix.nixosModules.default
             home-manager.nixosModules.home-manager
