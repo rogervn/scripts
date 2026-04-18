@@ -29,6 +29,11 @@
         owner = "authentik";
         mode = "400";
       };
+      paperlessngx_env_file = {
+        file = ./secrets/paperlessngx_env_file.age;
+        owner = "paperless";
+        mode = "400";
+      };
     };
   };
 }

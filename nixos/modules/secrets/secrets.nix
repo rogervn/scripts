@@ -21,4 +21,5 @@ in {
   "vaultwarden_env_file.age".publicKeys = [amdesktop mininixos];
   "mininixos_backup_restic_pass.age".publicKeys = [amdesktop mininixos];
   "authentik_env_file.age".publicKeys = [amdesktop datanixos];
+  "paperlessngx_env_file.age".publicKeys = [amdesktop datanixos];
 }

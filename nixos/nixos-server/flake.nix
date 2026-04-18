@@ -119,6 +119,7 @@
             ../modules/zfs.nix
             ../modules/authentik.nix
             ../modules/immich.nix
+            ../modules/paperlessngx.nix
             authentik-nix.nixosModules.default
             agenix.nixosModules.default
             home-manager.nixosModules.home-manager
