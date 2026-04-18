@@ -34,6 +34,16 @@
         owner = "paperless";
         mode = "400";
       };
+      joplin_server_env_file = {
+        file = ./secrets/joplin_server_env_file.age;
+        owner = "root";
+        group = "postgres";
+        mode = "440";
+      };
+      joplin_idp_file = {
+        file = ./secrets/joplin_idp_file.age;
+        mode = "444";
+      };
     };
   };
 }

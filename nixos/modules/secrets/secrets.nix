@@ -22,4 +22,6 @@ in {
   "mininixos_backup_restic_pass.age".publicKeys = [amdesktop mininixos];
   "authentik_env_file.age".publicKeys = [amdesktop datanixos];
   "paperlessngx_env_file.age".publicKeys = [amdesktop datanixos];
+  "joplin_server_env_file.age".publicKeys = [amdesktop datanixos];
+  "joplin_idp_file.age".publicKeys = [amdesktop datanixos];
 }
