@@ -118,6 +118,7 @@
             ../modules/secrets-datauser.nix
             ../modules/zfs.nix
             ../modules/authentik.nix
+            ../modules/immich.nix
             authentik-nix.nixosModules.default
             agenix.nixosModules.default
             home-manager.nixosModules.home-manager
