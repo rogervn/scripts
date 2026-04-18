@@ -6,6 +6,10 @@ in {
     enable = true;
     environmentFile = config.age.secrets.authentik_env_file.path;
     settings = {
+      listen = {
+        http = "0.0.0.0:${toString httpPort}";
+        https = "0.0.0.0:${toString httpsPort}";
+      };
       email = {
         host = "smtp-relay.brevo.com";
         port = 587;
