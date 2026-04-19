@@ -17,20 +17,20 @@
   # UWSM units in ~/.nix-profile (which are all symlinks) are invisible to it.
   # Placing them in ~/.config/systemd/user/ via home.file makes systemd load them.
   home.file = builtins.listToAttrs (map (name: {
-    name = ".config/systemd/user/${name}";
-    value.source = "${pkgs.uwsm}/share/systemd/user/${name}";
-  }) [
-    "wayland-session-bindpid@.service"
-    "wayland-session-envelope@.target"
-    "wayland-session-pre@.target"
-    "wayland-session-shutdown.target"
-    "wayland-session@.target"
-    "wayland-session-waitenv.service"
-    "wayland-session-xdg-autostart@.target"
-    "wayland-wm-app-daemon.service"
-    "wayland-wm-env@.service"
-    "wayland-wm@.service"
-  ]);
+      name = ".config/systemd/user/${name}";
+      value.source = "${pkgs.uwsm}/share/systemd/user/${name}";
+    }) [
+      "wayland-session-bindpid@.service"
+      "wayland-session-envelope@.target"
+      "wayland-session-pre@.target"
+      "wayland-session-shutdown.target"
+      "wayland-session@.target"
+      "wayland-session-waitenv.service"
+      "wayland-session-xdg-autostart@.target"
+      "wayland-wm-app-daemon.service"
+      "wayland-wm-env@.service"
+      "wayland-wm@.service"
+    ]);
 
   imports = [
     (import ../home/dotfiles.nix {inherit config lib pkgs;})
@@ -52,7 +52,7 @@
         "1,monitor:desc:LG Electronics LG TV SSCR2 0x01010101,default:true"
         "1,monitor:desc:BOE 0x0791,default:true"
       ];
-      browser    = "google-chrome --ozone-platform=wayland";
+      browser = "google-chrome --ozone-platform=wayland";
       noteEditor = "gedit";
       codeEditor = "code-fb --ozone-platform-hint=auto";
       extraEnv = [
@@ -60,6 +60,9 @@
         "CLUTTER_BACKEND,wayland"
         "WLR_NO_HARDWARE_CURSORS,1"
       ];
+      extraConfig = ''
+        exec-once = uwsm app -- ~/.nix-profile/libexec/xdg-desktop-portal-hyprland
+      '';
     })
     (import ../home/zsh.nix {inherit pkgs;})
     (import ../home/nvim.nix {inherit pkgs nixvim;})

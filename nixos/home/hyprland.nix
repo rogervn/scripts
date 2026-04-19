@@ -30,26 +30,28 @@
     size = 24;
   };
 
-  systemd.user.services.hyprpolkitagent = {
-    Unit = {
-      Description = "Hyprland Polkit Agent";
-      After = [
-        "graphical-session.target"
-        "dbus.service"
-      ];
-    };
-    Service = {
-      ExecStart = "${pkgs.hyprpolkitagent}/libexec/hyprpolkitagent";
-      Restart = "on-failure";
-      Environment = [
-        "QT_QPA_PLATFORM=wayland"
-        "QT_PLUGIN_PATH=${pkgs.qt6.qtwayland}/${pkgs.qt6.qtbase.qtPluginPrefix}"
-      ];
-    };
-    Install = {
-      WantedBy = ["graphical-session.target"];
-    };
-  };
+  # systemd.user.services.hyprpolkitagent = {
+  #   Unit = {
+  #     Description = "Hyprland Polkit Agent";
+  #     After = [
+  #       "graphical-session.target"
+  #       "wayland-session-waitenv.service"
+  #       "dbus.service"
+  #       "xdg-desktop-portal.service"
+  #     ];
+  #   };
+  #   Service = {
+  #     ExecStart = "${pkgs.hyprpolkitagent}/libexec/hyprpolkitagent";
+  #     Restart = "on-failure";
+  #     Environment = [
+  #       "QT_QPA_PLATFORM=wayland"
+  #       "QT_PLUGIN_PATH=${pkgs.qt6.qtwayland}/${pkgs.qt6.qtbase.qtPluginPrefix}"
+  #     ];
+  #   };
+  #   Install = {
+  #     WantedBy = ["graphical-session.target"];
+  #   };
+  # };
 
   xdg.portal = {
     enable = true;
@@ -95,6 +97,7 @@
       ''
         source = ~/.config/hypr/noctalia/noctalia-colors.conf
         exec-once = uwsm app -- noctalia-shell
+        exec-once = uwsm app -- ${pkgs.hyprpolkitagent}/libexec/hyprpolkitagent
         windowrule = float on, match:title Calculator
       ''
       + extraConfig;
@@ -187,8 +190,6 @@
       "$toggleNotification" = notifToggle;
       "$wallpaperChange" = wallpaper;
 
-      # hyprpolkitagent: handled by systemd.user.services.hyprpolkitagent
-      # hypridle: handled by services.hypridle below
       exec-once = [
         "uwsm app -- blueman-applet"
         "uwsm app -- nm-applet"
@@ -232,7 +233,7 @@
           "$mainMod SHIFT, u, exec, systemctl suspend"
           "$mainMod SHIFT, r, exec, systemctl reboot"
           "$mainMod SHIFT, h, exec, systemctl hybernate"
-          "$mainMod SHIFT, e, exit,"
+          "$mainMod SHIFT, e, exec, uwsm stop"
           "$mainMod, l, exec, $locker"
           "$mainMod, left, movefocus, l"
           "$mainMod, right, movefocus, r"
