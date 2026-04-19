@@ -1,8 +1,25 @@
-{ pkgs, lib
-, monitors ? [], workspaces ? []
-, browser ? "", noteEditor ? "", codeEditor ? ""
-, extraConfig ? ""
-, ...
+{
+  pkgs,
+  lib,
+  monitors ? [],
+  workspaces ? [],
+  terminal ? "ghostty",
+  fileManager ? "nautilus",
+  browser ? "vivaldi",
+  locker ? "noctalia-shell ipc call lockScreen lock",
+  noteEditor ? "joplin-desktop",
+  codeEditor ? "gedit",
+  screenshotPath ? "$(xdg-user-dir PICTURES)/Screenshots/$(date +'screenshot_%Y%m%d_%H%M%S.png')",
+  clipboardManager ? "cliphist",
+  clipboardLauncher ? "noctalia-shell ipc call launcher clipboard",
+  appLauncher ? "noctalia-shell ipc call launcher toggle",
+  runLauncher ? "noctalia-shell ipc call launcher command",
+  notifDismissLast ? "noctalia-shell ipc call notifications dismissOldest",
+  notifDismissAll ? "noctalia-shell ipc call notifications clear",
+  notifToggle ? "noctalia-shell ipc call notifications toggleHistory",
+  wallpaper ? "noctalia-shell ipc call wallpaper random all",
+  extraConfig ? "",
+  ...
 }: {
   home.pointerCursor = {
     gtk.enable = true;
@@ -73,11 +90,13 @@
     enable = true;
     systemd.enable = false;
 
-    extraConfig = ''
-      source = ~/.config/hypr/noctalia/noctalia-colors.conf
-      exec-once = noctalia-shell
-      windowrule = float on, match:title Calculator
-    '' + extraConfig;
+    extraConfig =
+      ''
+        source = ~/.config/hypr/noctalia/noctalia-colors.conf
+        exec-once = noctalia-shell
+        windowrule = float on, match:title Calculator
+      ''
+      + extraConfig;
 
     settings = {
       general = {
@@ -128,7 +147,10 @@
         ];
       };
 
-      dwindle = {pseudotile = true; preserve_split = true;};
+      dwindle = {
+        pseudotile = true;
+        preserve_split = true;
+      };
       master.new_status = "master";
       misc.force_default_wallpaper = -1;
 
@@ -143,25 +165,25 @@
         numlock_by_default = true;
       };
 
-      monitor   = monitors;
+      monitor = monitors;
       workspace = workspaces;
 
-      "$mainMod"                 = "SUPER";
-      "$clipboardManager"        = "cliphist";
-      "$terminal"                = "ghostty";
-      "$fileManager"             = "nautilus";
-      "$browser"                 = browser;
-      "$locker"                  = "noctalia-shell ipc call lockScreen lock";
-      "$noteEditor"              = noteEditor;
-      "$codeEditor"              = codeEditor;
-      "$screenshot_file"         = "$(xdg-user-dir PICTURES)/Screenshots/$(date +'screenshot_%Y%m%d_%H%M%S.png')";
-      "$clipboardLauncher"       = "noctalia-shell ipc call launcher clipboard";
-      "$appLauncher"             = "noctalia-shell ipc call launcher toggle";
-      "$runLauncher"             = "noctalia-shell ipc call launcher command";
-      "$dismissLastNotification" = "noctalia-shell ipc call notifications dismissOldest";
-      "$dismissAllNotification"  = "noctalia-shell ipc call notifications clear";
-      "$toggleNotification"      = "noctalia-shell ipc call notifications toggleHistory";
-      "$wallpaperChange"         = "noctalia-shell ipc call wallpaper random";
+      "$mainMod" = "SUPER";
+      "$terminal" = terminal;
+      "$fileManager" = fileManager;
+      "$browser" = browser;
+      "$locker" = locker;
+      "$noteEditor" = noteEditor;
+      "$codeEditor" = codeEditor;
+      "$screenshot_file" = screenshotPath;
+      "$clipboardManager" = clipboardManager;
+      "$clipboardLauncher" = clipboardLauncher;
+      "$appLauncher" = appLauncher;
+      "$runLauncher" = runLauncher;
+      "$dismissLastNotification" = notifDismissLast;
+      "$dismissAllNotification" = notifDismissAll;
+      "$toggleNotification" = notifToggle;
+      "$wallpaperChange" = wallpaper;
 
       # hyprpolkitagent: handled by systemd.user.services.hyprpolkitagent
       # hypridle: handled by services.hypridle below
@@ -173,55 +195,60 @@
 
       bind = let
         n = toString;
-        wsBinds = builtins.concatLists (map (i: [
-          "$mainMod, ${n i}, workspace, ${n i}"
-          "$mainMod SHIFT, ${n i}, movetoworkspace, ${n i}"
-        ]) (lib.range 1 9)) ++ [
-          "$mainMod, 0, workspace, 10"
-          "$mainMod SHIFT, 0, movetoworkspace, 10"
-        ];
-        monitorNumBinds = lib.imap0
+        wsBinds =
+          builtins.concatLists (map (i: [
+            "$mainMod, ${n i}, workspace, ${n i}"
+            "$mainMod SHIFT, ${n i}, movetoworkspace, ${n i}"
+          ]) (lib.range 1 9))
+          ++ [
+            "$mainMod, 0, workspace, 10"
+            "$mainMod SHIFT, 0, movetoworkspace, 10"
+          ];
+        monitorNumBinds =
+          lib.imap0
           (i: key: "CTRL $mainMod, ${n key}, movecurrentworkspacetomonitor, ${n i}")
           [1 2 3 4 5];
-      in [
-        "$mainMod, return, exec, $terminal"
-        "$mainMod, q, killactive,"
-        "$mainMod, f, fullscreen,"
-        "$mainMod, E, exec, $fileManager"
-        "$mainMod, V, togglefloating,"
-        "$mainMod, space, exec, $appLauncher"
-        "$mainMod, d, exec, $runLauncher"
-        "$mainMod, b, exec, $browser"
-        "$mainMod, x, exec, $codeEditor"
-        "$mainMod, t, exec, $noteEditor"
-        "$mainMod, c, exec, $clipboardLauncher"
-        "$mainMod, w, exec, $wallpaperChange"
-        ''$mainMod, p, exec, grim -g "$(slurp)" $screenshot_file''
-        "$mainMod SHIFT, p, exec, grim -o $(hyprctl -j activeworkspace | jq '.monitor') $screenshot_file"
-        "$mainMod, n, exec, $toggleNotification"
-        "$mainMod SHIFT, n, exec, $dismissLastNotification"
-        "$mainMod CTRL SHIFT, n, exec, $dismissAllNotification"
-        "$mainMod SHIFT, s, exec, systemctl poweroff -i"
-        "$mainMod SHIFT, u, exec, systemctl suspend"
-        "$mainMod SHIFT, r, exec, systemctl reboot"
-        "$mainMod SHIFT, h, exec, systemctl hybernate"
-        "$mainMod SHIFT, e, exit,"
-        "$mainMod, l, exec, $locker"
-        "$mainMod, left, movefocus, l"
-        "$mainMod, right, movefocus, r"
-        "$mainMod, up, movefocus, u"
-        "$mainMod, down, movefocus, d"
-        "$mainMod SHIFT, left, movewindow, l"
-        "$mainMod SHIFT, right, movewindow, r"
-        "$mainMod SHIFT, up, movewindow, u"
-        "$mainMod SHIFT, down, movewindow, d"
-        "CTRL $mainMod, left, movecurrentworkspacetomonitor, l"
-        "CTRL $mainMod, right, movecurrentworkspacetomonitor, r"
-        "$mainMod, S, togglespecialworkspace, magic"
-        "$mainMod SHIFT, S, movetoworkspace, special:magic"
-        "$mainMod, mouse_down, workspace, e+1"
-        "$mainMod, mouse_up, workspace, e-1"
-      ] ++ wsBinds ++ monitorNumBinds;
+      in
+        [
+          "$mainMod, return, exec, $terminal"
+          "$mainMod, q, killactive,"
+          "$mainMod, f, fullscreen,"
+          "$mainMod, E, exec, $fileManager"
+          "$mainMod, V, togglefloating,"
+          "$mainMod, space, exec, $appLauncher"
+          "$mainMod, d, exec, $runLauncher"
+          "$mainMod, b, exec, $browser"
+          "$mainMod, x, exec, $codeEditor"
+          "$mainMod, t, exec, $noteEditor"
+          "$mainMod, c, exec, $clipboardLauncher"
+          "$mainMod, w, exec, $wallpaperChange"
+          ''$mainMod, p, exec, grim -g "$(slurp)" $screenshot_file''
+          "$mainMod SHIFT, p, exec, grim -o $(hyprctl -j activeworkspace | jq '.monitor') $screenshot_file"
+          "$mainMod, n, exec, $toggleNotification"
+          "$mainMod SHIFT, n, exec, $dismissLastNotification"
+          "$mainMod CTRL SHIFT, n, exec, $dismissAllNotification"
+          "$mainMod SHIFT, s, exec, systemctl poweroff -i"
+          "$mainMod SHIFT, u, exec, systemctl suspend"
+          "$mainMod SHIFT, r, exec, systemctl reboot"
+          "$mainMod SHIFT, h, exec, systemctl hybernate"
+          "$mainMod SHIFT, e, exit,"
+          "$mainMod, l, exec, $locker"
+          "$mainMod, left, movefocus, l"
+          "$mainMod, right, movefocus, r"
+          "$mainMod, up, movefocus, u"
+          "$mainMod, down, movefocus, d"
+          "$mainMod SHIFT, left, movewindow, l"
+          "$mainMod SHIFT, right, movewindow, r"
+          "$mainMod SHIFT, up, movewindow, u"
+          "$mainMod SHIFT, down, movewindow, d"
+          "CTRL $mainMod, left, movecurrentworkspacetomonitor, l"
+          "CTRL $mainMod, right, movecurrentworkspacetomonitor, r"
+          "$mainMod, S, togglespecialworkspace, magic"
+          "$mainMod SHIFT, S, movetoworkspace, special:magic"
+          "$mainMod, mouse_down, workspace, e+1"
+          "$mainMod, mouse_up, workspace, e-1"
+        ]
+        ++ wsBinds ++ monitorNumBinds;
 
       bindm = [
         "$mainMod, mouse:272, movewindow"
@@ -257,13 +284,19 @@
         after_sleep_cmd = "hyprctl dispatch dpms on";
       };
       listener = [
-        {timeout = 300; on-timeout = "loginctl lock-session";}
+        {
+          timeout = 300;
+          on-timeout = "loginctl lock-session";
+        }
         {
           timeout = 330;
           on-timeout = "hyprctl dispatch dpms off";
           on-resume = "hyprctl dispatch dpms on";
         }
-        {timeout = 900; on-timeout = "systemctl suspend";}
+        {
+          timeout = 900;
+          on-timeout = "systemctl suspend";
+        }
       ];
     };
   };

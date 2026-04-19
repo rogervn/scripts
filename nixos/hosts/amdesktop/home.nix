@@ -26,9 +26,6 @@
           "1,monitor:desc:LG Electronics LG TV SSCR2 0x01010101,default:true"
           "1,monitor:desc:BOE 0x0791,default:true"
         ];
-        browser    = "vivaldi";
-        noteEditor = "joplin-desktop";
-        codeEditor = "gedit";
         extraConfig = ''
           exec-once = nextcloud --background
 
