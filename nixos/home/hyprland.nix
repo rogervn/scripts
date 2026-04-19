@@ -19,6 +19,7 @@
   notifToggle ? "noctalia-shell ipc call notifications toggleHistory",
   wallpaper ? "noctalia-shell ipc call wallpaper random all",
   extraConfig ? "",
+  extraEnv ? [],
   ...
 }: {
   home.pointerCursor = {
@@ -93,7 +94,7 @@
     extraConfig =
       ''
         source = ~/.config/hypr/noctalia/noctalia-colors.conf
-        exec-once = noctalia-shell
+        exec-once = uwsm app -- noctalia-shell
         windowrule = float on, match:title Calculator
       ''
       + extraConfig;
@@ -154,11 +155,12 @@
       master.new_status = "master";
       misc.force_default_wallpaper = -1;
 
-      env = [
-        "XCURSOR_SIZE,24"
-        "HYPRCURSOR_SIZE,24"
-        "XDG_SESSION_DESKTOP,Hyprland"
-      ];
+      env =
+        [
+          "XCURSOR_SIZE,24"
+          "HYPRCURSOR_SIZE,24"
+        ]
+        ++ extraEnv;
 
       input = {
         kb_layout = "us";
@@ -188,9 +190,8 @@
       # hyprpolkitagent: handled by systemd.user.services.hyprpolkitagent
       # hypridle: handled by services.hypridle below
       exec-once = [
-        "wl-paste --watch $clipboardManager store"
-        "blueman-applet"
-        "nm-applet"
+        "uwsm app -- blueman-applet"
+        "uwsm app -- nm-applet"
       ];
 
       bind = let

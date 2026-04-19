@@ -36,11 +36,11 @@
       browser    = "google-chrome --ozone-platform=wayland";
       noteEditor = "gedit";
       codeEditor = "code-fb --ozone-platform-hint=auto";
-      extraConfig = ''
-        exec-once = ~/.nix-profile/libexec/xdg-desktop-portal-hyprland
-        exec-once = /usr/bin/gnome-keyring-daemon --start --components=pkcs11
-        exec-once = systemctl --user start hypridle
-      '';
+      extraEnv = [
+        "GDK_BACKEND,wayland"
+        "CLUTTER_BACKEND,wayland"
+        "WLR_NO_HARDWARE_CURSORS,1"
+      ];
     })
     (import ../home/zsh.nix {inherit pkgs;})
     (import ../home/nvim.nix {inherit pkgs nixvim;})

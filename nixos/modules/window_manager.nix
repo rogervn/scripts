@@ -44,12 +44,13 @@
   ];
 
   programs.hyprland.enable = true;
+  programs.hyprland.withUWSM = true;
 
   # This is needed for sddm as wayland has an invisible cursor bug
   services.xserver.enable = true;
 
   services.displayManager = {
-    defaultSession = "hyprland";
+    defaultSession = "hyprland-uwsm";
     sddm = {
       enable = true;
       extraPackages = with pkgs; [

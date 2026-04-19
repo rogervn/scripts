@@ -18,6 +18,7 @@
   home.packages = with pkgs; [
     blueman
     bluetui
+    uwsm
     cliphist
     font-awesome
     gedit

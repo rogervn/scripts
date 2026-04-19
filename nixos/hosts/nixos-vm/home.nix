@@ -26,8 +26,6 @@
           "1,monitor:desc:BOE 0x0791,default:true"
         ];
         extraConfig = ''
-          exec-once = nextcloud --background
-
           device {
               name = logitech-k830
               kb_layout = us
