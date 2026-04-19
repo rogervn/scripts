@@ -1,3 +1,4 @@
 #!/bin/sh
+{{ nix_profile_bin_path }}/uwsm check may-start || exit
 exec {{ nix_profile_bin_path }}/uwsm start -D Hyprland -- \
   {{ nix_profile_bin_path }}/start-hyprland

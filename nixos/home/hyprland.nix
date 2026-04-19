@@ -191,6 +191,7 @@
       "$wallpaperChange" = wallpaper;
 
       exec-once = [
+        "uwsm finalize"
         "uwsm app -- blueman-applet"
         "uwsm app -- nm-applet"
       ];
