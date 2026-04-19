@@ -29,7 +29,7 @@
   ansible.builtin.shell: |
     cd "{{ nix_repo_dest_path }}/{{ nix_git_relative_path }}"
     git pull
-    nix run nixpkgs#home-manager -- switch --flake .
+    nix run nixpkgs#home-manager -- switch --flake .#rogervn-desktop
   become: true
   become_user: "{{ base_user.username }}"
   loop: "{{ dotfiles_stow_packages }}"
