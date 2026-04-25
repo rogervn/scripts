@@ -80,11 +80,13 @@
             ../hosts/${host}/hardware-configuration.nix
             ../hosts/${host}/home.nix
             ../modules/base.nix
+            ../modules/cloudflared.nix
             ../modules/secrets-serveruser.nix
             ../modules/adguardhome.nix
             ../modules/home_assistant.nix
             ../modules/uptime_kuma.nix
             ../modules/restic-backup.nix
+            ../modules/tailscale.nix
             ../modules/vaultwarden.nix
             agenix.nixosModules.default
             home-manager.nixosModules.home-manager
