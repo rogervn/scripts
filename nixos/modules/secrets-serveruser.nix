@@ -30,6 +30,16 @@
         group = "root";
         mode = "600";
       };
+      cloudflared_token = {
+        file = ./secrets/cloudflared_token.age;
+        owner = "root";
+        mode = "400";
+      };
+      tailscale_auth_key = {
+        file = ./secrets/tailscale_auth_key.age;
+        owner = "root";
+        mode = "400";
+      };
     };
   };
 }
