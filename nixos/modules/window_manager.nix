@@ -26,15 +26,6 @@
     vivaldi
     wl-clipboard
     xdg-user-dirs
-    (sddm-astronaut.override {
-      themeConfig = {
-        Background = "${nixos-artwork.wallpapers.nineish-dark-gray.src}";
-        ScreenWidth = "1920";
-        ScreenHeight = "1080";
-        FormPosition = "left";
-        CursorTheme = "Bibata-Modern-Classic";
-      };
-    })
   ];
 
   fonts.packages = with pkgs; [
@@ -46,27 +37,24 @@
   programs.hyprland.enable = true;
   programs.hyprland.withUWSM = true;
 
-  # This is needed for sddm as wayland has an invisible cursor bug
-  services.xserver.enable = true;
+  programs.regreet = {
+    enable = true;
 
-  services.displayManager = {
-    defaultSession = "hyprland-uwsm";
-    sddm = {
-      enable = true;
-      extraPackages = with pkgs; [
-        kdePackages.qtsvg
-        kdePackages.qtvirtualkeyboard
-        kdePackages.qtmultimedia
-      ];
-      package = pkgs.kdePackages.sddm;
-      theme = "sddm-astronaut-theme";
-      settings = {
-        General = {
-          CursorTheme = "Bibata-Modern-Classic";
-          CursorSize = 24;
-        };
+    cursorTheme = {
+      name = "Bibata-Modern-Classic";
+      package = pkgs.bibata-cursors;
+    };
+
+    settings = {
+      background = {
+        path = "${pkgs.nixos-artwork.wallpapers.nineish-dark-gray.src}";
+        fit = "Cover";
+      };
+      GTK = {
+        application_prefer_dark_theme = true;
       };
     };
+
   };
 
   services.gnome.gnome-keyring.enable = true;
@@ -75,7 +63,7 @@
   services.upower.enable = true;
   services.power-profiles-daemon.enable = true;
 
-  security.pam.services.login.enableGnomeKeyring = true;
+  security.pam.services.greetd.enableGnomeKeyring = true;
 
   security.polkit.enable = true;
 
