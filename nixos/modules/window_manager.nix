@@ -94,19 +94,4 @@ in {
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
   xdg.portal.extraPortals = [pkgs.xdg-desktop-portal-hyprland];
-
-  # Sets hyprland uwsm as the default session
-  systemd.tmpfiles.settings."10-regreet-state" = {
-    "/var/lib/regreet/state.toml" = {
-      C = {
-        user = "greeter";
-        group = "greeter";
-        mode = "0644";
-        argument = toString (pkgs.writeText "regreet-state-default.toml" ''
-          [user_to_last_sess]
-          ${userName} = "Hyprland (uwsm-managed)"
-        '');
-      };
-    };
-  };
 }
