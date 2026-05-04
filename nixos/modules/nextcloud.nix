@@ -1,11 +1,14 @@
-{ config, pkgs, ... }:
-let
+{
+  config,
+  pkgs,
+  ...
+}: let
   port = 8008;
   hostName = "nextcloud.vnunes.win";
 in {
   services.nextcloud = {
     enable = true;
-    package = pkgs.nextcloud32;
+    package = pkgs.nextcloud33;
 
     hostName = hostName;
     home = "/data/apps/nextcloud";
@@ -36,8 +39,14 @@ in {
 
   # Override nginx vhost to listen on port 8008 instead of default 80/443
   services.nginx.virtualHosts.${hostName} = {
-    listen = [{ addr = "0.0.0.0"; port = port; ssl = false; }];
+    listen = [
+      {
+        addr = "0.0.0.0";
+        port = port;
+        ssl = false;
+      }
+    ];
   };
 
-  networking.firewall.allowedTCPPorts = [ port ];
+  networking.firewall.allowedTCPPorts = [port];
 }

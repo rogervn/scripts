@@ -26,7 +26,7 @@
       };
       authentik_env_file = {
         file = ./secrets/authentik_env_file.age;
-        owner = "authentik";
+        owner = "root";
         mode = "400";
       };
       paperlessngx_env_file = {

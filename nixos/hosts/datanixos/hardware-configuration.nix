@@ -8,51 +8,34 @@
   ...
 }: {
   imports = [
-    (modulesPath + "/profiles/qemu-guest.nix")
+    (modulesPath + "/installer/scan/not-detected.nix")
   ];
 
-  boot.initrd.availableKernelModules = ["xhci_pci" "ohci_pci" "ehci_pci" "virtio_pci" "virtio_scsi" "nvme" "ahci" "usbhid" "sr_mod" "virtio_blk"];
+  boot.initrd.availableKernelModules = ["xhci_pci" "nvme" "usbhid" "usb_storage" "sr_mod" "sdhci_pci"];
   boot.initrd.kernelModules = [];
-  boot.kernelModules = ["kvm-amd"];
+  boot.kernelModules = ["kvm-intel"];
   boot.extraModulePackages = [];
 
   fileSystems."/" = {
-    device = "/dev/disk/by-uuid/5295b131-58d7-43e8-94d2-ea04a385a8f7";
+    device = "/dev/disk/by-uuid/f4d458b2-2fff-48c2-ac2a-fdfce96dc4f6";
     fsType = "ext4";
   };
 
   fileSystems."/boot" = {
-    device = "/dev/disk/by-uuid/82B5-AAE2";
+    device = "/dev/disk/by-uuid/833D-D2A6";
     fsType = "vfat";
     options = ["fmask=0022" "dmask=0022"];
   };
 
-  swapDevices = [];
-
-  # ZFS datasets — mounted from the 'data' pool
+  # datasets are mounted automatically by zfs
   fileSystems."/data/share/nfs" = {
     device = "data/share/nfs";
     fsType = "zfs";
     options = ["zfsutil"];
   };
 
-  fileSystems."/data/share/smb" = {
-    device = "data/share/smb";
-    fsType = "zfs";
-    options = ["zfsutil"];
-  };
-
-  fileSystems."/data/docker" = {
-    device = "data/docker";
-    fsType = "zfs";
-    options = ["zfsutil"];
-  };
-
-  fileSystems."/data/backup" = {
-    device = "data/backup";
-    fsType = "zfs";
-    options = ["zfsutil"];
-  };
+  swapDevices = [];
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
+  hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 }
