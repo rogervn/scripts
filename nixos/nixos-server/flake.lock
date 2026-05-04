@@ -61,6 +61,7 @@
       },
       "original": {
         "owner": "nix-community",
+        "ref": "version/2026.2.2",
         "repo": "authentik-nix",
         "type": "github"
       }
