@@ -1,16 +1,17 @@
 {
   config,
   pkgs,
+  hostName,
   ...
 }: let
   port = 8008;
-  hostName = "nextcloud.vnunes.win";
+  externalUrl = "nextcloud.vnunes.win";
 in {
   services.nextcloud = {
     enable = true;
     package = pkgs.nextcloud33;
 
-    hostName = hostName;
+    hostName = externalUrl;
     home = "/data/apps/nextcloud";
     https = false; # reverse proxy handles TLS
 
@@ -24,7 +25,13 @@ in {
       dbtype = "pgsql";
     };
 
+    extraApps = {
+      inherit (pkgs.nextcloud33.packages.apps) user_oidc;
+    };
+    extraAppsEnable = true;
+
     settings = {
+      trusted_domains = [hostName externalUrl];
       default_phone_region = "GB";
       maintenance_window_start = 2;
       overwriteprotocol = "https";
@@ -38,7 +45,8 @@ in {
   };
 
   # Override nginx vhost to listen on port 8008 instead of default 80/443
-  services.nginx.virtualHosts.${hostName} = {
+  services.nginx.virtualHosts.${externalUrl} = {
+    forceSSL = false;
     listen = [
       {
         addr = "0.0.0.0";
