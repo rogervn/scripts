@@ -3,8 +3,22 @@
   pkgs,
   userName,
   hostName,
+  nixvim,
+  agenixPackage,
   ...
 }: {
+  imports = [
+    ../../modules/base.nix
+    ../../modules/secrets-rogervn.nix
+    ../../modules/window_manager.nix
+  ];
+
+  home-manager.useGlobalPkgs = true;
+  home-manager.useUserPackages = true;
+  home-manager.extraSpecialArgs = {inherit nixvim;};
+
+  environment.systemPackages = [agenixPackage];
+
   nix.settings.experimental-features = [
     "nix-command"
     "flakes"

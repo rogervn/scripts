@@ -3,8 +3,27 @@
   pkgs,
   userName,
   hostName,
+  nixvim,
+  agenixPackage,
   ...
 }: {
+  imports = [
+    ../../modules/base.nix
+    ../../modules/secrets-datauser.nix
+    ../../modules/zfs.nix
+    ../../modules/authentik.nix
+    ../../modules/immich.nix
+    ../../modules/paperlessngx.nix
+    ../../modules/joplin_server.nix
+    ../../modules/nextcloud.nix
+  ];
+
+  home-manager.useGlobalPkgs = true;
+  home-manager.useUserPackages = true;
+  home-manager.extraSpecialArgs = {inherit nixvim;};
+
+  environment.systemPackages = [agenixPackage];
+
   nix.settings.experimental-features = [
     "nix-command"
     "flakes"

@@ -32,25 +32,14 @@
             hostName = host;
             keyPath = "/root/.ssh/id_ed25519";
             inherit nixvim;
+            agenixPackage = agenix.packages.x86_64-linux.default;
           };
           modules = [
             ../hosts/${host}/configuration.nix
             ../hosts/${host}/hardware-configuration.nix
             ../hosts/${host}/home.nix
-            ../modules/base.nix
-            ../modules/secrets-rogervn.nix
-            ../modules/steam.nix
-            ../modules/window_manager.nix
             agenix.nixosModules.default
             home-manager.nixosModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.extraSpecialArgs = {inherit nixvim;};
-            }
-            {
-              environment.systemPackages = [agenix.packages.x86_64-linux.default];
-            }
           ];
         };
 
@@ -64,24 +53,14 @@
             hostName = host;
             keyPath = "/root/.ssh/id_ed25519";
             inherit nixvim;
+            agenixPackage = agenix.packages.x86_64-linux.default;
           };
           modules = [
             ../hosts/${host}/configuration.nix
             ../hosts/${host}/hardware-configuration.nix
             ../hosts/${host}/home.nix
-            ../modules/base.nix
-            ../modules/secrets-rogervn.nix
-            ../modules/window_manager.nix
             agenix.nixosModules.default
             home-manager.nixosModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.extraSpecialArgs = {inherit nixvim;};
-            }
-            {
-              environment.systemPackages = [agenix.packages.x86_64-linux.default];
-            }
           ];
         };
 
@@ -95,26 +74,14 @@
             hostName = host;
             keyPath = "/root/.ssh/id_ed25519";
             inherit nixvim;
+            agenixPackage = agenix.packages.x86_64-linux.default;
           };
           modules = [
             ../hosts/${host}/configuration.nix
             ../hosts/${host}/hardware-configuration.nix
             ../hosts/${host}/home.nix
-            ../modules/base.nix
-            ../modules/secrets-rogervn.nix
-            ../modules/vm_guest.nix
-            ../modules/window_manager.nix
-            ../modules/zfs.nix
             agenix.nixosModules.default
             home-manager.nixosModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.extraSpecialArgs = {inherit nixvim;};
-            }
-            {
-              environment.systemPackages = [agenix.packages.x86_64-linux.default];
-            }
           ];
         };
     };

@@ -42,24 +42,14 @@
             hostName = host;
             keyPath = "/root/.ssh/id_ed25519";
             inherit nixvim;
+            agenixPackage = agenix.packages.x86_64-linux.default;
           };
           modules = [
             ../hosts/${host}/configuration.nix
             ../hosts/${host}/hardware-configuration.nix
             ../hosts/${host}/home.nix
-            ../modules/base.nix
-            ../modules/secrets-backupuser.nix
-            ../modules/borgrepo_sync.nix
             agenix.nixosModules.default
             home-manager.nixosModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.extraSpecialArgs = {inherit nixvim;};
-            }
-            {
-              environment.systemPackages = [agenix.packages.x86_64-linux.default];
-            }
           ];
         };
 
@@ -73,31 +63,15 @@
             hostName = host;
             keyPath = "/root/.ssh/id_ed25519";
             inherit nixvim nixvirt;
+            agenixPackage = agenix.packages.x86_64-linux.default;
           };
           modules = [
-            nixvirt.nixosModules.default
             ../hosts/${host}/configuration.nix
             ../hosts/${host}/hardware-configuration.nix
             ../hosts/${host}/home.nix
-            ../modules/base.nix
-            ../modules/cloudflared.nix
-            ../modules/secrets-serveruser.nix
-            ../modules/adguardhome.nix
-            ../modules/home_assistant.nix
-            ../modules/uptime_kuma.nix
-            ../modules/restic-backup.nix
-            ../modules/tailscale.nix
-            ../modules/vaultwarden.nix
+            nixvirt.nixosModules.default
             agenix.nixosModules.default
             home-manager.nixosModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.extraSpecialArgs = {inherit nixvim;};
-            }
-            {
-              environment.systemPackages = [agenix.packages.x86_64-linux.default];
-            }
           ];
         };
 
@@ -111,30 +85,15 @@
             hostName = host;
             keyPath = "/root/.ssh/id_ed25519";
             inherit nixvim;
+            agenixPackage = agenix.packages.x86_64-linux.default;
           };
           modules = [
             ../hosts/${host}/configuration.nix
             ../hosts/${host}/hardware-configuration.nix
             ../hosts/${host}/home.nix
-            ../modules/base.nix
-            ../modules/secrets-datauser.nix
-            ../modules/zfs.nix
-            ../modules/authentik.nix
-            ../modules/immich.nix
-            ../modules/paperlessngx.nix
-            ../modules/joplin_server.nix
-            ../modules/nextcloud.nix
             authentik-nix.nixosModules.default
             agenix.nixosModules.default
             home-manager.nixosModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.extraSpecialArgs = {inherit nixvim;};
-            }
-            {
-              environment.systemPackages = [agenix.packages.x86_64-linux.default];
-            }
           ];
         };
     };
