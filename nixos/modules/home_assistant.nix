@@ -44,7 +44,6 @@ in {
                     count = 4;
                     unit = "GiB";
                   };
-                  virtio_video = false;
                 };
               in
                 base
@@ -137,6 +136,23 @@ in {
                           };
                         }
                       ];
+                      graphics = null;
+                      video = {
+                        model = {
+                          type = "vga";
+                          vram = 16384;
+                          heads = 1;
+                          primary = true;
+                        };
+                      };
+                      audio = null;
+                      channel = [
+                        {
+                          type = "unix";
+                          target = {type = "virtio"; name = "org.qemu.guest_agent.0";};
+                        }
+                      ];
+                      redirdev = [];
                     };
                 });
           }
