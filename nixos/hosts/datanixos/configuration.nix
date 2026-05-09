@@ -10,6 +10,7 @@
   imports = [
     ../../modules/base.nix
     ../../modules/secrets-datauser.nix
+    ../../modules/smtp.nix
     ../../modules/zfs.nix
     ../../modules/authentik.nix
     ../../modules/immich.nix
@@ -109,6 +110,19 @@
     };
   };
   services.samba-wsdd.enable = true; # Windows/macOS network discovery
+
+  myServices.smtp = {
+    enable = true;
+    host = "smtp-relay.brevo.com";
+    port = 587;
+    startTls = true;
+    user = "piuk-admin@vnunes.win";
+    from = "datanixos@vnunes.win";
+    passwordSecretPath = config.age.secrets.smtp_password.path;
+    recipient = "admin@vnunes.win";
+  };
+
+  myServices.zfsZed.enableMail = true;
 
   system.stateVersion = "26.05";
 }

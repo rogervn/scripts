@@ -19,12 +19,28 @@
     )
   );
 in {
-  environment.systemPackages = with pkgs; [zfs];
-  boot.kernelPackages = lib.mkForce latestKernelPackage;
-  boot.kernelParams = ["nohibernate"];
-  boot.zfs.forceImportRoot = false;
-  boot.supportedFilesystems = ["zfs"];
-  services.zfs.autoScrub.enable = true;
-  services.zfs.autoSnapshot.enable = true;
-  services.zfs.trim.enable = true;
+  imports = [./smtp.nix];
+
+  options.myServices.zfsZed = {
+    enableMail = lib.mkEnableOption "ZED mail notifications via msmtp";
+  };
+
+  config = {
+    environment.systemPackages = with pkgs; [zfs];
+    boot.kernelPackages = lib.mkForce latestKernelPackage;
+    boot.kernelParams = ["nohibernate"];
+    boot.zfs.forceImportRoot = false;
+    boot.supportedFilesystems = ["zfs"];
+    services.zfs.autoScrub.enable = true;
+    services.zfs.autoSnapshot.enable = true;
+    services.zfs.trim.enable = true;
+
+    services.zfs.zed = lib.mkIf config.myServices.zfsZed.enableMail {
+      enableMail = true;
+      settings = {
+        ZED_EMAIL_ADDR = ["root"];
+        ZED_NOTIFY_VERBOSE = true;
+      };
+    };
+  };
 }

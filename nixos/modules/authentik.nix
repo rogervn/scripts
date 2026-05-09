@@ -1,7 +1,10 @@
-{config, ...}: let
+{config, lib, ...}: let
   httpPort = 8011;
   httpsPort = 8012;
+  smtp = config.myServices.smtp;
 in {
+  imports = [./smtp.nix];
+
   services.authentik = {
     enable = true;
     environmentFile = config.age.secrets.authentik_env_file.path;
@@ -11,10 +14,10 @@ in {
         https = "0.0.0.0:${toString httpsPort}";
       };
       email = {
-        host = "smtp-relay.brevo.com";
-        port = 587;
-        use_tls = true;
-        use_ssl = true;
+        host = if smtp.enable then smtp.host else "smtp-relay.brevo.com";
+        port = if smtp.enable then smtp.port else 587;
+        use_tls = if smtp.enable then smtp.startTls else true;
+        use_ssl = if smtp.enable then !smtp.startTls else true;
         timeout = 10;
         from = "authentik-admin@vnunes.win";
       };

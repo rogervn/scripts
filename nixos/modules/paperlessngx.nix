@@ -1,7 +1,10 @@
-{ config, ... }: let
+{ config, lib, ... }: let
   httpPort = 8015;
   dataDir = "/data/apps/paperlessngx";
+  smtp = config.myServices.smtp;
 in {
+  imports = [./smtp.nix];
+
   services.redis.servers.paperless = {
     enable = true;
     port = 0; # Unix socket only — no TCP exposure
@@ -18,9 +21,9 @@ in {
       PAPERLESS_TIME_ZONE = "Europe/London";
       PAPERLESS_OCR_LANGUAGE = "eng";
       PAPERLESS_ADMIN_USER = "admin";
-      PAPERLESS_EMAIL_HOST = "smtp-relay.brevo.com";
-      PAPERLESS_EMAIL_PORT = 587;
-      PAPERLESS_EMAIL_USE_TLS = true;
+      PAPERLESS_EMAIL_HOST = if smtp.enable then smtp.host else "smtp-relay.brevo.com";
+      PAPERLESS_EMAIL_PORT = if smtp.enable then smtp.port else 587;
+      PAPERLESS_EMAIL_USE_TLS = if smtp.enable then smtp.startTls else true;
       PAPERLESS_EMAIL_FROM = "paperlessngx@vnunes.win";
       PAPERLESS_REDIS = "unix:///run/redis-paperless/redis.sock";
       PAPERLESS_APPS = "allauth.socialaccount.providers.openid_connect";
@@ -30,5 +33,5 @@ in {
     };
   };
 
-  networking.firewall.allowedTCPPorts = [ httpPort ];
+  networking.firewall.allowedTCPPorts = [httpPort];
 }

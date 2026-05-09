@@ -27,4 +27,5 @@ in {
   "joplin_server_env_file.age".publicKeys = [amdesktop datanixos];
   "joplin_idp_file.age".publicKeys = [amdesktop datanixos];
   "nextcloud_admin_pass.age".publicKeys = [amdesktop datanixos];
+  "smtp_password.age".publicKeys = [amdesktop datanixos];
 }
