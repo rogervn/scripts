@@ -107,6 +107,9 @@ in {
       "d ${cfg.dataDir} 0750 joplin joplin -"
     ];
 
+    myServices.resticBackup.postgresqlBackup.databases = lib.mkAfter [ "joplin" ];
+    myServices.resticBackup.paths = lib.mkAfter [ cfg.dataDir ];
+
     networking.firewall.allowedTCPPorts = [ httpPort ];
     # Allow the container (podman bridge, podman0) to reach postgres on the host
     networking.firewall.interfaces.podman0.allowedTCPPorts = [ 5432 ];

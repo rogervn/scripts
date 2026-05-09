@@ -1,4 +1,4 @@
-{config, ...}: let
+{config, lib, ...}: let
   httpPort = 8002;
   backupDir = "/var/backup/vaultwarden";
 in {
@@ -20,6 +20,8 @@ in {
       # most configs are in secrets environment
     };
   };
+
+  myServices.resticBackup.paths = lib.mkAfter [ backupDir ];
 
   systemd.tmpfiles.rules = [
     "d ${backupDir} 0700 vaultwarden vaultwarden -"

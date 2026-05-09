@@ -75,5 +75,15 @@
     mode = "600";
   };
 
+  myServices.resticBackup = {
+    enable             = true;
+    repository         = "sftp://backupuser@datanixos.localdomain:/data/backup/servers/mininixos";
+    passwordSecretPath = config.age.secrets.mininixos_backup_restic_pass.path;
+    timerConfig        = { OnCalendar = "daily"; RandomizedDelaySec = "1h"; Persistent = true; };
+    extraOptions       = [ "sftp.args=-i /root/.ssh/id_ed25519" ];
+    # paths populated automatically by vaultwarden.nix
+    # postgresqlBackup.enable defaults to false — mininixos has no postgres
+  };
+
   system.stateVersion = "26.05";
 }

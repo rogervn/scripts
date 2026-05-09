@@ -33,5 +33,8 @@ in {
     };
   };
 
+  myServices.resticBackup.postgresqlBackup.databases = lib.mkAfter [ "paperless" ];
+  myServices.resticBackup.paths = lib.mkAfter [ dataDir ];
+
   networking.firewall.allowedTCPPorts = [httpPort];
 }

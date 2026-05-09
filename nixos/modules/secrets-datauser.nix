@@ -54,6 +54,22 @@
         owner = "root";
         mode = "400";
       };
+      datanixos_restic_pass = {
+        file = ./secrets/datanixos_restic_pass.age;
+        owner = "root";
+        mode = "400";
+      };
+      datanixos_rclone_env = {
+        file = ./secrets/datanixos_rclone_env.age;
+        owner = "root";
+        mode = "400";
+      };
+      datanixos_backupuser_authorized_keys = {
+        file = ./secrets/datanixos_backupuser_authorized_keys.age;
+        owner = "backupuser";
+        group = "backupuser";
+        mode = "400";
+      };
     };
   };
 }

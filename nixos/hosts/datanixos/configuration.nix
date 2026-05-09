@@ -6,7 +6,11 @@
   nixvim,
   agenixPackage,
   ...
-}: {
+}: let
+  pgBackupDir = "/data/backup/postgresql";
+  resticRepo  = "/data/backup/restic";
+  serversDir  = "/data/backup/servers";
+in {
   imports = [
     ../../modules/base.nix
     ../../modules/secrets-datauser.nix
@@ -17,6 +21,7 @@
     ../../modules/paperlessngx.nix
     ../../modules/joplin_server.nix
     ../../modules/nextcloud.nix
+    ../../modules/restic-backup.nix
   ];
 
   home-manager.useGlobalPkgs = true;
@@ -123,6 +128,42 @@
   };
 
   myServices.zfsZed.enableMail = true;
+
+  myServices.resticBackup = {
+    enable             = true;
+    repository         = resticRepo;
+    passwordSecretPath = config.age.secrets.datanixos_restic_pass.path;
+    paths              = [ "/data/share" ];
+    timerConfig        = { OnCalendar = "*-*-* 02:00:00"; Persistent = true; };
+    postgresqlBackup = {
+      enable   = true;
+      location = pgBackupDir;
+      startAt  = "*-*-* 01:00:00";
+    };
+    rcloneB2 = {
+      enable                = true;
+      environmentSecretPath = config.age.secrets.datanixos_rclone_env.path;
+    };
+  };
+
+  # ── backupuser — mininixos SFTP-pushes here; backupbox rsync-pulls restic/ ─
+  users.users.backupuser = {
+    isSystemUser = true;
+    group        = "backupuser";
+    home         = serversDir;
+    shell        = pkgs.bash;
+    openssh.authorizedKeys.keyFiles = [
+      config.age.secrets.datanixos_backupuser_authorized_keys.path
+    ];
+  };
+  users.groups.backupuser = {};
+
+  systemd.tmpfiles.rules = [
+    "d ${pgBackupDir}          0700 postgres   postgres   -"
+    "d ${resticRepo}           0750 backupuser backupuser -"
+    "d ${serversDir}           0750 backupuser backupuser -"
+    "d ${serversDir}/mininixos 0750 backupuser backupuser -"
+  ];
 
   system.stateVersion = "26.05";
 }

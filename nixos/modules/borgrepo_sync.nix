@@ -1,7 +1,6 @@
-# This is today just an rsync from a borg repo, which is not advised.
-# Hopefully with borg2 it will be able to move to synced-repos.
-# This does requires private-key ssh login to be set on the base repo server
-# and passwordless sudo both on source and destination to backup root files.
+# Rsync backup from datanixos /data/backup/ to local external drive.
+# Requires private-key SSH login to datanixos as datauser, and passwordless
+# sudo for rsync on datanixos.
 { config, lib, pkgs, userName, ... }:
 let
   borgrepo_unit = "borgrepo_sync";
@@ -10,13 +9,13 @@ in {
   options.services.borgrepoSync = {
     baseRepoLocation = lib.mkOption {
       type = lib.types.str;
-      default = "truenas.localdomain:/mnt/zfspool/backup/borgrepo/";
-      description = "SSH remote borg repo source (user@host:/path)";
+      default = "backupuser@datanixos.localdomain:/data/backup/restic/";
+      description = "SSH remote source in user@host:/path format";
     };
     backupRepoLocation = lib.mkOption {
       type = lib.types.str;
-      default = "/mnt/external/backup/borgrepo";
-      description = "Local destination path for synced borg repo";
+      default = "/mnt/external/backup/datanixos";
+      description = "Local destination path for synced backup";
     };
   };
 
@@ -55,8 +54,7 @@ in {
         -avz \
         --delete \
         -e "${pkgs.openssh}/bin/ssh -i /home/${userName}/.ssh/id_ed25519 -o StrictHostKeyChecking=accept-new" \
-        --rsync-path="sudo rsync" \
-        ${userName}@${cfg.baseRepoLocation} ${cfg.backupRepoLocation}
+        ${cfg.baseRepoLocation} ${cfg.backupRepoLocation}
       '';
 
       serviceConfig = {

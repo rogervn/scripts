@@ -24,5 +24,8 @@ in {
       disable_startup_analytics = true;
     };
   };
+  myServices.resticBackup.postgresqlBackup.databases = lib.mkAfter [ "authentik" ];
+  myServices.resticBackup.paths = lib.mkAfter [ "/var/lib/authentik" ];
+
   networking.firewall.allowedTCPPorts = [httpPort httpsPort];
 }
