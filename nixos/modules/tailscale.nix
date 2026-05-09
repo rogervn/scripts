@@ -6,6 +6,7 @@
     useRoutingFeatures = "server";
     extraUpFlags = [
       "--accept-routes"
+      "--accept-dns=false"
       "--advertise-exit-node"
       "--advertise-tags=tag:server"
       "--advertise-routes=10.0.0.0/24"
