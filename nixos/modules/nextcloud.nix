@@ -29,7 +29,7 @@ in
     };
 
     extraApps = {
-      inherit (pkgs.nextcloud33.packages.apps) user_oidc;
+      inherit (pkgs.nextcloud33.packages.apps) user_oidc gpoddersync news;
     };
     extraAppsEnable = true;
 
@@ -41,6 +41,7 @@ in
       default_phone_region = "GB";
       maintenance_window_start = 2;
       overwriteprotocol = "https";
+      trusted_proxies = [ "127.0.0.1" "::1" ];
     };
 
     phpOptions = {
@@ -48,6 +49,11 @@ in
       "opcache.max_accelerated_files" = "20000";
       "opcache.interned_strings_buffer" = "16";
     };
+  };
+
+  services.nextcloud.notify_push = {
+    enable = true;
+    nextcloudUrl = "http://127.0.0.1:${toString port}";
   };
 
   # Override nginx vhost to listen on port 8008 instead of default 80/443
