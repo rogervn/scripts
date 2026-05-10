@@ -2,9 +2,10 @@
   userName,
   keyPath,
   ...
-}: {
+}:
+{
   age = {
-    identityPaths = [keyPath];
+    identityPaths = [ keyPath ];
     secrets = {
       backupuser_pass_hash = {
         file = ./secrets/backupuser_pass_hash.age;

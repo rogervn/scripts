@@ -1,8 +1,13 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  ...
+}:
 let
   httpPort = 8014;
   cfg = config.services.joplinServer;
-in {
+in
+{
   imports = [ ./podman.nix ];
 
   options.services.joplinServer = {
@@ -22,10 +27,12 @@ in {
     # ── PostgreSQL ──────────────────────────────────────────────────────────────
     services.postgresql = {
       ensureDatabases = [ "joplin" ];
-      ensureUsers = [{
-        name = "joplin";
-        ensureDBOwnership = true;
-      }];
+      ensureUsers = [
+        {
+          name = "joplin";
+          ensureDBOwnership = true;
+        }
+      ];
       # Add TCP auth for joplin user on the default podman bridge (10.88.0.0/16)
       # without removing the existing peer/trust rules used by immich + paperlessngx
       authentication = lib.mkAfter ''
@@ -38,8 +45,14 @@ in {
     # One-shot service to set the joplin postgres user's password from the env file
     systemd.services.joplin-server-db-setup = {
       description = "Set Joplin Server PostgreSQL password";
-      after = [ "postgresql.service" "postgresql-setup.service" ];
-      requires = [ "postgresql.service" "postgresql-setup.service" ];
+      after = [
+        "postgresql.service"
+        "postgresql-setup.service"
+      ];
+      requires = [
+        "postgresql.service"
+        "postgresql-setup.service"
+      ];
       wantedBy = [ "multi-user.target" ];
       serviceConfig = {
         Type = "oneshot";
@@ -96,7 +109,9 @@ in {
       extraOptions = [ "--add-host=host.docker.internal:host-gateway" ];
     };
 
-    users.groups.joplin = { gid = 1001; };
+    users.groups.joplin = {
+      gid = 1001;
+    };
     users.users.joplin = {
       uid = 1001;
       group = "joplin";

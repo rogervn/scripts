@@ -1,8 +1,8 @@
 {
   pkgs,
   lib,
-  monitors ? [],
-  workspaces ? [],
+  monitors ? [ ],
+  workspaces ? [ ],
   terminal ? "ghostty",
   fileManager ? "nautilus",
   browser ? "vivaldi",
@@ -19,9 +19,10 @@
   notifToggle ? "noctalia-shell ipc call notifications toggleHistory",
   wallpaper ? "noctalia-shell ipc call wallpaper random all",
   extraConfig ? "",
-  extraEnv ? [],
+  extraEnv ? [ ],
   ...
-}: {
+}:
+{
   home.pointerCursor = {
     gtk.enable = true;
     x11.enable = true;
@@ -55,13 +56,19 @@
 
   xdg.portal = {
     enable = true;
-    extraPortals = with pkgs; [xdg-desktop-portal-hyprland xdg-desktop-portal-gtk];
+    extraPortals = with pkgs; [
+      xdg-desktop-portal-hyprland
+      xdg-desktop-portal-gtk
+    ];
     config = {
       hyprland = {
-        default = ["hyprland" "gtk"];
-        "org.freedesktop.impl.portal.Secret" = ["gnome-keyring"];
-        "org.freedesktop.impl.portal.Screenshot" = ["hyprland"];
-        "org.freedesktop.impl.portal.ScreenCast" = ["hyprland"];
+        default = [
+          "hyprland"
+          "gtk"
+        ];
+        "org.freedesktop.impl.portal.Secret" = [ "gnome-keyring" ];
+        "org.freedesktop.impl.portal.Screenshot" = [ "hyprland" ];
+        "org.freedesktop.impl.portal.ScreenCast" = [ "hyprland" ];
       };
     };
   };
@@ -93,14 +100,13 @@
     enable = true;
     systemd.enable = false;
 
-    extraConfig =
-      ''
-        source = ~/.config/hypr/noctalia/noctalia-colors.conf
-        exec-once = uwsm app -- noctalia-shell
-        exec-once = uwsm app -- ${pkgs.hyprpolkitagent}/libexec/hyprpolkitagent
-        windowrule = float on, match:title Calculator
-      ''
-      + extraConfig;
+    extraConfig = ''
+      source = ~/.config/hypr/noctalia/noctalia-colors.conf
+      exec-once = uwsm app -- noctalia-shell
+      exec-once = uwsm app -- ${pkgs.hyprpolkitagent}/libexec/hyprpolkitagent
+      windowrule = float on, match:title Calculator
+    ''
+    + extraConfig;
 
     settings = {
       general = {
@@ -158,12 +164,11 @@
       master.new_status = "master";
       misc.force_default_wallpaper = -1;
 
-      env =
-        [
-          "XCURSOR_SIZE,24"
-          "HYPRCURSOR_SIZE,24"
-        ]
-        ++ extraEnv;
+      env = [
+        "XCURSOR_SIZE,24"
+        "HYPRCURSOR_SIZE,24"
+      ]
+      ++ extraEnv;
 
       input = {
         kb_layout = "us";
@@ -196,22 +201,30 @@
         "uwsm app -- nm-applet"
       ];
 
-      bind = let
-        n = toString;
-        wsBinds =
-          builtins.concatLists (map (i: [
-            "$mainMod, ${n i}, workspace, ${n i}"
-            "$mainMod SHIFT, ${n i}, movetoworkspace, ${n i}"
-          ]) (lib.range 1 9))
-          ++ [
-            "$mainMod, 0, workspace, 10"
-            "$mainMod SHIFT, 0, movetoworkspace, 10"
-          ];
-        monitorNumBinds =
-          lib.imap0
-          (i: key: "CTRL $mainMod, ${n key}, movecurrentworkspacetomonitor, ${n i}")
-          [1 2 3 4 5];
-      in
+      bind =
+        let
+          n = toString;
+          wsBinds =
+            builtins.concatLists (
+              map (i: [
+                "$mainMod, ${n i}, workspace, ${n i}"
+                "$mainMod SHIFT, ${n i}, movetoworkspace, ${n i}"
+              ]) (lib.range 1 9)
+            )
+            ++ [
+              "$mainMod, 0, workspace, 10"
+              "$mainMod SHIFT, 0, movetoworkspace, 10"
+            ];
+          monitorNumBinds =
+            lib.imap0 (i: key: "CTRL $mainMod, ${n key}, movecurrentworkspacetomonitor, ${n i}")
+              [
+                1
+                2
+                3
+                4
+                5
+              ];
+        in
         [
           "$mainMod, return, exec, $terminal"
           "$mainMod, q, killactive,"
@@ -251,7 +264,8 @@
           "$mainMod, mouse_down, workspace, e+1"
           "$mainMod, mouse_up, workspace, e-1"
         ]
-        ++ wsBinds ++ monitorNumBinds;
+        ++ wsBinds
+        ++ monitorNumBinds;
 
       bindm = [
         "$mainMod, mouse:272, movewindow"
@@ -274,7 +288,7 @@
         ", XF86AudioPrev, exec, playerctl previous"
       ];
 
-      windowrule = ["suppress_event maximize, match:class .*"];
+      windowrule = [ "suppress_event maximize, match:class .*" ];
     };
   };
 

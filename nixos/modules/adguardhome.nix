@@ -33,5 +33,5 @@
     };
   };
 
-  networking.firewall.allowedUDPPorts = [53];
+  networking.firewall.allowedUDPPorts = [ 53 ];
 }

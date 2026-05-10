@@ -1,9 +1,11 @@
-{config, lib, ...}: let
+{ config, lib, ... }:
+let
   httpPort = 8011;
   httpsPort = 8012;
-  smtp = config.myServices.smtp;
-in {
-  imports = [./smtp.nix];
+  inherit (config.myServices) smtp;
+in
+{
+  imports = [ ./smtp.nix ];
 
   services.authentik = {
     enable = true;
@@ -27,5 +29,8 @@ in {
   myServices.resticBackup.postgresqlBackup.databases = lib.mkAfter [ "authentik" ];
   myServices.resticBackup.paths = lib.mkAfter [ "/var/lib/authentik" ];
 
-  networking.firewall.allowedTCPPorts = [httpPort httpsPort];
+  networking.firewall.allowedTCPPorts = [
+    httpPort
+    httpsPort
+  ];
 }

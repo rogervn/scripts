@@ -6,34 +6,41 @@
   nixvim,
   pam_shim,
   ...
-}: {
+}:
+{
   targets.genericLinux.enable = true;
-  home.stateVersion = "25.11";
-  home.username = userName;
-  home.homeDirectory = "/home/${userName}";
+  home = {
+    stateVersion = "25.11";
+    username = userName;
+    homeDirectory = "/home/${userName}";
+  };
   programs.home-manager.enable = true;
 
   # systemd skips symlinks when scanning XDG_DATA_DIRS for unit files, so the
   # UWSM units in ~/.nix-profile (which are all symlinks) are invisible to it.
   # Placing them in ~/.config/systemd/user/ via home.file makes systemd load them.
-  home.file = builtins.listToAttrs (map (name: {
-      name = ".config/systemd/user/${name}";
-      value.source = "${pkgs.uwsm}/share/systemd/user/${name}";
-    }) [
-      "wayland-session-bindpid@.service"
-      "wayland-session-envelope@.target"
-      "wayland-session-pre@.target"
-      "wayland-session-shutdown.target"
-      "wayland-session@.target"
-      "wayland-session-waitenv.service"
-      "wayland-session-xdg-autostart@.target"
-      "wayland-wm-app-daemon.service"
-      "wayland-wm-env@.service"
-      "wayland-wm@.service"
-    ]);
+  home.file = builtins.listToAttrs (
+    map
+      (name: {
+        name = ".config/systemd/user/${name}";
+        value.source = "${pkgs.uwsm}/share/systemd/user/${name}";
+      })
+      [
+        "wayland-session-bindpid@.service"
+        "wayland-session-envelope@.target"
+        "wayland-session-pre@.target"
+        "wayland-session-shutdown.target"
+        "wayland-session@.target"
+        "wayland-session-waitenv.service"
+        "wayland-session-xdg-autostart@.target"
+        "wayland-wm-app-daemon.service"
+        "wayland-wm-env@.service"
+        "wayland-wm@.service"
+      ]
+  );
 
   imports = [
-    (import ../home/dotfiles.nix {inherit config lib pkgs;})
+    (import ../home/dotfiles.nix { inherit config lib pkgs; })
     (import ../home/hyprland.nix {
       inherit pkgs lib;
       monitors = [
@@ -64,8 +71,15 @@
         exec-once = uwsm app -- ~/.nix-profile/libexec/xdg-desktop-portal-hyprland
       '';
     })
-    (import ../home/zsh.nix {inherit pkgs;})
-    (import ../home/nvim.nix {inherit pkgs nixvim;})
-    (import ../home/window_manager.nix {inherit pkgs config lib pam_shim;})
+    (import ../home/zsh.nix { inherit pkgs; })
+    (import ../home/nvim.nix { inherit pkgs nixvim; })
+    (import ../home/window_manager.nix {
+      inherit
+        pkgs
+        config
+        lib
+        pam_shim
+        ;
+    })
   ];
 }

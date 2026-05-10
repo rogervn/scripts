@@ -1,11 +1,18 @@
 # Rsync backup from datanixos /data/backup/ to local external drive.
 # Requires private-key SSH login to datanixos as datauser, and passwordless
 # sudo for rsync on datanixos.
-{ config, lib, pkgs, userName, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  userName,
+  ...
+}:
 let
   borgrepo_unit = "borgrepo_sync";
   cfg = config.services.borgrepoSync;
-in {
+in
+{
   options.services.borgrepoSync = {
     baseRepoLocation = lib.mkOption {
       type = lib.types.str;
@@ -25,22 +32,22 @@ in {
     ];
     security.sudo.extraRules = [
       {
-        users = ["${userName}"];
+        users = [ "${userName}" ];
         commands = [
           {
             command = "/run/current-system/sw/bin/rsync";
-            options = ["NOPASSWD"];
+            options = [ "NOPASSWD" ];
           }
           {
             command = "/run/current-system/sw/bin/poweroff";
-            options = ["NOPASSWD"];
+            options = [ "NOPASSWD" ];
           }
         ];
       }
     ];
 
     systemd.timers."${borgrepo_unit}" = {
-      wantedBy = ["timers.target"];
+      wantedBy = [ "timers.target" ];
       timerConfig = {
         OnCalendar = "Sat *-*-* 4:00:00";
         Persistent = true;
@@ -63,8 +70,14 @@ in {
       };
 
       # Wait for both network AND the resolver to be ready
-      after = [ "network-online.target" "nss-lookup.target" ];
-      wants = [ "network-online.target" "nss-lookup.target" ];
+      after = [
+        "network-online.target"
+        "nss-lookup.target"
+      ];
+      wants = [
+        "network-online.target"
+        "nss-lookup.target"
+      ];
     };
   };
 }

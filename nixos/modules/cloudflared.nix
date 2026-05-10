@@ -1,4 +1,5 @@
-{ config, pkgs, ... }: {
+{ config, pkgs, ... }:
+{
   systemd.services.cloudflared = {
     description = "Cloudflare Tunnel";
     after = [ "network.target" ];

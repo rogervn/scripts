@@ -17,28 +17,31 @@
     };
   };
 
-  outputs = {
-    nixpkgs,
-    home-manager,
-    nixvim,
-    pam_shim,
-    ...
-  }: let
-    system = "x86_64-linux";
-    pkgs = nixpkgs.legacyPackages.${system};
-    userName = "rogervn";
-  in {
-    homeConfigurations = {
-      rogervn-desktop = home-manager.lib.homeManagerConfiguration {
-        inherit pkgs;
-        extraSpecialArgs = {inherit userName nixvim pam_shim;};
-        modules = [./home-desktop.nix];
-      };
-      rogervn-headless = home-manager.lib.homeManagerConfiguration {
-        inherit pkgs;
-        extraSpecialArgs = {inherit userName nixvim;};
-        modules = [./home-headless.nix];
+  outputs =
+    {
+      nixpkgs,
+      home-manager,
+      nixvim,
+      pam_shim,
+      ...
+    }:
+    let
+      system = "x86_64-linux";
+      pkgs = nixpkgs.legacyPackages.${system};
+      userName = "rogervn";
+    in
+    {
+      homeConfigurations = {
+        rogervn-desktop = home-manager.lib.homeManagerConfiguration {
+          inherit pkgs;
+          extraSpecialArgs = { inherit userName nixvim pam_shim; };
+          modules = [ ./home-desktop.nix ];
+        };
+        rogervn-headless = home-manager.lib.homeManagerConfiguration {
+          inherit pkgs;
+          extraSpecialArgs = { inherit userName nixvim; };
+          modules = [ ./home-headless.nix ];
+        };
       };
     };
-  };
 }

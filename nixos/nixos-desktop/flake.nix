@@ -14,76 +14,81 @@
     };
   };
 
-  outputs = {
-    nixpkgs,
-    agenix,
-    home-manager,
-    nixvim,
-    ...
-  }: {
-    nixosConfigurations = {
-      amdesktop = let
-        host = "amdesktop";
-      in
-        nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          specialArgs = {
-            userName = "rogervn";
-            hostName = host;
-            keyPath = "/root/.ssh/id_ed25519";
-            inherit nixvim;
-            agenixPackage = agenix.packages.x86_64-linux.default;
+  outputs =
+    {
+      nixpkgs,
+      agenix,
+      home-manager,
+      nixvim,
+      ...
+    }:
+    {
+      nixosConfigurations = {
+        amdesktop =
+          let
+            host = "amdesktop";
+          in
+          nixpkgs.lib.nixosSystem {
+            system = "x86_64-linux";
+            specialArgs = {
+              userName = "rogervn";
+              hostName = host;
+              keyPath = "/root/.ssh/id_ed25519";
+              inherit nixvim;
+              agenixPackage = agenix.packages.x86_64-linux.default;
+            };
+            modules = [
+              ../hosts/${host}/configuration.nix
+              ../hosts/${host}/hardware-configuration.nix
+              ../hosts/${host}/home.nix
+              agenix.nixosModules.default
+              home-manager.nixosModules.home-manager
+            ];
           };
-          modules = [
-            ../hosts/${host}/configuration.nix
-            ../hosts/${host}/hardware-configuration.nix
-            ../hosts/${host}/home.nix
-            agenix.nixosModules.default
-            home-manager.nixosModules.home-manager
-          ];
-        };
 
-      thinknixos = let
-        host = "thinknixos";
-      in
-        nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          specialArgs = {
-            userName = "rogervn";
-            hostName = host;
-            keyPath = "/root/.ssh/id_ed25519";
-            inherit nixvim;
-            agenixPackage = agenix.packages.x86_64-linux.default;
+        thinknixos =
+          let
+            host = "thinknixos";
+          in
+          nixpkgs.lib.nixosSystem {
+            system = "x86_64-linux";
+            specialArgs = {
+              userName = "rogervn";
+              hostName = host;
+              keyPath = "/root/.ssh/id_ed25519";
+              inherit nixvim;
+              agenixPackage = agenix.packages.x86_64-linux.default;
+            };
+            modules = [
+              ../hosts/${host}/configuration.nix
+              ../hosts/${host}/hardware-configuration.nix
+              ../hosts/${host}/home.nix
+              agenix.nixosModules.default
+              home-manager.nixosModules.home-manager
+            ];
           };
-          modules = [
-            ../hosts/${host}/configuration.nix
-            ../hosts/${host}/hardware-configuration.nix
-            ../hosts/${host}/home.nix
-            agenix.nixosModules.default
-            home-manager.nixosModules.home-manager
-          ];
-        };
 
-      nixos-vm = let
-        host = "nixos-vm";
-      in
-        nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          specialArgs = {
-            userName = "rogervn";
-            hostName = host;
-            keyPath = "/root/.ssh/id_ed25519";
-            inherit nixvim;
-            agenixPackage = agenix.packages.x86_64-linux.default;
+        nixos-vm =
+          let
+            host = "nixos-vm";
+          in
+          nixpkgs.lib.nixosSystem {
+            system = "x86_64-linux";
+            specialArgs = {
+              userName = "rogervn";
+              hostName = host;
+              keyPath = "/root/.ssh/id_ed25519";
+              inherit nixvim;
+              agenixPackage = agenix.packages.x86_64-linux.default;
+            };
+            modules = [
+              ../hosts/${host}/configuration.nix
+              ../hosts/${host}/hardware-configuration.nix
+              ../hosts/${host}/home.nix
+              agenix.nixosModules.default
+              home-manager.nixosModules.home-manager
+            ];
           };
-          modules = [
-            ../hosts/${host}/configuration.nix
-            ../hosts/${host}/hardware-configuration.nix
-            ../hosts/${host}/home.nix
-            agenix.nixosModules.default
-            home-manager.nixosModules.home-manager
-          ];
-        };
+      };
     };
-  };
 }

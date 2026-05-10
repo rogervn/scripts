@@ -1,16 +1,16 @@
 {
   config,
-  lib,
   pkgs,
   pam_shim,
   ...
-}: {
+}:
+{
   imports = [
     pam_shim.homeModules.default
   ];
   pamShim.enable = true;
   nixpkgs.overlays = [
-    (final: prev: {
+    (_: prev: {
       noctalia-shell = config.lib.pamShim.replacePam prev.noctalia-shell;
     })
   ];

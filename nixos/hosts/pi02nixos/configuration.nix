@@ -4,63 +4,70 @@
   userName,
   hostName,
   ...
-}: {
-  nix.settings.experimental-features = [
-    "nix-command"
-    "flakes"
-  ];
+}:
+{
+  nix.settings = {
+    experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
+    # allow nix-copy to live system
+    trusted-users = [ userName ];
+  };
 
   time.timeZone = "Europe/London";
 
-  boot.loader.raspberryPi.bootloader = "uboot";
-  hardware.raspberry-pi.config.all.options = {
-    gpu_mem = {
-      enable = true;
-      value = 16;
-    };
-    start_x = {
-      enable = true;
-      value = 0;
-    };
+  boot = {
+    loader.raspberryPi.bootloader = "uboot";
+    kernelParams = [ "console=ttyS1,115200n8" ];
+    extraModprobeConfig = ''
+      options brcmfmac roamoff=1 feature_disable=0x82000
+    '';
   };
-  boot.kernelParams = ["console=ttyS1,115200n8"];
-  hardware.enableRedistributableFirmware = lib.mkForce false;
-  boot.extraModprobeConfig = ''
-    options brcmfmac roamoff=1 feature_disable=0x82000
-  '';
-  hardware.firmware = [pkgs.raspberrypiWirelessFirmware];
+  hardware = {
+    raspberry-pi.config.all.options = {
+      gpu_mem = {
+        enable = true;
+        value = 16;
+      };
+      start_x = {
+        enable = true;
+        value = 0;
+      };
+    };
+    enableRedistributableFirmware = lib.mkForce false;
+    firmware = [ pkgs.raspberrypiWirelessFirmware ];
+  };
 
   zramSwap.enable = true;
 
-  # allow nix-copy to live system
-  nix.settings.trusted-users = [userName];
-
-  networking.hostName = hostName;
-
-  networking.useNetworkd = true;
-  networking.firewall = {
-    allowedTCPPorts = [22];
-    allowedUDPPorts = [5353];
-  };
-  systemd.network.networks = {
-    "99-ethernet-default-dhcp".networkConfig.MulticastDNS = "yes";
-    "99-wireless-client-dhcp".networkConfig.MulticastDNS = "yes";
-  };
-
-  systemd.services = {
-    systemd-networkd.stopIfChanged = false;
-    systemd-resolved.stopIfChanged = false;
-  };
-
-  networking.interfaces."wlan0".useDHCP = true;
-  networking.wireless.iwd = {
-    enable = true;
-    settings = {
-      Network = {
-        EnableIPv6 = true;
-        RoutePriorityOffset = 300;
+  networking = {
+    inherit hostName;
+    useNetworkd = true;
+    firewall = {
+      allowedTCPPorts = [ 22 ];
+      allowedUDPPorts = [ 5353 ];
+    };
+    interfaces."wlan0".useDHCP = true;
+    wireless.iwd = {
+      enable = true;
+      settings = {
+        Network = {
+          EnableIPv6 = true;
+          RoutePriorityOffset = 300;
+        };
+        Settings.AutoConnect = true;
       };
-      Settings.AutoConnect = true;
+    };
+  };
+  systemd = {
+    network.networks = {
+      "99-ethernet-default-dhcp".networkConfig.MulticastDNS = "yes";
+      "99-wireless-client-dhcp".networkConfig.MulticastDNS = "yes";
+    };
+    services = {
+      systemd-networkd.stopIfChanged = false;
+      systemd-resolved.stopIfChanged = false;
     };
   };
 

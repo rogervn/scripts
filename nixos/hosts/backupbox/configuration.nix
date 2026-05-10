@@ -6,18 +6,21 @@
   nixvim,
   agenixPackage,
   ...
-}: {
+}:
+{
   imports = [
     ../../modules/base.nix
     ../../modules/secrets-backupuser.nix
     ../../modules/borgrepo_sync.nix
   ];
 
-  home-manager.useGlobalPkgs = true;
-  home-manager.useUserPackages = true;
-  home-manager.extraSpecialArgs = {inherit nixvim;};
+  home-manager = {
+    useGlobalPkgs = true;
+    useUserPackages = true;
+    extraSpecialArgs = { inherit nixvim; };
+  };
 
-  environment.systemPackages = [agenixPackage];
+  environment.systemPackages = [ agenixPackage ];
 
   nix.settings.experimental-features = [
     "nix-command"
@@ -25,14 +28,20 @@
   ];
   nixpkgs.config.allowUnfree = true;
 
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot = {
+    loader = {
+      systemd-boot.enable = true;
+      efi.canTouchEfiVariables = true;
+    };
+    kernelPackages = pkgs.linuxPackages_latest;
+  };
 
   time.timeZone = "Europe/London";
 
-  hardware.bluetooth.enable = true;
-  hardware.enableAllFirmware = true;
+  hardware = {
+    bluetooth.enable = true;
+    enableAllFirmware = true;
+  };
 
   services.kmscon = {
     enable = true;
@@ -45,14 +54,16 @@
     ];
   };
 
-  networking.hostName = hostName;
-  networking.networkmanager = {
-    enable = true;
-    wifi.backend = "iwd";
-  };
-  networking.firewall = {
-    enable = true;
-    allowedTCPPorts = [22];
+  networking = {
+    inherit hostName;
+    networkmanager = {
+      enable = true;
+      wifi.backend = "iwd";
+    };
+    firewall = {
+      enable = true;
+      allowedTCPPorts = [ 22 ];
+    };
   };
 
   users.users.${userName} = {

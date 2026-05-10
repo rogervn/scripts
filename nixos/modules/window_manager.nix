@@ -1,26 +1,25 @@
 {
   pkgs,
-  userName,
   ...
-}: let
+}:
+let
   # Makes it so hyprland non-uwsm will be hidden
   hyprlandFiltered = pkgs.symlinkJoin {
     name = "hyprland-uwsm-only";
-    paths = [pkgs.hyprland];
+    paths = [ pkgs.hyprland ];
     postBuild = ''
       cat $out/share/wayland-sessions/hyprland.desktop > $out/share/wayland-sessions/hyprland.desktop.tmp
       mv $out/share/wayland-sessions/hyprland.desktop.tmp $out/share/wayland-sessions/hyprland.desktop
       echo "NoDisplay=true" >> $out/share/wayland-sessions/hyprland.desktop
     '';
   };
-  hyprlandUwsmOnly =
-    pkgs.hyprland
-    // {
-      outPath = hyprlandFiltered.outPath;
-      drvPath = hyprlandFiltered.drvPath;
-      override = _: hyprlandUwsmOnly;
-    };
-in {
+  hyprlandUwsmOnly = pkgs.hyprland // {
+    inherit (hyprlandFiltered) outPath;
+    inherit (hyprlandFiltered) drvPath;
+    override = _: hyprlandUwsmOnly;
+  };
+in
+{
   environment.systemPackages = with pkgs; [
     bibata-cursors
     bitwarden-desktop
@@ -56,36 +55,40 @@ in {
     nerd-fonts.symbols-only
   ];
 
-  programs.hyprland = {
-    enable = true;
-    withUWSM = true;
-    package = hyprlandUwsmOnly;
-  };
-
-  programs.regreet = {
-    enable = true;
-
-    cursorTheme = {
-      name = "Bibata-Modern-Classic";
-      package = pkgs.bibata-cursors;
+  programs = {
+    hyprland = {
+      enable = true;
+      withUWSM = true;
+      package = hyprlandUwsmOnly;
     };
 
-    settings = {
-      background = {
-        path = "${pkgs.nixos-artwork.wallpapers.nineish-dark-gray.src}";
-        fit = "Cover";
+    regreet = {
+      enable = true;
+
+      cursorTheme = {
+        name = "Bibata-Modern-Classic";
+        package = pkgs.bibata-cursors;
       };
-      GTK = {
-        application_prefer_dark_theme = true;
+
+      settings = {
+        background = {
+          path = "${pkgs.nixos-artwork.wallpapers.nineish-dark-gray.src}";
+          fit = "Cover";
+        };
+        GTK = {
+          application_prefer_dark_theme = true;
+        };
       };
     };
+
+    seahorse.enable = true;
   };
 
-  services.gnome.gnome-keyring.enable = true;
-  programs.seahorse.enable = true;
-
-  services.upower.enable = true;
-  services.power-profiles-daemon.enable = true;
+  services = {
+    gnome.gnome-keyring.enable = true;
+    upower.enable = true;
+    power-profiles-daemon.enable = true;
+  };
 
   security.pam.services.greetd.enableGnomeKeyring = true;
 
@@ -93,5 +96,5 @@ in {
 
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
-  xdg.portal.extraPortals = [pkgs.xdg-desktop-portal-hyprland];
+  xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-hyprland ];
 }

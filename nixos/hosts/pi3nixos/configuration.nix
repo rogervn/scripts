@@ -2,45 +2,50 @@
   userName,
   hostName,
   ...
-}: {
-  nix.settings.experimental-features = [
-    "nix-command"
-    "flakes"
-  ];
+}:
+{
+  nix.settings = {
+    experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
+    # allow nix-copy to live system
+    trusted-users = [ userName ];
+  };
 
   time.timeZone = "Europe/London";
 
   boot.loader.raspberryPi.bootloader = "kernel";
 
-  # allow nix-copy to live system
-  nix.settings.trusted-users = [userName];
-
-  networking.hostName = hostName;
-
-  networking.useNetworkd = true;
-  networking.firewall = {
-    allowedTCPPorts = [22];
-    allowedUDPPorts = [5353];
-  };
-  systemd.network.networks = {
-    "99-ethernet-default-dhcp".networkConfig.MulticastDNS = "yes";
-    "99-wireless-client-dhcp".networkConfig.MulticastDNS = "yes";
-  };
-
-  systemd.services = {
-    systemd-networkd.stopIfChanged = false;
-    systemd-resolved.stopIfChanged = false;
-  };
-
-  networking.wireless.enable = false;
-  networking.wireless.iwd = {
-    enable = true;
-    settings = {
-      Network = {
-        EnableIPv6 = true;
-        RoutePriorityOffset = 300;
+  networking = {
+    inherit hostName;
+    useNetworkd = true;
+    firewall = {
+      allowedTCPPorts = [ 22 ];
+      allowedUDPPorts = [ 5353 ];
+    };
+    wireless = {
+      enable = false;
+      iwd = {
+        enable = true;
+        settings = {
+          Network = {
+            EnableIPv6 = true;
+            RoutePriorityOffset = 300;
+          };
+          Settings.AutoConnect = true;
+        };
       };
-      Settings.AutoConnect = true;
+    };
+  };
+  systemd = {
+    network.networks = {
+      "99-ethernet-default-dhcp".networkConfig.MulticastDNS = "yes";
+      "99-wireless-client-dhcp".networkConfig.MulticastDNS = "yes";
+    };
+    services = {
+      systemd-networkd.stopIfChanged = false;
+      systemd-resolved.stopIfChanged = false;
     };
   };
 

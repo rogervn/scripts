@@ -2,9 +2,10 @@
   userName,
   keyPath,
   ...
-}: {
+}:
+{
   age = {
-    identityPaths = [keyPath];
+    identityPaths = [ keyPath ];
     secrets = {
       piuk_authorized_keys = {
         file = ./secrets/piuk_authorized_keys.age;

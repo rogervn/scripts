@@ -6,7 +6,8 @@
   nixvim,
   agenixPackage,
   ...
-}: {
+}:
+{
   imports = [
     ../../modules/base.nix
     ../../modules/secrets-serveruser.nix
@@ -19,11 +20,13 @@
     ../../modules/vaultwarden.nix
   ];
 
-  home-manager.useGlobalPkgs = true;
-  home-manager.useUserPackages = true;
-  home-manager.extraSpecialArgs = {inherit nixvim;};
+  home-manager = {
+    useGlobalPkgs = true;
+    useUserPackages = true;
+    extraSpecialArgs = { inherit nixvim; };
+  };
 
-  environment.systemPackages = [agenixPackage];
+  environment.systemPackages = [ agenixPackage ];
 
   nix.settings.experimental-features = [
     "nix-command"
@@ -31,13 +34,15 @@
   ];
   nixpkgs.config.allowUnfree = true;
 
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot = {
+    loader.systemd-boot.enable = true;
+    loader.efi.canTouchEfiVariables = true;
+    kernelPackages = pkgs.linuxPackages_latest;
+  };
 
   time.timeZone = "Europe/London";
 
-  nix.settings.trusted-users = [userName];
+  nix.settings.trusted-users = [ userName ];
 
   hardware.bluetooth.enable = true;
   hardware.enableAllFirmware = true;
@@ -53,11 +58,13 @@
     ];
   };
 
-  networking.hostName = hostName;
-  networking.useNetworkd = true;
-  networking.firewall = {
-    enable = true;
-    allowedTCPPorts = [22];
+  networking = {
+    inherit hostName;
+    useNetworkd = true;
+    firewall = {
+      enable = true;
+      allowedTCPPorts = [ 22 ];
+    };
   };
 
   users.users.${userName} = {
@@ -76,11 +83,15 @@
   };
 
   myServices.resticBackup = {
-    enable             = true;
-    repository         = "sftp://backupuser@datanixos.localdomain:/data/backup/servers/mininixos";
+    enable = true;
+    repository = "sftp://backupuser@datanixos.localdomain:/data/backup/servers/mininixos";
     passwordSecretPath = config.age.secrets.mininixos_backup_restic_pass.path;
-    timerConfig        = { OnCalendar = "daily"; RandomizedDelaySec = "1h"; Persistent = true; };
-    extraOptions       = [ "sftp.args=-i /root/.ssh/id_ed25519" ];
+    timerConfig = {
+      OnCalendar = "daily";
+      RandomizedDelaySec = "1h";
+      Persistent = true;
+    };
+    extraOptions = [ "sftp.args=-i /root/.ssh/id_ed25519" ];
     # paths populated automatically by vaultwarden.nix
     # postgresqlBackup.enable defaults to false — mininixos has no postgres
   };

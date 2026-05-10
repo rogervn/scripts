@@ -1,9 +1,11 @@
-{ config, lib, ... }: let
+{ config, lib, ... }:
+let
   httpPort = 8015;
   dataDir = "/data/apps/paperlessngx";
-  smtp = config.myServices.smtp;
-in {
-  imports = [./smtp.nix];
+  inherit (config.myServices) smtp;
+in
+{
+  imports = [ ./smtp.nix ];
 
   services.redis.servers.paperless = {
     enable = true;
@@ -14,7 +16,7 @@ in {
     enable = true;
     address = "0.0.0.0";
     port = httpPort;
-    dataDir = dataDir;
+    inherit dataDir;
     environmentFile = config.age.secrets.paperlessngx_env_file.path;
     settings = {
       PAPERLESS_URL = "https://paperless.vnunes.win";
@@ -36,5 +38,5 @@ in {
   myServices.resticBackup.postgresqlBackup.databases = lib.mkAfter [ "paperless" ];
   myServices.resticBackup.paths = lib.mkAfter [ dataDir ];
 
-  networking.firewall.allowedTCPPorts = [httpPort];
+  networking.firewall.allowedTCPPorts = [ httpPort ];
 }

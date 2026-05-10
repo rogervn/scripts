@@ -1,6 +1,7 @@
 let
   httpPort = 8003;
-in {
+in
+{
   services.uptime-kuma = {
     enable = true;
     settings = {
@@ -8,5 +9,5 @@ in {
       PORT = toString httpPort;
     };
   };
-  networking.firewall.allowedTCPPorts = [httpPort];
+  networking.firewall.allowedTCPPorts = [ httpPort ];
 }

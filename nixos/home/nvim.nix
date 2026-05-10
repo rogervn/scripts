@@ -2,12 +2,13 @@
   pkgs,
   nixvim,
   ...
-}: {
+}:
+{
   home.sessionVariables = {
     EDITOR = "nvim";
   };
 
-  imports = [nixvim.homeModules.nixvim];
+  imports = [ nixvim.homeModules.nixvim ];
 
   home.packages = with pkgs; [
     alejandra
@@ -71,9 +72,9 @@
         autoEnableSources = true;
         settings = {
           sources = [
-            {name = "nvim_lsp";}
-            {name = "path";}
-            {name = "buffer";}
+            { name = "nvim_lsp"; }
+            { name = "path"; }
+            { name = "buffer"; }
           ];
           mapping = {
             "<Tab>" = "cmp.mapping(cmp.mapping.select_next_item(), {'i', 's'})";
@@ -96,21 +97,24 @@
           '';
           formatters = {
             yamlfmt = {
-              prepend_args = ["-formatter" "retain_line_breaks=true"];
+              prepend_args = [
+                "-formatter"
+                "retain_line_breaks=true"
+              ];
             };
           };
           formatters_by_ft = {
-            sh = ["shfmt"];
-            markdown = ["prettier"];
-            nix = ["alejandra"];
-            rust = ["rustfmt"];
+            sh = [ "shfmt" ];
+            markdown = [ "prettier" ];
+            nix = [ "alejandra" ];
+            rust = [ "rustfmt" ];
             python = [
               "isort"
               "black"
             ];
-            ansible = ["yamlfmt"];
-            yaml = ["yamlfmt"];
-            json = ["prettier"];
+            ansible = [ "yamlfmt" ];
+            yaml = [ "yamlfmt" ];
+            json = [ "prettier" ];
           };
         };
       };
@@ -139,7 +143,7 @@
           nil_ls = {
             enable = true;
             settings = {
-              formatting.command = ["nixpkgs-fmt"];
+              formatting.command = [ "nixpkgs-fmt" ];
             };
           };
 
@@ -161,7 +165,9 @@
 
       telescope = {
         enable = true;
-        extensions = {fzf-native.enable = true;};
+        extensions = {
+          fzf-native.enable = true;
+        };
         keymaps = {
           "<leader>ff" = "find_files";
           "<leader>fg" = "live_grep";

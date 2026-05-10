@@ -1,13 +1,13 @@
 {
   config,
-  lib,
   pkgs,
   userName,
   hostName,
   nixvim,
   agenixPackage,
   ...
-}: {
+}:
+{
   imports = [
     ../../modules/base.nix
     ../../modules/secrets-rogervn.nix
@@ -16,58 +16,67 @@
     ../../modules/zfs.nix
   ];
 
-  home-manager.useGlobalPkgs = true;
-  home-manager.useUserPackages = true;
-  home-manager.extraSpecialArgs = {inherit nixvim;};
+  home-manager = {
+    useGlobalPkgs = true;
+    useUserPackages = true;
+    extraSpecialArgs = { inherit nixvim; };
+  };
 
-  environment.systemPackages = [agenixPackage];
+  environment.systemPackages = [ agenixPackage ];
 
-  nix.settings.experimental-features = [
-    "nix-command"
-    "flakes"
-  ];
+  nix = {
+    settings.experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
+    gc = {
+      automatic = true;
+      dates = "weekly";
+      options = "--delete-older-than 14d";
+    };
+  };
   nixpkgs.config.allowUnfree = true;
 
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader = {
+    systemd-boot.enable = true;
+    efi.canTouchEfiVariables = true;
+  };
 
   time.timeZone = "Europe/London";
 
-  hardware.bluetooth.enable = true;
-  hardware.enableAllFirmware = true;
-
-  services.kmscon = {
-    enable = true;
-    hwRender = true;
-    fonts = [
-      {
-        name = "JetbrainsMono NL Nerd Font Mono";
-        package = pkgs.nerd-fonts.jetbrains-mono;
-      }
-    ];
+  hardware = {
+    bluetooth.enable = true;
+    enableAllFirmware = true;
   };
 
-  networking.hostName = hostName;
-  networking.hostId = "8425e349";
-  networking.networkmanager.enable = true;
-  networking.firewall = {
-    enable = true;
-    allowedTCPPorts = [22];
+  services = {
+    kmscon = {
+      enable = true;
+      hwRender = true;
+      fonts = [
+        {
+          name = "JetbrainsMono NL Nerd Font Mono";
+          package = pkgs.nerd-fonts.jetbrains-mono;
+        }
+      ];
+    };
+    pipewire = {
+      enable = true;
+      pulse.enable = true;
+    };
+    # Enable touchpad support (enabled default in most desktopManager).
+    libinput.enable = true;
   };
 
-  nix.gc = {
-    automatic = true;
-    dates = "weekly";
-    options = "--delete-older-than 14d";
+  networking = {
+    inherit hostName;
+    hostId = "8425e349";
+    networkmanager.enable = true;
+    firewall = {
+      enable = true;
+      allowedTCPPorts = [ 22 ];
+    };
   };
-
-  services.pipewire = {
-    enable = true;
-    pulse.enable = true;
-  };
-
-  # Enable touchpad support (enabled default in most desktopManager).
-  services.libinput.enable = true;
 
   users.users.${userName} = {
     isNormalUser = true;

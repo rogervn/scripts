@@ -1,4 +1,5 @@
-{config, ...}: {
+{ config, ... }:
+{
   services.tailscale = {
     enable = true;
     port = 41641;
@@ -12,5 +13,5 @@
       "--advertise-routes=10.0.0.0/24"
     ];
   };
-  networking.firewall.allowedUDPPorts = [41641];
+  networking.firewall.allowedUDPPorts = [ 41641 ];
 }

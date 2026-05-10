@@ -6,7 +6,8 @@
   nixvim,
   agenixPackage,
   ...
-}: {
+}:
+{
   imports = [
     ../../modules/base.nix
     ../../modules/secrets-rogervn.nix
@@ -14,66 +15,79 @@
     ../../modules/window_manager.nix
   ];
 
-  home-manager.useGlobalPkgs = true;
-  home-manager.useUserPackages = true;
-  home-manager.extraSpecialArgs = {inherit nixvim;};
+  home-manager = {
+    useGlobalPkgs = true;
+    useUserPackages = true;
+    extraSpecialArgs = { inherit nixvim; };
+  };
 
-  environment.systemPackages = [agenixPackage];
+  environment.systemPackages = [ agenixPackage ];
 
-  nix.settings.experimental-features = [
-    "nix-command"
-    "flakes"
-  ];
+  nix = {
+    settings = {
+      experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
+      # Uncomment these to be able to build a aarch64 image
+      trusted-users = [ userName ];
+    };
+    gc = {
+      automatic = true;
+      dates = "weekly";
+      options = "--delete-older-than 14d";
+    };
+  };
   nixpkgs.config.allowUnfree = true;
 
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-  boot.kernelPackages = pkgs.linuxPackages_latest;
-  boot.extraModprobeConfig = ''
-    options cfg80211 ieee80211_regdom="GB"
-  '';
-
-  # Uncomment these to be able to build a aarch64 image
-  boot.binfmt.emulatedSystems = ["aarch64-linux"];
-  nix.settings.trusted-users = [userName];
+  boot = {
+    loader = {
+      systemd-boot.enable = true;
+      efi.canTouchEfiVariables = true;
+    };
+    kernelPackages = pkgs.linuxPackages_latest;
+    extraModprobeConfig = ''
+      options cfg80211 ieee80211_regdom="GB"
+    '';
+    binfmt.emulatedSystems = [ "aarch64-linux" ];
+  };
 
   time.timeZone = "Europe/London";
 
-  hardware.wirelessRegulatoryDatabase = true;
-  hardware.bluetooth.enable = true;
-  hardware.enableAllFirmware = true;
-  hardware.xone.enable = true;
-
-  services.kmscon = {
-    enable = true;
-    hwRender = true;
-    fonts = [
-      {
-        name = "JetbrainsMono NL Nerd Font Mono";
-        package = pkgs.nerd-fonts.jetbrains-mono;
-      }
-    ];
+  hardware = {
+    wirelessRegulatoryDatabase = true;
+    bluetooth.enable = true;
+    enableAllFirmware = true;
+    xone.enable = true;
   };
 
-  networking.hostName = hostName;
-  networking.networkmanager = {
-    enable = true;
-    wifi.backend = "iwd";
-  };
-  networking.firewall = {
-    enable = true;
-    allowedTCPPorts = [22];
+  services = {
+    kmscon = {
+      enable = true;
+      hwRender = true;
+      fonts = [
+        {
+          name = "JetbrainsMono NL Nerd Font Mono";
+          package = pkgs.nerd-fonts.jetbrains-mono;
+        }
+      ];
+    };
+    pipewire = {
+      enable = true;
+      pulse.enable = true;
+    };
   };
 
-  nix.gc = {
-    automatic = true;
-    dates = "weekly";
-    options = "--delete-older-than 14d";
-  };
-
-  services.pipewire = {
-    enable = true;
-    pulse.enable = true;
+  networking = {
+    inherit hostName;
+    networkmanager = {
+      enable = true;
+      wifi.backend = "iwd";
+    };
+    firewall = {
+      enable = true;
+      allowedTCPPorts = [ 22 ];
+    };
   };
 
   users.users.${userName} = {

@@ -5,30 +5,106 @@ let
   backupbox = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIA7oBoq6qfSegWYiov46W11wuOZMq+B4zaGt45SfN/g/";
   mininixos = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINeIjCWbfG/0k8wpBAN5WQu5ikl8mSAOiLEbqsSD0WaP";
   datanixos = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIflQBy+YtPvpu2N5XVAsUn3c6lY8uNYExDv2THYFyYA";
-in {
-  "rogervn_pass_hash.age".publicKeys = [amdesktop thinknixos];
-  "rogervn_private_key.age".publicKeys = [amdesktop thinknixos];
-  "rogervn_authorized_keys.age".publicKeys = [amdesktop thinknixos];
-  "piuk_authorized_keys.age".publicKeys = [amdesktop piuk];
-  "backupuser_pass_hash.age".publicKeys = [amdesktop backupbox];
-  "backupuser_private_key.age".publicKeys = [amdesktop backupbox];
-  "backupuser_authorized_keys.age".publicKeys = [amdesktop backupbox];
-  "serveruser_pass_hash.age".publicKeys = [amdesktop mininixos];
-  "serveruser_authorized_keys.age".publicKeys = [amdesktop mininixos];
-  "datauser_pass_hash.age".publicKeys = [amdesktop datanixos];
-  "datauser_private_key.age".publicKeys = [amdesktop datanixos];
-  "datauser_authorized_keys.age".publicKeys = [amdesktop datanixos];
-  "cloudflared_token.age".publicKeys = [amdesktop mininixos];
-  "tailscale_auth_key.age".publicKeys = [amdesktop mininixos];
-  "vaultwarden_env_file.age".publicKeys = [amdesktop mininixos];
-  "mininixos_backup_restic_pass.age".publicKeys = [amdesktop mininixos];
-  "authentik_env_file.age".publicKeys = [amdesktop datanixos];
-  "paperlessngx_env_file.age".publicKeys = [amdesktop datanixos];
-  "joplin_server_env_file.age".publicKeys = [amdesktop datanixos];
-  "joplin_idp_file.age".publicKeys = [amdesktop datanixos];
-  "nextcloud_admin_pass.age".publicKeys = [amdesktop datanixos];
-  "smtp_password.age".publicKeys = [amdesktop datanixos];
-  "datanixos_restic_pass.age".publicKeys = [amdesktop datanixos];
-  "datanixos_rclone_env.age".publicKeys = [amdesktop datanixos];
-  "datanixos_backupuser_authorized_keys.age".publicKeys = [amdesktop datanixos];
+in
+{
+  "rogervn_pass_hash.age".publicKeys = [
+    amdesktop
+    thinknixos
+  ];
+  "rogervn_private_key.age".publicKeys = [
+    amdesktop
+    thinknixos
+  ];
+  "rogervn_authorized_keys.age".publicKeys = [
+    amdesktop
+    thinknixos
+  ];
+  "piuk_authorized_keys.age".publicKeys = [
+    amdesktop
+    piuk
+  ];
+  "backupuser_pass_hash.age".publicKeys = [
+    amdesktop
+    backupbox
+  ];
+  "backupuser_private_key.age".publicKeys = [
+    amdesktop
+    backupbox
+  ];
+  "backupuser_authorized_keys.age".publicKeys = [
+    amdesktop
+    backupbox
+  ];
+  "serveruser_pass_hash.age".publicKeys = [
+    amdesktop
+    mininixos
+  ];
+  "serveruser_authorized_keys.age".publicKeys = [
+    amdesktop
+    mininixos
+  ];
+  "datauser_pass_hash.age".publicKeys = [
+    amdesktop
+    datanixos
+  ];
+  "datauser_private_key.age".publicKeys = [
+    amdesktop
+    datanixos
+  ];
+  "datauser_authorized_keys.age".publicKeys = [
+    amdesktop
+    datanixos
+  ];
+  "cloudflared_token.age".publicKeys = [
+    amdesktop
+    mininixos
+  ];
+  "tailscale_auth_key.age".publicKeys = [
+    amdesktop
+    mininixos
+  ];
+  "vaultwarden_env_file.age".publicKeys = [
+    amdesktop
+    mininixos
+  ];
+  "mininixos_backup_restic_pass.age".publicKeys = [
+    amdesktop
+    mininixos
+  ];
+  "authentik_env_file.age".publicKeys = [
+    amdesktop
+    datanixos
+  ];
+  "paperlessngx_env_file.age".publicKeys = [
+    amdesktop
+    datanixos
+  ];
+  "joplin_server_env_file.age".publicKeys = [
+    amdesktop
+    datanixos
+  ];
+  "joplin_idp_file.age".publicKeys = [
+    amdesktop
+    datanixos
+  ];
+  "nextcloud_admin_pass.age".publicKeys = [
+    amdesktop
+    datanixos
+  ];
+  "smtp_password.age".publicKeys = [
+    amdesktop
+    datanixos
+  ];
+  "datanixos_restic_pass.age".publicKeys = [
+    amdesktop
+    datanixos
+  ];
+  "datanixos_rclone_env.age".publicKeys = [
+    amdesktop
+    datanixos
+  ];
+  "datanixos_backupuser_authorized_keys.age".publicKeys = [
+    amdesktop
+    datanixos
+  ];
 }

@@ -3,15 +3,18 @@
   userName,
   nixvim,
   ...
-}: {
+}:
+{
   targets.genericLinux.enable = true;
-  home.stateVersion = "25.11";
-  home.username = userName;
-  home.homeDirectory = "/home/${userName}";
+  home = {
+    stateVersion = "25.11";
+    username = userName;
+    homeDirectory = "/home/${userName}";
+  };
   programs.home-manager.enable = true;
 
   imports = [
-    (import ../home/zsh.nix {inherit pkgs;})
-    (import ../home/nvim.nix {inherit pkgs nixvim;})
+    (import ../home/zsh.nix { inherit pkgs; })
+    (import ../home/nvim.nix { inherit pkgs nixvim; })
   ];
 }

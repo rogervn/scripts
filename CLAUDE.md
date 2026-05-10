@@ -62,6 +62,37 @@ home-manager switch --flake .#rogervn-desktop   # desktop machine (Hyprland, win
 home-manager switch --flake .#rogervn-headless  # headless machine (zsh, nvim only)
 ```
 
+## NixOS Linting and Formatting
+
+Tools available (all via `nix run nixpkgs#<tool>`):
+- **nixfmt** — formatter (available at `nixfmt` directly)
+- **statix** — linter: repeated keys (W20), use `inherit` (W03/W04), empty patterns (W10), etc.
+- **deadnix** — linter: unused lambda arguments and bindings
+
+### Workflow
+
+**After making changes to `nixos/`:**
+1. Ask the user before running anything — do not run linter or formatter automatically.
+2. If the user approves, run the linter first, fix all warnings, then run the formatter last.
+
+**Commands:**
+```bash
+# Lint
+nix run nixpkgs#statix -- check nixos/
+nix run nixpkgs#deadnix -- nixos/
+
+# Auto-fix what statix can (W03/W04/W10); W20 must be fixed manually
+nix run nixpkgs#statix -- fix nixos/
+
+# Format (run after all lint fixes are done)
+nixfmt nixos/**/*.nix
+```
+
+**Order of operations:**
+1. Fix deadnix warnings (remove unused lambda args)
+2. Fix statix warnings (`statix fix` for auto-fixable; manually group repeated keys for W20)
+3. Run `nixfmt` to reformat everything
+
 ## Architecture
 
 ### Ansible Pi-Server (`ansible/pi-server/`)

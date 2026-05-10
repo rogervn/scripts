@@ -4,10 +4,12 @@
   pkgs,
   hostName,
   ...
-}: let
+}:
+let
   port = 8008;
   externalUrl = "nextcloud.vnunes.win";
-in {
+in
+{
   services.nextcloud = {
     enable = true;
     package = pkgs.nextcloud33;
@@ -32,7 +34,10 @@ in {
     extraAppsEnable = true;
 
     settings = {
-      trusted_domains = [hostName externalUrl];
+      trusted_domains = [
+        hostName
+        externalUrl
+      ];
       default_phone_region = "GB";
       maintenance_window_start = 2;
       overwriteprotocol = "https";
@@ -51,32 +56,34 @@ in {
     listen = [
       {
         addr = "0.0.0.0";
-        port = port;
+        inherit port;
         ssl = false;
       }
     ];
   };
 
-  networking.firewall.allowedTCPPorts = [port];
+  networking.firewall.allowedTCPPorts = [ port ];
 
-  myServices.resticBackup.postgresqlBackup.databases = lib.mkAfter [ "nextcloud" ];
-  myServices.resticBackup.paths   = lib.mkAfter [ config.services.nextcloud.home ];
-  myServices.resticBackup.exclude = lib.mkAfter [ "${config.services.nextcloud.home}/.opcache" ];
+  myServices.resticBackup = {
+    postgresqlBackup.databases = lib.mkAfter [ "nextcloud" ];
+    paths = lib.mkAfter [ config.services.nextcloud.home ];
+    exclude = lib.mkAfter [ "${config.services.nextcloud.home}/.opcache" ];
+  };
 
   systemd.services."nextcloud-maintenance-mode" = {
     description = "Nextcloud maintenance mode for DB backup";
-    before   = [ "postgresqlBackup-nextcloud.service" ];
+    before = [ "postgresqlBackup-nextcloud.service" ];
     wantedBy = [ "postgresqlBackup-nextcloud.service" ];
     serviceConfig = {
       Type = "oneshot";
       RemainAfterExit = true;
       ExecStart = "${config.services.nextcloud.occ}/bin/nextcloud-occ maintenance:mode --on";
-      ExecStop  = "${config.services.nextcloud.occ}/bin/nextcloud-occ maintenance:mode --off";
+      ExecStop = "${config.services.nextcloud.occ}/bin/nextcloud-occ maintenance:mode --off";
       User = "nextcloud";
     };
   };
   systemd.services."postgresqlBackup-nextcloud" = {
-    after    = lib.mkAfter [ "nextcloud-maintenance-mode.service" ];
+    after = lib.mkAfter [ "nextcloud-maintenance-mode.service" ];
     requires = lib.mkAfter [ "nextcloud-maintenance-mode.service" ];
   };
 }

@@ -1,10 +1,12 @@
-{config, lib, ...}: let
+{ config, lib, ... }:
+let
   httpPort = 8002;
   backupDir = "/var/backup/vaultwarden";
-in {
+in
+{
   services.vaultwarden = {
     enable = true;
-    backupDir = backupDir;
+    inherit backupDir;
 
     environmentFile = config.age.secrets.vaultwarden_env_file.path;
 
@@ -26,5 +28,5 @@ in {
   systemd.tmpfiles.rules = [
     "d ${backupDir} 0700 vaultwarden vaultwarden -"
   ];
-  networking.firewall.allowedTCPPorts = [httpPort];
+  networking.firewall.allowedTCPPorts = [ httpPort ];
 }

@@ -3,46 +3,47 @@
   pkgs,
   userName,
   ...
-}: {
-  programs.steam = {
-    enable = true;
-    remotePlay.openFirewall = true;
-    dedicatedServer.openFirewall = true;
-    extraCompatPackages = with pkgs; [
-      proton-ge-bin
-    ];
-    gamescopeSession = {
+}:
+{
+  programs = {
+    steam = {
       enable = true;
-      args = [
-        "--mangoapp"
-        "--hdr-enabled"
-        "--rt"
-        "-r"
-        "120"
-        "-f"
-        "-e"
-        "--xwayland-count"
-        "2"
+      remotePlay.openFirewall = true;
+      dedicatedServer.openFirewall = true;
+      extraCompatPackages = with pkgs; [
+        proton-ge-bin
       ];
-      steamArgs = [
-        "-pipewire-dmabuf"
-        "-gamepadui"
-        "-steamdeck"
-        "-steamos3"
-      ];
-      env = {
-        PATH = "/usr/bin:$PATH";
+      gamescopeSession = {
+        enable = true;
+        args = [
+          "--mangoapp"
+          "--hdr-enabled"
+          "--rt"
+          "-r"
+          "120"
+          "-f"
+          "-e"
+          "--xwayland-count"
+          "2"
+        ];
+        steamArgs = [
+          "-pipewire-dmabuf"
+          "-gamepadui"
+          "-steamdeck"
+          "-steamos3"
+        ];
+        env = {
+          PATH = "/usr/bin:$PATH";
+        };
       };
     };
+    gamescope = {
+      enable = true;
+      capSysNice = true;
+    };
+    gamemode.enable = true;
+    xwayland.enable = true;
   };
-
-  programs.gamescope = {
-    enable = true;
-    capSysNice = true;
-  };
-
-  programs.gamemode.enable = true;
-  programs.xwayland.enable = true;
 
   environment.systemPackages = with pkgs; [
     gamescope-wsi
@@ -50,13 +51,14 @@
     mangohud
   ];
 
-  nixpkgs.config.allowUnfreePredicate = pkg:
+  nixpkgs.config.allowUnfreePredicate =
+    pkg:
     builtins.elem (lib.getName pkg) [
       "steam"
       "steam-unwrapped"
     ];
 
-  users.users.${userName}.extraGroups = ["gamemode"];
+  users.users.${userName}.extraGroups = [ "gamemode" ];
 
   home-manager.users.${userName} = {
     # Allows heroic to be ran inside steam
@@ -65,8 +67,8 @@
       exec = "env -u LD_PRELOAD heroic %u";
       icon = "heroic";
       terminal = false;
-      categories = ["Game"];
-      mimeType = ["x-scheme-handler/heroic"];
+      categories = [ "Game" ];
+      mimeType = [ "x-scheme-handler/heroic" ];
     };
 
     home.packages = with pkgs; [
