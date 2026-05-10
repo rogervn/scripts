@@ -11,7 +11,7 @@
   imports = [
     ../../modules/base.nix
     ../../modules/secrets-backupuser.nix
-    ../../modules/borgrepo_sync.nix
+    ../../modules/restic-backup.nix
   ];
 
   home-manager = {
@@ -86,6 +86,17 @@
     path = "/home/${userName}/.ssh/authorized_keys";
     owner = userName;
     mode = "600";
+  };
+
+  myServices.repoSync = {
+    enable = true;
+    source = "backupuser@datanixos.localdomain:/data/backup/restic/";
+    destination = "/mnt/external/backup/datanixos";
+    sshKeyPath = "/home/backupuser/.ssh/id_ed25519";
+    timerConfig = {
+      OnCalendar = "Sat *-*-* 04:00:00";
+      Persistent = true;
+    };
   };
 
   system.stateVersion = "26.05";

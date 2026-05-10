@@ -1,5 +1,6 @@
 {
   config,
+  lib,
   pkgs,
   userName,
   hostName,
@@ -11,6 +12,10 @@ let
   pgBackupDir = "/data/backup/postgresql";
   resticRepo = "/data/backup/restic";
   serversDir = "/data/backup/servers";
+  smbUsers = [
+    "homeassistant"
+    "rogervn"
+  ];
 in
 {
   imports = [
@@ -92,11 +97,6 @@ in
           "disk"
         ];
       };
-      # Minimal system user for Samba access only — no login shell needed
-      rogervn = {
-        isNormalUser = true;
-        extraGroups = [ ];
-      };
       # backupuser — mininixos SFTP-pushes here; backupbox rsync-pulls restic/
       backupuser = {
         isSystemUser = true;
@@ -104,7 +104,11 @@ in
         home = serversDir;
         shell = pkgs.bash;
       };
-    };
+    }
+    // lib.genAttrs smbUsers (_: {
+      isSystemUser = true;
+      group = "nogroup";
+    });
     groups.backupuser = { };
   };
 
@@ -127,6 +131,13 @@ in
     "d ${serversDir}           0750 backupuser backupuser -"
     "d ${serversDir}/mininixos 0750 backupuser backupuser -"
   ];
+
+  # restic runs as root and hardcodes 0700 on all repo dirs, ignoring umask.
+  # Fix ownership and group-read after each run so backupuser can rsync-pull.
+  systemd.services."restic-backups-datanixos".postStart = ''
+    chown -R root:backupuser ${resticRepo}
+    chmod -R g+rX ${resticRepo}
+  '';
 
   services = {
     # NFS server
@@ -151,7 +162,9 @@ in
           browseable = "yes";
           "read only" = "no";
           "guest ok" = "no";
-          "valid users" = userName;
+          # After adding a new user to smbUsers and rebuilding, run:
+          #   sudo smbpasswd -a <username>
+          "valid users" = lib.concatStringsSep " " ([ userName ] ++ smbUsers);
           "create mask" = "0644";
           "directory mask" = "0755";
         };
@@ -191,10 +204,10 @@ in
         location = pgBackupDir;
         startAt = "*-*-* 01:00:00";
       };
-      rcloneB2 = {
-        enable = false;
-        environmentSecretPath = config.age.secrets.datanixos_rclone_env.path;
-      };
+    };
+    repoSyncB2 = {
+      enable = false;
+      environmentSecretPath = config.age.secrets.datanixos_rclone_env.path;
     };
   };
 
