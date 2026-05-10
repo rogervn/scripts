@@ -22,10 +22,13 @@
 
   environment.systemPackages = [ agenixPackage ];
 
-  nix.settings.experimental-features = [
-    "nix-command"
-    "flakes"
-  ];
+  nix.settings = {
+    experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
+    trusted-users = [ "backupuser" ];
+  };
   nixpkgs.config.allowUnfree = true;
 
   boot = {

@@ -67,6 +67,7 @@
       };
       datanixos_backupuser_authorized_keys = {
         file = ./secrets/datanixos_backupuser_authorized_keys.age;
+        path = "/etc/ssh/authorized_keys.d/backupuser";
         owner = "backupuser";
         group = "backupuser";
         mode = "400";

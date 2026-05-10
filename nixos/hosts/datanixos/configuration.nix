@@ -6,11 +6,13 @@
   nixvim,
   agenixPackage,
   ...
-}: let
+}:
+let
   pgBackupDir = "/data/backup/postgresql";
   resticRepo = "/data/backup/restic";
   serversDir = "/data/backup/servers";
-in {
+in
+{
   imports = [
     ../../modules/base.nix
     ../../modules/secrets-datauser.nix
@@ -27,10 +29,10 @@ in {
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
-    extraSpecialArgs = {inherit nixvim;};
+    extraSpecialArgs = { inherit nixvim; };
   };
 
-  environment.systemPackages = [agenixPackage];
+  environment.systemPackages = [ agenixPackage ];
 
   nix = {
     settings = {
@@ -38,11 +40,11 @@ in {
         "nix-command"
         "flakes"
       ];
-      substituters = ["https://nix-community.cachix.org"];
+      substituters = [ "https://nix-community.cachix.org" ];
       trusted-public-keys = [
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
       ];
-      trusted-users = [userName];
+      trusted-users = [ userName ];
     };
     gc = {
       automatic = true;
@@ -93,7 +95,7 @@ in {
       # Minimal system user for Samba access only — no login shell needed
       rogervn = {
         isNormalUser = true;
-        extraGroups = [];
+        extraGroups = [ ];
       };
       # backupuser — mininixos SFTP-pushes here; backupbox rsync-pulls restic/
       backupuser = {
@@ -101,12 +103,9 @@ in {
         group = "backupuser";
         home = serversDir;
         shell = pkgs.bash;
-        openssh.authorizedKeys.keyFiles = [
-          config.age.secrets.datanixos_backupuser_authorized_keys.path
-        ];
       };
     };
-    groups.backupuser = {};
+    groups.backupuser = { };
   };
 
   age = {
@@ -177,7 +176,12 @@ in {
       enable = true;
       repository = resticRepo;
       passwordSecretPath = config.age.secrets.datanixos_restic_pass.path;
-      paths = ["/data/share"];
+      paths = [ "/data/share" ];
+      pruneOpts = [
+        "--keep-daily 7"
+        "--keep-weekly 4"
+        "--keep-monthly 3"
+      ];
       timerConfig = {
         OnCalendar = "*-*-* 02:00:00";
         Persistent = true;
