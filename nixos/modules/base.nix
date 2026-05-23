@@ -5,8 +5,6 @@
   services.openssh.enable = true;
   services.chrony.enable = true;
 
-  environment.enableAllTerminfo = true;
-
   environment.systemPackages = with pkgs; [
     curl
     chrony
