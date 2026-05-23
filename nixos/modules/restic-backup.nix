@@ -214,7 +214,7 @@ in
               --b2-account "''${B2_ACCOUNT_ID}" \
               --b2-key    "''${B2_APPLICATION_KEY}" \
               ${repoSyncB2Cfg.sourceDir}/ \
-              b2:''${B2_BUCKET}/${hostName}/
+              :b2:''${B2_BUCKET}/${hostName}/
           '';
         };
         timers."${hostName}-rclone-b2" = {

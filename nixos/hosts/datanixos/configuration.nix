@@ -206,7 +206,7 @@ in
       };
     };
     repoSyncB2 = {
-      enable = false;
+      enable = true;
       environmentSecretPath = config.age.secrets.datanixos_rclone_env.path;
     };
   };
