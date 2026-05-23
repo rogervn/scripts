@@ -39,7 +39,7 @@
     };
     gamescope = {
       enable = true;
-      capSysNice = true;
+      capSysNice = false;
     };
     gamemode.enable = true;
     xwayland.enable = true;
