@@ -38,8 +38,10 @@ in
       authentication = lib.mkAfter ''
         host joplin joplin 10.88.0.0/16 scram-sha-256
       '';
-      # Also listen on the podman bridge gateway so the container can reach us via TCP
-      settings.listen_addresses = lib.mkForce "localhost,10.88.0.1";
+      # Listen on all interfaces so postgres binds successfully at boot before
+      # podman0 (10.88.0.1) exists. Access is restricted by pg_hba.conf +
+      # firewall (podman0 only opens 5432).
+      settings.listen_addresses = lib.mkForce "*";
     };
 
     # One-shot service to set the joplin postgres user's password from the env file
