@@ -16,7 +16,6 @@
     ../../modules/home_assistant.nix
     ../../modules/uptime_kuma.nix
     ../../modules/restic-backup.nix
-    ../../modules/tailscale.nix
     ../../modules/vaultwarden.nix
   ];
 
