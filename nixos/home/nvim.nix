@@ -38,6 +38,11 @@
       severity_sort = true;
     };
 
+    globals = {
+      mapleader = " ";
+      maplocalleader = " ";
+    };
+
     opts = {
       number = true;
       shiftwidth = 2;
@@ -47,7 +52,6 @@
       ignorecase = true;
       smartcase = true;
       smarttab = false;
-      smartindent = true;
       termguicolors = false;
     };
 
@@ -146,10 +150,10 @@
             };
           };
 
-          pyright = {
+          basedpyright = {
             enable = true;
             settings = {
-              python = {
+              basedpyright = {
                 analysis = {
                   typeCheckingMode = "basic";
                   autoSearchPaths = true;
@@ -181,13 +185,23 @@
         indent.enable = true;
         grammarPackages = with pkgs.vimPlugins.nvim-treesitter.builtGrammars; [
           bash
+          diff
+          dockerfile
+          gitcommit
+          gitignore
+          hcl
           json
+          lua
           make
           markdown
+          markdown_inline
           nix
+          python
           regex
           rust
           toml
+          vim
+          vimdoc
           yaml
         ];
       };
@@ -197,9 +211,18 @@
         cmp.enable = true;
       };
 
-      lsp-format.enable = true;
       dressing.enable = true;
       fugitive.enable = true;
+      which-key.enable = true;
+      signify = {
+        enable = true;
+        settings = {
+          vcs_list = [
+            "git"
+            "hg"
+          ];
+        };
+      };
       gitsigns = {
         enable = true;
         settings = {
