@@ -10,7 +10,7 @@ services:
       - PUID={{ docker_user_uid }}
       - PGID={{ docker_group_gid }}
       - TZ={{ default_tz }}
-      - SERVERURL={{ ansible_default_ipv4.address }}
+      - SERVERURL={{ ansible_facts['default_ipv4']['address'] }}
       - SERVERPORT={{ wireguard_port }}
       - PEERS={{ wireguard_peers_number }}
       - PEERDNS={{ wireguard_peer_dns }}

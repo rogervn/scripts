@@ -14,7 +14,7 @@
 
 - name: Install docker repository
   ansible.builtin.apt_repository:
-    repo: "deb [arch={{ debian_arch }} signed-by={{ docker_key_file }}] {{ docker_repo_url }} {{ ansible_distribution_release }} stable"
+    repo: "deb [arch={{ debian_arch }} signed-by={{ docker_key_file }}] {{ docker_repo_url }} {{ ansible_facts['distribution_release'] }} stable"
     filename: docker
     update_cache: true
 
