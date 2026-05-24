@@ -11,7 +11,6 @@
   imports = [ nixvim.homeModules.nixvim ];
 
   home.packages = with pkgs; [
-    alejandra
     ansible-lint
     black
     isort
@@ -106,7 +105,7 @@
           formatters_by_ft = {
             sh = [ "shfmt" ];
             markdown = [ "prettier" ];
-            nix = [ "alejandra" ];
+            nix = [ "nixfmt" ];
             rust = [ "rustfmt" ];
             python = [
               "isort"
@@ -143,7 +142,7 @@
           nil_ls = {
             enable = true;
             settings = {
-              formatting.command = [ "nixpkgs-fmt" ];
+              formatting.command = [ "nixfmt" ];
             };
           };
 
