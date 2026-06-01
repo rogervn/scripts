@@ -59,6 +59,7 @@
       ansible-vim
       plenary-nvim
       popup-nvim
+      vim-signify
     ];
 
     keymaps = [
