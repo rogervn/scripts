@@ -38,7 +38,10 @@
       options = "--delete-older-than 14d";
     };
   };
-  nixpkgs.config.allowUnfree = true;
+  nixpkgs.config = {
+    allowUnfree = true;
+    permittedInsecurePackages = [ "electron-39.8.10" ];
+  };
 
   boot = {
     loader = {
@@ -61,16 +64,12 @@
     xone.enable = true;
   };
 
+  fonts.packages = [ pkgs.nerd-fonts.jetbrains-mono ];
+
   services = {
     kmscon = {
       enable = true;
-      hwRender = true;
-      fonts = [
-        {
-          name = "JetbrainsMono NL Nerd Font Mono";
-          package = pkgs.nerd-fonts.jetbrains-mono;
-        }
-      ];
+      config.font-name = "JetbrainsMono NL Nerd Font Mono";
     };
     pipewire = {
       enable = true;

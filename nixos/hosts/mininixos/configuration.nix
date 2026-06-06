@@ -46,15 +46,11 @@
   hardware.bluetooth.enable = true;
   hardware.enableAllFirmware = true;
 
+  fonts.packages = [ pkgs.nerd-fonts.jetbrains-mono ];
+
   services.kmscon = {
     enable = true;
-    hwRender = true;
-    fonts = [
-      {
-        name = "JetbrainsMono NL Nerd Font Mono";
-        package = pkgs.nerd-fonts.jetbrains-mono;
-      }
-    ];
+    config.font-name = "JetbrainsMono NL Nerd Font Mono";
   };
 
   networking = {

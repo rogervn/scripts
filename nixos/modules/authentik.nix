@@ -12,8 +12,8 @@ in
     environmentFile = config.age.secrets.authentik_env_file.path;
     settings = {
       listen = {
-        http = "0.0.0.0:${toString httpPort}";
-        https = "0.0.0.0:${toString httpsPort}";
+        http = [ "0.0.0.0:${toString httpPort}" ];
+        https = [ "0.0.0.0:${toString httpsPort}" ];
       };
       email = {
         host = if smtp.enable then smtp.host else "smtp-relay.brevo.com";
