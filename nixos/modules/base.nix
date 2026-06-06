@@ -7,6 +7,7 @@
 
   environment.systemPackages = with pkgs; [
     curl
+    ghostty.terminfo
     chrony
     file
     git
