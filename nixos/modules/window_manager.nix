@@ -18,6 +18,21 @@ let
     inherit (hyprlandFiltered) drvPath;
     override = _: hyprlandUwsmOnly;
   };
+
+  # Workaround for regreet 0.4.0 crashing on NixOS due to missing GStreamer
+  # dependencies (nixpkgs PR #530302). Wraps the binary with GST plugin paths
+  # so GStreamer can find its plugins at runtime.
+  regreetWithGst = pkgs.runCommand "regreet-with-gst" {
+    nativeBuildInputs = [ pkgs.makeWrapper ];
+    version = pkgs.regreet.version;
+    meta = pkgs.regreet.meta // { mainProgram = "regreet"; };
+  } ''
+    mkdir -p $out/bin
+    makeWrapper ${pkgs.regreet}/bin/regreet $out/bin/regreet \
+      --prefix GST_PLUGIN_SYSTEM_PATH_1_0 : "${pkgs.gst_all_1.gstreamer.out}/lib/gstreamer-1.0" \
+      --prefix GST_PLUGIN_SYSTEM_PATH_1_0 : "${pkgs.gst_all_1.gst-plugins-base}/lib/gstreamer-1.0" \
+      --prefix GST_PLUGIN_SYSTEM_PATH_1_0 : "${pkgs.gst_all_1.gst-plugins-good}/lib/gstreamer-1.0"
+  '';
 in
 {
   environment.systemPackages = with pkgs; [
@@ -64,6 +79,7 @@ in
 
     regreet = {
       enable = true;
+      package = regreetWithGst;
 
       cursorTheme = {
         name = "Bibata-Modern-Classic";
@@ -71,6 +87,8 @@ in
       };
 
       settings = {
+        skip_selection = true;
+
         background = {
           path = "${pkgs.nixos-artwork.wallpapers.nineish-dark-gray.src}";
           fit = "Cover";
@@ -94,7 +112,10 @@ in
 
   security.polkit.enable = true;
 
-  environment.sessionVariables.NIXOS_OZONE_WL = "1";
+  environment.sessionVariables = {
+    NIXOS_OZONE_WL = "1";
+    GSK_RENDERER = "ngl";
+  };
 
   xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-hyprland ];
 }

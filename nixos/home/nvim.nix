@@ -86,9 +86,6 @@
             "<CR>" = "cmp.mapping.confirm({ select = true })";
           };
         };
-        cmp-nvim-lsp.enable = true;
-        cmp-path.enable = true;
-        cmp-buffer.enable = true;
       };
 
       conform-nvim = {
@@ -126,12 +123,14 @@
       lsp = {
         enable = true;
         keymaps = {
-          "gd" = "definition";
-          "gi" = "implementation";
-          "gr" = "references";
-          "K" = "hover";
-          "<leader>rn" = "rename";
-          "<leader>ca" = "code_action";
+          lspBuf = {
+            "gd" = "definition";
+            "gi" = "implementation";
+            "gr" = "references";
+            "K" = "hover";
+            "<leader>rn" = "rename";
+            "<leader>ca" = "code_action";
+          };
         };
         servers = {
           bashls.enable = true;
@@ -215,15 +214,6 @@
       dressing.enable = true;
       fugitive.enable = true;
       which-key.enable = true;
-      signify = {
-        enable = true;
-        settings = {
-          vcs_list = [
-            "git"
-            "hg"
-          ];
-        };
-      };
       gitsigns = {
         enable = true;
         settings = {
@@ -263,5 +253,9 @@
       };
       web-devicons.enable = true;
     };
+
+    extraConfigVim = ''
+      let g:signify_vcs_list = ['git', 'hg']
+    '';
   };
 }
