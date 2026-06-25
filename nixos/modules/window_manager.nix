@@ -19,9 +19,7 @@ let
     override = _: hyprlandUwsmOnly;
   };
 
-  # Workaround for regreet 0.4.0 crashing on NixOS due to missing GStreamer
-  # dependencies (nixpkgs PR #530302). Wraps the binary with GST plugin paths
-  # so GStreamer can find its plugins at runtime.
+  # TODO: remove once nixpkgs regreet module ships with GST plugin paths
   regreetWithGst = pkgs.runCommand "regreet-with-gst" {
     nativeBuildInputs = [ pkgs.makeWrapper ];
     version = pkgs.regreet.version;
@@ -112,10 +110,7 @@ in
 
   security.polkit.enable = true;
 
-  environment.sessionVariables = {
-    NIXOS_OZONE_WL = "1";
-    GSK_RENDERER = "ngl";
-  };
+  environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
   xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-hyprland ];
 }
