@@ -19,23 +19,10 @@ let
     override = _: hyprlandUwsmOnly;
   };
 
-  # TODO: remove once nixpkgs regreet module ships with GST plugin paths
-  regreetWithGst = pkgs.runCommand "regreet-with-gst" {
-    nativeBuildInputs = [ pkgs.makeWrapper ];
-    version = pkgs.regreet.version;
-    meta = pkgs.regreet.meta // { mainProgram = "regreet"; };
-  } ''
-    mkdir -p $out/bin
-    makeWrapper ${pkgs.regreet}/bin/regreet $out/bin/regreet \
-      --prefix GST_PLUGIN_SYSTEM_PATH_1_0 : "${pkgs.gst_all_1.gstreamer.out}/lib/gstreamer-1.0" \
-      --prefix GST_PLUGIN_SYSTEM_PATH_1_0 : "${pkgs.gst_all_1.gst-plugins-base}/lib/gstreamer-1.0" \
-      --prefix GST_PLUGIN_SYSTEM_PATH_1_0 : "${pkgs.gst_all_1.gst-plugins-good}/lib/gstreamer-1.0"
-  '';
 in
 {
   environment.systemPackages = with pkgs; [
     bibata-cursors
-    bitwarden-desktop
     blueman
     bluetui
     cliphist
@@ -77,7 +64,6 @@ in
 
     regreet = {
       enable = true;
-      package = regreetWithGst;
 
       cursorTheme = {
         name = "Bibata-Modern-Classic";
