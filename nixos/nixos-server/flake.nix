@@ -1,6 +1,13 @@
 {
   description = "A not-so-simple NixOS flake";
 
+  nixConfig = {
+    extra-substituters = [ "https://nix-community.cachix.org" ];
+    extra-trusted-public-keys = [
+      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+    ];
+  };
+
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     agenix.url = "github:ryantm/agenix";
@@ -17,7 +24,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     authentik-nix = {
-      url = "github:nix-community/authentik-nix/version/2026.5.2";
+      url = "github:nix-community/authentik-nix/version/2026.5.3";
       # DO NOT add inputs.nixpkgs.follows — explicitly unsupported by authentik-nix
     };
   };
