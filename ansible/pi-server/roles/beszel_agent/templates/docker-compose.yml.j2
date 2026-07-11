@@ -1,0 +1,15 @@
+services:
+  beszel-agent:
+    image: henrygd/beszel-agent
+    container_name: {{ beszel_agent_container_name }}
+    restart: unless-stopped
+    network_mode: host
+    volumes:
+      - {{ docker_socket }}:/var/run/docker.sock:ro
+      - {{ beszel_agent_data_volume }}:/var/lib/beszel-agent
+    environment:
+      LISTEN: {{ beszel_agent_listen_port }}
+      KEY: '{{ beszel_hub_key }}'
+      TOKEN: {{ beszel_token }}
+      HUB_URL: {{ beszel_hub_url }}
+

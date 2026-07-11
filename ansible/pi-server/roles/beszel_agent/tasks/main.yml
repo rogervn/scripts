@@ -1,0 +1,15 @@
+---
+- name: Verify beszel-agent data dir
+  ansible.builtin.file:
+    path: "{{ beszel_agent_data_volume }}"
+    state: directory
+    owner: "{{ docker_username }}"
+    group: "{{ docker_main_group }}"
+    mode: '0750'
+
+- name: Set and run docker compose
+  ansible.builtin.include_role:
+    name: docker
+    tasks_from: docker-compose
+  vars:
+    docker_container_name: "{{ beszel_agent_container_name }}"

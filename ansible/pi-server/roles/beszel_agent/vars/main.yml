@@ -1,0 +1,5 @@
+---
+beszel_agent_container_name: beszel-agent
+beszel_agent_data_volume: "{{ docker_data_dir }}/{{ beszel_agent_container_name }}"
+beszel_agent_listen_port: 45876
+beszel_hub_url: http://datanixos:8017

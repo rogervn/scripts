@@ -57,3 +57,6 @@ mosquitto_tasmota_user: "{{ vault_mosquitto_tasmota_user }}"
 mosquitto_tasmota_password_hash: "{{ vault_mosquitto_tasmota_password_hash }}"
 
 rclone_backup_token: "{{ vault_rclone_backup_token }}"
+
+beszel_token: "{{ vault_beszel_token }}"
+beszel_hub_key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIH/ap72DULXWsGvfB4JiU1WcZM1FRZDaen84nWKnS8xd"
