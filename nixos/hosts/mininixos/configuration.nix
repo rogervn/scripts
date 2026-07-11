@@ -17,6 +17,7 @@
     ../../modules/uptime_kuma.nix
     ../../modules/restic-backup.nix
     ../../modules/vaultwarden.nix
+    ../../modules/beszel.nix
   ];
 
   home-manager = {
@@ -99,6 +100,13 @@
     extraOptions = [ ''sftp.args="-i /root/.ssh/id_ed25519 -o StrictHostKeyChecking=accept-new"'' ];
     # paths populated automatically by vaultwarden.nix
     # postgresqlBackup.enable defaults to false — mininixos has no postgres
+  };
+
+  myServices.beszelAgent = {
+    enable = true;
+    hubUrl = "http://datanixos.localdomain:8017";
+    keySecretPath = config.age.secrets.beszel_hub_key_file.path;
+    tokenSecretPath = config.age.secrets.mininixos_beszel_token_file.path;
   };
 
   system.stateVersion = "26.05";

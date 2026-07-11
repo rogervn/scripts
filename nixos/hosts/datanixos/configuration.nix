@@ -29,6 +29,7 @@ in
     ../../modules/joplin_server.nix
     ../../modules/nextcloud.nix
     ../../modules/restic-backup.nix
+    ../../modules/beszel.nix
   ];
 
   home-manager = {
@@ -208,6 +209,13 @@ in
     repoSyncB2 = {
       enable = true;
       environmentSecretPath = config.age.secrets.datanixos_rclone_env.path;
+    };
+    beszelHub.enable = true;
+    beszelAgent = {
+      enable = true;
+      hubUrl = "http://127.0.0.1:8017";
+      keySecretPath = config.age.secrets.beszel_hub_key_file.path;
+      tokenSecretPath = config.age.secrets.datanixos_beszel_token_file.path;
     };
   };
 

@@ -72,6 +72,16 @@
         group = "backupuser";
         mode = "400";
       };
+      # mode 444: beszel-agent runs under a systemd DynamicUser, so the file
+      # must be world-readable since it can't be chowned to a fixed uid.
+      beszel_hub_key_file = {
+        file = ./secrets/beszel_hub_key_file.age;
+        mode = "444";
+      };
+      datanixos_beszel_token_file = {
+        file = ./secrets/datanixos_beszel_token_file.age;
+        mode = "444";
+      };
     };
   };
 }

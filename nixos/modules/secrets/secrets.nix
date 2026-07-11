@@ -107,4 +107,17 @@ in
     amdesktop
     datanixos
   ];
+  "beszel_hub_key_file.age".publicKeys = [
+    amdesktop
+    datanixos
+    mininixos
+  ];
+  "datanixos_beszel_token_file.age".publicKeys = [
+    amdesktop
+    datanixos
+  ];
+  "mininixos_beszel_token_file.age".publicKeys = [
+    amdesktop
+    mininixos
+  ];
 }
