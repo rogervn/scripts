@@ -17,28 +17,24 @@
 
       imports = [
         (import ../../home/dotfiles.nix { inherit config lib pkgs; })
-        (import ../../home/hyprland.nix {
+        (import ../../home/niri.nix {
           inherit pkgs lib;
+          # Refresh rates must match `niri msg outputs` exactly (3 decimals).
           monitors = [
-            "desc:LG Electronics LG TV SSCR2 0x01010101,3840x2160@120,auto,1.5,vrr,3,bitdepth,10,cm,auto"
-            "desc:BOE 0x0791,1920x1080@60,auto,1"
-            ",preferred,auto,auto"
+            ''
+              output "LG Electronics LG TV SSCR2 0x01010101" {
+                  mode "3840x2160@120.000"
+                  scale 1.5
+                  variable-refresh-rate
+              }
+            ''
+            ''
+              output "BOE 0x0791" {
+                  mode "1920x1080@60.000"
+                  scale 1.0
+              }
+            ''
           ];
-          workspaces = [
-            "1,monitor:desc:LG Electronics LG TV SSCR2 0x01010101,default:true"
-            "1,monitor:desc:BOE 0x0791,default:true"
-          ];
-          extraConfig = ''
-            device {
-                name = logitech-k830
-                kb_layout = us
-            }
-            device {
-                name = logitech-k830-1
-                sensitivity = 0
-                natural_scroll = false
-            }
-          '';
         })
         (import ../../home/nvim.nix { inherit pkgs nixvim; })
         (import ../../home/zsh.nix { inherit pkgs; })

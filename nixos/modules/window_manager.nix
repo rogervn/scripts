@@ -1,8 +1,13 @@
 {
   pkgs,
+  lib,
+  windowManager ? [ "hyprland" ],
   ...
 }:
 let
+  wantHyprland = lib.elem "hyprland" windowManager;
+  wantNiri = lib.elem "niri" windowManager;
+
   # Makes it so hyprland non-uwsm will be hidden
   hyprlandFiltered = pkgs.symlinkJoin {
     name = "hyprland-uwsm-only";
@@ -21,33 +26,38 @@ let
 
 in
 {
-  environment.systemPackages = with pkgs; [
-    bibata-cursors
-    blueman
-    bluetui
-    cliphist
-    gedit
-    ghostty
-    grim
-    evince
-    hypridle
-    imagemagick
-    joplin-desktop
-    libnotify
-    matugen
-    nautilus
-    nextcloud-client
-    networkmanagerapplet
-    noctalia-shell
-    noto-fonts
-    pavucontrol
-    shotwell
-    slurp
-    vlc
-    vivaldi
-    wl-clipboard
-    xdg-user-dirs
-  ];
+  environment.systemPackages =
+    with pkgs;
+    [
+      bibata-cursors
+      blueman
+      bluetui
+      cliphist
+      gedit
+      ghostty
+      grim
+      evince
+      hypridle
+      imagemagick
+      joplin-desktop
+      libnotify
+      matugen
+      nautilus
+      nextcloud-client
+      networkmanagerapplet
+      noctalia-shell
+      noto-fonts
+      pavucontrol
+      shotwell
+      slurp
+      vlc
+      vivaldi
+      wl-clipboard
+      xdg-user-dirs
+    ]
+    ++ lib.optionals wantNiri [
+      xwayland-satellite
+    ];
 
   fonts.packages = with pkgs; [
     font-awesome
@@ -56,10 +66,14 @@ in
   ];
 
   programs = {
-    hyprland = {
+    hyprland = lib.mkIf wantHyprland {
       enable = true;
       withUWSM = true;
       package = hyprlandUwsmOnly;
+    };
+
+    niri = lib.mkIf wantNiri {
+      enable = true;
     };
 
     regreet = {
@@ -98,5 +112,10 @@ in
 
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
-  xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-hyprland ];
+  xdg.portal.extraPortals =
+    lib.optionals wantHyprland [ pkgs.xdg-desktop-portal-hyprland ]
+    ++ lib.optionals wantNiri [
+      pkgs.xdg-desktop-portal-gnome
+      pkgs.xdg-desktop-portal-gtk
+    ];
 }

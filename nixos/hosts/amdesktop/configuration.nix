@@ -1,6 +1,7 @@
 {
   config,
   pkgs,
+  lib,
   userName,
   hostName,
   nixvim,
@@ -12,7 +13,10 @@
     ../../modules/base.nix
     ../../modules/secrets-rogervn.nix
     ../../modules/steam.nix
-    ../../modules/window_manager.nix
+    (import ../../modules/window_manager.nix {
+      inherit pkgs lib;
+      windowManager = [ "niri" ];
+    })
   ];
 
   home-manager = {

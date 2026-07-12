@@ -93,6 +93,10 @@ nixfmt nixos/**/*.nix
 2. Fix statix warnings (`statix fix` for auto-fixable; manually group repeated keys for W20)
 3. Run `nixfmt` to reformat everything
 
+## Code Style
+
+Keep comments concise — one short line, only when the WHY isn't obvious from the code itself. Avoid multi-line explanations.
+
 ## Architecture
 
 ### Ansible Pi-Server (`ansible/pi-server/`)
