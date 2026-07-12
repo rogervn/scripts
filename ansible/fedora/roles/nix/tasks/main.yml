@@ -49,3 +49,19 @@
     owner: root
     group: root
     mode: '0755'
+
+- name: Create nixGL niri script
+  ansible.builtin.template:
+    src: nix-niri.sh.j2
+    dest: "{{ nix_niri_wrapper_path }}"
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: Create nixGL niri session
+  ansible.builtin.template:
+    src: nix-niri.desktop.j2
+    dest: /usr/share/wayland-sessions/nix-niri.desktop
+    owner: root
+    group: root
+    mode: '0755'
