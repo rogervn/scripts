@@ -210,7 +210,10 @@ in
       enable = true;
       environmentSecretPath = config.age.secrets.datanixos_rclone_env.path;
     };
-    beszelHub.enable = true;
+    beszelHub = {
+      enable = true;
+      dataDir = "/data/apps/beszel";
+    };
     beszelAgent = {
       enable = true;
       hubUrl = "http://127.0.0.1:8017";
