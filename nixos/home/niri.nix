@@ -101,6 +101,11 @@ in
         default-column-width { proportion 0.5; }
     }
 
+    // Disables all background blur, including app-requested (e.g. noctalia-shell's bar).
+    blur {
+        off
+    }
+
     // Positional: must follow layout to override its colors; optional since noctalia-shell may not have generated this file yet.
     include optional=true "noctalia.kdl"
 
