@@ -19,11 +19,7 @@
         (import ../../home/dotfiles.nix { inherit config lib pkgs; })
         (import ../../home/niri.nix {
           inherit pkgs lib;
-          # Refresh rates must match `niri msg outputs` exactly (3 decimal
-          # places); verify on-device and adjust before relying on this.
-          # niri has no Hyprland-style wildcard/catch-all output entry, and
-          # no per-device (by name) input overrides like the logitech-k830
-          # blocks above -- unlisted outputs just get auto-detected modes.
+          # Refresh rates must match `niri msg outputs` exactly (3 decimals); verify on-device.
           monitors = [
             ''
               output "LG Electronics LG TV SSCR2 0x01010101" {

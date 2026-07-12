@@ -1,9 +1,6 @@
 { ... }:
 let
-  # hypridle only needs ext-idle-notify-v1, so the same daemon works under
-  # both Hyprland and niri; only the dpms toggle command differs per
-  # compositor. NIRI_SOCKET is set by niri, HYPRLAND_INSTANCE_SIGNATURE by
-  # Hyprland, so detect at runtime which one is actually running.
+  # NIRI_SOCKET is only set inside a niri session; picks the right dpms command at runtime.
   dpmsOn = ''sh -c 'if [ -n "$NIRI_SOCKET" ]; then niri msg action power-on-monitors; else hyprctl dispatch dpms on; fi' '';
   dpmsOff = ''sh -c 'if [ -n "$NIRI_SOCKET" ]; then niri msg action power-off-monitors; else hyprctl dispatch dpms off; fi' '';
 in

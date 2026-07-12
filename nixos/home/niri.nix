@@ -22,8 +22,7 @@
   ...
 }:
 let
-  # niri has no shell-variable feature like Hyprland's "$mainMod" macros, so
-  # commands get interpolated directly into the KDL text at eval time.
+  # niri KDL has no variable substitution, so commands are interpolated directly.
   envLines = lib.concatMapStringsSep "\n    " (e: ''"${e}"'') extraEnv;
 in
 {
@@ -32,9 +31,7 @@ in
     ./window_manager_appearence.nix
   ];
 
-  # niri implements the org.freedesktop.impl.portal.{ScreenCast,Screenshot} pieces
-  # itself only for the gnome-flavoured portal; xdg-desktop-portal-gtk is the
-  # fallback for file pickers etc. Do NOT set GDK_BACKEND globally (breaks screencast).
+  # Screencast/screenshot portals need the gnome flavour; don't set GDK_BACKEND globally, it breaks screencast.
   xdg.portal = {
     enable = true;
     extraPortals = with pkgs; [
@@ -104,8 +101,8 @@ in
         default-column-width { proportion 0.5; }
     }
 
-    // Must come after layout -- includes are positional in niri.
-    include "~/.config/niri/noctalia.kdl"
+    // Positional: must follow layout to override its colors; optional since noctalia-shell may not have generated this file yet.
+    include optional=true "noctalia.kdl"
 
     window-rule {
         geometry-corner-radius 10
@@ -137,19 +134,16 @@ in
         // ---- Suggested-by-niri hotkey help ----
         Mod+Shift+Slash { show-hotkey-overlay; }
 
-        // ---- App launching (custom, replaces/extends niri defaults) ----
+        // ---- App launching ----
         Mod+Return       { spawn "${terminal}"; }
-        // niri's own default terminal slot; repurposed for the note editor
-        // since Mod+Return already covers "open a terminal".
+        // Mod+Return covers the terminal, so Mod+T is free for the note editor.
         Mod+T            { spawn-sh "${noteEditor}"; }
         Mod+D            { spawn-sh "${runLauncher}"; }
         Mod+E            { spawn "${fileManager}"; }
         Mod+B            { spawn-sh "${browser}"; }
         Mod+X            { spawn-sh "${codeEditor}"; }
         Mod+Space        { spawn-sh "${appLauncher}"; }
-        // Tabbed-column-toggle (Mod+W) is a niri default we keep;
-        // wallpaper moved one modifier over. Center-column moved to
-        // Mod+Shift+C to free up Mod+C for the clipboard launcher.
+        // Frees Mod+C (niri default: center-column, now Mod+Shift+C) for clipboard.
         Mod+C            { spawn-sh "${clipboardLauncher}"; }
         Mod+Shift+W      { spawn-sh "${wallpaper}"; }
         Super+Alt+L      { spawn-sh "${locker}"; }
@@ -158,25 +152,20 @@ in
         Mod+Shift+N      { spawn-sh "${notifDismissLast}"; }
         Mod+Ctrl+Shift+N { spawn-sh "${notifDismissAll}"; }
 
-        // grim+slurp kept for muscle memory; niri's native Print-key
-        // screenshot actions are also bound further down as a bonus.
+        // niri's own Print-key screenshot actions are also bound below.
         Mod+P       { spawn-sh "grim -g \"$(slurp)\" ${screenshotPath}"; }
         Mod+Shift+P { spawn-sh "grim -o \"$(niri msg -j focused-output | jq -r .name)\" ${screenshotPath}"; }
 
-        // System actions grouped under Mod+Ctrl+Shift so they never collide
-        // with niri's single/double-modifier navigation defaults below.
+        // Grouped under Mod+Ctrl+Shift to avoid the nav defaults below.
         Mod+Ctrl+Shift+S { spawn "systemctl" "poweroff" "-i"; }
         Mod+Ctrl+Shift+U { spawn "systemctl" "suspend"; }
         Mod+Ctrl+Shift+B { spawn "systemctl" "reboot"; }
         Mod+Ctrl+Shift+Y { spawn "systemctl" "hibernate"; }
-        // niri's default power-off-monitors lived on Mod+Shift+P; relocated
-        // here since Mod+Shift+P is now the screenshot-to-output bind above.
+        // niri's default power-off-monitors bind, freed by the screenshot bind above.
         Mod+Ctrl+Shift+P { power-off-monitors; }
-        // Mod+Shift+E already quits niri (with a confirmation dialog),
-        // which covers "log out" without needing uwsm.
+        // Mod+Shift+E already quits niri, covering "log out" without uwsm.
 
-        // ---- niri defaults kept as-is (nav model: arrows/HJKL=focus,
-        // Ctrl=move, Shift=focus monitor, Ctrl+Shift=move to monitor) ----
+        // ---- niri defaults: arrows/HJKL=focus, Ctrl=move, Shift=focus monitor, Ctrl+Shift=move to monitor ----
         Mod+O repeat=false { toggle-overview; }
         Mod+Q repeat=false { close-window; }
 
@@ -221,8 +210,7 @@ in
         Mod+Shift+Ctrl+K     { move-column-to-monitor-up; }
         Mod+Shift+Ctrl+L     { move-column-to-monitor-right; }
 
-        // Move the whole focused workspace (not just the column) to a
-        // monitor in that direction.
+        // Moves the whole workspace, not just the column.
         Mod+Alt+Shift+Left  { move-workspace-to-monitor-left; }
         Mod+Alt+Shift+Down  { move-workspace-to-monitor-down; }
         Mod+Alt+Shift+Up    { move-workspace-to-monitor-up; }
@@ -282,8 +270,7 @@ in
         Mod+Comma  { consume-window-into-column; }
         Mod+Period { expel-window-from-column; }
 
-        // Both cycle forward only and wrap back to the first preset once
-        // past the last one (1/3 -> 1/2 -> 2/3 -> 100% -> 1/3 -> ...).
+        // Wraps to the first preset after the last (1/3 -> 1/2 -> 2/3 -> 100% -> ...).
         Mod+R       { switch-preset-column-width; }
         Mod+Shift+R { switch-preset-window-height; }
         Mod+Ctrl+R  { reset-window-height; }

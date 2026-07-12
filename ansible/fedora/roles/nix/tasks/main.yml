@@ -34,6 +34,13 @@
   become_user: "{{ base_user.username }}"
   loop: "{{ dotfiles_stow_packages }}"
 
+# Idempotent on its own (ln -sf + systemd-tmpfiles --create); runs every
+# time so a Mesa bump from nixpkgs updates never leaves it stale.
+- name: Set up GPU drivers for nix packages
+  ansible.builtin.command: "{{ base_user.homedir }}/.nix-profile/bin/non-nixos-gpu-setup"
+  become: true
+  changed_when: false
+
 - name: Create nixGL hyprland script
   ansible.builtin.template:
     src: nix-hyprland.sh.j2

@@ -16,9 +16,7 @@
   };
   programs.home-manager.enable = true;
 
-  # systemd skips symlinks when scanning XDG_DATA_DIRS for unit files, so the
-  # UWSM units in ~/.nix-profile (which are all symlinks) are invisible to it.
-  # Placing them in ~/.config/systemd/user/ via home.file makes systemd load them.
+  # systemd skips symlinked units under XDG_DATA_DIRS, so ~/.nix-profile's units are invisible unless copied in here.
   home.file = builtins.listToAttrs (
     map
       (name: {
@@ -36,6 +34,15 @@
         "wayland-wm-app-daemon.service"
         "wayland-wm-env@.service"
         "wayland-wm@.service"
+      ]
+    ++ map
+      (name: {
+        name = ".config/systemd/user/${name}";
+        value.source = "${pkgs.niri}/share/systemd/user/${name}";
+      })
+      [
+        "niri.service"
+        "niri-shutdown.target"
       ]
   );
 
@@ -73,12 +80,7 @@
     })
     (import ../home/niri.nix {
       inherit pkgs lib;
-      # Same physical outputs as the hyprland.nix block above, translated to
-      # niri's output-matching syntax. Two panels share position 0,0 and two
-      # externals share 1920,-1200 because they're alternate hardware
-      # revisions/dock scenarios, not simultaneous monitors -- only whichever
-      # is actually connected gets matched. Refresh rates need to be checked
-      # against `niri msg outputs` (must match to 3 decimals) once on niri.
+      # Duplicate positions are alternate hardware/dock scenarios, not simultaneous monitors; only the connected one matches.
       monitors = [
         ''
           output "California Institute of Technology 0x1403" {
@@ -133,8 +135,7 @@
       browser = "google-chrome --ozone-platform=wayland";
       noteEditor = "gedit";
       codeEditor = "code-fb --ozone-platform-hint=auto";
-      # GDK_BACKEND is deliberately omitted here: niri's docs warn that
-      # setting it globally breaks the screencast portal.
+      # GDK_BACKEND omitted: niri's docs warn it breaks the screencast portal.
       extraEnv = [
         "CLUTTER_BACKEND,wayland"
       ];
