@@ -90,7 +90,7 @@
           }
         ''
         ''
-          output "Chimei Innolux Corporation 0x1488" {
+          output "Chimei Innolux Corporation 0x1488 Unknown" {
               mode "1920x1200@60.000"
               position x=0 y=0
               scale 1.0
