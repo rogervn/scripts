@@ -2,6 +2,8 @@
   pkgs,
   lib,
   monitors ? [ ],
+  # Raw KDL `workspace` blocks (e.g. named workspaces with open-on-output).
+  workspaces ? [ ],
   terminal ? "ghostty",
   fileManager ? "nautilus",
   browser ? "vivaldi",
@@ -67,6 +69,8 @@ in
     }
 
     ${lib.concatStringsSep "\n\n" monitors}
+
+    ${lib.concatStringsSep "\n" workspaces}
 
     // Drop CSD so the focus-ring/border draws cleanly around the window edge.
     prefer-no-csd

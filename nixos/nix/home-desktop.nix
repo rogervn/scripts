@@ -132,6 +132,23 @@
           }
         ''
       ];
+      workspaces = [
+        ''
+          workspace "laptop" {
+              open-on-output "Chimei Innolux Corporation 0x1488 Unknown"
+          }
+        ''
+        ''
+          workspace "monitor 1" {
+              open-on-output "Dell Inc. DELL P3223QE JG6KWN3"
+          }
+        ''
+        ''
+          workspace "monitor 2" {
+              open-on-output "Dell Inc. DELL UP3017 Y7NWN74M118L"
+          }
+        ''
+      ];
       browser = "google-chrome --ozone-platform=wayland";
       noteEditor = "gedit";
       codeEditor = "code-fb --ozone-platform-hint=auto";
