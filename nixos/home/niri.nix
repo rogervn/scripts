@@ -61,7 +61,6 @@ in
         }
         touchpad {
             tap
-            natural-scroll
         }
         mouse {
         }
