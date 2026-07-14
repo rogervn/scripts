@@ -90,13 +90,6 @@
           }
         ''
         ''
-          output "Chimei Innolux Corporation 0x1488 Unknown" {
-              mode "1920x1200@60.000"
-              position x=0 y=0
-              scale 1.0
-          }
-        ''
-        ''
           output "Dell Inc. DELL P3223QE JG6KWN3" {
               mode "3840x2160@60.000"
               position x=1920 y=-1200
@@ -111,17 +104,25 @@
               transform "90"
           }
         ''
+        # Left-to-right row: Chimei | BenQ EW3270U | P2317H (portrait), tops aligned at y=0.
         ''
-          output "BNQ BenQ EW3270U TBK02382019" {
+          output "Chimei Innolux Corporation 0x1488 Unknown" {
+              mode "1920x1200@60.000"
+              position x=0 y=0
+              scale 1.0
+          }
+        ''
+        ''
+          output "PNP(BNQ) BenQ EW3270U TBK02382019" {
               mode "3840x2160@60.000"
-              position x=1920 y=-1200
+              position x=1920 y=0
               scale 1.0
           }
         ''
         ''
           output "Dell Inc. DELL P2317H 4WY7076L06QB" {
               mode "1920x1080@60.000"
-              position x=5760 y=-1200
+              position x=5760 y=0
               scale 1.0
               transform "90"
           }
