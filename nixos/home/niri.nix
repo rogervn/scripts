@@ -120,6 +120,11 @@ in
         draw-border-with-background false
     }
 
+    window-rule {
+        match app-id="org.gnome.Calculator"
+        open-floating true
+    }
+
     environment {
         XCURSOR_SIZE "24"
         HYPRCURSOR_SIZE "24"
