@@ -252,10 +252,11 @@ in
         Mod+Ctrl+WheelScrollDown cooldown-ms=150 { move-column-to-workspace-down; }
         Mod+Ctrl+WheelScrollUp   cooldown-ms=150 { move-column-to-workspace-up; }
 
-        Mod+WheelScrollRight      { focus-column-right; }
-        Mod+WheelScrollLeft       { focus-column-left; }
-        Mod+Ctrl+WheelScrollRight { move-column-right; }
-        Mod+Ctrl+WheelScrollLeft  { move-column-left; }
+        // Swapped: MX Master thumbwheel horizontal direction feels inverted for column nav.
+        Mod+WheelScrollRight      { focus-column-left; }
+        Mod+WheelScrollLeft       { focus-column-right; }
+        Mod+Ctrl+WheelScrollRight { move-column-left; }
+        Mod+Ctrl+WheelScrollLeft  { move-column-right; }
 
         Mod+1 { focus-workspace 1; }
         Mod+2 { focus-workspace 2; }
