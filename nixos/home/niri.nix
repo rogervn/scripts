@@ -67,6 +67,13 @@ in
         focus-follows-mouse
     }
 
+    gestures {
+        // Disable the top-left hot corner that opens the overview.
+        hot-corners {
+            off
+        }
+    }
+
     ${lib.concatStringsSep "\n\n" monitors}
 
     ${lib.concatStringsSep "\n" workspaces}
