@@ -166,7 +166,7 @@ in
         // Frees Mod+C (niri default: center-column, now Mod+Shift+C) for clipboard.
         Mod+C            { spawn-sh "${clipboardLauncher}"; }
         Mod+Shift+W      { spawn-sh "${wallpaper}"; }
-        Super+Alt+L      { spawn-sh "${locker}"; }
+        Mod+L            { spawn-sh "${locker}"; }
 
         Mod+N            { spawn-sh "${notifToggle}"; }
         Mod+Shift+N      { spawn-sh "${notifDismissLast}"; }
@@ -176,16 +176,15 @@ in
         Mod+P       { spawn-sh "grim -g \"$(slurp)\" ${screenshotPath}"; }
         Mod+Shift+P { spawn-sh "grim -o \"$(niri msg -j focused-output | jq -r .name)\" ${screenshotPath}"; }
 
-        // Grouped under Mod+Ctrl+Shift to avoid the nav defaults below.
-        Mod+Ctrl+Shift+S { spawn "systemctl" "poweroff" "-i"; }
-        Mod+Ctrl+Shift+U { spawn "systemctl" "suspend"; }
-        Mod+Ctrl+Shift+B { spawn "systemctl" "reboot"; }
-        Mod+Ctrl+Shift+Y { spawn "systemctl" "hibernate"; }
+        Mod+Shift+S { spawn "systemctl" "poweroff" "-i"; }
+        Mod+Shift+U { spawn "systemctl" "suspend"; }
+        Mod+Shift+B { spawn "systemctl" "reboot"; }
+        Mod+Shift+Y { spawn "systemctl" "hibernate"; }
         // niri's default power-off-monitors bind, freed by the screenshot bind above.
         Mod+Ctrl+Shift+P { power-off-monitors; }
         // Mod+Shift+E already quits niri, covering "log out" without uwsm.
 
-        // ---- niri defaults: arrows/HJKL=focus, Ctrl=move, Shift=focus monitor, Ctrl+Shift=move to monitor ----
+        // ---- niri defaults: arrows=focus, Ctrl=move, Shift=focus monitor, Ctrl+Shift=move to monitor ----
         Mod+O repeat=false { toggle-overview; }
         Mod+Q repeat=false { close-window; }
 
@@ -193,19 +192,11 @@ in
         Mod+Down  { focus-window-down; }
         Mod+Up    { focus-window-up; }
         Mod+Right { focus-column-right; }
-        Mod+H     { focus-column-left; }
-        Mod+J     { focus-window-down; }
-        Mod+K     { focus-window-up; }
-        Mod+L     { focus-column-right; }
 
         Mod+Ctrl+Left  { move-column-left; }
         Mod+Ctrl+Down  { move-window-down; }
         Mod+Ctrl+Up    { move-window-up; }
         Mod+Ctrl+Right { move-column-right; }
-        Mod+Ctrl+H     { move-column-left; }
-        Mod+Ctrl+J     { move-window-down; }
-        Mod+Ctrl+K     { move-window-up; }
-        Mod+Ctrl+L     { move-column-right; }
 
         Mod+Home { focus-column-first; }
         Mod+End  { focus-column-last; }
@@ -216,29 +207,17 @@ in
         Mod+Shift+Down  { focus-monitor-down; }
         Mod+Shift+Up    { focus-monitor-up; }
         Mod+Shift+Right { focus-monitor-right; }
-        Mod+Shift+H     { focus-monitor-left; }
-        Mod+Shift+J     { focus-monitor-down; }
-        Mod+Shift+K     { focus-monitor-up; }
-        Mod+Shift+L     { focus-monitor-right; }
 
         Mod+Shift+Ctrl+Left  { move-column-to-monitor-left; }
         Mod+Shift+Ctrl+Down  { move-column-to-monitor-down; }
         Mod+Shift+Ctrl+Up    { move-column-to-monitor-up; }
         Mod+Shift+Ctrl+Right { move-column-to-monitor-right; }
-        Mod+Shift+Ctrl+H     { move-column-to-monitor-left; }
-        Mod+Shift+Ctrl+J     { move-column-to-monitor-down; }
-        Mod+Shift+Ctrl+K     { move-column-to-monitor-up; }
-        Mod+Shift+Ctrl+L     { move-column-to-monitor-right; }
 
         // Moves the whole workspace, not just the column.
         Mod+Alt+Shift+Left  { move-workspace-to-monitor-left; }
         Mod+Alt+Shift+Down  { move-workspace-to-monitor-down; }
         Mod+Alt+Shift+Up    { move-workspace-to-monitor-up; }
         Mod+Alt+Shift+Right { move-workspace-to-monitor-right; }
-        Mod+Alt+Shift+H     { move-workspace-to-monitor-left; }
-        Mod+Alt+Shift+J     { move-workspace-to-monitor-down; }
-        Mod+Alt+Shift+K     { move-workspace-to-monitor-up; }
-        Mod+Alt+Shift+L     { move-workspace-to-monitor-right; }
 
         Mod+Page_Down      { focus-workspace-down; }
         Mod+Page_Up        { focus-workspace-up; }
@@ -251,8 +230,6 @@ in
 
         Mod+Shift+Page_Down { move-workspace-down; }
         Mod+Shift+Page_Up   { move-workspace-up; }
-        Mod+Shift+U         { move-workspace-down; }
-        Mod+Shift+I         { move-workspace-up; }
 
         Mod+WheelScrollDown      cooldown-ms=150 { focus-workspace-down; }
         Mod+WheelScrollUp        cooldown-ms=150 { focus-workspace-up; }
