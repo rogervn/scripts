@@ -44,7 +44,7 @@ in
         enable = true;
         host = "0.0.0.0";
         port = 8017;
-        dataDir = hubCfg.dataDir;
+        inherit (hubCfg) dataDir;
       };
       networking.firewall.allowedTCPPorts = [ config.services.beszel.hub.port ];
       myServices.resticBackup.paths = lib.mkAfter [ hubCfg.dataDir ];

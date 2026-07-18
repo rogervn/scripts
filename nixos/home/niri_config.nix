@@ -11,7 +11,6 @@
   noteEditor ? "joplin-desktop",
   codeEditor ? "gedit",
   screenshotPath ? "$(xdg-user-dir PICTURES)/Screenshots/$(date +'screenshot_%Y%m%d_%H%M%S.png')",
-  clipboardManager ? "cliphist",
   clipboardLauncher ? "noctalia-shell ipc call launcher clipboard",
   appLauncher ? "noctalia-shell ipc call launcher toggle",
   runLauncher ? "noctalia-shell ipc call launcher command",

@@ -1,4 +1,4 @@
-{ ... }:
+_:
 let
   # NIRI_SOCKET is only set inside a niri session; picks the right dpms command at runtime.
   dpmsOn = ''sh -c 'if [ -n "$NIRI_SOCKET" ]; then niri msg action power-on-monitors; else hyprctl dispatch dpms on; fi' '';
