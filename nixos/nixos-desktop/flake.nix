@@ -12,6 +12,7 @@
       url = "github:nix-community/nixvim";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nix-cachyos-kernel.url = "github:xddxdd/nix-cachyos-kernel/release";
   };
 
   outputs =
@@ -20,6 +21,7 @@
       agenix,
       home-manager,
       nixvim,
+      nix-cachyos-kernel,
       ...
     }:
     {
@@ -43,6 +45,7 @@
               ../hosts/${host}/home.nix
               agenix.nixosModules.default
               home-manager.nixosModules.home-manager
+              { nixpkgs.overlays = [ nix-cachyos-kernel.overlays.pinned ]; }
             ];
           };
 

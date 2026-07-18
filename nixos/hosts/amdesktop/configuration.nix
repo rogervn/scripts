@@ -34,7 +34,10 @@
         "flakes"
       ];
       # Uncomment these to be able to build a aarch64 image
-      trusted-users = [ userName ];
+      # trusted-users = [ userName ];
+      # Binary cache for the CachyOS kernel (nix-cachyos-kernel flake input)
+      extra-substituters = [ "https://attic.xuyh0120.win/lantian" ];
+      extra-trusted-public-keys = [ "lantian:EeAUQ+W+6r7EtwnmYjeVwx5kOGEBpjlBfPlzGlTNvHc=" ];
     };
     gc = {
       automatic = true;
@@ -51,7 +54,7 @@
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
     };
-    kernelPackages = pkgs.linuxPackages_latest;
+    kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-latest-x86_64-v3;
     extraModprobeConfig = ''
       options cfg80211 ieee80211_regdom="GB"
     '';
