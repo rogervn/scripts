@@ -12,7 +12,8 @@
     ../../modules/base.nix
     ../../modules/secrets-rogervn.nix
     ../../modules/vm_guest.nix
-    ../../modules/window_manager.nix
+    ../../modules/hyprland_wm.nix
+    ../../modules/display_manager.nix
     ../../modules/zfs.nix
   ];
 

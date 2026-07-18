@@ -17,7 +17,7 @@
 
       imports = [
         (import ../../home/dotfiles.nix { inherit config lib pkgs; })
-        (import ../../home/hyprland.nix {
+        (import ../../home/hyprland_config.nix {
           inherit pkgs lib;
           monitors = [
             "desc:LG Electronics LG TV SSCR2 0x01010101,3840x2160@120,auto,1.5,vrr,3,bitdepth,10,cm,auto"

@@ -126,4 +126,4 @@ There are four separate flakes, each targeting a different class of host:
 **Package placement:**
 - `modules/` sets `environment.systemPackages` — NixOS hosts only
 - `home/` sets `home.packages` — used in all environments; on non-NixOS every package must be user-level since there is no system package manager
-- `home/hyprland.nix` — shared Hyprland home-manager config (cursor, GTK theme, XDG portals, polkit agent); imported by NixOS desktop `hosts/*/home.nix` files and by `home/window_manager.nix` (non-NixOS)
+- `home/hyprland_config.nix` — shared Hyprland home-manager config (cursor, GTK theme, XDG portals, polkit agent); imported by NixOS desktop `hosts/*/home.nix` files

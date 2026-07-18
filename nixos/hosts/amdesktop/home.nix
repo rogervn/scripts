@@ -17,7 +17,7 @@
 
       imports = [
         (import ../../home/dotfiles.nix { inherit config lib pkgs; })
-        (import ../../home/niri.nix {
+        (import ../../home/niri_config.nix {
           inherit pkgs lib;
           # Refresh rates must match `niri msg outputs` exactly (3 decimals); verify on-device.
           monitors = [
