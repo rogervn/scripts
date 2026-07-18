@@ -25,6 +25,13 @@
 let
   # niri KDL has no variable substitution, so commands are interpolated directly.
   envLines = lib.concatMapStringsSep "\n    " (e: ''"${e}"'') extraEnv;
+  # https://github.com/heyoeyo/niri_tweaks — maximizes without losing stacked-column layout.
+  niriMaximizeHelper = pkgs.writers.writePython3Bin "niri-maximize-helper" { flakeIgnore = [
+      "E501"
+      "E265"
+    ]; } (
+    builtins.readFile ./scripts/niri_maximize_helper.py
+  );
 in
 {
   imports = [
@@ -272,8 +279,8 @@ in
         Mod+Shift+R { switch-preset-window-height; }
         Mod+Ctrl+R  { reset-window-height; }
 
-        Mod+F       { maximize-window-to-edges; }
-        Mod+Shift+F { fullscreen-window; }
+        Mod+F       { spawn "${niriMaximizeHelper}/bin/niri-maximize-helper" "maximize-window-to-edges"; }
+        Mod+Shift+F { spawn "${niriMaximizeHelper}/bin/niri-maximize-helper" "fullscreen-window"; }
         Mod+M       { maximize-column; }
         Mod+Ctrl+F  { expand-column-to-available-width; }
 
