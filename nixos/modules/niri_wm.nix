@@ -7,6 +7,7 @@
     cliphist
     gedit
     ghostty
+    gnome-calculator
     grim
     evince
     hypridle

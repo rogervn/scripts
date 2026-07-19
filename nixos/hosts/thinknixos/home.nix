@@ -17,6 +17,7 @@
 
       imports = [
         (import ../../home/dotfiles.nix { inherit config lib pkgs; })
+        (import ../../home/llm-clis.nix { inherit pkgs; })
         (import ../../home/niri_config.nix {
           inherit pkgs lib;
           # Refresh rates must match `niri msg outputs` exactly (3 decimals).
