@@ -43,7 +43,12 @@
   };
 
   services = {
+    avahi = {
+      enable = true;
+      nssmdns4 = true;
+    };
     gnome.gnome-keyring.enable = true;
+    gvfs.enable = true;
     upower.enable = true;
     power-profiles-daemon.enable = true;
   };

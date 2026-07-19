@@ -151,6 +151,7 @@ in
     # Samba
     samba = {
       enable = true;
+      package = pkgs.samba4Full;
       settings = {
         global = {
           workgroup = "WORKGROUP";
@@ -171,7 +172,16 @@ in
         };
       };
     };
-    samba-wsdd.enable = true; # Windows/macOS network discovery
+    samba-wsdd.enable = true;
+    avahi = {
+      enable = true;
+      openFirewall = true;
+      nssmdns4 = true;
+      publish = {
+        enable = true;
+        userServices = true;
+      };
+    };
   };
 
   myServices = {
