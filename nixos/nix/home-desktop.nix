@@ -138,5 +138,6 @@
         pam_shim
         ;
     })
+    (import ../home/solaar.nix { inherit pkgs; })
   ];
 }

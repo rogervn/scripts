@@ -1,9 +1,9 @@
----
 window_manager_packages:
   - gtk3-devel
   - firefox
   - gnome-software
   - python3-pip
+  - solaar
   - vlc
   - wireplumber
 

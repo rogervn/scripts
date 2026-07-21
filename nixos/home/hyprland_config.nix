@@ -25,7 +25,7 @@
 {
   imports = [
     ./idle_manager.nix
-    ./window_manager_appearence.nix
+    ./window_manager_appearance.nix
   ];
 
   # systemd.user.services.hyprpolkitagent = {

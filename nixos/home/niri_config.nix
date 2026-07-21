@@ -29,7 +29,7 @@ in
 {
   imports = [
     ./idle_manager.nix
-    ./window_manager_appearence.nix
+    ./window_manager_appearance.nix
   ];
 
   # Screencast/screenshot portals need the gnome flavour; don't set GDK_BACKEND globally, it breaks screencast.
