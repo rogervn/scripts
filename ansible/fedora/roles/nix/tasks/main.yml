@@ -10,6 +10,17 @@
     state: "started"
   loop: "{{ nix_services }}"
 
+- name: Trust base user so flake nixConfig substituters (e.g. binary caches) are honored
+  ansible.builtin.lineinfile:
+    path: /etc/nix/nix.conf
+    regexp: '^trusted-users\s*='
+    line: "trusted-users = root {{ base_user.username }}"
+  notify: Restart nix-daemon
+
+# Substituters must be trusted before home-manager switch runs below, not just by end of play.
+- name: Flush handlers
+  ansible.builtin.meta: flush_handlers
+
 - name: Clone nix scripts repo
   ansible.builtin.git:
     repo: "{{ nix_git_repo }}"
