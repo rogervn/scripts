@@ -34,6 +34,7 @@
         ];
         env = {
           PATH = "/usr/bin:$PATH";
+          PROTON_ENABLE_WAYLAND = "1";
         };
       };
     };

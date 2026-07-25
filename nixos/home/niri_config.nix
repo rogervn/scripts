@@ -64,6 +64,7 @@ in
         mouse {
         }
         focus-follows-mouse
+        warp-mouse-to-focus
     }
 
     gestures {
@@ -107,7 +108,7 @@ in
             proportion 1.0
         }
 
-        default-column-width { proportion 0.5; }
+        default-column-width { }
     }
 
     // Disables all background blur, including app-requested (e.g. noctalia-shell's bar).
