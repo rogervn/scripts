@@ -2,6 +2,7 @@
   pkgs,
   config,
   pam_shim,
+  noctalia,
   ...
 }:
 {
@@ -9,11 +10,13 @@
     pam_shim.homeModules.default
   ];
   pamShim.enable = true;
-  nixpkgs.overlays = [
-    (_: prev: {
-      noctalia-shell = config.lib.pamShim.replacePam prev.noctalia-shell;
-    })
-  ];
+
+  programs.noctalia = {
+    enable = true;
+    package =
+      config.lib.pamShim.replacePam
+        noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default;
+  };
 
   home.packages = with pkgs; [
     blueman
@@ -31,7 +34,6 @@
     libnotify
     networkmanagerapplet
     nerd-fonts.symbols-only
-    noctalia-shell
     noto-fonts
     pavucontrol
     shotwell

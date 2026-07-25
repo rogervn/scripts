@@ -39,6 +39,7 @@
         (import ../../home/llm-clis.nix { inherit pkgs; })
         (import ../../home/nvim.nix { inherit pkgs nixvim; })
         (import ../../home/zsh.nix { inherit pkgs; })
+        ../../home/noctalia_config.nix
       ];
     };
 }

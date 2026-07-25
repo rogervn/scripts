@@ -7,17 +7,18 @@
   terminal ? "ghostty",
   fileManager ? "nautilus",
   browser ? "vivaldi",
-  locker ? "noctalia-shell ipc call lockScreen lock",
+  locker ? "noctalia msg session lock",
   noteEditor ? "joplin-desktop",
   codeEditor ? "gedit",
   screenshotPath ? "$(xdg-user-dir PICTURES)/Screenshots/$(date +'screenshot_%Y%m%d_%H%M%S.png')",
-  clipboardLauncher ? "noctalia-shell ipc call launcher clipboard",
-  appLauncher ? "noctalia-shell ipc call launcher toggle",
-  runLauncher ? "noctalia-shell ipc call launcher command",
-  notifDismissLast ? "noctalia-shell ipc call notifications dismissOldest",
-  notifDismissAll ? "noctalia-shell ipc call notifications clear",
-  notifToggle ? "noctalia-shell ipc call notifications toggleHistory",
-  wallpaper ? "noctalia-shell ipc call wallpaper random all",
+  clipboardLauncher ? "noctalia msg panel-toggle clipboard",
+  appLauncher ? "noctalia msg panel-toggle launcher",
+  # v5 dropped the dedicated "command mode"; falls back to the launcher itself, verify with `noctalia msg --help`.
+  runLauncher ? "noctalia msg panel-toggle launcher",
+  notifClearActive ? "noctalia msg notification-clear-active",
+  notifClearHistory ? "noctalia msg notification-clear-history",
+  notifToggle ? "noctalia msg panel-toggle control-center notifications",
+  wallpaper ? "noctalia msg wallpaper-random",
   extraConfig ? "",
   extraEnv ? [ ],
   ...
@@ -111,12 +112,12 @@ in
         default-column-width { proportion 0.5; }
     }
 
-    // Disables all background blur, including app-requested (e.g. noctalia-shell's bar).
+    // Disables all background blur, including app-requested (e.g. noctalia's bar).
     blur {
         off
     }
 
-    // Positional: must follow layout to override its colors; optional since noctalia-shell may not have generated this file yet.
+    // Positional: must follow layout to override its colors; optional since noctalia may not have generated this file yet.
     include optional=true "noctalia.kdl"
 
     window-rule {
@@ -145,7 +146,7 @@ in
     screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
 
     spawn-at-startup "xwayland-satellite"
-    spawn-at-startup "noctalia-shell"
+    spawn-at-startup "noctalia"
     spawn-at-startup "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1"
     spawn-at-startup "blueman-applet"
     spawn-at-startup "nm-applet"
@@ -169,8 +170,8 @@ in
         Mod+L            { spawn-sh "${locker}"; }
 
         Mod+N            { spawn-sh "${notifToggle}"; }
-        Mod+Shift+N      { spawn-sh "${notifDismissLast}"; }
-        Mod+Ctrl+Shift+N { spawn-sh "${notifDismissAll}"; }
+        Mod+Shift+N      { spawn-sh "${notifClearActive}"; }
+        Mod+Ctrl+Shift+N { spawn-sh "${notifClearHistory}"; }
 
         // niri's own Print-key screenshot actions are also bound below.
         Mod+P       { spawn-sh "grim -g \"$(slurp)\" ${screenshotPath}"; }

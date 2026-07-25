@@ -35,7 +35,6 @@ in
     nautilus
     nextcloud-client
     networkmanagerapplet
-    noctalia-shell
     noto-fonts
     pavucontrol
     shotwell
@@ -60,6 +59,11 @@ in
     };
 
     seahorse.enable = true;
+
+    noctalia = {
+      enable = true;
+      recommendedServices.enable = true;
+    };
   };
 
   services = {

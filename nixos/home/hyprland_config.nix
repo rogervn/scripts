@@ -6,18 +6,19 @@
   terminal ? "ghostty",
   fileManager ? "nautilus",
   browser ? "vivaldi",
-  locker ? "noctalia-shell ipc call lockScreen lock",
+  locker ? "noctalia msg session lock",
   noteEditor ? "joplin-desktop",
   codeEditor ? "gedit",
   screenshotPath ? "$(xdg-user-dir PICTURES)/Screenshots/$(date +'screenshot_%Y%m%d_%H%M%S.png')",
   clipboardManager ? "cliphist",
-  clipboardLauncher ? "noctalia-shell ipc call launcher clipboard",
-  appLauncher ? "noctalia-shell ipc call launcher toggle",
-  runLauncher ? "noctalia-shell ipc call launcher command",
-  notifDismissLast ? "noctalia-shell ipc call notifications dismissOldest",
-  notifDismissAll ? "noctalia-shell ipc call notifications clear",
-  notifToggle ? "noctalia-shell ipc call notifications toggleHistory",
-  wallpaper ? "noctalia-shell ipc call wallpaper random all",
+  clipboardLauncher ? "noctalia msg panel-toggle clipboard",
+  appLauncher ? "noctalia msg panel-toggle launcher",
+  # v5 dropped the dedicated "command mode"; falls back to the launcher itself, verify with `noctalia msg --help`.
+  runLauncher ? "noctalia msg panel-toggle launcher",
+  notifClearActive ? "noctalia msg notification-clear-active",
+  notifClearHistory ? "noctalia msg notification-clear-history",
+  notifToggle ? "noctalia msg panel-toggle control-center notifications",
+  wallpaper ? "noctalia msg wallpaper-random",
   extraConfig ? "",
   extraEnv ? [ ],
   ...
@@ -76,7 +77,7 @@
 
     extraConfig = ''
       source = ~/.config/hypr/noctalia/noctalia-colors.conf
-      exec-once = uwsm app -- noctalia-shell
+      exec-once = uwsm app -- noctalia
       exec-once = uwsm app -- ${pkgs.hyprpolkitagent}/libexec/hyprpolkitagent
       windowrule = float on, match:title Calculator
     ''
@@ -163,8 +164,8 @@
       "$clipboardLauncher" = clipboardLauncher;
       "$appLauncher" = appLauncher;
       "$runLauncher" = runLauncher;
-      "$dismissLastNotification" = notifDismissLast;
-      "$dismissAllNotification" = notifDismissAll;
+      "$notifClearActive" = notifClearActive;
+      "$notifClearHistory" = notifClearHistory;
       "$toggleNotification" = notifToggle;
       "$wallpaperChange" = wallpaper;
 
@@ -214,8 +215,8 @@
           ''$mainMod, p, exec, grim -g "$(slurp)" $screenshot_file''
           "$mainMod SHIFT, p, exec, grim -o $(hyprctl -j activeworkspace | jq '.monitor') $screenshot_file"
           "$mainMod, n, exec, $toggleNotification"
-          "$mainMod SHIFT, n, exec, $dismissLastNotification"
-          "$mainMod CTRL SHIFT, n, exec, $dismissAllNotification"
+          "$mainMod SHIFT, n, exec, $notifClearActive"
+          "$mainMod CTRL SHIFT, n, exec, $notifClearHistory"
           "$mainMod SHIFT, s, exec, systemctl poweroff -i"
           "$mainMod SHIFT, u, exec, systemctl suspend"
           "$mainMod SHIFT, r, exec, systemctl reboot"

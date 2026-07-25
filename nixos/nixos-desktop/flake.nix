@@ -1,6 +1,13 @@
 {
   description = "A not-so-simple NixOS flake";
 
+  nixConfig = {
+    extra-substituters = [ "https://noctalia.cachix.org" ];
+    extra-trusted-public-keys = [
+      "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
+    ];
+  };
+
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     agenix.url = "github:ryantm/agenix";
@@ -13,6 +20,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nix-cachyos-kernel.url = "github:xddxdd/nix-cachyos-kernel/release";
+    noctalia = {
+      url = "github:noctalia-dev/noctalia";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -22,6 +33,7 @@
       home-manager,
       nixvim,
       nix-cachyos-kernel,
+      noctalia,
       ...
     }:
     {
@@ -45,6 +57,8 @@
               ../hosts/${host}/home.nix
               agenix.nixosModules.default
               home-manager.nixosModules.home-manager
+              noctalia.nixosModules.default
+              { home-manager.sharedModules = [ noctalia.homeModules.default ]; }
               { nixpkgs.overlays = [ nix-cachyos-kernel.overlays.pinned ]; }
             ];
           };
@@ -68,6 +82,8 @@
               ../hosts/${host}/home.nix
               agenix.nixosModules.default
               home-manager.nixosModules.home-manager
+              noctalia.nixosModules.default
+              { home-manager.sharedModules = [ noctalia.homeModules.default ]; }
             ];
           };
 
@@ -90,6 +106,8 @@
               ../hosts/${host}/home.nix
               agenix.nixosModules.default
               home-manager.nixosModules.home-manager
+              noctalia.nixosModules.default
+              { home-manager.sharedModules = [ noctalia.homeModules.default ]; }
             ];
           };
       };

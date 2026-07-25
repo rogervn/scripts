@@ -5,6 +5,7 @@
   userName,
   nixvim,
   pam_shim,
+  noctalia,
   ...
 }:
 {
@@ -136,8 +137,10 @@
         pkgs
         config
         pam_shim
+        noctalia
         ;
     })
     (import ../home/solaar.nix { inherit pkgs; })
+    ../home/noctalia_config.nix
   ];
 }
