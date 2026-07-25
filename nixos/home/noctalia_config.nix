@@ -12,6 +12,7 @@ _: {
       telemetry_enabled = true;
       clipboard_enabled = true;
       clipboard_history_max_entries = 100;
+      clipboard_auto_paste = "off";
     };
 
     theme = {
