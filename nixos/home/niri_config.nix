@@ -108,7 +108,7 @@ in
             proportion 1.0
         }
 
-        default-column-width { }
+        default-column-width { proportion 0.5; }
     }
 
     // Disables all background blur, including app-requested (e.g. noctalia-shell's bar).
