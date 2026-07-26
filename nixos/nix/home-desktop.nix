@@ -141,6 +141,7 @@
         ;
     })
     (import ../home/solaar.nix { inherit pkgs; })
+    ../home/ghostty.nix
     ../home/noctalia_config.nix
   ];
 }

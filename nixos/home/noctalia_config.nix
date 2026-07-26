@@ -73,7 +73,7 @@ _: {
     wallpaper = {
       enabled = true;
       fill_mode = "crop";
-      directory = "~/.config/hypr/wallpaper";
+      directory = "~/.config/wallpapers";
       automation = {
         enabled = true;
         interval_seconds = 7200;
