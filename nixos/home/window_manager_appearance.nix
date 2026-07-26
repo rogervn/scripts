@@ -17,8 +17,8 @@
     };
 
     iconTheme = {
-      name = "Tela-blue-dark";
-      package = pkgs.tela-icon-theme;
+      name = "Flat-Remix-Blue-Dark";
+      package = pkgs.flat-remix-icon-theme;
     };
 
     gtk4.theme = null;
@@ -36,7 +36,7 @@
 
   xdg.configFile."qt6ct/qt6ct.conf".text = ''
     [Appearance]
-    icon_theme=Tela-blue-dark
+    icon_theme=Flat-Remix-Blue-Dark
     style=Fusion
   '';
 
