@@ -154,6 +154,7 @@ _: {
       tray = {
         pinned = [ "nm-applet" ];
         drawer = false;
+        scale = 1.2;
       };
 
       notifications.hide_when_no_unread = false;
