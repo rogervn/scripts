@@ -13,6 +13,7 @@ _: {
       clipboard_enabled = true;
       clipboard_history_max_entries = 100;
       clipboard_auto_paste = "off";
+      password_style = "random";
     };
 
     theme = {
