@@ -36,6 +36,24 @@ _: {
       fingerprint = true;
     };
 
+    idle.behavior = {
+      lock = {
+        enabled = true;
+        timeout = 300;
+        action = "lock";
+      };
+      "screen-off" = {
+        enabled = true;
+        timeout = 330;
+        action = "screen_off";
+      };
+      "lock-and-suspend" = {
+        enabled = true;
+        timeout = 900;
+        action = "lock_and_suspend";
+      };
+    };
+
     notification = {
       enable_daemon = true;
       show_app_name = true;

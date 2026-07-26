@@ -25,7 +25,6 @@
 }:
 {
   imports = [
-    ./idle_manager.nix
     ./window_manager_appearance.nix
   ];
 

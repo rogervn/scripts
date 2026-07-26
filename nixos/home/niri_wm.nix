@@ -37,7 +37,6 @@
     ghostty
     grim
     evince
-    hypridle
     qt6.qtwayland
     imagemagick
     jetbrains-mono

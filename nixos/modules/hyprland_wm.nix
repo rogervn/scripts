@@ -27,7 +27,6 @@ in
     ghostty
     grim
     evince
-    hypridle
     imagemagick
     joplin-desktop
     libnotify
