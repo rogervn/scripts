@@ -6,6 +6,47 @@ _: {
   # runs this automatically).
   programs.noctalia.enable = true;
 
+  # Custom niri template: adds a two-color (gradient) border/focus-ring instead
+  # of the builtin's flat active-color. Replaces the "niri" builtin template
+  # (see theme.templates below) since noctalia only writes one noctalia.kdl.
+  xdg.configFile."noctalia/templates/niri.kdl".text = ''
+    layout {
+
+        focus-ring {
+            active-gradient from="{{colors.primary_container.default.hex}}" to="{{colors.tertiary.default.hex}}" angle=45 relative-to="workspace-view"
+            inactive-color "{{colors.surface.default.hex}}"
+            urgent-color "{{colors.error.default.hex}}"
+        }
+
+        border {
+            active-gradient from="{{colors.primary_container.default.hex}}" to="{{colors.tertiary.default.hex}}" angle=45 relative-to="workspace-view"
+            inactive-color "{{colors.surface.default.hex}}"
+            urgent-color "{{colors.error.default.hex}}"
+        }
+
+        shadow {
+            color "{{colors.shadow.default.hex}}70"
+        }
+
+        tab-indicator {
+            active-gradient from="{{colors.primary_container.default.hex}}" to="{{colors.tertiary.default.hex}}" angle=45 relative-to="workspace-view"
+            inactive-color "{{colors.surface.default.hex}}"
+            urgent-color "{{colors.error.default.hex}}"
+        }
+
+        insert-hint {
+            color "{{colors.primary.default.hex}}80"
+        }
+    }
+
+    recent-windows {
+        highlight {
+            active-color "{{colors.primary.default.hex}}"
+            urgent-color "{{colors.error.default.hex}}"
+        }
+    }
+  '';
+
   programs.noctalia.settings = {
     shell = {
       avatar_path = "/home/rogervn/.face";
@@ -20,13 +61,16 @@ _: {
       mode = "dark";
       source = "wallpaper";
       builtin = "Noctalia";
-      wallpaper_scheme = "m3-tonal-spot";
+      wallpaper_scheme = "m3-content";
       templates.builtin_ids = [
         "gtk3"
         "gtk4"
         "ghostty"
-        "niri"
       ];
+      templates.user.niri = {
+        input_path = "templates/niri.kdl";
+        output_path = "$XDG_CONFIG_HOME/niri/noctalia.kdl";
+      };
     };
 
     location.address = "London";

@@ -85,7 +85,7 @@ in
         gaps 8
 
         focus-ring {
-            width 2
+            width 4
             active-color "#89b4fa"
             inactive-color "#45475a"
         }
