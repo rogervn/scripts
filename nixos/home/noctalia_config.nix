@@ -107,29 +107,27 @@ _: {
       background_opacity = 1.0;
       collapse_on_dismiss = true;
 
-      # v4 behaviour: notifications always toast, but only normal/critical are
-      # saved to history, and sound is off entirely regardless of urgency.
+      # Keep command-line test notifications brief and out of history. All
+      # other notifications remain until dismissed and are saved to history.
       filter_order = [
-        "low_no_history"
-        "no_sound"
+        "clip_pastry"
+        "default"
       ];
 
-      filter.low_no_history = {
+      filter.clip_pastry = {
         enabled = true;
-        match_content = ".*";
-        allowed_urgencies = [ "low" ];
+        match = "clip-pastry";
         show_toast = true;
         save_history = false;
-        play_sound = false;
         override_duration = 2000;
       };
 
-      filter.no_sound = {
+      filter.default = {
         enabled = true;
         match_content = ".*";
         show_toast = true;
         save_history = true;
-        play_sound = false;
+        override_duration = 0;
       };
     };
 
