@@ -64,9 +64,13 @@
 
     keymaps = [
       {
-        mode = "v";
-        key = "<C-S-c>";
+        mode = [
+          "n"
+          "v"
+        ];
+        key = "<leader>y";
         action = "\"+y";
+        options.desc = "Copy to system clipboard";
       }
     ];
 
