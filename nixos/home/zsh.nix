@@ -15,6 +15,10 @@ _: {
       };
 
       defaultKeymap = "viins";
+
+      initContent = ''
+        [[ -f "$HOME/.zshrc.local" && -r "$HOME/.zshrc.local" ]] && source "$HOME/.zshrc.local"
+      '';
     };
 
     fzf.enable = true;
