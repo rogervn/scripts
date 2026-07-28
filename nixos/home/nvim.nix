@@ -255,16 +255,35 @@
       let g:signify_skip = {'vcs': {'allow': ['git', 'hg']}}
 
       function! SignifyDiffParent() abort
-        let l:git_cmd = g:signify_vcs_cmds_diffmode.git
-        let l:hg_cmd = g:signify_vcs_cmds_diffmode.hg
-        try
-          let g:signify_vcs_cmds_diffmode.git = 'git show HEAD~:./%f'
-          let g:signify_vcs_cmds_diffmode.hg = 'hg cat --rev .^ %f'
-          SignifyDiff
-        finally
-          let g:signify_vcs_cmds_diffmode.git = l:git_cmd
-          let g:signify_vcs_cmds_diffmode.hg = l:hg_cmd
-        endtry
+        let l:dir = expand('%:p:h')
+        let l:file = expand('%:t')
+
+        call system('git -C ' . shellescape(l:dir) . ' rev-parse --is-inside-work-tree 2>/dev/null')
+        if v:shell_error == 0
+          let l:cmd = 'git -C ' . shellescape(l:dir) . ' show ' . shellescape('HEAD~:./' . l:file)
+        else
+          call system('hg --cwd ' . shellescape(l:dir) . ' root 2>/dev/null')
+          if v:shell_error != 0
+            echoerr 'Not in a Git or Mercurial repository'
+          endif
+          let l:cmd = 'hg --cwd ' . shellescape(l:dir) . ' cat --rev .^ -- ' . shellescape(l:file)
+        endif
+
+        let l:base = systemlist(l:cmd)
+        if v:shell_error != 0
+          echoerr 'Could not read the file from the parent commit'
+        endif
+
+        let l:filetype = &filetype
+        tab split
+        diffthis
+        leftabove vnew
+        call setline(1, l:base)
+        setlocal buftype=nofile bufhidden=wipe noswapfile nomodified
+        let &l:filetype = l:filetype
+        diffthis
+        wincmd p
+        normal! ]czt
       endfunction
     '';
   };
