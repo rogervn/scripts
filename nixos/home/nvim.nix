@@ -72,6 +72,36 @@
         action = "\"+y";
         options.desc = "Copy to system clipboard";
       }
+      {
+        mode = "n";
+        key = "<leader>hp";
+        action = "<cmd>SignifyHunkDiff<CR>";
+        options.desc = "Preview hunk";
+      }
+      {
+        mode = "n";
+        key = "<leader>hr";
+        action = "<cmd>SignifyHunkUndo<CR>";
+        options.desc = "Undo hunk";
+      }
+      {
+        mode = "n";
+        key = "<leader>hd";
+        action = "<cmd>SignifyDiff<CR>";
+        options.desc = "Diff file";
+      }
+      {
+        mode = "n";
+        key = "<leader>hD";
+        action = "<cmd>call SignifyDiffParent()<CR>";
+        options.desc = "Diff file against parent commit";
+      }
+      {
+        mode = "n";
+        key = "<leader>hq";
+        action = "<cmd>tabclose<CR>";
+        options.desc = "Close diff tab";
+      }
     ];
 
     plugins = {
@@ -218,48 +248,24 @@
       dressing.enable = true;
       fugitive.enable = true;
       which-key.enable = true;
-      gitsigns = {
-        enable = true;
-        settings = {
-          on_attach = ''
-            function(bufnr)
-              local gs = package.loaded.gitsigns
-
-              local function map(mode, l, r, opts)
-                opts = opts or {}
-                opts.buffer = bufnr
-                vim.keymap.set(mode, l, r, opts)
-              end
-
-              -- Navigation
-              map('n', ']c', function()
-                if vim.wo.diff then return ']c' end
-                vim.schedule(function() gs.next_hunk() end)
-                return '<Ignore>'
-              end, {expr=true})
-
-              map('n', '[c', function()
-                if vim.wo.diff then return '[c' end
-                vim.schedule(function() gs.prev_hunk() end)
-                return '<Ignore>'
-              end, {expr=true})
-
-              -- Actions
-              map('n', '<leader>hs', gs.stage_hunk)
-              map('n', '<leader>hr', gs.reset_hunk)
-              map('n', '<leader>hp', gs.preview_hunk)
-              map('n', '<leader>hb', function() gs.blame_line{full=true} end)
-              map('n', '<leader>hd', gs.diffthis)
-              map('n', '<leader>hD', function() gs.diffthis('~') end)
-            end
-          '';
-        };
-      };
       web-devicons.enable = true;
     };
 
     extraConfigVim = ''
-      let g:signify_vcs_list = ['git', 'hg']
+      let g:signify_skip = {'vcs': {'allow': ['git', 'hg']}}
+
+      function! SignifyDiffParent() abort
+        let l:git_cmd = g:signify_vcs_cmds_diffmode.git
+        let l:hg_cmd = g:signify_vcs_cmds_diffmode.hg
+        try
+          let g:signify_vcs_cmds_diffmode.git = 'git show HEAD~:./%f'
+          let g:signify_vcs_cmds_diffmode.hg = 'hg cat --rev .^ %f'
+          SignifyDiff
+        finally
+          let g:signify_vcs_cmds_diffmode.git = l:git_cmd
+          let g:signify_vcs_cmds_diffmode.hg = l:hg_cmd
+        endtry
+      endfunction
     '';
   };
 }
