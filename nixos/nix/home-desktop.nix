@@ -74,6 +74,13 @@
               position x=5000 y=-1200
               scale 1.0
               transform "90"
+              layout {
+                  default-column-width { proportion 1.0; }
+                  preset-column-widths {
+                      proportion 0.5
+                      proportion 1.0
+                  }
+              }
           }
         ''
         # Left-to-right row: Chimei | BenQ EW3270U | P2317H (portrait), tops aligned at y=0.
@@ -98,6 +105,13 @@
               position x=5760 y=0
               scale 1.0
               transform "90"
+              layout {
+                  default-column-width { proportion 1.0; }
+                  preset-column-widths {
+                      proportion 0.5
+                      proportion 1.0
+                  }
+              }
           }
         ''
         ''

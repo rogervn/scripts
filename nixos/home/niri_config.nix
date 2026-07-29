@@ -102,6 +102,13 @@ in
             off
         }
 
+        shadow {
+            on
+            softness 20
+            spread 2
+            offset x=0 y=4
+        }
+
         preset-column-widths {
             proportion 0.33333
             proportion 0.5
@@ -160,7 +167,6 @@ in
 
     screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
 
-    spawn-at-startup "xwayland-satellite"
     spawn-at-startup "noctalia"
     spawn-at-startup "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1"
     spawn-at-startup "blueman-applet"
