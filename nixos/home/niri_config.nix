@@ -134,6 +134,13 @@ in
     // Positional: must follow layout to override its colors; optional since noctalia may not have generated this file yet.
     include optional=true "noctalia.kdl"
 
+    // Keep Noctalia's blurred wallpaper behind workspaces, visible only in
+    // the overview and between workspaces rather than on the normal desktop.
+    layer-rule {
+        match namespace="noctalia-backdrop"
+        place-within-backdrop true
+    }
+
     window-rule {
         geometry-corner-radius 10
         clip-to-geometry true

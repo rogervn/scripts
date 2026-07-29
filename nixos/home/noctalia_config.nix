@@ -54,7 +54,14 @@ _: {
       clipboard_enabled = true;
       clipboard_history_max_entries = 100;
       clipboard_auto_paste = "off";
+      niri_overview_type_to_launch_enabled = true;
       password_style = "random";
+    };
+
+    backdrop = {
+      enabled = true;
+      blur_intensity = 0.5;
+      tint_intensity = 0.3;
     };
 
     theme = {
