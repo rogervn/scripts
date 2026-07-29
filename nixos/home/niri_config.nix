@@ -61,7 +61,6 @@ in
         touchpad {
             tap
             dwt
-            natural-scroll
             scroll-factor 0.8
         }
         mouse {
