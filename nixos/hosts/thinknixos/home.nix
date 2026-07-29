@@ -26,7 +26,7 @@
               output "LG Electronics LG TV SSCR2 0x01010101" {
                   mode "3840x2160@120.000"
                   scale 1.5
-                  variable-refresh-rate
+                  variable-refresh-rate on-demand=true
               }
             ''
             ''

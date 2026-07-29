@@ -82,6 +82,7 @@
               mode "1920x1200@60.000"
               position x=0 y=0
               scale 1.0
+              variable-refresh-rate on-demand=true
           }
         ''
         ''

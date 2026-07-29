@@ -60,11 +60,17 @@ in
         }
         touchpad {
             tap
+            dwt
+            natural-scroll
+            scroll-factor 0.8
         }
         mouse {
         }
-        focus-follows-mouse
+        // Focus windows under the pointer, but never scroll the tiling view as
+        // a side effect when the pointer reaches a monitor edge.
+        focus-follows-mouse max-scroll-amount="0%"
         warp-mouse-to-focus
+        workspace-auto-back-and-forth
     }
 
     gestures {
@@ -83,6 +89,9 @@ in
 
     layout {
         gaps 8
+
+        center-focused-column "on-overflow"
+        always-center-single-column
 
         focus-ring {
             width 4
@@ -130,6 +139,14 @@ in
     window-rule {
         match app-id="org.gnome.Calculator"
         open-floating true
+    }
+
+    // Enable VRR only when games or video players are visible on an output
+    // configured with `variable-refresh-rate on-demand=true`.
+    window-rule {
+        match app-id=r#"^steam_app_"#
+        match app-id=r#"^(mpv|vlc)$"#
+        variable-refresh-rate true
     }
 
     environment {
