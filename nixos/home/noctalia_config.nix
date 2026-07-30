@@ -1,4 +1,53 @@
-_: {
+_:
+let
+  portraitBar = {
+    start = [
+      "control-center"
+      "workspaces"
+      "weather"
+      "privacy"
+    ];
+    center = [ "active_window" ];
+    end = [
+      "volume"
+      "brightness"
+      "battery"
+      "clock"
+      "notifications"
+    ];
+  };
+  lowResBar = {
+    start = [
+      "control-center"
+      "workspaces"
+      "group:boe-system"
+      "power_profile"
+      "privacy"
+    ];
+    center = [ "active_window" ];
+    end = [
+      "volume"
+      "brightness"
+      "battery"
+      "boe-tray"
+      "network"
+      "clock"
+      "notifications"
+      "session"
+    ];
+    capsule_group = [
+      {
+        id = "boe-system";
+        members = [
+          "boe-cpu"
+          "boe-cpu-temp"
+          "boe-ram"
+        ];
+      }
+    ];
+  };
+in
+{
   # v5 config schema (docs.noctalia.dev/v5/configuration) is unrelated to the v4
   # settings.json this was ported from; only settings with a clear v5 equivalent
   # are carried over. Everything else keeps v5's default. Verify with
@@ -56,6 +105,10 @@ _: {
       clipboard_auto_paste = "off";
       niri_overview_type_to_launch_enabled = true;
       password_style = "random";
+      panel = {
+        control_center_placement = "floating";
+        control_center_position = "center";
+      };
     };
 
     backdrop = {
@@ -165,6 +218,7 @@ _: {
         "cpu-temp"
         "ram"
         "power_profile"
+        "privacy"
       ];
       center = [ "active_window" ];
       end = [
@@ -179,9 +233,21 @@ _: {
         "notifications"
         "session"
       ];
+      monitor = {
+        # Noctalia matches whole-word substrings of the Wayland description;
+        # omit connector names and serial numbers so these survive replugging.
+        "DELL UP3017" = portraitBar;
+        "DELL P2317H" = portraitBar;
+        "BOE 0x0791" = lowResBar;
+      };
     };
 
     widget = {
+      active_window = {
+        max_length = 180;
+        title_scroll = "on_hover";
+      };
+
       cpu = {
         type = "sysmon";
         stat = "cpu_usage";
@@ -195,6 +261,22 @@ _: {
         stat = "ram_used";
       };
 
+      boe-cpu = {
+        type = "sysmon";
+        stat = "cpu_usage";
+        display = "text";
+      };
+      boe-cpu-temp = {
+        type = "sysmon";
+        stat = "cpu_temp";
+        display = "text";
+      };
+      boe-ram = {
+        type = "sysmon";
+        stat = "ram_pct";
+        display = "text";
+      };
+
       clock = {
         format = "{:%a %d %b - %H:%M}";
         tooltip_format = "{:%H:%M %a, %b %d}";
@@ -205,8 +287,15 @@ _: {
         drawer = false;
         scale = 1.2;
       };
+      boe-tray = {
+        type = "tray";
+        drawer = true;
+        scale = 1.2;
+      };
 
       notifications.hide_when_no_unread = false;
+
+      privacy.hide_inactive = true;
     };
   };
 }
