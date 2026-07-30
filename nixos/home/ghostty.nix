@@ -9,7 +9,7 @@
       gtk-titlebar = false;
       theme = "noctalia";
       # added '@' as a selection word char for user@host only select host
-      selection-word-chars = "\" \\t'\\\"│`|:;,()[]{}<>$@\"";
+      selection-word-chars = "\" \\t'\\\"│`|:;,()[]{}<>$@\"=";
     };
   };
 }
