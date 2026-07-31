@@ -264,17 +264,20 @@ in
       boe-cpu = {
         type = "sysmon";
         stat = "cpu_usage";
-        display = "text";
+        visualization = "none";
+        show_value = true;
       };
       boe-cpu-temp = {
         type = "sysmon";
         stat = "cpu_temp";
-        display = "text";
+        visualization = "none";
+        show_value = true;
       };
       boe-ram = {
         type = "sysmon";
         stat = "ram_pct";
-        display = "text";
+        visualization = "none";
+        show_value = true;
       };
 
       clock = {
