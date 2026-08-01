@@ -12,8 +12,8 @@
   gtk = {
     enable = true;
     theme = {
-      name = "Orchis-Dark";
-      package = pkgs.orchis-theme;
+      name = "WhiteSur-Dark";
+      package = pkgs.whitesur-gtk-theme.override { colorVariants = [ "dark" ]; };
     };
 
     iconTheme = {
@@ -28,6 +28,12 @@
   qt = {
     enable = true;
     platformTheme.name = "qtct"; # installs qt6ct and wires QT_PLUGIN_PATH
+    style.name = "kvantum"; # installs qtstyleplugin-kvantum
+    kvantum = {
+      enable = true;
+      settings.General.theme = "WhiteSurDark";
+      themes = [ pkgs.whitesur-kde ];
+    };
   };
 
   # HM's "qtct" sets QT_QPA_PLATFORMTHEME=qt5ct, but the Qt6 plugin key is qt6ct.
@@ -37,7 +43,7 @@
   xdg.configFile."qt6ct/qt6ct.conf".text = ''
     [Appearance]
     icon_theme=Flat-Remix-Blue-Dark
-    style=Fusion
+    style=kvantum
   '';
 
   # Dconf Settings for Global Dark Mode (Libadwaita/Modern GTK4)

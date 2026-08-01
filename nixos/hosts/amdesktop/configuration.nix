@@ -30,8 +30,7 @@
         "nix-command"
         "flakes"
       ];
-      # Uncomment these to be able to build a aarch64 image
-      # trusted-users = [ userName ];
+      trusted-users = [ userName ];
       # Binary cache for the CachyOS kernel (nix-cachyos-kernel flake input)
       extra-substituters = [ "https://attic.xuyh0120.win/lantian" ];
       extra-trusted-public-keys = [ "lantian:EeAUQ+W+6r7EtwnmYjeVwx5kOGEBpjlBfPlzGlTNvHc=" ];

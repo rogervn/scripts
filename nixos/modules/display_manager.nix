@@ -1,6 +1,6 @@
 { pkgs, ... }:
 {
-  programs.regreet = {
+  services.displayManager.regreet = {
     enable = true;
 
     cursorTheme = {
