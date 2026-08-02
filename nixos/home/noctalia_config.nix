@@ -20,6 +20,7 @@ let
     start = [
       "control-center"
       "workspaces"
+      "weather"
       "group:boe-system"
       "power_profile"
       "privacy"
@@ -238,7 +239,7 @@ in
         # omit connector names and serial numbers so these survive replugging.
         "DELL UP3017" = portraitBar;
         "DELL P2317H" = portraitBar;
-        "BOE 0x0791" = lowResBar;
+        "0x0791" = lowResBar;
       };
     };
 
@@ -286,7 +287,6 @@ in
       };
 
       tray = {
-        pinned = [ "nm-applet" ];
         drawer = false;
         scale = 1.2;
       };
