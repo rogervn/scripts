@@ -20,7 +20,6 @@
   notifToggle ? "noctalia msg panel-toggle control-center notifications",
   wallpaper ? "noctalia msg wallpaper-random",
   extraConfig ? "",
-  extraEnv ? [ ],
   ...
 }:
 {
@@ -136,12 +135,6 @@
       };
       master.new_status = "master";
       misc.force_default_wallpaper = -1;
-
-      env = [
-        "XCURSOR_SIZE,24"
-        "HYPRCURSOR_SIZE,24"
-      ]
-      ++ extraEnv;
 
       input = {
         kb_layout = "us";

@@ -20,13 +20,8 @@
   notifToggle ? "noctalia msg panel-toggle control-center notifications",
   wallpaper ? "noctalia msg wallpaper-random",
   extraConfig ? "",
-  extraEnv ? [ ],
   ...
 }:
-let
-  # niri KDL has no variable substitution, so commands are interpolated directly.
-  envLines = lib.concatMapStringsSep "\n    " (e: ''"${e}"'') extraEnv;
-in
 {
   imports = [
     ./window_manager_appearance.nix
@@ -196,10 +191,7 @@ in
     }
 
     environment {
-        XCURSOR_SIZE "24"
-        HYPRCURSOR_SIZE "24"
         GIO_EXTRA_MODULES "${pkgs.dconf.lib}/lib/gio/modules"
-        ${envLines}
     }
 
     hotkey-overlay {

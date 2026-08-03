@@ -140,10 +140,6 @@
       browser = "google-chrome --ozone-platform=wayland";
       noteEditor = "gedit";
       codeEditor = "code-fb --ozone-platform-hint=auto";
-      # GDK_BACKEND omitted: niri's docs warn it breaks the screencast portal.
-      extraEnv = [
-        "CLUTTER_BACKEND,wayland"
-      ];
     })
     (import ../home/zsh.nix { inherit pkgs; })
     (import ../home/nvim.nix { inherit pkgs nixvim; })
