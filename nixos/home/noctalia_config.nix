@@ -162,11 +162,7 @@ in
       source = "wallpaper";
       builtin = "Noctalia";
       wallpaper_scheme = "m3-content";
-      templates.builtin_ids = [
-        "gtk3"
-        "gtk4"
-        "ghostty"
-      ];
+      templates.builtin_ids = [ "ghostty" ];
       templates.user.niri = {
         input_path = "templates/niri.kdl";
         output_path = "$XDG_CONFIG_HOME/niri/noctalia.kdl";

@@ -134,6 +134,22 @@ in
         saturation 1.5
     }
 
+    recent-windows {
+        // Stay responsive without recording every window crossed by focus-follows-mouse.
+        debounce-ms 500
+        open-delay-ms 75
+
+        highlight {
+            padding 24
+            corner-radius 10
+        }
+
+        previews {
+            max-height 520
+            max-scale 0.55
+        }
+    }
+
     // Positional: must follow layout to override its colors; optional since noctalia may not have generated this file yet.
     include optional=true "noctalia.kdl"
 
