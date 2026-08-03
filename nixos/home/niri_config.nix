@@ -198,6 +198,7 @@ in
     environment {
         XCURSOR_SIZE "24"
         HYPRCURSOR_SIZE "24"
+        GIO_EXTRA_MODULES "${pkgs.dconf.lib}/lib/gio/modules"
         ${envLines}
     }
 
