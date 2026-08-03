@@ -144,6 +144,8 @@ in
       clipboard_auto_paste = "off";
       niri_overview_type_to_launch_enabled = true;
       password_style = "random";
+      polkit_agent = true;
+      launch_apps_as_systemd_services = true;
       panel = {
         transparency_mode = "glass";
         control_center_placement = "floating";

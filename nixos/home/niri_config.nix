@@ -207,10 +207,9 @@ in
 
     screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
 
-    spawn-at-startup "noctalia"
-    spawn-at-startup "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1"
     spawn-at-startup "blueman-applet"
     spawn-at-startup "nm-applet"
+    spawn-at-startup "noctalia"
 
     binds {
         // ---- Suggested-by-niri hotkey help ----
