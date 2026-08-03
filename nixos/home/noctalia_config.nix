@@ -1,51 +1,89 @@
 _:
 let
+  rightCapsuleGroups = [
+    {
+      id = "connectivity";
+      widget_spacing = 10;
+      members = [
+        "network"
+        "bluetooth"
+      ];
+    }
+    {
+      id = "device-status";
+      widget_spacing = 10;
+      members = [
+        "privacy"
+        "volume"
+        "input_volume"
+        "brightness"
+        "battery"
+      ];
+    }
+    {
+      id = "clock-session";
+      widget_spacing = 10;
+      members = [
+        "clock"
+        "notifications"
+        "session"
+      ];
+    }
+  ];
+  sysmonFullGroup = {
+    id = "sysmon-full";
+    widget_spacing = 10;
+    members = [
+      "cpu"
+      "cpu-temp"
+      "ram"
+      "disk"
+      "power_profile"
+      "caffeine"
+    ];
+  };
+  sysmonShortGroup = {
+    id = "sysmon-short";
+    widget_spacing = 10;
+    members = [
+      "sysmon-short-cpu"
+      "sysmon-short-cpu-temp"
+      "sysmon-short-ram"
+      "sysmon-short-disk"
+      "power_profile"
+      "caffeine"
+    ];
+  };
   portraitBar = {
     start = [
       "control-center"
       "workspaces"
       "weather"
-      "privacy"
+      "group:sysmon-short"
     ];
     center = [ "active_window" ];
     end = [
-      "volume"
-      "brightness"
-      "battery"
-      "clock"
-      "notifications"
+      "group:device-status"
+      "group:connectivity"
+      "group:clock-session"
     ];
+    capsule_group = [ sysmonShortGroup ] ++ rightCapsuleGroups;
   };
   lowResBar = {
     start = [
       "control-center"
       "workspaces"
       "weather"
-      "group:boe-system"
-      "power_profile"
-      "privacy"
+      "group:sysmon-short"
     ];
     center = [ "active_window" ];
     end = [
-      "volume"
-      "brightness"
-      "battery"
-      "boe-tray"
-      "network"
-      "clock"
-      "notifications"
-      "session"
+      "group:device-status"
+      "tray-short"
+      "group:connectivity"
+      "group:clock-session"
     ];
-    capsule_group = [
-      {
-        id = "boe-system";
-        members = [
-          "boe-cpu"
-          "boe-cpu-temp"
-          "boe-ram"
-        ];
-      }
-    ];
+    capsule_group = [ sysmonShortGroup ] ++ rightCapsuleGroups;
   };
 in
 {
@@ -107,8 +145,9 @@ in
       niri_overview_type_to_launch_enabled = true;
       password_style = "random";
       panel = {
+        transparency_mode = "glass";
         control_center_placement = "floating";
-        control_center_position = "center";
+        control_center_position = "auto";
       };
     };
 
@@ -215,25 +254,16 @@ in
         "control-center"
         "workspaces"
         "weather"
-        "cpu"
-        "cpu-temp"
-        "ram"
-        "power_profile"
-        "privacy"
+        "group:sysmon-full"
       ];
       center = [ "active_window" ];
       end = [
-        "caffeine"
-        "volume"
-        "brightness"
-        "battery"
-        "bluetooth"
+        "group:device-status"
         "tray"
-        "network"
-        "clock"
-        "notifications"
-        "session"
+        "group:connectivity"
+        "group:clock-session"
       ];
+      capsule_group = [ sysmonFullGroup ] ++ rightCapsuleGroups;
       monitor = {
         # Noctalia matches whole-word substrings of the Wayland description;
         # omit connector names and serial numbers so these survive replugging.
@@ -261,24 +291,39 @@ in
         type = "sysmon";
         stat = "ram_used";
       };
+      disk = {
+        type = "sysmon";
+        stat = "disk_used";
+      };
 
-      boe-cpu = {
+      sysmon-short-cpu = {
         type = "sysmon";
         stat = "cpu_usage";
         visualization = "none";
         show_value = true;
       };
-      boe-cpu-temp = {
+      sysmon-short-cpu-temp = {
         type = "sysmon";
         stat = "cpu_temp";
         visualization = "none";
         show_value = true;
       };
-      boe-ram = {
+      sysmon-short-ram = {
         type = "sysmon";
         stat = "ram_pct";
         visualization = "none";
         show_value = true;
+      };
+      sysmon-short-disk = {
+        type = "sysmon";
+        stat = "disk_used_pct";
+        visualization = "none";
+        show_value = true;
+      };
+
+      input_volume = {
+        type = "volume";
+        device = "input";
       };
 
       clock = {
@@ -290,7 +335,7 @@ in
         drawer = false;
         scale = 1.2;
       };
-      boe-tray = {
+      tray-short = {
         type = "tray";
         drawer = true;
         scale = 1.2;

@@ -126,13 +126,30 @@ in
         default-column-width { proportion 0.5; }
     }
 
-    // Disables all background blur, including app-requested (e.g. noctalia's bar).
+    // Enable blur globally, then opt Noctalia panels in and keep bars clear.
     blur {
-        off
+        passes 3
+        offset 3.0
+        noise 0.02
+        saturation 1.5
     }
 
     // Positional: must follow layout to override its colors; optional since noctalia may not have generated this file yet.
     include optional=true "noctalia.kdl"
+
+    layer-rule {
+        match namespace="^noctalia-bar-"
+        background-effect {
+            blur false
+        }
+    }
+
+    layer-rule {
+        match namespace="^noctalia-.*click-shield$"
+        background-effect {
+            blur false
+        }
+    }
 
     // Keep Noctalia's blurred wallpaper behind workspaces, visible only in
     // the overview and between workspaces rather than on the normal desktop.
