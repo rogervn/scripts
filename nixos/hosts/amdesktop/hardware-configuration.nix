@@ -26,6 +26,7 @@
     };
     kernelModules = [ "kvm-amd" ];
     extraModulePackages = [ ];
+    zswap.enable = true;
   };
 
   fileSystems = {
