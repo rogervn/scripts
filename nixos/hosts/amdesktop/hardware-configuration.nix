@@ -29,26 +29,22 @@
     zswap.enable = true;
   };
 
-  fileSystems = {
-    "/" = {
-      device = "/dev/disk/by-uuid/4d56e135-123d-49b9-a7ab-efdf96f01e65";
+
+  fileSystems."/" =
+    { device = "/dev/disk/by-uuid/2f85db78-18fd-48e8-9e85-42acf4059a56";
       fsType = "ext4";
     };
 
-    "/boot" = {
-      device = "/dev/disk/by-uuid/0DCA-DF2E";
+  fileSystems."/data" =
+    { device = "/dev/disk/by-uuid/42f96973-2887-468c-b01f-7480c4f58aa1";
+      fsType = "ext4";
+    };
+
+  fileSystems."/boot" =
+    { device = "/dev/disk/by-uuid/0DCA-DF2E";
       fsType = "vfat";
-      options = [
-        "fmask=0022"
-        "dmask=0022"
-      ];
+      options = [ "fmask=0022" "dmask=0022" ];
     };
-
-    "/data" = {
-      device = "/dev/disk/by-uuid/0b85ac17-20a2-4d1d-83c6-142eae10d0be";
-      fsType = "ext4";
-    };
-  };
 
   swapDevices = [
     {
