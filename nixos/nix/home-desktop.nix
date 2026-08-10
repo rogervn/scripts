@@ -146,6 +146,7 @@
     (import ../home/niri_wm.nix {
       inherit
         pkgs
+        lib
         config
         pam_shim
         noctalia
