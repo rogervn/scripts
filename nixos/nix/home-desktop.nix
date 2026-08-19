@@ -96,7 +96,7 @@
           output "PNP(BNQ) BenQ EW3270U TBK02382019" {
               mode "3840x2160@60.000"
               position x=1920 y=0
-              scale 1.0
+              scale 1.25
           }
         ''
         ''
