@@ -102,7 +102,7 @@
         ''
           output "Dell Inc. DELL P2317H 4WY7076L06QB" {
               mode "1920x1080@60.000"
-              position x=5760 y=0
+              position x=4992 y=0
               scale 1.0
               transform "90"
               layout {
