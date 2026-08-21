@@ -30,7 +30,7 @@
               }
             ''
             ''
-              output "BOE 0x0791" {
+              output "BOE 0x0791 Unknown" {
                   mode "1920x1080@60.000"
                   scale 1.0
               }

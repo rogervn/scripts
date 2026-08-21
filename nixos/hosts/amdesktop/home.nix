@@ -28,12 +28,6 @@
                   variable-refresh-rate on-demand=true
               }
             ''
-            ''
-              output "BOE 0x0791" {
-                  mode "1920x1080@60.000"
-                  scale 1.0
-              }
-            ''
           ];
         })
         (import ../../home/llm-clis.nix { inherit pkgs; })
