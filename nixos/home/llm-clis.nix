@@ -14,10 +14,16 @@
           enabled = true;
           vim_escape_sequence = "jk";
           vim_enter_submit = true;
+          vim_insert_after_submit = true;
         }
       ]
     ];
-    settings.provider.openrouter.options.apiKey =
-      "{file:${osConfig.age.secrets.openrouter_api_key.path}}";
+    settings = {
+      model = "openrouter/deepseek/deepseek-v4-pro-0813";
+      small_model = "openrouter/deepseek/deepseek-v4-flash";
+      agent.explore.model = "openrouter/deepseek/deepseek-v4-flash";
+      provider.openrouter.options.apiKey =
+        "{file:${osConfig.age.secrets.openrouter_api_key.path}}";
+    };
   };
 }

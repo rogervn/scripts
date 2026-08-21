@@ -1,6 +1,6 @@
 { pkgs, ... }:
 {
-  services.displayManager.regreet = {
+  services.displayManager.noctalia-greeter = {
     enable = true;
 
     cursorTheme = {
@@ -8,15 +8,33 @@
       package = pkgs.bibata-cursors;
     };
 
-    settings = {
-      skip_selection = true;
+    settings.appearance = {
+      scheme = "Synced";
+      theme_mode = "dark";
+      hide_logo = true;
 
-      background = {
-        path = "${pkgs.nixos-artwork.wallpapers.nineish-dark-gray.src}";
-        fit = "Cover";
+      palette = {
+        primary = "#adc6ff";
+        on_primary = "#002e69";
+        secondary = "#b1c6f7";
+        on_secondary = "#193057";
+        tertiary = "#f4aeff";
+        on_tertiary = "#55006a";
+        error = "#ffb4ab";
+        on_error = "#690005";
+        surface = "#11131a";
+        on_surface = "#e1e2eb";
+        surface_variant = "#424753";
+        on_surface_variant = "#c2c6d5";
+        outline = "#8c909f";
+        shadow = "#000000";
+        hover = "#f4aeff";
+        on_hover = "#55006a";
       };
-      GTK = {
-        application_prefer_dark_theme = true;
+
+      wallpaper = {
+        path = "${pkgs.nixos-artwork.wallpapers.nineish-dark-gray.src}";
+        fill_mode = "crop";
       };
     };
   };

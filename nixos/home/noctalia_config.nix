@@ -146,6 +146,14 @@ in
       password_style = "random";
       polkit_agent = true;
       launch_apps_as_systemd_services = true;
+      # Auto-syncing to the greeter goes through systemd's generic
+      # manage-units polkit action (via run0), not a noctalia-specific
+      # action, so it can't be scoped to a passwordless rule without
+      # granting wheel blanket root unit control. Sync manually instead
+      # when the theme actually changes.
+      greeter_sync = {
+        auto_sync = false;
+      };
       panel = {
         transparency_mode = "glass";
         control_center_placement = "floating";
