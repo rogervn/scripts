@@ -7,9 +7,16 @@
 
   programs.opencode = {
     enable = true;
-    tui.vim = true;
-    # key lives in modules/secrets/openrouter_api_key.age; edit with:
-    #   agenix -e nixos/modules/secrets/openrouter_api_key.age -i <ssh-key>
+    tui.plugin = [
+      [
+        "@leohenon/opencode-vim-plugin"
+        {
+          enabled = true;
+          vim_escape_sequence = "jk";
+          vim_enter_submit = true;
+        }
+      ]
+    ];
     settings.provider.openrouter.options.apiKey =
       "{file:${osConfig.age.secrets.openrouter_api_key.path}}";
   };
