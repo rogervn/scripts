@@ -30,7 +30,7 @@
             ''
           ];
         })
-        (import ../../home/llm-clis.nix { inherit pkgs; })
+        ../../home/llm-clis.nix
         (import ../../home/nvim.nix { inherit pkgs nixvim; })
         (import ../../home/zsh.nix { inherit pkgs; })
         ../../home/ghostty.nix

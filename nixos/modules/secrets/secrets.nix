@@ -19,6 +19,10 @@ in
     amdesktop
     thinknixos
   ];
+  "openrouter_api_key.age".publicKeys = [
+    amdesktop
+    thinknixos
+  ];
   "piuk_authorized_keys.age".publicKeys = [
     amdesktop
     piuk

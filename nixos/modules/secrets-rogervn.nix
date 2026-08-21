@@ -25,6 +25,12 @@
         group = "users";
         mode = "600";
       };
+      openrouter_api_key = {
+        file = ./secrets/openrouter_api_key.age;
+        owner = "${userName}";
+        group = "users";
+        mode = "600";
+      };
     };
   };
 }
