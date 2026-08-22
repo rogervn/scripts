@@ -50,6 +50,9 @@
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
     };
+    plymouth.enable = true;
+    # amdgpu needs to load in initrd for early KMS, otherwise plymouth has no framebuffer to draw on.
+    initrd.kernelModules = [ "amdgpu" ];
     kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-latest-x86_64-v3;
     extraModprobeConfig = ''
       options cfg80211 ieee80211_regdom="GB"
@@ -77,7 +80,13 @@
       enable = true;
       pulse.enable = true;
     };
+    displayManager.noctalia-greeter.extraArgs = [
+      "--session"
+      "niri"
+    ];
   };
+
+  myServices.noctaliaGreeter.sessionDefault = "niri";
 
   networking = {
     inherit hostName;

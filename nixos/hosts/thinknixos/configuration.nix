@@ -70,6 +70,8 @@
     libinput.enable = true;
   };
 
+  myServices.noctaliaGreeter.sessionDefault = "niri";
+
   networking = {
     inherit hostName;
     networkmanager = {

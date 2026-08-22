@@ -72,6 +72,8 @@
     };
   };
 
+  myServices.noctaliaGreeter.sessionDefault = "niri";
+
   networking = {
     inherit hostName;
     hostId = "8425e349";
