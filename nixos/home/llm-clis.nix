@@ -2,6 +2,7 @@
 {
   home.packages = with pkgs; [
     claude-code
+    codex
     ha-mcp
   ];
 
@@ -22,8 +23,7 @@
       model = "openrouter/deepseek/deepseek-v4-pro-0813";
       small_model = "openrouter/deepseek/deepseek-v4-flash";
       agent.explore.model = "openrouter/deepseek/deepseek-v4-flash";
-      provider.openrouter.options.apiKey =
-        "{file:${osConfig.age.secrets.openrouter_api_key.path}}";
+      provider.openrouter.options.apiKey = "{file:${osConfig.age.secrets.openrouter_api_key.path}}";
     };
   };
 }
