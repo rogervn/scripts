@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ config, pkgs, ... }:
 {
   services.displayManager.noctalia-greeter = {
     enable = true;
@@ -39,5 +39,16 @@
     };
   };
 
-  security.pam.services.greetd.enableGnomeKeyring = true;
+  security.pam.services.greetd = {
+    enableGnomeKeyring = true;
+
+    # Autologin bypasses password authentication. Read the LUKS passphrase
+    # retained by systemd-cryptsetup and make it available to the keyring PAM
+    # module in the normal greetd login stack.
+    rules.auth.systemd_loadkey = {
+      order = 10000;
+      control = "optional";
+      modulePath = "${config.systemd.package}/lib/security/pam_systemd_loadkey.so";
+    };
+  };
 }

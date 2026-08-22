@@ -10,6 +10,9 @@
 
   boot = {
     initrd = {
+      # systemd-cryptsetup keeps the LUKS passphrase in the kernel keyring so
+      # greetd's PAM stack can unlock GNOME Keyring during autologin.
+      systemd.enable = true;
       availableKernelModules = [
         "xhci_pci"
         "ohci_pci"
