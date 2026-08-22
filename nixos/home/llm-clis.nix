@@ -23,6 +23,7 @@
       model = "openrouter/deepseek/deepseek-v4-pro-0813";
       small_model = "openrouter/deepseek/deepseek-v4-flash";
       agent.explore.model = "openrouter/deepseek/deepseek-v4-flash";
+      agent.explore.description = "Use for ALL file and web discovery: finding files, grepping/globbing for symbols, mapping the codebase, and web search/fetch lookups. Delegate here before reading full file contents yourself.";
       provider.openrouter.options.apiKey = "{file:${osConfig.age.secrets.openrouter_api_key.path}}";
     };
   };
