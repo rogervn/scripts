@@ -113,6 +113,14 @@ in
     groups.backupuser = { };
   };
 
+  systemd.tmpfiles.rules = [
+    "d /home/${userName}/.ssh 0700 ${userName} users -"
+    "d ${pgBackupDir}          0700 postgres   postgres   -"
+    "d ${resticRepo}           0750 backupuser backupuser -"
+    "d ${serversDir}           0750 backupuser backupuser -"
+    "d ${serversDir}/mininixos 0750 backupuser backupuser -"
+  ];
+
   age = {
     secrets."${userName}_private_key" = {
       path = "/home/${userName}/.ssh/id_ed25519";
@@ -125,13 +133,6 @@ in
       mode = "600";
     };
   };
-
-  systemd.tmpfiles.rules = [
-    "d ${pgBackupDir}          0700 postgres   postgres   -"
-    "d ${resticRepo}           0750 backupuser backupuser -"
-    "d ${serversDir}           0750 backupuser backupuser -"
-    "d ${serversDir}/mininixos 0750 backupuser backupuser -"
-  ];
 
   # restic runs as root and hardcodes 0700 on all repo dirs, ignoring umask.
   # Fix ownership and group-read after each run so backupuser can rsync-pull.
@@ -151,7 +152,7 @@ in
     # Samba
     samba = {
       enable = true;
-      package = pkgs.samba.override { enableMDNS = true; };
+      package = pkgs.samba4Full;
       settings = {
         global = {
           workgroup = "WORKGROUP";

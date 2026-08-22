@@ -73,6 +73,9 @@
       "disk"
     ];
   };
+  systemd.tmpfiles.rules = [
+    "d /home/${userName}/.ssh 0700 ${userName} users -"
+  ];
   age.secrets."${userName}_private_key" = {
     path = "/home/${userName}/.ssh/id_ed25519";
     owner = userName;

@@ -82,6 +82,9 @@
       "libvirtd"
     ];
   };
+  systemd.tmpfiles.rules = [
+    "d /home/${userName}/.ssh 0700 ${userName} users -"
+  ];
   age.secrets."${userName}_authorized_keys" = {
     path = "/home/${userName}/.ssh/authorized_keys";
     owner = userName;
