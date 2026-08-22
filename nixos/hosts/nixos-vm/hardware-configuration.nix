@@ -41,6 +41,7 @@
         "dmask=0022"
       ];
     };
+  };
 
   swapDevices = [
     {
