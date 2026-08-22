@@ -14,6 +14,7 @@
     ../../modules/vm_guest.nix
     ../../modules/niri_wm.nix
     ../../modules/display_manager.nix
+    ../../modules/noctalia_autologin.nix
   ];
 
   home-manager = {
@@ -37,9 +38,12 @@
   };
   nixpkgs.config.allowUnfree = true;
 
-  boot.loader = {
-    systemd-boot.enable = true;
-    efi.canTouchEfiVariables = true;
+  boot = {
+    loader = {
+      systemd-boot.enable = true;
+      efi.canTouchEfiVariables = true;
+    };
+    plymouth.enable = true;
   };
 
   time.timeZone = "Europe/London";
@@ -62,6 +66,11 @@
     };
     # Enable touchpad support (enabled default in most desktopManager).
     libinput.enable = true;
+    # Auto-login once on boot; log out drops back to the greeter for other users.
+    greetd.settings.initial_session = {
+      command = "${pkgs.niri}/bin/niri-session";
+      user = userName;
+    };
   };
 
   networking = {
