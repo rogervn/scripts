@@ -14,7 +14,6 @@
     ../../modules/vm_guest.nix
     ../../modules/niri_wm.nix
     ../../modules/display_manager.nix
-    ../../modules/zfs.nix
   ];
 
   home-manager = {

@@ -42,13 +42,6 @@
       ];
     };
 
-    "/znas" = {
-      device = "znas";
-      fsType = "zfs";
-      options = [ "zfsutil" ];
-    };
-  };
-
   swapDevices = [
     {
       device = "/swapfile";
