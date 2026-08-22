@@ -50,8 +50,7 @@
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
     };
-    # TODO: switch back to linuxPackages-cachyos-latest-x86_64-v3 once 7.2 is a stable release
-    kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-rc;
+    kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-latest-x86_64-v3;
     extraModprobeConfig = ''
       options cfg80211 ieee80211_regdom="GB"
     '';
