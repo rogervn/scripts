@@ -17,33 +17,35 @@ in
   };
 
   options.myServices.noctaliaGreeter.output = lib.mkOption {
-    type = lib.types.nullOr (lib.types.submodule {
-      options = {
-        name = lib.mkOption {
-          type = lib.types.str;
-          example = "HDMI-A-2";
-          description = "DRM connector on which to show the greeter.";
-        };
+    type = lib.types.nullOr (
+      lib.types.submodule {
+        options = {
+          name = lib.mkOption {
+            type = lib.types.str;
+            example = "HDMI-A-2";
+            description = "DRM connector on which to show the greeter.";
+          };
 
-        width = lib.mkOption {
-          type = lib.types.ints.positive;
-          example = 1920;
-          description = "Greeter output width in pixels.";
-        };
+          width = lib.mkOption {
+            type = lib.types.ints.positive;
+            example = 1920;
+            description = "Greeter output width in pixels.";
+          };
 
-        height = lib.mkOption {
-          type = lib.types.ints.positive;
-          example = 1080;
-          description = "Greeter output height in pixels.";
-        };
+          height = lib.mkOption {
+            type = lib.types.ints.positive;
+            example = 1080;
+            description = "Greeter output height in pixels.";
+          };
 
-        scale = lib.mkOption {
-          type = lib.types.float;
-          example = 1.0;
-          description = "Greeter UI scale for the selected output.";
+          scale = lib.mkOption {
+            type = lib.types.float;
+            example = 1.0;
+            description = "Greeter UI scale for the selected output.";
+          };
         };
-      };
-    });
+      }
+    );
     default = null;
     example = {
       name = "HDMI-A-2";

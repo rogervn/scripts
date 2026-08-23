@@ -40,7 +40,19 @@
     loader = {
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
+      # Keep the boot menu hidden; hold a key during startup to show it.
+      timeout = 0;
     };
+    plymouth.enable = true;
+    # Keep Plymouth on screen without kernel or initrd status messages until
+    # the display manager takes over.
+    consoleLogLevel = 3;
+    initrd.verbose = false;
+    kernelParams = [
+      "quiet"
+      "rd.udev.log_level=3"
+      "rd.systemd.show_status=auto"
+    ];
     kernelPackages = pkgs.linuxPackages_latest;
     extraModprobeConfig = ''
       options cfg80211 ieee80211_regdom="GB"
