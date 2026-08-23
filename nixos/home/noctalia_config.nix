@@ -1,4 +1,4 @@
-_:
+{ pkgs, ... }:
 let
   rightCapsuleGroups = [
     {
@@ -94,55 +94,12 @@ in
   # runs this automatically).
   programs.noctalia.enable = true;
 
-  # Custom niri template: adds a two-color (gradient) border/focus-ring instead
-  # of the builtin's flat active-color. Replaces the "niri" builtin template
-  # (see theme.templates below) since noctalia only writes one noctalia.kdl.
-  xdg.configFile."noctalia/templates/niri.kdl".text = ''
-    layout {
-
-        focus-ring {
-            active-gradient from="{{colors.primary_container.default.hex}}" to="{{colors.tertiary.default.hex}}" angle=45 relative-to="workspace-view"
-            inactive-color "{{colors.surface.default.hex}}"
-            urgent-color "{{colors.error.default.hex}}"
-        }
-
-        border {
-            active-gradient from="{{colors.primary_container.default.hex}}" to="{{colors.tertiary.default.hex}}" angle=45 relative-to="workspace-view"
-            inactive-color "{{colors.surface.default.hex}}"
-            urgent-color "{{colors.error.default.hex}}"
-        }
-
-        shadow {
-            color "{{colors.shadow.default.hex}}70"
-        }
-
-        tab-indicator {
-            active-gradient from="{{colors.primary_container.default.hex}}" to="{{colors.tertiary.default.hex}}" angle=45 relative-to="workspace-view"
-            inactive-color "{{colors.surface.default.hex}}"
-            urgent-color "{{colors.error.default.hex}}"
-        }
-
-        insert-hint {
-            color "{{colors.primary.default.hex}}80"
-        }
-    }
-
-    recent-windows {
-        highlight {
-            active-color "{{colors.primary.default.hex}}"
-            urgent-color "{{colors.error.default.hex}}"
-        }
-    }
-  '';
-
   programs.noctalia.settings = {
     shell = {
       avatar_path = "/home/rogervn/.face";
       telemetry_enabled = true;
-      clipboard_enabled = true;
-      clipboard_history_max_entries = 100;
+      clipboard_history_max_entries = 1000;
       clipboard_auto_paste = "off";
-      niri_overview_type_to_launch_enabled = true;
       password_style = "random";
       polkit_agent = true;
       launch_apps_as_systemd_services = true;
@@ -157,34 +114,22 @@ in
       panel = {
         transparency_mode = "glass";
         control_center_placement = "floating";
-        control_center_position = "auto";
       };
     };
 
     backdrop = {
       enabled = true;
-      blur_intensity = 0.5;
-      tint_intensity = 0.3;
     };
 
     theme = {
-      mode = "dark";
       source = "wallpaper";
-      builtin = "Noctalia";
-      wallpaper_scheme = "m3-content";
-      templates.builtin_ids = [ "ghostty" ];
-      templates.user.niri = {
-        input_path = "templates/niri.kdl";
-        output_path = "$XDG_CONFIG_HOME/niri/noctalia.kdl";
-      };
+      templates.builtin_ids = [
+        "ghostty"
+        "mango"
+      ];
     };
 
     location.address = "London";
-
-    lockscreen = {
-      enabled = true;
-      fingerprint = true;
-    };
 
     idle.behavior = {
       lock = {
@@ -205,13 +150,8 @@ in
     };
 
     notification = {
-      enable_daemon = true;
-      show_app_name = true;
-      show_actions = true;
-      position = "top_right";
       layer = "overlay";
       background_opacity = 1.0;
-      collapse_on_dismiss = true;
 
       # Keep command-line test notifications brief and out of history. All
       # other notifications remain until dismissed and are saved to history.
@@ -238,8 +178,6 @@ in
     };
 
     wallpaper = {
-      enabled = true;
-      fill_mode = "crop";
       directory = "~/.config/wallpapers";
       automation = {
         enabled = true;
@@ -248,11 +186,12 @@ in
       };
     };
 
-    dock.enabled = false;
+    widget.workspaces.hide_when_empty = true;
 
     bar.main = {
       position = "top";
       background_opacity = 0.0;
+      contact_shadow = true;
       capsule = true;
       capsule_padding = 10.0;
       margin_ends = 0;
@@ -338,7 +277,6 @@ in
       };
 
       tray = {
-        drawer = false;
         scale = 1.2;
       };
       tray-short = {

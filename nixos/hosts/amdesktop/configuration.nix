@@ -12,7 +12,7 @@
     ../../modules/base.nix
     ../../modules/secrets-rogervn.nix
     ../../modules/steam.nix
-    ../../modules/niri_wm.nix
+    ../../modules/mango_wm.nix
     ../../modules/display_manager.nix
   ];
 
@@ -21,6 +21,8 @@
     useUserPackages = true;
     extraSpecialArgs = { inherit nixvim; };
   };
+
+  programs.dconf.enable = true;
 
   environment.systemPackages = [ agenixPackage ];
 
@@ -93,12 +95,12 @@
     };
     displayManager.noctalia-greeter.extraArgs = [
       "--session"
-      "niri"
+      "mango"
     ];
   };
 
   myServices.noctaliaGreeter = {
-    sessionDefault = "niri";
+    sessionDefault = "mango";
     output = {
       name = "HDMI-A-2";
       width = 2560;

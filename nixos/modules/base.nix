@@ -11,6 +11,7 @@
     chrony
     file
     git
+    jq
     killall
     less
     linux-firmware

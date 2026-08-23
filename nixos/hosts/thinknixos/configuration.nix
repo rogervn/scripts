@@ -11,7 +11,7 @@
   imports = [
     ../../modules/base.nix
     ../../modules/secrets-rogervn.nix
-    ../../modules/niri_wm.nix
+    ../../modules/mango_wm.nix
     ../../modules/display_manager.nix
   ];
 
@@ -83,7 +83,7 @@
   };
 
   myServices.noctaliaGreeter = {
-    sessionDefault = "niri";
+    sessionDefault = "mango";
     output = {
       name = "eDP-1";
       width = 1920;

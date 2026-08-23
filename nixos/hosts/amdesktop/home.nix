@@ -17,17 +17,27 @@
 
       imports = [
         (import ../../home/dotfiles.nix { inherit config lib pkgs; })
-        (import ../../home/niri_config.nix {
+        (import ../../home/mango_config.nix {
           inherit pkgs lib;
-          # Refresh rates must match `niri msg outputs` exactly (3 decimals); verify on-device.
+          autostartApps = [
+            "blueman-applet"
+            "nm-applet"
+            "nextcloud --background"
+            "NOCTALIA_ASSETS_DIR=${pkgs.noctalia-mango-optional-source-assets} noctalia"
+          ];
           monitors = [
-            ''
-              output "LG Electronics LG TV SSCR2 0x01010101" {
-                  mode "3840x2160@120.000"
-                  scale 1.5
-                  variable-refresh-rate on-demand=true
-              }
-            ''
+            {
+              make = "LG Electronics";
+              model = "LG TV SSCR2";
+              serial = "0x01010101";
+              width = 3840;
+              height = 2160;
+              refresh = 120;
+              x = 0;
+              y = 0;
+              scale = 1.5;
+              vrr = true;
+            }
           ];
         })
         ../../home/llm-clis.nix

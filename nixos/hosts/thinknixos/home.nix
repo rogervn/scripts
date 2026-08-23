@@ -18,23 +18,49 @@
       imports = [
         (import ../../home/dotfiles.nix { inherit config lib pkgs; })
         ../../home/llm-clis.nix
-        (import ../../home/niri_config.nix {
+        (import ../../home/mango_config.nix {
           inherit pkgs lib;
-          # Refresh rates must match `niri msg outputs` exactly (3 decimals).
+          autostartApps = [
+            "blueman-applet"
+            "nm-applet"
+            "nextcloud --background"
+            "NOCTALIA_ASSETS_DIR=${pkgs.noctalia-mango-optional-source-assets} noctalia"
+          ];
           monitors = [
-            ''
-              output "LG Electronics LG TV SSCR2 0x01010101" {
-                  mode "3840x2160@120.000"
-                  scale 1.5
-                  variable-refresh-rate on-demand=true
-              }
-            ''
-            ''
-              output "BOE 0x0791 Unknown" {
-                  mode "1920x1080@60.000"
-                  scale 1.0
-              }
-            ''
+            {
+              make = "PNP(BNQ)";
+              model = "BenQ EW3270U";
+              serial = "TBK02382019";
+              width = 3840;
+              height = 2160;
+              refresh = 60;
+              x = 1920;
+              y = 0;
+              scale = 1.25;
+            }
+            {
+              make = "BOE";
+              model = "0x0791";
+              serial = "Unknown";
+              width = 1920;
+              height = 1080;
+              refresh = 60;
+              x = 0;
+              y = 0;
+              scale = 1;
+            }
+            {
+              make = "Dell Inc.";
+              model = "DELL P2317H";
+              serial = "4WY7076L06QB";
+              width = 1920;
+              height = 1080;
+              refresh = 60;
+              x = 4992;
+              y = 0;
+              scale = 1;
+              transform = 1;
+            }
           ];
         })
         (import ../../home/nvim.nix { inherit pkgs nixvim; })
