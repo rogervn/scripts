@@ -73,6 +73,18 @@
       "disk"
     ];
   };
+  security.polkit = {
+    enable = true;
+    extraConfig = ''
+      polkit.addRule(function(action, subject) {
+        if (subject.user == "${userName}" &&
+            (action.id == "org.freedesktop.login1.power-off" ||
+             action.id == "org.freedesktop.login1.power-off-multiple-sessions")) {
+          return polkit.Result.YES;
+        }
+      });
+    '';
+  };
   systemd.tmpfiles.rules = [
     "d /home/${userName}/.ssh 0700 ${userName} users -"
   ];
