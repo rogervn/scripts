@@ -22,8 +22,6 @@
     extraSpecialArgs = { inherit nixvim; };
   };
 
-  programs.dconf.enable = true;
-
   environment.systemPackages = [ agenixPackage ];
 
   nix = {

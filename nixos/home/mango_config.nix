@@ -3,6 +3,7 @@
   lib,
   monitors ? [ ],
   autostartApps ? [ ],
+  enableBlur ? true,
   ...
 }:
 let
@@ -74,9 +75,9 @@ let
       group_bar_decorate_padding_x = 0;
       group_bar_decorate_padding_y = 0;
       animation_type_open = "zoom";
-      blur = 1;
-      # Noctalia uses transparent layer surfaces, so Mango must blur layers.
-      blur_layer = 1;
+      blur = if enableBlur then 1 else 0;
+      # Blur Noctalia's transparent layer surfaces when blur is enabled.
+      blur_layer = if enableBlur then 1 else 0;
       blur_params_radius = 3;
       blur_params_num_passes = 3;
       blur_params_noise = 0.02;

@@ -37,6 +37,7 @@
   ];
 
   programs = {
+    dconf.enable = true;
     mango.enable = true;
     seahorse.enable = true;
     noctalia = {

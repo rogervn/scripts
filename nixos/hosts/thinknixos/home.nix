@@ -20,6 +20,7 @@
         ../../home/llm-clis.nix
         (import ../../home/mango_config.nix {
           inherit pkgs lib;
+          enableBlur = false;
           autostartApps = [
             "blueman-applet"
             "nm-applet"
@@ -28,8 +29,6 @@
           ];
           monitors = [
             {
-              make = "PNP(BNQ)";
-              model = "BenQ EW3270U";
               serial = "TBK02382019";
               width = 3840;
               height = 2160;
@@ -41,7 +40,6 @@
             {
               make = "BOE";
               model = "0x0791";
-              serial = "Unknown";
               width = 1920;
               height = 1080;
               refresh = 60;
@@ -50,8 +48,6 @@
               scale = 1;
             }
             {
-              make = "Dell Inc.";
-              model = "DELL P2317H";
               serial = "4WY7076L06QB";
               width = 1920;
               height = 1080;
