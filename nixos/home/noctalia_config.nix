@@ -126,6 +126,7 @@ in
       templates.builtin_ids = [
         "ghostty"
         "mango"
+        "niri"
       ];
     };
 

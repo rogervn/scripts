@@ -18,45 +18,39 @@
       imports = [
         (import ../../home/dotfiles.nix { inherit config lib pkgs; })
         ../../home/llm-clis.nix
-        (import ../../home/mango_config.nix {
+        (import ../../home/niri_config.nix {
           inherit pkgs lib;
-          enableBlur = false;
-          autostartApps = [
-            "blueman-applet"
-            "nm-applet"
-            "nextcloud --background"
-            "NOCTALIA_ASSETS_DIR=${pkgs.noctalia-mango-optional-source-assets} noctalia"
-          ];
           monitors = [
-            {
-              serial = "TBK02382019";
-              width = 3840;
-              height = 2160;
-              refresh = 60;
-              x = 1920;
-              y = 0;
-              scale = 1.25;
-            }
-            {
-              make = "BOE";
-              model = "0x0791";
-              width = 1920;
-              height = 1080;
-              refresh = 60;
-              x = 0;
-              y = 0;
-              scale = 1;
-            }
-            {
-              serial = "4WY7076L06QB";
-              width = 1920;
-              height = 1080;
-              refresh = 60;
-              x = 4992;
-              y = 0;
-              scale = 1;
-              transform = 1;
-            }
+            # Left-to-right row: laptop panel | BenQ EW3270U | P2317H (portrait), tops aligned at y=0.
+            ''
+              output "BOE 0x0791 Unknown" {
+                  mode "1920x1080@60.000"
+                  scale 1.0
+                  position x=0 y=0
+              }
+            ''
+            ''
+              output "PNP(BNQ) BenQ EW3270U TBK02382019" {
+                  mode "3840x2160@60.000"
+                  scale 1.25
+                  position x=1920 y=0
+              }
+            ''
+            ''
+              output "Dell Inc. DELL P2317H 4WY7076L06QB" {
+                  mode "1920x1080@60.000"
+                  scale 1.0
+                  transform "90"
+                  position x=4992 y=0
+                  layout {
+                      default-column-width { proportion 1.0; }
+                      preset-column-widths {
+                          proportion 0.5
+                          proportion 1.0
+                      }
+                  }
+              }
+            ''
           ];
         })
         (import ../../home/nvim.nix { inherit pkgs nixvim; })

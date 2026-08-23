@@ -12,7 +12,7 @@
     ../../modules/base.nix
     ../../modules/secrets-rogervn.nix
     ../../modules/steam.nix
-    ../../modules/mango_wm.nix
+    ../../modules/niri_wm.nix
     ../../modules/display_manager.nix
   ];
 
@@ -93,12 +93,12 @@
     };
     displayManager.noctalia-greeter.extraArgs = [
       "--session"
-      "mango"
+      "niri"
     ];
   };
 
   myServices.noctaliaGreeter = {
-    sessionDefault = "mango";
+    sessionDefault = "niri";
     output = {
       name = "HDMI-A-2";
       width = 2560;

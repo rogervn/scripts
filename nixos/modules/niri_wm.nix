@@ -35,6 +35,7 @@
   ];
 
   programs = {
+    dconf.enable = true;
     niri.enable = true;
 
     seahorse.enable = true;
