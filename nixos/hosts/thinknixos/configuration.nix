@@ -70,8 +70,16 @@
     libinput.enable = true;
   };
 
-  myServices.noctaliaGreeter.sessionDefault = "niri";
+  myServices.noctaliaGreeter = {
+    sessionDefault = "niri";
+    output = {
+      name = "eDP-1";
+      width = 1920;
+      height = 1080;
+      scale = 1.0;
+    };
 
+  };
   networking = {
     inherit hostName;
     networkmanager = {

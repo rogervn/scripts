@@ -49,8 +49,19 @@
     loader = {
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
+      # Keep the boot menu hidden; press a key during startup to show it.
+      timeout = 0;
     };
     plymouth.enable = true;
+    # Keep Plymouth on screen without kernel or initrd status messages until
+    # the display manager takes over.
+    consoleLogLevel = 3;
+    initrd.verbose = false;
+    kernelParams = [
+      "quiet"
+      "rd.udev.log_level=3"
+      "rd.systemd.show_status=auto"
+    ];
     # amdgpu needs to load in initrd for early KMS, otherwise plymouth has no framebuffer to draw on.
     initrd.kernelModules = [ "amdgpu" ];
     kernelPackages = pkgs.cachyosKernels.linuxPackages-cachyos-latest-x86_64-v3;
@@ -86,7 +97,15 @@
     ];
   };
 
-  myServices.noctaliaGreeter.sessionDefault = "niri";
+  myServices.noctaliaGreeter = {
+    sessionDefault = "niri";
+    output = {
+      name = "HDMI-A-2";
+      width = 2560;
+      height = 1440;
+      scale = 1.0;
+    };
+  };
 
   networking = {
     inherit hostName;
