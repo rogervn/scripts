@@ -87,13 +87,7 @@ let
   };
 in
 {
-  # v5 config schema (docs.noctalia.dev/v5/configuration) is unrelated to the v4
-  # settings.json this was ported from; only settings with a clear v5 equivalent
-  # are carried over. Everything else keeps v5's default. Verify with
-  # `noctalia config validate` after first build (the home-manager module also
-  # runs this automatically).
   programs.noctalia.enable = true;
-
   programs.noctalia.settings = {
     shell = {
       avatar_path = "/home/rogervn/.face";
@@ -103,14 +97,6 @@ in
       password_style = "random";
       polkit_agent = true;
       launch_apps_as_systemd_services = true;
-      # Auto-syncing to the greeter goes through systemd's generic
-      # manage-units polkit action (via run0), not a noctalia-specific
-      # action, so it can't be scoped to a passwordless rule without
-      # granting wheel blanket root unit control. Sync manually instead
-      # when the theme actually changes.
-      greeter_sync = {
-        auto_sync = false;
-      };
       panel = {
         transparency_mode = "glass";
         control_center_placement = "floating";
@@ -154,8 +140,6 @@ in
       layer = "overlay";
       background_opacity = 1.0;
 
-      # Keep command-line test notifications brief and out of history. All
-      # other notifications remain until dismissed and are saved to history.
       filter_order = [
         "clip_pastry"
         "default"
@@ -211,8 +195,6 @@ in
       ];
       capsule_group = [ sysmonFullGroup ] ++ rightCapsuleGroups;
       monitor = {
-        # Noctalia matches whole-word substrings of the Wayland description;
-        # omit connector names and serial numbers so these survive replugging.
         "DELL UP3017" = portraitBar;
         "DELL P2317H" = portraitBar;
         "0x0791" = lowResBar;
