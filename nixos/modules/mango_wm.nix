@@ -1,34 +1,36 @@
 { pkgs, ... }:
 {
-  environment.pathsToLink = [ "/share/wayland-sessions" ];
-
-  environment.systemPackages = with pkgs; [
-    bibata-cursors
-    blueman
-    bluetui
-    cliphist
-    gedit
-    ghostty
-    gnome-calculator
-    grim
-    evince
-    imagemagick
-    joplin-desktop
-    libnotify
-    matugen
-    nautilus
-    nextcloud-client
-    networkmanagerapplet
-    noto-fonts
-    pavucontrol
-    shotwell
-    slurp
-    vlc
-    vivaldi
-    wl-clipboard
-    xdg-user-dirs
-    xwayland-satellite
-  ];
+  environment = {
+    pathsToLink = [ "/share/wayland-sessions" ];
+    systemPackages = with pkgs; [
+      bibata-cursors
+      blueman
+      bluetui
+      cliphist
+      gedit
+      ghostty
+      gnome-calculator
+      grim
+      evince
+      imagemagick
+      joplin-desktop
+      libnotify
+      matugen
+      nautilus
+      nextcloud-client
+      networkmanagerapplet
+      noto-fonts
+      pavucontrol
+      shotwell
+      slurp
+      vlc
+      vivaldi
+      wl-clipboard
+      xdg-user-dirs
+      xwayland-satellite
+    ];
+    sessionVariables.NIXOS_OZONE_WL = "1";
+  };
 
   fonts.packages = with pkgs; [
     font-awesome
@@ -58,7 +60,6 @@
   };
 
   security.polkit.enable = true;
-  environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
   xdg.portal.extraPortals = with pkgs; [
     xdg-desktop-portal-gnome

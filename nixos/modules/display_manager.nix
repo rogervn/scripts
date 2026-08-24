@@ -70,7 +70,7 @@ in
           session.default = cfg.sessionDefault;
         }
         // lib.optionalAttrs (cfg.output != null) {
-          output = cfg.output;
+          inherit (cfg) output;
         }
         // {
           user.default = userName;
