@@ -1,20 +1,11 @@
 {
   pkgs,
+  lib,
   config,
-  pam_shim,
+  pam_shim ? null,
   ...
 }:
 {
-  imports = [
-    pam_shim.homeModules.default
-  ];
-  pamShim.enable = true;
-
-  programs.noctalia = {
-    enable = true;
-    package = config.lib.pamShim.replacePam pkgs.noctalia;
-  };
-
   home.packages = with pkgs; [
     blueman
     bluetui
@@ -38,8 +29,13 @@
     xdg-user-dirs
     bibata-cursors
     uwsm
-    hyprland
-    hyprpolkitagent
-    xdg-desktop-portal-hyprland
   ];
+}
+// lib.optionalAttrs (pam_shim != null) {
+  imports = [ pam_shim.homeModules.default ];
+  pamShim.enable = true;
+  programs.noctalia = {
+    enable = true;
+    package = config.lib.pamShim.replacePam pkgs.noctalia;
+  };
 }

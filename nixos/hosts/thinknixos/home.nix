@@ -53,6 +53,39 @@
             ''
           ];
         })
+        # Keep Niri available while evaluating the equivalent Hyprland setup.
+        (import ../../home/hyprland_config.nix {
+          inherit pkgs lib;
+          monitors = [
+            {
+              output = "desc:BOE 0x0791";
+              mode = "1920x1080@60";
+              position = "0x0";
+              scale = 1;
+            }
+            {
+              output = "desc:PNP(BNQ) BenQ EW3270U TBK02382019";
+              mode = "3840x2160@60";
+              position = "1920x0";
+              scale = 1.25;
+            }
+            {
+              output = "desc:Dell Inc. DELL P2317H 4WY7076L06QB";
+              mode = "1920x1080@60";
+              position = "4992x0";
+              scale = 1;
+              transform = 1;
+            }
+          ];
+          workspaces = [
+            {
+              name = "portrait";
+              output = "desc:Dell Inc. DELL P2317H 4WY7076L06QB";
+              vertical = true;
+            }
+          ];
+        })
+        (import ../../home/hyprland_wm.nix { inherit pkgs lib config; })
         (import ../../home/nvim.nix { inherit pkgs nixvim; })
         (import ../../home/zsh.nix { inherit pkgs; })
         ../../home/ghostty.nix

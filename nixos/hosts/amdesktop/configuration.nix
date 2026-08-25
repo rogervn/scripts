@@ -13,6 +13,7 @@
     ../../modules/secrets-rogervn.nix
     ../../modules/steam.nix
     ../../modules/niri_wm.nix
+    ../../modules/hyprland_wm.nix
     ../../modules/display_manager.nix
   ];
 

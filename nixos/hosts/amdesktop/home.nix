@@ -30,6 +30,18 @@
             ''
           ];
         })
+        (import ../../home/hyprland_config.nix {
+          inherit pkgs lib;
+          monitors = [
+            {
+              output = "desc:LG Electronics LG TV SSCR2 0x01010101";
+              mode = "3840x2160@120";
+              scale = 1.5;
+              vrr = 2;
+            }
+          ];
+        })
+        (import ../../home/hyprland_wm.nix { inherit pkgs lib config; })
         ../../home/llm-clis.nix
         (import ../../home/nvim.nix { inherit pkgs nixvim; })
         (import ../../home/zsh.nix { inherit pkgs; })

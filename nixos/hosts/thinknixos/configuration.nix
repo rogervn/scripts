@@ -12,6 +12,7 @@
     ../../modules/base.nix
     ../../modules/secrets-rogervn.nix
     ../../modules/niri_wm.nix
+    ../../modules/hyprland_wm.nix
     ../../modules/display_manager.nix
   ];
 
