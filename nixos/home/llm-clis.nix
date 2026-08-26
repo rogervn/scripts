@@ -4,7 +4,27 @@
     claude-code
     codex
     ha-mcp
+    pi-coding-agent
   ];
+
+  # Pi installs package extensions declared here into ~/.pi/agent/npm on its
+  # first launch. Pin them so a Home Manager generation has stable behavior.
+  home.file.".pi/agent/settings.json".text = builtins.toJSON {
+    npmCommand = [ "${pkgs.nodejs}/bin/npm" ];
+    packages = [
+      "npm:pi-vim@0.14.1"
+      "npm:pi-subagents@0.57.0"
+      "npm:pi-codex-limit@1.8.2"
+    ];
+    subagents = {
+      defaultModel = "openai-codex/gpt-5.6-luna";
+      defaultThinking = "medium";
+      agentOverrides.oracle = {
+        model = "openai-codex/gpt-5.6-terra";
+        thinking = "high";
+      };
+    };
+  };
 
   programs.opencode = {
     enable = true;
