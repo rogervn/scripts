@@ -4,8 +4,9 @@
   # { output, mode ? "preferred", position ? "auto", scale ? 1,
   #   transform ? 0, vrr ? 0 }; use `desc:` in output for EDID descriptions.
   monitors ? [ ],
-  # { name, output ? null, vertical ? false }. `vertical` enables the native
-  # scrolling layout's top-to-bottom tape for that workspace.
+  # { name ? null, id ? null, output ? null, vertical ? false, default ? false,
+  #   persistent ? false }. `vertical` enables the native scrolling layout's
+  # top-to-bottom tape.
   workspaces ? [ ],
   terminal ? "ghostty",
   fileManager ? "nautilus",
@@ -55,16 +56,10 @@ let
         direction:
         let
           inherit (direction) key value;
-          horizontal = builtins.elem value [
-            "l"
-            "r"
-          ];
         in
         [
           (bind "SUPER + ${key}" (focus value))
-          (bind "SUPER + CTRL + ${key}" (
-            if horizontal then "hl.dsp.window.swap({ direction = \"${value}\" })" else move value
-          ))
+          (bind "SUPER + CTRL + ${key}" "hl.dsp.window.swap({ direction = \"${value}\" })")
           (bind "SUPER + SHIFT + ${key}" "hl.dsp.focus({ monitor = \"${value}\" })")
           (bind "SUPER + CTRL + SHIFT + ${key}" "hl.dsp.window.move({ monitor = \"${value}\" })")
         ]
@@ -233,8 +228,11 @@ in
         workspace:
         (lib.optionalAttrs ((workspace.output or null) != null) { monitor = workspace.output; })
         // (lib.optionalAttrs (workspace.vertical or false) { layout_opts.direction = "down"; })
+        // (lib.optionalAttrs (workspace.default or false) { default = true; })
+        // (lib.optionalAttrs (workspace.persistent or false) { persistent = true; })
         // {
-          workspace = workspace.name;
+          workspace =
+            if (workspace.id or null) != null then toString workspace.id else "name:${workspace.name}";
         }
       ) workspaces;
 

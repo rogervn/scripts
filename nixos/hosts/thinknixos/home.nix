@@ -64,7 +64,7 @@
               scale = 1;
             }
             {
-              output = "desc:PNP(BNQ) BenQ EW3270U TBK02382019";
+              output = "desc:BNQ BenQ EW3270U TBK02382019";
               mode = "3840x2160@60";
               position = "1920x0";
               scale = 1.25;
@@ -79,9 +79,11 @@
           ];
           workspaces = [
             {
-              name = "portrait";
+              id = 3;
               output = "desc:Dell Inc. DELL P2317H 4WY7076L06QB";
               vertical = true;
+              default = true;
+              persistent = true;
             }
           ];
         })
