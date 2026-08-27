@@ -35,6 +35,16 @@
         "wayland-wm-env@.service"
         "wayland-wm@.service"
       ]
+    ++
+      map
+        (name: {
+          name = ".config/systemd/user/${name}";
+          value.source = "${pkgs.niri}/share/systemd/user/${name}";
+        })
+        [
+          "niri.service"
+          "niri-shutdown.target"
+        ]
   );
 
   imports = [
@@ -58,20 +68,20 @@
         {
           output = "desc:Dell Inc. DELL UP3017 Y7NWN74M118L";
           mode = "2560x1600@60";
-          position = "5000x-1200";
+          position = "4992x-1200";
           scale = 1;
           transform = 1;
         }
         # Left-to-right row: Chimei | BenQ EW3270U | P2317H (portrait), tops aligned at y=0.
         {
-          output = "desc:Chimei Innolux Corporation 0x1488 Unknown";
+          output = "desc:Chimei Innolux Corporation 0x1488";
           mode = "1920x1200@60";
           position = "0x0";
           scale = 1;
           vrr = 2;
         }
         {
-          output = "desc:PNP(BNQ) BenQ EW3270U TBK02382019";
+          output = "desc:BNQ BenQ EW3270U TBK02382019";
           mode = "3840x2160@60";
           position = "1920x0";
           scale = 1.25;
@@ -90,25 +100,134 @@
       ];
       workspaces = [
         {
-          name = "laptop";
-          output = "desc:Chimei Innolux Corporation 0x1488 Unknown";
-        }
-        {
-          name = "monitor 1";
-          output = "desc:Dell Inc. DELL P3223QE JG6KWN3";
-        }
-        # The UP3017 is rotated; its named workspace scrolls top-to-bottom.
-        {
-          name = "monitor 2";
+          id = 3;
           output = "desc:Dell Inc. DELL UP3017 Y7NWN74M118L";
           vertical = true;
+          default = true;
+          persistent = true;
         }
-        # The alternate P2317H portrait arrangement gets the same behaviour.
         {
-          name = "portrait";
+          id = 3;
           output = "desc:Dell Inc. DELL P2317H 4WY7076L06QB";
           vertical = true;
+          default = true;
+          persistent = true;
         }
+        {
+          id = 6;
+          output = "desc:Dell Inc. DELL UP3017 Y7NWN74M118L";
+          vertical = true;
+          persistent = true;
+        }
+        {
+          id = 6;
+          output = "desc:Dell Inc. DELL P2317H 4WY7076L06QB";
+          vertical = true;
+          persistent = true;
+        }
+        {
+          id = 9;
+          output = "desc:Dell Inc. DELL UP3017 Y7NWN74M118L";
+          vertical = true;
+          persistent = true;
+        }
+        {
+          id = 9;
+          output = "desc:Dell Inc. DELL P2317H 4WY7076L06QB";
+          vertical = true;
+          persistent = true;
+        }
+      ];
+      browser = "google-chrome --ozone-platform=wayland";
+      noteEditor = "gedit";
+      codeEditor = "code-fb --ozone-platform-hint=auto";
+    })
+    (import ../home/niri_config.nix {
+      inherit pkgs lib;
+      # Duplicate positions are alternate hardware/dock scenarios, not simultaneous monitors; only the connected one matches.
+      monitors = [
+        ''
+          output "California Institute of Technology 0x1403" {
+              mode "3840x2400@60.000"
+              position x=0 y=0
+              scale 2.0
+          }
+        ''
+        ''
+          output "Dell Inc. DELL P3223QE JG6KWN3" {
+              mode "3840x2160@60.000"
+              position x=1920 y=-1200
+              scale 1.25
+          }
+        ''
+        ''
+          output "Dell Inc. DELL UP3017 Y7NWN74M118L" {
+              mode "2560x1600@60.000"
+              position x=5000 y=-1200
+              scale 1.0
+              transform "90"
+              layout {
+                  default-column-width { proportion 1.0; }
+                  preset-column-widths {
+                      proportion 0.5
+                      proportion 1.0
+                  }
+              }
+          }
+        ''
+        # Left-to-right row: Chimei | BenQ EW3270U | P2317H (portrait), tops aligned at y=0.
+        ''
+          output "Chimei Innolux Corporation 0x1488 Unknown" {
+              mode "1920x1200@60.000"
+              position x=0 y=0
+              scale 1.0
+              variable-refresh-rate on-demand=true
+          }
+        ''
+        ''
+          output "PNP(BNQ) BenQ EW3270U TBK02382019" {
+              mode "3840x2160@60.000"
+              position x=1920 y=0
+              scale 1.25
+          }
+        ''
+        ''
+          output "Dell Inc. DELL P2317H 4WY7076L06QB" {
+              mode "1920x1080@60.000"
+              position x=4992 y=0
+              scale 1.0
+              transform "90"
+              layout {
+                  default-column-width { proportion 1.0; }
+                  preset-column-widths {
+                      proportion 0.5
+                      proportion 1.0
+                  }
+              }
+          }
+        ''
+        ''
+          output "Virtual-1" {
+              scale 1.0
+          }
+        ''
+      ];
+      workspaces = [
+        ''
+          workspace "laptop" {
+              open-on-output "Chimei Innolux Corporation 0x1488 Unknown"
+          }
+        ''
+        ''
+          workspace "monitor 1" {
+              open-on-output "Dell Inc. DELL P3223QE JG6KWN3"
+          }
+        ''
+        ''
+          workspace "monitor 2" {
+              open-on-output "Dell Inc. DELL UP3017 Y7NWN74M118L"
+          }
+        ''
       ];
       browser = "google-chrome --ozone-platform=wayland";
       noteEditor = "gedit";
@@ -117,6 +236,13 @@
     (import ../home/zsh.nix { inherit pkgs; })
     (import ../home/nvim.nix { inherit pkgs nixvim; })
     (import ../home/hyprland_wm.nix {
+      inherit
+        pkgs
+        lib
+        config
+        ;
+    })
+    (import ../home/niri_wm.nix {
       inherit
         pkgs
         lib

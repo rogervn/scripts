@@ -61,7 +61,7 @@ let
           (bind "SUPER + ${key}" (focus value))
           (bind "SUPER + CTRL + ${key}" "hl.dsp.window.swap({ direction = \"${value}\" })")
           (bind "SUPER + SHIFT + ${key}" "hl.dsp.focus({ monitor = \"${value}\" })")
-          (bind "SUPER + CTRL + SHIFT + ${key}" "hl.dsp.window.move({ monitor = \"${value}\" })")
+          (bind "SUPER + CTRL + SHIFT + ${key}" "hl.dsp.workspace.move({ monitor = \"${value}\" })")
         ]
       )
       [
@@ -87,6 +87,53 @@ let
       hl.exec_cmd(${q "uwsm finalize"})
       hl.exec_cmd(${q "uwsm app -- noctalia"})
     end
+  '';
+  groupNext = ''
+    function()
+      local window = hl.get_active_window()
+      local group = window and window.group
+      if group and group.current_index < group.size then
+        hl.dispatch(hl.dsp.group.active({ index = group.current_index + 1 }))
+      end
+    end
+  '';
+  groupPrevious = ''
+    function()
+      local window = hl.get_active_window()
+      local group = window and window.group
+      if group and group.current_index > 1 then
+        hl.dispatch(hl.dsp.group.active({ index = group.current_index - 1 }))
+      end
+    end
+  '';
+  toggleColumnFullWidth = ''
+    (function()
+      local previousWidths = {}
+
+      return function()
+        local window = hl.get_active_window()
+        local layout = window and window.layout
+        local column = layout and layout.column
+        if not column or layout.name ~= "scrolling" then
+          return
+        end
+
+        local firstWindow = column.windows[1]
+        local key = firstWindow and firstWindow.stable_id
+        if not key then
+          return
+        end
+
+        if column.width >= 0.999 then
+          local width = previousWidths[key] or 0.5
+          previousWidths[key] = nil
+          hl.dispatch(hl.dsp.layout("colresize " .. width))
+        else
+          previousWidths[key] = column.width
+          hl.dispatch(hl.dsp.layout("colresize 1"))
+        end
+      end
+    end)()
   '';
 in
 {
@@ -118,6 +165,14 @@ in
     enable = true;
     configType = "lua";
     systemd.enable = false;
+    extraConfig = ''
+      local xdg_config_home = os.getenv("XDG_CONFIG_HOME") or (os.getenv("HOME") .. "/.config")
+      local noctalia_file = io.open(xdg_config_home .. "/hypr/noctalia.lua", "r")
+      if noctalia_file then
+        noctalia_file:close()
+        require("noctalia").apply_theme()
+      end
+    '';
 
     # Home Manager renders every entry below to the corresponding `hl.*` Lua
     # call in ~/.config/hypr/hyprland.lua.
@@ -133,12 +188,10 @@ in
         scrolling = {
           column_width = 0.5;
           explicit_column_widths = "0.33333, 0.5, 0.66667, 1.0";
-          # A single scrolling column fills the output; focus keeps the
-          # column in view instead of re-centering the whole tape.
+          # Keep a single column full-width without following incidental focus.
           fullscreen_on_one_column = true;
           focus_fit_method = 1;
-          follow_focus = true;
-          follow_min_visible = 0.4;
+          follow_focus = false;
           wrap_focus = false;
           wrap_swapcol = false;
           direction = "right";
@@ -175,43 +228,25 @@ in
           };
         };
         gestures.workspace_swipe_invert = false;
-        binds.scroll_event_delay = 150;
+        binds = {
+          scroll_event_delay = 150;
+          window_direction_monitor_fallback = false;
+        };
         misc = {
           force_default_wallpaper = 0;
           disable_hyprland_logo = true;
         };
       };
 
-      monitor = monitors;
-      curve = [
+      env = [
         {
           _args = [
-            "workspace-slide"
-            {
-              type = "bezier";
-              points = [
-                [
-                  0.25
-                  0.1
-                ]
-                [
-                  0.25
-                  1.0
-                ]
-              ];
-            }
+            "GIO_EXTRA_MODULES"
+            "${pkgs.dconf.lib}/lib/gio/modules"
           ];
         }
       ];
-      animation = [
-        {
-          leaf = "workspaces";
-          enabled = true;
-          speed = 6;
-          bezier = "workspace-slide";
-          style = "slidevert";
-        }
-      ];
+      monitor = monitors;
       gesture = [
         {
           fingers = 3;
@@ -221,7 +256,41 @@ in
         {
           fingers = 3;
           direction = "vertical";
+          scale = 2.0;
+          action = "scroll_move";
+        }
+        {
+          fingers = 4;
+          direction = "vertical";
           action = "workspace";
+        }
+      ];
+      curve = [
+        {
+          _args = [
+            "easy"
+            {
+              type = "spring";
+              mass = 1;
+              stiffness = 238.1191;
+              dampening = 24.21279333;
+            }
+          ];
+        }
+      ];
+      animation = [
+        {
+          leaf = "windowsMove";
+          enabled = true;
+          speed = 4.79;
+          spring = "easy";
+        }
+        {
+          leaf = "workspaces";
+          enabled = true;
+          speed = 4.79;
+          spring = "easy";
+          style = "slidevert";
         }
       ];
       workspace_rule = map (
@@ -252,8 +321,9 @@ in
       ];
       layer_rule = [
         {
-          match.namespace = "^noctalia-bar-";
+          match.namespace = "^noctalia-bar-main$";
           blur = false;
+          ignore_alpha = 1.0;
         }
         {
           match.namespace = "^noctalia-.*click-shield$";
@@ -293,7 +363,7 @@ in
         (bind "SUPER + Q" "hl.dsp.window.close()")
         (command "SUPER + O" appLauncher)
         (bind "SUPER + V" "hl.dsp.window.float()")
-        (bind "SUPER + F" "hl.dsp.window.fullscreen({ mode = \"maximized\" })")
+        (bind "SUPER + F" toggleColumnFullWidth)
         (bind "SUPER + SHIFT + F" "hl.dsp.window.fullscreen({ mode = \"fullscreen\" })")
         (bind "SUPER + W" "hl.dsp.group.toggle()")
 
@@ -309,16 +379,18 @@ in
         (bind "SUPER + SHIFT + C" "hl.dsp.layout(\"fit active\")")
         (bind "SUPER + CTRL + C" "hl.dsp.layout(\"fit visible\")")
 
-        (bind "SUPER + Page_Down" "hl.dsp.group.next()")
-        (bind "SUPER + Page_Up" "hl.dsp.group.prev()")
+        (bind "SUPER + Page_Down" groupNext)
+        (bind "SUPER + Page_Up" groupPrevious)
         (bind "SUPER + U" "hl.dsp.focus({ workspace = \"e+1\" })")
         (bind "SUPER + I" "hl.dsp.focus({ workspace = \"e-1\" })")
         (bind "SUPER + CTRL + Page_Down" "hl.dsp.window.move({ workspace = \"e+1\" })")
         (bind "SUPER + CTRL + Page_Up" "hl.dsp.window.move({ workspace = \"e-1\" })")
         (bind "SUPER + CTRL + U" "hl.dsp.window.move({ workspace = \"e+1\" })")
         (bind "SUPER + CTRL + I" "hl.dsp.window.move({ workspace = \"e-1\" })")
-        (bind "SUPER + mouse_down" "hl.dsp.focus({ workspace = \"e+1\" })")
-        (bind "SUPER + mouse_up" "hl.dsp.focus({ workspace = \"e-1\" })")
+        (bind "SUPER + SHIFT + mouse_down" "hl.dsp.focus({ workspace = \"m+1\" })")
+        (bind "SUPER + SHIFT + mouse_up" "hl.dsp.focus({ workspace = \"m-1\" })")
+        (bind "SUPER + mouse_down" (focus "d"))
+        (bind "SUPER + mouse_up" (focus "u"))
         (bind "SUPER + CTRL + mouse_down" "hl.dsp.window.move({ workspace = \"e+1\" })")
         (bind "SUPER + CTRL + mouse_up" "hl.dsp.window.move({ workspace = \"e-1\" })")
         (bind "SUPER + mouse_right" (focus "r"))

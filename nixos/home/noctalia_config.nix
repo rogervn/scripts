@@ -111,6 +111,7 @@ in
       source = "wallpaper";
       templates.builtin_ids = [
         "ghostty"
+        "hyprland"
         "mango"
         "niri"
       ];
