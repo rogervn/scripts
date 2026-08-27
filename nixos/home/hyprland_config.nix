@@ -280,6 +280,13 @@ in
       ];
       animation = [
         {
+          leaf = "windows";
+          enabled = true;
+          speed = 4.79;
+          spring = "easy";
+          style = "slide";
+        }
+        {
           leaf = "windowsMove";
           enabled = true;
           speed = 4.79;
