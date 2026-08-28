@@ -213,7 +213,15 @@ in
         };
         group = {
           auto_group = false;
-          groupbar.disable_when_only = true;
+          groupbar = {
+            disable_when_only = true;
+            render_titles = false;
+            height = 6;
+            indicator_height = 0;
+            gaps_in = 2;
+            gaps_out = 2;
+            rounding = 3;
+          };
         };
         input = {
           kb_layout = "us";
@@ -396,12 +404,12 @@ in
         (bind "SUPER + CTRL + I" "hl.dsp.window.move({ workspace = \"e-1\" })")
         (bind "SUPER + SHIFT + mouse_down" "hl.dsp.focus({ workspace = \"m+1\" })")
         (bind "SUPER + SHIFT + mouse_up" "hl.dsp.focus({ workspace = \"m-1\" })")
-        (bind "SUPER + mouse_down" (focus "d"))
-        (bind "SUPER + mouse_up" (focus "u"))
+        (bind "SUPER + mouse_down" "hl.dsp.layout(\"move +col\")")
+        (bind "SUPER + mouse_up" "hl.dsp.layout(\"move -col\")")
         (bind "SUPER + CTRL + mouse_down" "hl.dsp.window.move({ workspace = \"e+1\" })")
         (bind "SUPER + CTRL + mouse_up" "hl.dsp.window.move({ workspace = \"e-1\" })")
-        (bind "SUPER + mouse_right" (focus "r"))
-        (bind "SUPER + mouse_left" (focus "l"))
+        (bind "SUPER + mouse_right" "hl.dsp.layout(\"move +col\")")
+        (bind "SUPER + mouse_left" "hl.dsp.layout(\"move -col\")")
         (bind "SUPER + CTRL + mouse_right" (move "r"))
         (bind "SUPER + CTRL + mouse_left" (move "l"))
         (bind "SUPER + 0" "hl.dsp.focus({ workspace = \"10\" })")
