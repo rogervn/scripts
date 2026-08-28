@@ -139,6 +139,12 @@ in
 {
   imports = [ ./window_manager_appearance.nix ];
 
+  home.packages = with pkgs; [
+    brightnessctl
+    jq
+    playerctl
+  ];
+
   services = {
     blueman-applet.enable = true;
     network-manager-applet.enable = true;
@@ -186,27 +192,13 @@ in
           allow_tearing = true;
         };
         scrolling = {
-          column_width = 0.5;
-          explicit_column_widths = "0.33333, 0.5, 0.66667, 1.0";
-          # Keep a single column full-width and delay pointer-driven scrolling.
-          fullscreen_on_one_column = true;
-          focus_fit_method = 1;
-          follow_focus = true;
           follow_min_visible = 0.0;
           wrap_focus = false;
           wrap_swapcol = false;
-          direction = "right";
         };
         decoration = {
           rounding = 10;
-          shadow = {
-            enabled = true;
-            range = 4;
-            render_power = 3;
-            color = "rgba(1a1a1aee)";
-          };
           blur = {
-            enabled = true;
             size = 3;
             passes = 3;
             noise = 0.02;
@@ -218,24 +210,14 @@ in
             disable_when_only = true;
             render_titles = false;
             height = 6;
-            indicator_height = 0;
-            gaps_in = 2;
-            gaps_out = 2;
+            indicator_height = 1;
             rounding = 3;
           };
         };
         input = {
-          kb_layout = "us";
           numlock_by_default = true;
-          follow_mouse = 1;
           follow_mouse_shrink = 24;
-          natural_scroll = false;
-          touchpad = {
-            tap_to_click = true;
-            disable_while_typing = true;
-            scroll_factor = 0.8;
-            natural_scroll = false;
-          };
+          touchpad.scroll_factor = 0.8;
         };
         gestures.workspace_swipe_invert = false;
         binds = {
@@ -267,7 +249,6 @@ in
         {
           fingers = 3;
           direction = "vertical";
-          scale = 2.0;
           action = "scroll_move";
         }
         {
@@ -418,7 +399,7 @@ in
         (bind "SUPER + 0" "hl.dsp.focus({ workspace = \"10\" })")
         (bind "SUPER + CTRL + 0" "hl.dsp.window.move({ workspace = \"10\" })")
         (bind "SUPER + S" "hl.dsp.workspace.toggle_special(\"magic\")")
-        (bind "SUPER + SHIFT + S" "hl.dsp.window.move({ workspace = \"special:magic\" })")
+        (bind "SUPER + CTRL + S" "hl.dsp.window.move({ workspace = \"special:magic\" })")
         (bindWith "SUPER + mouse:272" "hl.dsp.window.drag()" { mouse = true; })
         (bindWith "SUPER + mouse:273" "hl.dsp.window.resize()" { mouse = true; })
         (command "Print" "grim ${screenshotPath}")

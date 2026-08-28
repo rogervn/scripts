@@ -1,5 +1,4 @@
 {
-  lib,
   pkgs,
   osConfig,
   ...
@@ -78,6 +77,8 @@
         the main agent reads source files; it may then inspect paths returned
         by scout.
       - Use researcher for external documentation and source summaries.
+      - If delegated discovery or research is incomplete, re-delegate the narrow
+        gap to scout or researcher instead of doing that work in the main agent.
       - Use delegate for simple lookups, transformations, and summaries.
       - Use worker only after the implementation direction is decided.
       - Use fresh-context reviewer verification when implementation risk or
