@@ -17,13 +17,15 @@
     # first launch. Pin them so a Home Manager generation has stable behavior.
     file.".pi/agent/settings.json".text = builtins.toJSON {
       npmCommand = [ "${pkgs.nodejs}/bin/npm" ];
-      defaultModel = "openai-codex/gpt-5.6-terra";
+      defaultProvider = "openai-codex";
+      defaultModel = "gpt-5.6-sol";
       defaultThinkingLevel = "medium";
       packages = [
         "npm:pi-vim@0.14.1"
         "npm:pi-subagents@0.57.0"
-        # TODO: Remove the local patch after https://github.com/santychuy/pi-setup/pull/1 merges.
-        "npm:pi-codex-limit@1.8.2"
+        "npm:pi-mcp-adapter@2.30.0"
+        "npm:pi-web-access@0.27.0"
+        "npm:@hk_net/pi-usage-bars@0.5.0"
         "npm:@juicesharp/rpiv-ask-user-question@2.7.1"
       ];
       subagents = {
@@ -56,7 +58,7 @@
             defaultContext = "fresh";
           };
           oracle = {
-            model = "openai-codex/gpt-5.6-terra";
+            model = "openai-codex/gpt-5.6-sol";
             thinking = "high";
             defaultContext = "fork";
           };
@@ -78,7 +80,11 @@
       - Use researcher for external documentation and source summaries.
       - Use delegate for simple lookups, transformations, and summaries.
       - Use worker only after the implementation direction is decided.
-      - Use reviewer for fresh-context verification after implementation.
+      - Use fresh-context reviewer verification when implementation risk or
+        complexity warrants it, especially for credentials/auth, destructive
+        operations, production changes, migrations, or broad code changes.
+        For trivial, reversible changes, use concise parent verification instead;
+        for small bounded changes, prefer a narrowly scoped read-only review.
       - Use oracle only for difficult or consequential decisions.
 
       Give Luna agents narrow tasks with explicit paths, constraints, expected output,
@@ -86,18 +92,6 @@
       Keep one writer per worktree.
     '';
   };
-
-  home.activation.patchPiCodexLimit = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-    packageDir="$HOME/.pi/agent/npm/node_modules/pi-codex-limit"
-
-    if [ ! -f "$packageDir/index.ts" ]; then
-      $DRY_RUN_CMD ${pkgs.nodejs}/bin/npm --prefix "$HOME/.pi/agent/npm" install pi-codex-limit@1.8.2
-    fi
-
-    if ! ${pkgs.gnugrep}/bin/grep -q 'let sessionGeneration = 0;' "$packageDir/index.ts"; then
-      $DRY_RUN_CMD ${pkgs.patch}/bin/patch --directory="$packageDir" --batch --forward --input=${./pi-codex-limit-stale-context.patch}
-    fi
-  '';
 
   programs.opencode = {
     enable = true;
