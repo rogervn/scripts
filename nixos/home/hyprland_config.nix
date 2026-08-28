@@ -188,10 +188,11 @@ in
         scrolling = {
           column_width = 0.5;
           explicit_column_widths = "0.33333, 0.5, 0.66667, 1.0";
-          # Keep a single column full-width without following incidental focus.
+          # Keep a single column full-width and delay pointer-driven scrolling.
           fullscreen_on_one_column = true;
           focus_fit_method = 1;
-          follow_focus = false;
+          follow_focus = true;
+          follow_min_visible = 0.0;
           wrap_focus = false;
           wrap_swapcol = false;
           direction = "right";
@@ -227,6 +228,7 @@ in
           kb_layout = "us";
           numlock_by_default = true;
           follow_mouse = 1;
+          follow_mouse_shrink = 24;
           natural_scroll = false;
           touchpad = {
             tap_to_click = true;
