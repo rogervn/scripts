@@ -12,7 +12,6 @@
     ../../modules/base.nix
     ../../modules/secrets-rogervn.nix
     ../../modules/steam.nix
-    ../../modules/niri_wm.nix
     ../../modules/hyprland_wm.nix
     ../../modules/display_manager.nix
   ];
@@ -92,14 +91,10 @@
       enable = true;
       pulse.enable = true;
     };
-    displayManager.noctalia-greeter.extraArgs = [
-      "--session"
-      "niri"
-    ];
   };
 
   myServices.noctaliaGreeter = {
-    sessionDefault = "niri";
+    sessionDefault = "hyprland-uwsm";
     output = {
       name = "HDMI-A-2";
       width = 2560;

@@ -17,19 +17,6 @@
 
       imports = [
         (import ../../home/dotfiles.nix { inherit config lib pkgs; })
-        (import ../../home/niri_config.nix {
-          inherit pkgs lib;
-          # Refresh rates must match `niri msg outputs` exactly (3 decimals); verify on-device.
-          monitors = [
-            ''
-              output "LG Electronics LG TV SSCR2 0x01010101" {
-                  mode "3840x2160@120.000"
-                  scale 1.5
-                  variable-refresh-rate on-demand=true
-              }
-            ''
-          ];
-        })
         (import ../../home/hyprland_config.nix {
           inherit pkgs lib;
           monitors = [

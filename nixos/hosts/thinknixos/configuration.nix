@@ -11,7 +11,6 @@
   imports = [
     ../../modules/base.nix
     ../../modules/secrets-rogervn.nix
-    ../../modules/niri_wm.nix
     ../../modules/hyprland_wm.nix
     ../../modules/display_manager.nix
   ];
@@ -84,7 +83,7 @@
   };
 
   myServices.noctaliaGreeter = {
-    sessionDefault = "niri";
+    sessionDefault = "hyprland-uwsm";
     output = {
       name = "eDP-1";
       width = 1920;
