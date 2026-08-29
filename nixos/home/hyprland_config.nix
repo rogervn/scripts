@@ -25,6 +25,9 @@
   ...
 }:
 let
+
+  # --- Lua serialization and binding helpers ---
+
   inherit (lib.generators) mkLuaInline;
   q = builtins.toJSON;
   dispatcher = mkLuaInline;
@@ -42,10 +45,9 @@ let
     ];
   };
   command = keys: cmd: bind keys "hl.dsp.exec_cmd(${q cmd})";
-  focus = direction: "hl.dsp.layout(\"focus ${direction}\")";
-  # Native scrolling has no `movewindowto` layout message.  The normal window
-  # move dispatcher is layout-aware and is the supported equivalent.
-  move = direction: "hl.dsp.window.move({ direction = \"${direction}\" })";
+
+  # --- Workspace and directional bindings ---
+
   workspaceBinds = lib.concatMap (i: [
     (bind "SUPER + ${toString i}" "hl.dsp.focus({ workspace = \"${toString i}\" })")
     (bind "SUPER + CTRL + ${toString i}" "hl.dsp.window.move({ workspace = \"${toString i}\" })")
@@ -58,7 +60,7 @@ let
           inherit (direction) key value;
         in
         [
-          (bind "SUPER + ${key}" (focus value))
+          (bind "SUPER + ${key}" "hl.dsp.layout(\"focus ${value}\")")
           (bind "SUPER + CTRL + ${key}" "hl.dsp.window.swap({ direction = \"${value}\" })")
           (bind "SUPER + SHIFT + ${key}" "hl.dsp.focus({ monitor = \"${value}\" })")
           (bind "SUPER + CTRL + SHIFT + ${key}" "hl.dsp.workspace.move({ monitor = \"${value}\" })")
@@ -82,12 +84,16 @@ let
           value = "r";
         }
       ];
+
+  # --- Lua functions ---
+
   startup = dispatcher ''
     function()
       hl.exec_cmd(${q "uwsm finalize"})
       hl.exec_cmd(${q "uwsm app -- noctalia"})
     end
   '';
+
   groupNext = ''
     function()
       local window = hl.get_active_window()
@@ -97,6 +103,7 @@ let
       end
     end
   '';
+
   groupPrevious = ''
     function()
       local window = hl.get_active_window()
@@ -106,6 +113,7 @@ let
       end
     end
   '';
+
   toggleColumnFullWidth = ''
     (function()
       local previousWidths = {}
@@ -139,6 +147,8 @@ in
 {
   imports = [ ./window_manager_appearance.nix ];
 
+  # --- Desktop setup ---
+
   home.packages = with pkgs; [
     brightnessctl
     jq
@@ -167,6 +177,8 @@ in
     };
   };
 
+  # --- Hyprland setup ---
+
   wayland.windowManager.hyprland = {
     enable = true;
     configType = "lua";
@@ -180,15 +192,32 @@ in
       end
     '';
 
-    # Home Manager renders every entry below to the corresponding `hl.*` Lua
-    # call in ~/.config/hypr/hyprland.lua.
     settings = {
+
+      # --- Session startup ---
+
+      on = {
+        _args = [
+          "hyprland.start"
+          startup
+        ];
+      };
+
+      # --- Core compositor configuration ---
+
+      env = [
+        {
+          _args = [
+            "GIO_EXTRA_MODULES"
+            "${pkgs.dconf.lib}/lib/gio/modules"
+          ];
+        }
+      ];
+
       config = {
         general = {
           layout = "scrolling";
           border_size = 4;
-          "col.active_border" = "rgb(89b4fa)";
-          "col.inactive_border" = "rgb(45475a)";
           allow_tearing = true;
         };
         scrolling = {
@@ -231,14 +260,8 @@ in
         };
       };
 
-      env = [
-        {
-          _args = [
-            "GIO_EXTRA_MODULES"
-            "${pkgs.dconf.lib}/lib/gio/modules"
-          ];
-        }
-      ];
+      # --- Displays, gestures, and animations ---
+
       monitor = monitors;
       gesture = [
         {
@@ -250,6 +273,11 @@ in
           fingers = 3;
           direction = "vertical";
           action = "scroll_move";
+        }
+        {
+          fingers = 4;
+          direction = "horizontal";
+          action = "workspace";
         }
         {
           fingers = 4;
@@ -292,6 +320,9 @@ in
           style = "slidevert";
         }
       ];
+
+      # --- Workspace and window behavior ---
+
       workspace_rule = map (
         workspace:
         (lib.optionalAttrs ((workspace.output or null) != null) { monitor = workspace.output; })
@@ -330,20 +361,16 @@ in
         }
       ];
 
-      on = {
-        _args = [
-          "hyprland.start"
-          startup
-        ];
-      };
+      # --- Keybindings ---
 
       bind = [
-        (command "SUPER + Return" terminal)
-        (command "SUPER + T" noteEditor)
+        # Application and session controls.
+        (command "SUPER + Return" "uwsm app -- ${terminal}")
+        (command "SUPER + T" "uwsm app -- ${noteEditor}")
         (command "SUPER + D" runLauncher)
-        (command "SUPER + E" fileManager)
-        (command "SUPER + B" browser)
-        (command "SUPER + X" codeEditor)
+        (command "SUPER + E" "uwsm app -- ${fileManager}")
+        (command "SUPER + B" "uwsm app -- ${browser}")
+        (command "SUPER + X" "uwsm app -- ${codeEditor}")
         (command "SUPER + Space" appLauncher)
         (command "SUPER + C" clipboardLauncher)
         (command "SUPER + SHIFT + W" wallpaper)
@@ -359,13 +386,13 @@ in
         (command "SUPER + SHIFT + Y" "systemctl hibernate")
         (command "SUPER + SHIFT + E" "uwsm stop")
 
+        # Window, group, and layout controls.
         (bind "SUPER + Q" "hl.dsp.window.close()")
         (command "SUPER + O" appLauncher)
         (bind "SUPER + V" "hl.dsp.window.float()")
         (bind "SUPER + F" toggleColumnFullWidth)
         (bind "SUPER + SHIFT + F" "hl.dsp.window.fullscreen({ mode = \"fullscreen\" })")
         (bind "SUPER + W" "hl.dsp.group.toggle()")
-
         (bind "SUPER + BracketLeft" "hl.dsp.layout(\"consume_or_expel prev\")")
         (bind "SUPER + BracketRight" "hl.dsp.layout(\"consume_or_expel next\")")
         (bind "SUPER + Comma" "hl.dsp.layout(\"consume\")")
@@ -378,6 +405,7 @@ in
         (bind "SUPER + SHIFT + C" "hl.dsp.layout(\"fit active\")")
         (bind "SUPER + CTRL + C" "hl.dsp.layout(\"fit visible\")")
 
+        # Workspace and mouse controls.
         (bind "SUPER + Page_Down" groupNext)
         (bind "SUPER + Page_Up" groupPrevious)
         (bind "SUPER + U" "hl.dsp.focus({ workspace = \"e+1\" })")
@@ -394,8 +422,8 @@ in
         (bind "SUPER + CTRL + mouse_up" "hl.dsp.window.move({ workspace = \"e-1\" })")
         (bind "SUPER + mouse_right" "hl.dsp.layout(\"move +col\")")
         (bind "SUPER + mouse_left" "hl.dsp.layout(\"move -col\")")
-        (bind "SUPER + CTRL + mouse_right" (move "r"))
-        (bind "SUPER + CTRL + mouse_left" (move "l"))
+        (bind "SUPER + CTRL + mouse_right" "hl.dsp.window.move({ direction = \"r\" })")
+        (bind "SUPER + CTRL + mouse_left" "hl.dsp.window.move({ direction = \"l\" })")
         (bind "SUPER + 0" "hl.dsp.focus({ workspace = \"10\" })")
         (bind "SUPER + CTRL + 0" "hl.dsp.window.move({ workspace = \"10\" })")
         (bind "SUPER + S" "hl.dsp.workspace.toggle_special(\"magic\")")
@@ -407,6 +435,7 @@ in
       ++ directionBinds
       ++ workspaceBinds
       ++ [
+        # Media and brightness keys.
         (bindWith "XF86AudioRaiseVolume" "hl.dsp.exec_cmd(\"wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+\")" {
           repeating = true;
           locked = true;

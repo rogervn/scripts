@@ -10,6 +10,7 @@
       codex
       ha-mcp
       pi-coding-agent
+      uv
     ];
 
     # Pi installs package extensions declared here into ~/.pi/agent/npm on its
