@@ -289,12 +289,19 @@ in
       curve = [
         {
           _args = [
-            "easy"
+            "ui"
             {
-              type = "spring";
-              mass = 1;
-              stiffness = 238.1191;
-              dampening = 24.21279333;
+              type = "bezier";
+              points = [
+                [
+                  0.16
+                  0.77
+                ]
+                [
+                  0.33
+                  1.0
+                ]
+              ];
             }
           ];
         }
@@ -303,22 +310,82 @@ in
         {
           leaf = "windows";
           enabled = true;
-          speed = 4.79;
-          spring = "easy";
-          style = "slide";
+          speed = 3;
+          bezier = "ui";
+          style = "popin 85%";
+        }
+        {
+          leaf = "windowsIn";
+          enabled = true;
+          speed = 3;
+          bezier = "ui";
+          style = "popin 85%";
+        }
+        {
+          leaf = "windowsOut";
+          enabled = true;
+          speed = 2;
+          bezier = "ui";
+          style = "popin 85%";
         }
         {
           leaf = "windowsMove";
           enabled = true;
-          speed = 4.79;
-          spring = "easy";
+          speed = 2;
+          bezier = "ui";
+        }
+        {
+          leaf = "layers";
+          enabled = true;
+          speed = 2;
+          bezier = "ui";
+          style = "fade";
+        }
+        {
+          leaf = "layersIn";
+          enabled = true;
+          speed = 2;
+          bezier = "ui";
+          style = "fade";
+        }
+        {
+          leaf = "layersOut";
+          enabled = true;
+          speed = 1.5;
+          bezier = "ui";
+          style = "fade";
+        }
+        {
+          leaf = "fade";
+          enabled = true;
+          speed = 2;
+          bezier = "ui";
+        }
+        {
+          leaf = "fadeSwitch";
+          enabled = true;
+          speed = 1.5;
+          bezier = "ui";
+        }
+        {
+          leaf = "border";
+          enabled = true;
+          speed = 2;
+          bezier = "ui";
         }
         {
           leaf = "workspaces";
           enabled = true;
-          speed = 4.79;
-          spring = "easy";
-          style = "slidevert";
+          speed = 4;
+          bezier = "ui";
+          style = "slidefadevert 15%";
+        }
+        {
+          leaf = "specialWorkspace";
+          enabled = true;
+          speed = 3;
+          bezier = "ui";
+          style = "slidefadevert 15%";
         }
       ];
 
