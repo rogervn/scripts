@@ -11,6 +11,7 @@
       ha-mcp
       pi-coding-agent
       uv
+      python313
     ];
 
     # Pi installs package extensions declared here into ~/.pi/agent/npm on its

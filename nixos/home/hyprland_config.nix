@@ -64,6 +64,7 @@ let
           (bind "SUPER + CTRL + ${key}" "hl.dsp.window.swap({ direction = \"${value}\" })")
           (bind "SUPER + SHIFT + ${key}" "hl.dsp.focus({ monitor = \"${value}\" })")
           (bind "SUPER + CTRL + SHIFT + ${key}" "hl.dsp.workspace.move({ monitor = \"${value}\" })")
+          (bind "SUPER + ALT + SHIFT + ${key}" "hl.dsp.window.move({ direction = \"${value}\" })")
         ]
       )
       [
@@ -251,7 +252,7 @@ in
         gestures.workspace_swipe_invert = false;
         binds = {
           scroll_event_delay = 150;
-          window_direction_monitor_fallback = false;
+          window_direction_monitor_fallback = true;
         };
         misc = {
           force_default_wallpaper = 0;
