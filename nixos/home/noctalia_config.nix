@@ -97,6 +97,7 @@ in
       password_style = "random";
       polkit_agent = true;
       launch_apps_as_systemd_services = true;
+      animation.enabled = false;
       panel = {
         transparency_mode = "glass";
         control_center_placement = "floating";
