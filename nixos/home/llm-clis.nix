@@ -17,7 +17,7 @@
     file.".pi/agent/settings.json".text = builtins.toJSON {
       npmCommand = [ "${pkgs.nodejs}/bin/npm" ];
       defaultProvider = "openai-codex";
-      defaultModel = "gpt-5.6-sol";
+      defaultModel = "gpt-5.6-terra";
       defaultThinkingLevel = "medium";
       packages = [
         "npm:pi-vim@0.14.1"
