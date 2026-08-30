@@ -40,7 +40,7 @@
     gamescope = {
       enable = true;
       enableWsi = true;
-      capSysNice = true;
+      capSysNice = false;
     };
     gamemode.enable = true;
     xwayland.enable = true;
