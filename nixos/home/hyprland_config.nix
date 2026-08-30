@@ -57,13 +57,14 @@ let
       (
         direction:
         let
-          inherit (direction) key value;
+          inherit (direction) key swapColumn value;
         in
         [
           (bind "SUPER + ${key}" "hl.dsp.layout(\"focus ${value}\")")
-          (bind "SUPER + CTRL + ${key}" "hl.dsp.window.swap({ direction = \"${value}\" })")
+          (bind "SUPER + CTRL + ${key}" "hl.dsp.layout(\"swapcol ${swapColumn}\")")
           (bind "SUPER + SHIFT + ${key}" "hl.dsp.focus({ monitor = \"${value}\" })")
           (bind "SUPER + CTRL + SHIFT + ${key}" "hl.dsp.workspace.move({ monitor = \"${value}\" })")
+          (bind "SUPER + ALT + ${key}" "hl.dsp.window.swap({ direction = \"${value}\" })")
           (bind "SUPER + ALT + SHIFT + ${key}" "hl.dsp.window.move({ direction = \"${value}\" })")
         ]
       )
@@ -71,18 +72,22 @@ let
         {
           key = "Left";
           value = "l";
+          swapColumn = "l";
         }
         {
           key = "Down";
           value = "d";
+          swapColumn = "r";
         }
         {
           key = "Up";
           value = "u";
+          swapColumn = "l";
         }
         {
           key = "Right";
           value = "r";
+          swapColumn = "r";
         }
       ];
 
