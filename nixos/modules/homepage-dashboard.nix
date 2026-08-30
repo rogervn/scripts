@@ -209,9 +209,9 @@ in
           group = "Servers";
           name = "datanixos";
           id = "beszel-server-datanixos";
-          href = "http://datanixos.localdomain:8017";
+          href = "http://datanixos.localdomain:8017/system/umkfo0xzaq4gnz1";
           description = "Host monitoring for datanixos";
-          icon = "beszel";
+          icon = "mdi-server";
           widget = {
             type = "beszel";
             url = "http://datanixos.localdomain:8017";
@@ -231,9 +231,9 @@ in
           group = "Servers";
           name = "mininixos";
           id = "beszel-server-mininixos";
-          href = "http://datanixos.localdomain:8017";
+          href = "http://datanixos.localdomain:8017/system/2larn2dhp2cztxn";
           description = "Host monitoring for mininixos";
-          icon = "beszel";
+          icon = "mdi-server";
           widget = {
             type = "beszel";
             url = "http://datanixos.localdomain:8017";
@@ -253,9 +253,9 @@ in
           group = "Servers";
           name = "pi5uk";
           id = "beszel-server-pi5uk";
-          href = "http://datanixos.localdomain:8017";
+          href = "http://datanixos.localdomain:8017/system/a7iab7men2vm49v";
           description = "Host monitoring for pi5uk";
-          icon = "beszel";
+          icon = "mdi-server";
           widget = {
             type = "beszel";
             url = "http://datanixos.localdomain:8017";
@@ -335,14 +335,38 @@ in
             letter-spacing: 0.02em;
           }
 
-          li.service[data-name="datanixos"] .service-title > .service-icon,
-          li.service[data-name="datanixos"] .service-title > .service-title-text,
-          li.service[data-name="mininixos"] .service-title > .service-icon,
-          li.service[data-name="mininixos"] .service-title > .service-title-text,
-          li.service[data-name="pi5uk"] .service-title > .service-icon,
-          li.service[data-name="pi5uk"] .service-title > .service-title-text {
+          li.service[data-name="datanixos"] .service-card,
+          li.service[data-name="mininixos"] .service-card,
+          li.service[data-name="pi5uk"] .service-card {
+            align-items: stretch;
+            display: flex;
+          }
+
+          li.service[data-name="datanixos"] .service-title,
+          li.service[data-name="mininixos"] .service-title,
+          li.service[data-name="pi5uk"] .service-title {
+            flex: 0 0 3rem;
+          }
+
+          li.service[data-name="datanixos"] .service-icon,
+          li.service[data-name="mininixos"] .service-icon,
+          li.service[data-name="pi5uk"] .service-icon {
+            width: 100%;
+          }
+
+          li.service[data-name="datanixos"] .service-title-text,
+          li.service[data-name="mininixos"] .service-title-text,
+          li.service[data-name="pi5uk"] .service-title-text {
             display: none;
           }
+
+          li.service[data-name="datanixos"] .service-card > :not(.service-title),
+          li.service[data-name="mininixos"] .service-card > :not(.service-title),
+          li.service[data-name="pi5uk"] .service-card > :not(.service-title) {
+            flex: 1 1 0%;
+            min-width: 0;
+          }
+
         '';
         settings = {
           layout = {
