@@ -10,6 +10,9 @@ let
       }
       // lib.optionalAttrs (entry.siteMonitor != null) {
         inherit (entry) siteMonitor;
+      }
+      // lib.optionalAttrs (entry.widget != { }) {
+        inherit (entry) widget;
       };
     }) entries;
   }) groupedServices;
@@ -48,6 +51,10 @@ in
               type = lib.types.nullOr lib.types.str;
               default = null;
             };
+            widget = lib.mkOption {
+              type = lib.types.attrs;
+              default = { };
+            };
           };
         }
       );
@@ -67,6 +74,17 @@ in
           description = "DNS and network-wide ad blocking";
           icon = "adguard-home";
           siteMonitor = "http://mininixos.localdomain:8001";
+          # This widget is intentionally unauthenticated because AdGuard currently has no configured users.
+          widget = {
+            type = "adguard";
+            url = "http://127.0.0.1:8001";
+            fields = [
+              "queries"
+              "blocked"
+              "filtered"
+              "latency"
+            ];
+          };
         }
         {
           group = "Infrastructure";
@@ -74,7 +92,17 @@ in
           href = "http://mininixos.localdomain:8003";
           description = "Service uptime monitoring";
           icon = "uptime-kuma";
-          # Configure a site monitor after an Uptime Kuma status page slug exists.
+          widget = {
+            type = "uptimekuma";
+            url = "http://127.0.0.1:8003";
+            slug = "home-services";
+            fields = [
+              "up"
+              "down"
+              "uptime"
+              "incident"
+            ];
+          };
         }
         {
           group = "Applications";
@@ -84,7 +112,15 @@ in
           icon = "vaultwarden";
           siteMonitor = "http://mininixos.localdomain:8002";
         }
+        {
+          group = "Applications";
+          name = "Home Assistant";
+          href = "http://10.0.0.15:8005";
+          description = "Home automation control and monitoring";
+          icon = "home-assistant";
+        }
 
+        # Widget credentials belong in the agenix-managed Homepage env file.
         # datanixos
         {
           group = "Applications";
@@ -93,6 +129,18 @@ in
           description = "File sync and collaboration";
           icon = "nextcloud";
           siteMonitor = "http://datanixos.localdomain:8008";
+          widget = {
+            type = "nextcloud";
+            url = "https://nextcloud.vnunes.win";
+            username = "admin";
+            password = "{{HOMEPAGE_VAR_NEXTCLOUD_TOKEN}}";
+            fields = [
+              "freespace"
+              "activeusers"
+              "numfiles"
+              "numshares"
+            ];
+          };
         }
         {
           group = "Applications";
@@ -101,6 +149,18 @@ in
           description = "Photo and video library";
           icon = "immich";
           siteMonitor = "http://datanixos.localdomain:8009";
+          widget = {
+            type = "immich";
+            url = "https://immich.vnunes.win";
+            key = "{{HOMEPAGE_VAR_IMMICH_TOKEN}}";
+            version = 2;
+            fields = [
+              "users"
+              "photos"
+              "videos"
+              "storage"
+            ];
+          };
         }
         {
           group = "Applications";
@@ -125,6 +185,18 @@ in
           description = "Lightweight server monitoring";
           icon = "beszel";
           siteMonitor = "http://datanixos.localdomain:8017";
+          # Beszel widget credentials require a superuser account.
+          widget = {
+            type = "beszel";
+            url = "http://datanixos.localdomain:8017";
+            username = "{{HOMEPAGE_VAR_BESZEL_USERNAME}}";
+            password = "{{HOMEPAGE_VAR_BESZEL_PASSWORD}}";
+            version = 2;
+            fields = [
+              "systems"
+              "up"
+            ];
+          };
         }
       ];
     }
@@ -133,23 +205,35 @@ in
       services.homepage-dashboard = {
         enable = true;
         inherit (cfg) listenPort;
+        # Credential values are supplied through the agenix-managed env file.
+        environmentFiles = [ config.age.secrets.homepage_env_file.path ];
         allowedHosts = lib.concatStringsSep "," cfg.allowedHosts;
         services = homepageServices;
         customCSS = ''
           html,
           body,
-          #__next,
+          #__next {
+            min-height: 100%;
+            background-color: #11161d;
+            background-image:
+              linear-gradient(rgba(2, 6, 23, 0.72), rgba(2, 6, 23, 0.72)),
+              url("https://images.unsplash.com/photo-1502790671504-542ad42d5189?auto=format&fit=crop&w=2560&q=80");
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            color: #e2e8f0;
+          }
+
           main,
           .bg-background,
           .bg-slate-900,
           .bg-slate-950 {
-            min-height: 100%;
-            background: #11161d !important;
-            color: #e2e8f0;
+            background: transparent !important;
           }
 
           .service-card {
-            background-color: rgba(30, 41, 59, 0.72);
+            background-color: rgba(30, 41, 59, 0.88);
             border: 1px solid rgba(148, 163, 184, 0.18);
             box-shadow: none;
           }

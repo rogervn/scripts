@@ -51,6 +51,13 @@
         file = ./secrets/mininixos_beszel_token_file.age;
         mode = "444";
       };
+      # Homepage reads widget credentials from this agenix-managed env file.
+      homepage_env_file = {
+        file = ./secrets/homepage_env_file.age;
+        owner = "root";
+        group = "root";
+        mode = "0400";
+      };
     };
   };
 }

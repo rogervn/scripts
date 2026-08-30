@@ -124,4 +124,8 @@ in
     amdesktop
     mininixos
   ];
+  "homepage_env_file.age".publicKeys = [
+    amdesktop
+    mininixos
+  ];
 }
