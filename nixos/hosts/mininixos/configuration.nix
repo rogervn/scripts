@@ -10,6 +10,7 @@
 {
   imports = [
     ../../modules/base.nix
+    ../../modules/homepage-dashboard.nix
     ../../modules/secrets-serveruser.nix
     ../../modules/cloudflared.nix
     ../../modules/adguardhome.nix
@@ -91,25 +92,29 @@
     mode = "600";
   };
 
-  myServices.resticBackup = {
-    enable = true;
-    repository = "sftp://backupuser@datanixos.localdomain/mininixos";
-    passwordSecretPath = config.age.secrets.mininixos_backup_restic_pass.path;
-    timerConfig = {
-      OnCalendar = "daily";
-      RandomizedDelaySec = "1h";
-      Persistent = true;
-    };
-    extraOptions = [ ''sftp.args="-i /root/.ssh/id_ed25519 -o StrictHostKeyChecking=accept-new"'' ];
-    # paths populated automatically by vaultwarden.nix
-    # postgresqlBackup.enable defaults to false — mininixos has no postgres
-  };
+  myServices = {
+    homepage.enable = true;
 
-  myServices.beszelAgent = {
-    enable = true;
-    hubUrl = "http://datanixos.localdomain:8017";
-    keySecretPath = config.age.secrets.beszel_hub_key_file.path;
-    tokenSecretPath = config.age.secrets.mininixos_beszel_token_file.path;
+    resticBackup = {
+      enable = true;
+      repository = "sftp://backupuser@datanixos.localdomain/mininixos";
+      passwordSecretPath = config.age.secrets.mininixos_backup_restic_pass.path;
+      timerConfig = {
+        OnCalendar = "daily";
+        RandomizedDelaySec = "1h";
+        Persistent = true;
+      };
+      extraOptions = [ ''sftp.args="-i /root/.ssh/id_ed25519 -o StrictHostKeyChecking=accept-new"'' ];
+      # paths populated automatically by vaultwarden.nix
+      # postgresqlBackup.enable defaults to false — mininixos has no postgres
+    };
+
+    beszelAgent = {
+      enable = true;
+      hubUrl = "http://datanixos.localdomain:8017";
+      keySecretPath = config.age.secrets.beszel_hub_key_file.path;
+      tokenSecretPath = config.age.secrets.mininixos_beszel_token_file.path;
+    };
   };
 
   system.stateVersion = "26.05";

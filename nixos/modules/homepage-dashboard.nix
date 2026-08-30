@@ -136,9 +136,15 @@ in
         allowedHosts = lib.concatStringsSep "," cfg.allowedHosts;
         services = homepageServices;
         customCSS = ''
+          html,
           body,
-          .bg-background {
-            background-color: #11161d !important;
+          #__next,
+          main,
+          .bg-background,
+          .bg-slate-900,
+          .bg-slate-950 {
+            min-height: 100%;
+            background: #11161d !important;
             color: #e2e8f0;
           }
 

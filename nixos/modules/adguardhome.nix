@@ -1,3 +1,4 @@
+{ ... }:
 {
   # free up port 53 locally
   services.resolved = {
