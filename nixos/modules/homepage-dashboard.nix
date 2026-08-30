@@ -8,6 +8,9 @@ let
       "${entry.name}" = {
         inherit (entry) href description icon;
       }
+      // lib.optionalAttrs (entry.id != null) {
+        inherit (entry) id;
+      }
       // lib.optionalAttrs (entry.siteMonitor != null) {
         inherit (entry) siteMonitor;
       }
@@ -44,6 +47,10 @@ in
           options = {
             group = lib.mkOption { type = lib.types.str; };
             name = lib.mkOption { type = lib.types.str; };
+            id = lib.mkOption {
+              type = lib.types.nullOr lib.types.str;
+              default = null;
+            };
             href = lib.mkOption { type = lib.types.str; };
             description = lib.mkOption { type = lib.types.str; };
             icon = lib.mkOption { type = lib.types.str; };
@@ -198,6 +205,72 @@ in
             ];
           };
         }
+        {
+          group = "Servers";
+          name = "datanixos";
+          id = "beszel-server-datanixos";
+          href = "http://datanixos.localdomain:8017";
+          description = "Host monitoring for datanixos";
+          icon = "beszel";
+          widget = {
+            type = "beszel";
+            url = "http://datanixos.localdomain:8017";
+            username = "{{HOMEPAGE_VAR_BESZEL_USERNAME}}";
+            password = "{{HOMEPAGE_VAR_BESZEL_PASSWORD}}";
+            version = 2;
+            systemId = "datanixos";
+            fields = [
+              "name"
+              "cpu"
+              "memory"
+              "disk"
+            ];
+          };
+        }
+        {
+          group = "Servers";
+          name = "mininixos";
+          id = "beszel-server-mininixos";
+          href = "http://datanixos.localdomain:8017";
+          description = "Host monitoring for mininixos";
+          icon = "beszel";
+          widget = {
+            type = "beszel";
+            url = "http://datanixos.localdomain:8017";
+            username = "{{HOMEPAGE_VAR_BESZEL_USERNAME}}";
+            password = "{{HOMEPAGE_VAR_BESZEL_PASSWORD}}";
+            version = 2;
+            systemId = "mininixos";
+            fields = [
+              "name"
+              "cpu"
+              "memory"
+              "disk"
+            ];
+          };
+        }
+        {
+          group = "Servers";
+          name = "pi5uk";
+          id = "beszel-server-pi5uk";
+          href = "http://datanixos.localdomain:8017";
+          description = "Host monitoring for pi5uk";
+          icon = "beszel";
+          widget = {
+            type = "beszel";
+            url = "http://datanixos.localdomain:8017";
+            username = "{{HOMEPAGE_VAR_BESZEL_USERNAME}}";
+            password = "{{HOMEPAGE_VAR_BESZEL_PASSWORD}}";
+            version = 2;
+            systemId = "pi5uk";
+            fields = [
+              "name"
+              "cpu"
+              "memory"
+              "disk"
+            ];
+          };
+        }
       ];
     }
 
@@ -209,6 +282,19 @@ in
         environmentFiles = [ config.age.secrets.homepage_env_file.path ];
         allowedHosts = lib.concatStringsSep "," cfg.allowedHosts;
         services = homepageServices;
+        widgets = [
+          {
+            openmeteo = {
+              label = "London";
+              latitude = 51.5074;
+              longitude = -0.1278;
+              timezone = "Europe/London";
+              units = "metric";
+              cache = 5;
+              format.maximumFractionDigits = 1;
+            };
+          }
+        ];
         customCSS = ''
           html,
           body,
@@ -248,8 +334,22 @@ in
             color: #cbd5e1;
             letter-spacing: 0.02em;
           }
+
+          li.service[data-name="datanixos"] .service-title > .service-icon,
+          li.service[data-name="datanixos"] .service-title > .service-title-text,
+          li.service[data-name="mininixos"] .service-title > .service-icon,
+          li.service[data-name="mininixos"] .service-title > .service-title-text,
+          li.service[data-name="pi5uk"] .service-title > .service-icon,
+          li.service[data-name="pi5uk"] .service-title > .service-title-text {
+            display: none;
+          }
         '';
         settings = {
+          layout = {
+            Servers = {
+              columns = 1;
+            };
+          };
           title = "Home Services";
           theme = "dark";
           color = "slate";
