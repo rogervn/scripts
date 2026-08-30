@@ -22,7 +22,6 @@
           "-r"
           "120"
           "-f"
-          "-e"
           "--xwayland-count"
           "2"
         ];
@@ -40,14 +39,14 @@
     };
     gamescope = {
       enable = true;
-      capSysNice = false;
+      enableWsi = true;
+      capSysNice = true;
     };
     gamemode.enable = true;
     xwayland.enable = true;
   };
 
   environment.systemPackages = with pkgs; [
-    gamescope-wsi
     heroic
     mangohud
   ];
