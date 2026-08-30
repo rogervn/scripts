@@ -362,6 +362,8 @@ in
         };
       };
 
+      systemd.services.homepage-dashboard.environment.HOMEPAGE_PROXY_DISABLE_IPV6 = "true";
+
       networking.firewall.allowedTCPPorts = [ cfg.listenPort ];
     })
   ];
