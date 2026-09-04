@@ -6,6 +6,19 @@
   ...
 }:
 {
+  home.activation.suggestHyprlandRestart = lib.hm.dag.entryAfter [ "reloadSystemd" ] ''
+    unit='wayland-wm@start\x2dhyprland.service'
+    if [[ -v oldGenPath ]] && ${config.systemd.user.systemctlPath} --user --quiet is-active "$unit"; then
+      old_exe="$(${pkgs.coreutils}/bin/readlink -f "$oldGenPath/home-path/bin/start-hyprland" || true)"
+
+      if [[ "$old_exe" != "${config.wayland.windowManager.hyprland.finalPackage}/bin/start-hyprland" ]]; then
+        echo
+        echo "Hyprland was updated; restart it when ready:"
+        echo "  systemctl --user restart '$unit'"
+      fi
+    fi
+  '';
+
   home.packages = with pkgs; [
     blueman
     bluetui

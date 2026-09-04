@@ -7,6 +7,17 @@
   pam_shim,
   ...
 }:
+let
+  # Restarting any active UWSM service tears down the compositor session.
+  protectedUwsmUnit = name:
+    pkgs.runCommand name { } ''
+      cat ${pkgs.uwsm}/share/systemd/user/${name} > $out
+      cat >> $out <<'EOF'
+      [Unit]
+      X-SwitchMethod=keep-old
+      EOF
+    '';
+in
 {
   targets.genericLinux.enable = true;
   home = {
@@ -21,7 +32,11 @@
     map
       (name: {
         name = ".config/systemd/user/${name}";
-        value.source = "${pkgs.uwsm}/share/systemd/user/${name}";
+        value.source =
+          if lib.hasSuffix ".service" name then
+            protectedUwsmUnit name
+          else
+            "${pkgs.uwsm}/share/systemd/user/${name}";
       })
       [
         "wayland-session-bindpid@.service"
