@@ -45,7 +45,6 @@
             {
               id = 3;
               output = "desc:Dell Inc. DELL P2317H 4WY7076L06QB";
-              vertical = true;
               default = true;
               persistent = true;
             }

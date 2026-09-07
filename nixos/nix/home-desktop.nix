@@ -115,41 +115,21 @@ in
       ];
       workspaces = [
         {
-          id = 3;
-          output = "desc:Dell Inc. DELL UP3017 Y7NWN74M118L";
-          vertical = true;
+          id = 1;
+          output = "desc:Chimei Innolux Corporation 0x1488";
+          default = true;
+          persistent = true;
+        }
+        {
+          id = 2;
+          output = "desc:Dell Inc. DELL P3223QE JG6KWN3";
           default = true;
           persistent = true;
         }
         {
           id = 3;
-          output = "desc:Dell Inc. DELL P2317H 4WY7076L06QB";
-          vertical = true;
+          output = "desc:Dell Inc. DELL UP3017 Y7NWN74M118L";
           default = true;
-          persistent = true;
-        }
-        {
-          id = 6;
-          output = "desc:Dell Inc. DELL UP3017 Y7NWN74M118L";
-          vertical = true;
-          persistent = true;
-        }
-        {
-          id = 6;
-          output = "desc:Dell Inc. DELL P2317H 4WY7076L06QB";
-          vertical = true;
-          persistent = true;
-        }
-        {
-          id = 9;
-          output = "desc:Dell Inc. DELL UP3017 Y7NWN74M118L";
-          vertical = true;
-          persistent = true;
-        }
-        {
-          id = 9;
-          output = "desc:Dell Inc. DELL P2317H 4WY7076L06QB";
-          vertical = true;
           persistent = true;
         }
       ];

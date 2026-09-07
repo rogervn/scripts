@@ -4,9 +4,8 @@
   # { output, mode ? "preferred", position ? "auto", scale ? 1,
   #   transform ? 0, vrr ? 0 }; use `desc:` in output for EDID descriptions.
   monitors ? [ ],
-  # { name ? null, id ? null, output ? null, vertical ? false, default ? false,
-  #   persistent ? false }. `vertical` enables the native scrolling layout's
-  # top-to-bottom tape.
+  # { name ? null, id ? null, output ? null, default ? false,
+  #   persistent ? false }.
   workspaces ? [ ],
   terminal ? "ghostty",
   fileManager ? "nautilus",
@@ -93,6 +92,17 @@ let
 
   # --- Lua functions ---
 
+  workspaceOrientationRules = map (monitor: {
+    workspace = "m[${monitor.output}]";
+    layout_opts.direction =
+      {
+        "0" = "right";
+        "1" = "down";
+        "2" = "left";
+        "3" = "up";
+      }
+      .${toString (monitor.transform or 0)} or "right";
+  }) monitors;
   startup = dispatcher ''
     function()
       hl.exec_cmd(${q "uwsm finalize"})
@@ -231,6 +241,7 @@ in
           wrap_focus = false;
           wrap_swapcol = false;
         };
+        cursor.no_warps = true;
         decoration = {
           rounding = 10;
           blur = {
@@ -396,17 +407,18 @@ in
 
       # --- Workspace and window behavior ---
 
-      workspace_rule = map (
-        workspace:
-        (lib.optionalAttrs ((workspace.output or null) != null) { monitor = workspace.output; })
-        // (lib.optionalAttrs (workspace.vertical or false) { layout_opts.direction = "down"; })
-        // (lib.optionalAttrs (workspace.default or false) { default = true; })
-        // (lib.optionalAttrs (workspace.persistent or false) { persistent = true; })
-        // {
-          workspace =
-            if (workspace.id or null) != null then toString workspace.id else "name:${workspace.name}";
-        }
-      ) workspaces;
+      workspace_rule =
+        map (
+          workspace:
+          (lib.optionalAttrs ((workspace.output or null) != null) { monitor = workspace.output; })
+          // (lib.optionalAttrs (workspace.default or false) { default = true; })
+          // (lib.optionalAttrs (workspace.persistent or false) { persistent = true; })
+          // {
+            workspace =
+              if (workspace.id or null) != null then toString workspace.id else "name:${workspace.name}";
+          }
+        ) workspaces
+        ++ workspaceOrientationRules;
 
       window_rule = [
         {
