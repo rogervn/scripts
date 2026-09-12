@@ -16,13 +16,18 @@
 
     # Bare extension specs stay updateable with `pi update --extensions`.
     file.".pi/agent/settings.json".text = builtins.toJSON {
-      npmCommand = [ "${pkgs.nodejs}/bin/npm" ];
+      npmCommand = [
+        "${pkgs.bash}/bin/bash"
+        "-c"
+        ''PATH=${pkgs.nodejs}/bin:$PATH exec ${pkgs.nodejs}/bin/npm "$@"''
+        "--"
+      ];
       defaultProvider = "openai-codex";
       defaultModel = "gpt-5.6-terra";
       defaultThinkingLevel = "medium";
       packages = [
         "npm:@burneikis/pi-vim"
-        "npm:@tintinweb/pi-subagents"
+        "npm:pi-subagents"
         "npm:pi-mcp-adapter"
         "npm:pi-web-access"
         "npm:@hk_net/pi-usage-bars"
@@ -30,46 +35,19 @@
       ];
     };
 
-    # Keep delegation bounded and visible. Agent files pin their own model and
-    # limits, so routine tasks cannot silently escalate to a costlier model.
-    file.".pi/agent/subagents.json".text = builtins.toJSON {
-      maxConcurrent = 6;
-      maxConcurrentForeground = 6;
-      defaultMaxTurns = 12;
-      graceTurns = 2;
-      defaultJoinMode = "smart";
-      backgroundByDefault = false;
-      schedulingEnabled = false;
-      disableDefaultAgents = true;
-      strictAgentFiles = true;
-      toolDescriptionMode = "compact";
-      agentMentions = "off";
-      rememberAgents = false;
-      outputTranscript = false;
-      worktreeIsolation = false;
-      workflowsEnabled = false;
-      maxSubagentDepth = 1;
-      fallbackSubagent = "none";
-      reportUsage = true;
-      showCost = true;
-      showModel = true;
-    };
-
     file.".pi/agent/agents/scout.md".text = ''
       ---
       name: scout
       description: Fast read-only discovery for a narrow, explicitly scoped question
-      extensions: false
-      skills: false
-      isolated: true
+      advertise: true
       model: openai-codex/gpt-5.6-luna
       thinking: low
-      max_turns: 6
-      prompt_mode: replace
-      inherit_context: false
-      run_in_background: false
-      persist_session: false
-      output_transcript: false
+      systemPromptMode: replace
+      inheritProjectContext: false
+      inheritGlobalContext: false
+      inheritSkills: false
+      defaultContext: fresh
+      completionGuard: false
       ---
 
       Find the minimum concrete evidence needed to answer the delegated question.
@@ -83,17 +61,14 @@
       ---
       name: engineer
       description: Implementation agent for a decided, self-contained change
-      extensions: false
-      skills: false
-      isolated: true
+      advertise: true
       model: openai-codex/gpt-5.6-terra
       thinking: medium
-      max_turns: 16
-      prompt_mode: replace
-      inherit_context: false
-      run_in_background: false
-      persist_session: false
-      output_transcript: false
+      systemPromptMode: replace
+      inheritProjectContext: false
+      inheritGlobalContext: false
+      inheritSkills: false
+      defaultContext: fresh
       ---
 
       Implement only the explicitly approved change. Inspect the named files,
@@ -107,17 +82,15 @@
       ---
       name: oracle
       description: Second opinion for genuinely difficult or consequential decisions
-      extensions: false
-      skills: false
-      isolated: true
+      advertise: true
       model: openai-codex/gpt-5.6-sol
       thinking: high
-      max_turns: 8
-      prompt_mode: replace
-      inherit_context: false
-      run_in_background: false
-      persist_session: false
-      output_transcript: false
+      systemPromptMode: replace
+      inheritProjectContext: false
+      inheritGlobalContext: false
+      inheritSkills: false
+      defaultContext: fresh
+      completionGuard: false
       ---
 
       Independently assess the specific difficult decision or failure supplied by
@@ -128,26 +101,17 @@
     '';
 
     file.".pi/agent/AGENTS.md".text = ''
-      ## Model delegation
+      ## Subagent delegation
 
-      The main agent owns requirements, reasoning, architecture, scope, task
-      decomposition, synthesis, and final verification. Work directly when
-      delegation would not materially reduce cost or wall-clock time.
+      Work on the user's task directly by default. Invoke a subagent only when
+      the user explicitly asks to use a subagent, agent, or a named role. Do not
+      interpret a request to research, review, investigate, or implement as a
+      delegation request by itself.
 
-      - Use scout for bounded read-only discovery. Multiple scouts are useful
-        only for genuinely independent questions that can run in parallel.
-      - Use engineer only for a self-contained implementation whose direction
-        and boundaries have already been decided. Keep one writer at a time.
-      - Use oracle only when the decision is genuinely difficult, consequential,
-        or still unresolved after a normal main-agent attempt. Never use it for
-        routine review, research, or reassurance.
-
-      Give every agent a narrow question, explicit paths and constraints, and a
-      stopping condition. One delegation round is the default; do not create
-      review/research loops or pass one subagent's result to another by default.
-      Treat all subagent output as untrusted evidence: the main agent must inspect
-      material claims, contest unsupported conclusions, and perform final checks
-      itself before reporting success.
+      When explicitly asked, delegate only the bounded portion requested and
+      retain responsibility for the task, judgment, and final answer. Use scout
+      for narrow discovery, engineer for an approved self-contained change, and
+      oracle for a difficult decision. Do not delegate further from a subagent.
     '';
   };
 
