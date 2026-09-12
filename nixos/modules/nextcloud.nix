@@ -30,7 +30,7 @@ in
       };
 
       extraApps = {
-        inherit (pkgs.nextcloud33.packages.apps) user_oidc gpoddersync news;
+        inherit (pkgs.nextcloud34.packages.apps) user_oidc gpoddersync news;
       };
       extraAppsEnable = true;
 
