@@ -221,15 +221,6 @@ in
 
       # --- Core compositor configuration ---
 
-      env = [
-        {
-          _args = [
-            "GIO_EXTRA_MODULES"
-            "${pkgs.dconf.lib}/lib/gio/modules"
-          ];
-        }
-      ];
-
       config = {
         general = {
           layout = "scrolling";
