@@ -9,31 +9,9 @@
       claude-code
       codex
       ha-mcp
-      pi-coding-agent
       uv
       python313
     ];
-
-    # Bare extension specs stay updateable with `pi update --extensions`.
-    file.".pi/agent/settings.json".text = builtins.toJSON {
-      npmCommand = [
-        "${pkgs.bash}/bin/bash"
-        "-c"
-        ''PATH=${pkgs.nodejs}/bin:$PATH exec ${pkgs.nodejs}/bin/npm "$@"''
-        "--"
-      ];
-      defaultProvider = "openai-codex";
-      defaultModel = "gpt-5.6-terra";
-      defaultThinkingLevel = "medium";
-      packages = [
-        "npm:@burneikis/pi-vim"
-        "npm:pi-subagents"
-        "npm:pi-mcp-adapter"
-        "npm:pi-web-access"
-        "npm:@hk_net/pi-usage-bars"
-        "npm:@juicesharp/rpiv-ask-user-question"
-      ];
-    };
 
     file.".pi/agent/agents/scout.md".text = ''
       ---
@@ -113,6 +91,25 @@
       for narrow discovery, engineer for an approved self-contained change, and
       oracle for a difficult decision. Do not delegate further from a subagent.
     '';
+  };
+
+  programs.pi-coding-agent = {
+    enable = true;
+    extraPackages = [ pkgs.nodejs ];
+    settings = {
+      # Bare extension specs stay updateable with `pi update --extensions`.
+      defaultProvider = "openai-codex";
+      defaultModel = "gpt-5.6-terra";
+      defaultThinkingLevel = "medium";
+      packages = [
+        "npm:@burneikis/pi-vim"
+        "npm:pi-subagents"
+        "npm:pi-mcp-adapter"
+        "npm:pi-web-access"
+        "npm:@hk_net/pi-usage-bars"
+        "npm:@juicesharp/rpiv-ask-user-question"
+      ];
+    };
   };
 
   programs.opencode = {
