@@ -186,6 +186,14 @@ in
     };
   };
 
+  systemd.services.beszel-agent = {
+    path = [ pkgs.zfs ];
+    serviceConfig = {
+      PrivateDevices = lib.mkForce false;
+      DeviceAllow = [ "/dev/zfs rw" ];
+    };
+  };
+
   myServices = {
     smtp = {
       enable = true;
