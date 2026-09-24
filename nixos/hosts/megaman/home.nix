@@ -28,6 +28,13 @@
               scale = 1;
             }
             {
+              output = "desc:China Star";
+              mode = "preferred";
+              position = "0x0";
+              scale = 1.5;
+              vrr = 0;
+            }
+            {
               output = "desc:BNQ BenQ EW3270U TBK02382019";
               mode = "3840x2160@60";
               position = "1920x0";
