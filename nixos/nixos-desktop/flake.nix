@@ -78,6 +78,28 @@
             ];
           };
 
+        megaman =
+          let
+            host = "megaman";
+          in
+          nixpkgs.lib.nixosSystem {
+            system = "x86_64-linux";
+            specialArgs = {
+              userName = "rogervn";
+              hostName = host;
+              keyPath = "/root/.ssh/id_ed25519";
+              inherit nixvim;
+              agenixPackage = agenix.packages.x86_64-linux.default;
+            };
+            modules = [
+              ../hosts/${host}/configuration.nix
+              ../hosts/${host}/hardware-configuration.nix
+              ../hosts/${host}/home.nix
+              agenix.nixosModules.default
+              home-manager.nixosModules.home-manager
+            ];
+          };
+
         nixos-vm =
           let
             host = "nixos-vm";

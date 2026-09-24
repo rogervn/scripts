@@ -1,6 +1,7 @@
 let
   amdesktop = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICfXpVArWb1AGjOCRuWDFrd0iAmqaPiemkfyUuKFSp3B";
   thinknixos = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG2196OLuebzSeUdwtgf/eixm+Lqi0LIk3JBLfOtFWzF";
+  megaman = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIND2J9suKBk/hgBXe7kwpZC3btO7iFkodaaziatObduP";
   piuk = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFFCnPLdKwtfQ/MmwhQnHwOunOpEQ9f6jCg0AYfbytPx";
   backupbox = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIA7oBoq6qfSegWYiov46W11wuOZMq+B4zaGt45SfN/g/";
   mininixos = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINeIjCWbfG/0k8wpBAN5WQu5ikl8mSAOiLEbqsSD0WaP";
@@ -10,18 +11,22 @@ in
   "rogervn_pass_hash.age".publicKeys = [
     amdesktop
     thinknixos
+    megaman
   ];
   "rogervn_private_key.age".publicKeys = [
     amdesktop
     thinknixos
+    megaman
   ];
   "rogervn_authorized_keys.age".publicKeys = [
     amdesktop
     thinknixos
+    megaman
   ];
   "openrouter_api_key.age".publicKeys = [
     amdesktop
     thinknixos
+    megaman
   ];
   "piuk_authorized_keys.age".publicKeys = [
     amdesktop
