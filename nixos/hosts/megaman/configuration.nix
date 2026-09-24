@@ -86,7 +86,7 @@
   };
 
   myServices.noctaliaGreeter = {
-    sessionDefault = "hyprland-uwsm";
+    sessionDefault = "Hyprland (uwsm-managed)";
     output = {
       name = "eDP-1";
       width = 1920;
