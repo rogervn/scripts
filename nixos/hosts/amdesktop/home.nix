@@ -28,7 +28,6 @@
             }
           ];
         })
-        (import ../../home/hyprland_wm.nix { inherit pkgs lib config; })
         ../../home/llm-clis.nix
         (import ../../home/nvim.nix { inherit pkgs nixvim; })
         (import ../../home/zsh.nix { inherit pkgs; })

@@ -20,6 +20,7 @@ in
 {
   environment.systemPackages = with pkgs; [
     bibata-cursors
+    bitwarden-desktop
     blueman
     bluetui
     cliphist

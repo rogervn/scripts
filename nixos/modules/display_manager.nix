@@ -74,6 +74,7 @@ in
         }
         // {
           user.default = userName;
+          auth.allow_empty_password = true;
 
           appearance = {
             scheme = "Synced";
@@ -108,6 +109,8 @@ in
         };
     };
 
+    systemd.services.greetd.serviceConfig.KeyringMode = lib.mkForce "inherit";
+
     security.pam.services.greetd = {
       enableGnomeKeyring = true;
 
@@ -119,6 +122,14 @@ in
             order = 10000;
             control = "optional";
             modulePath = "${config.systemd.package}/lib/security/pam_systemd_loadkey.so";
+          };
+      # Run before fprintd, which otherwise short-circuits the login substack.
+      rules.auth.gnome_keyring_loadkey =
+        lib.mkIf (config.boot.initrd.systemd.enable && config.boot.initrd.luks.devices != { })
+          {
+            order = 10001;
+            control = "optional";
+            modulePath = "${pkgs.gnome-keyring}/lib/security/pam_gnome_keyring.so";
           };
     };
   };
