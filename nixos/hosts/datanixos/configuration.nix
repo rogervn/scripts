@@ -190,6 +190,7 @@ in
     path = [ pkgs.zfs ];
     serviceConfig = {
       PrivateDevices = lib.mkForce false;
+      PrivateUsers = lib.mkForce false;
       DeviceAllow = [ "/dev/zfs rw" ];
     };
   };
