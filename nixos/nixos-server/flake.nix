@@ -41,9 +41,9 @@
     }:
     {
       nixosConfigurations = {
-        backupbox =
+        snorlax =
           let
-            host = "backupbox";
+            host = "snorlax";
           in
           nixpkgs.lib.nixosSystem {
             system = "x86_64-linux";

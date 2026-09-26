@@ -98,7 +98,7 @@ in
           "disk"
         ];
       };
-      # backupuser — mininixos SFTP-pushes here; backupbox rsync-pulls restic/
+      # backupuser — mininixos SFTP-pushes here; snorlax rsync-pulls restic/
       backupuser = {
         isSystemUser = true;
         group = "backupuser";

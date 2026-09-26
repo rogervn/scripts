@@ -115,7 +115,7 @@ There are four separate flakes, each targeting a different class of host:
 |-------|------|-------|---------|
 | `nix/flake.nix` | `nixos/nix/` | Non-NixOS distros (Arch, Fedora) — home-manager only, no system config | unstable |
 | `nixos-desktop/flake.nix` | `nixos/nixos-desktop/` | `amdesktop`, `thinknixos`, `nixos-vm` | unstable |
-| `nixos-server/flake.nix` | `nixos/nixos-server/` | `backupbox`, `mininixos` | unstable |
+| `nixos-server/flake.nix` | `nixos/nixos-server/` | `snorlax`, `mininixos` | unstable |
 | `nixos-rpi/flake.nix` | `nixos/nixos-rpi/` | `pi3nixos`, `pi02nixos` | stable (25.11) |
 
 **Key directories:**
