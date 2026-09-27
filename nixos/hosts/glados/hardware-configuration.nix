@@ -24,26 +24,9 @@
         "virtio_blk"
       ];
       kernelModules = [ ];
-      luks.devices."cryptroot".device = "/dev/vda2";
     };
     kernelModules = [ "kvm-amd" ];
     extraModulePackages = [ ];
-  };
-
-  fileSystems = {
-    "/" = {
-      device = "/dev/mapper/cryptroot";
-      fsType = "ext4";
-    };
-
-    "/boot" = {
-      device = "/dev/vda1";
-      fsType = "vfat";
-      options = [
-        "fmask=0022"
-        "dmask=0022"
-      ];
-    };
   };
 
   swapDevices = [

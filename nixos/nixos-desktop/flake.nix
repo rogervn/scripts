@@ -4,6 +4,10 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     agenix.url = "github:ryantm/agenix";
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -23,6 +27,7 @@
     {
       nixpkgs,
       agenix,
+      disko,
       home-manager,
       nixvim,
       nix-cachyos-kernel,
@@ -116,7 +121,9 @@
             modules = [
               ../hosts/${host}/configuration.nix
               ../hosts/${host}/hardware-configuration.nix
+              ../hosts/${host}/disko.nix
               ../hosts/${host}/home.nix
+              disko.nixosModules.disko
               agenix.nixosModules.default
               home-manager.nixosModules.home-manager
             ];

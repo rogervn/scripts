@@ -12,7 +12,7 @@
     ../../modules/base.nix
     ../../modules/secrets-rogervn.nix
     ../../modules/vm_guest.nix
-    ../../modules/niri_wm.nix
+    ../../modules/hyprland_wm.nix
     ../../modules/display_manager.nix
   ];
 
@@ -65,14 +65,9 @@
     };
     # Enable touchpad support (enabled default in most desktopManager).
     libinput.enable = true;
-    # Auto-login once on boot; log out drops back to the greeter for other users.
-    greetd.settings.initial_session = {
-      command = "${pkgs.niri}/bin/niri-session";
-      user = userName;
-    };
   };
 
-  myServices.noctaliaGreeter.sessionDefault = "niri";
+  myServices.noctaliaGreeter.sessionDefault = "Hyprland (uwsm-managed)";
 
   networking = {
     inherit hostName;
