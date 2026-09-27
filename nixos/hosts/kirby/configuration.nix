@@ -113,13 +113,29 @@ in
     groups.backupuser = { };
   };
 
-  systemd.tmpfiles.rules = [
-    "d /home/${userName}/.ssh 0700 ${userName} users -"
-    "d ${pgBackupDir}          0700 postgres   postgres   -"
-    "d ${resticRepo}           0750 backupuser backupuser -"
-    "d ${serversDir}           0750 backupuser backupuser -"
-    "d ${serversDir}/mog 0750 backupuser backupuser -"
-  ];
+  systemd = {
+    tmpfiles.rules = [
+      "d /home/${userName}/.ssh 0700 ${userName} users -"
+      "d ${pgBackupDir}          0700 postgres   postgres   -"
+      "d ${resticRepo}           0750 backupuser backupuser -"
+      "d ${serversDir}           0750 backupuser backupuser -"
+      "d ${serversDir}/mog 0750 backupuser backupuser -"
+    ];
+    # restic runs as root and hardcodes 0700 on all repo dirs, ignoring umask.
+    # Fix ownership and group-read after each run so backupuser can rsync-pull.
+    services."restic-backups-kirby".postStart = ''
+      chown -R root:backupuser ${resticRepo}
+      chmod -R g+rX ${resticRepo}
+    '';
+    services.beszel-agent = {
+      path = [ pkgs.zfs ];
+      serviceConfig = {
+        PrivateDevices = lib.mkForce false;
+        PrivateUsers = lib.mkForce false;
+        DeviceAllow = [ "/dev/zfs rw" ];
+      };
+    };
+  };
 
   age = {
     secrets."${userName}_private_key" = {
@@ -133,13 +149,6 @@ in
       mode = "600";
     };
   };
-
-  # restic runs as root and hardcodes 0700 on all repo dirs, ignoring umask.
-  # Fix ownership and group-read after each run so backupuser can rsync-pull.
-  systemd.services."restic-backups-kirby".postStart = ''
-    chown -R root:backupuser ${resticRepo}
-    chmod -R g+rX ${resticRepo}
-  '';
 
   services = {
     # NFS server
@@ -183,15 +192,6 @@ in
         enable = true;
         userServices = true;
       };
-    };
-  };
-
-  systemd.services.beszel-agent = {
-    path = [ pkgs.zfs ];
-    serviceConfig = {
-      PrivateDevices = lib.mkForce false;
-      PrivateUsers = lib.mkForce false;
-      DeviceAllow = [ "/dev/zfs rw" ];
     };
   };
 

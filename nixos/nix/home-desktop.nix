@@ -9,7 +9,8 @@
 }:
 let
   # Restarting any active UWSM service tears down the compositor session.
-  protectedUwsmUnit = name:
+  protectedUwsmUnit =
+    name:
     pkgs.runCommand name { } ''
       cat ${pkgs.uwsm}/share/systemd/user/${name} > $out
       cat >> $out <<'EOF'
