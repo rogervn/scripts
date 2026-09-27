@@ -97,7 +97,7 @@
 
     resticBackup = {
       enable = true;
-      repository = "sftp://backupuser@datanixos.localdomain/mog";
+      repository = "sftp://backupuser@kirby.localdomain/mog";
       passwordSecretPath = config.age.secrets.mog_backup_restic_pass.path;
       timerConfig = {
         OnCalendar = "daily";
@@ -111,7 +111,7 @@
 
     beszelAgent = {
       enable = true;
-      hubUrl = "http://datanixos.localdomain:8017";
+      hubUrl = "http://kirby.localdomain:8017";
       keySecretPath = config.age.secrets.beszel_hub_key_file.path;
       tokenSecretPath = config.age.secrets.mog_beszel_token_file.path;
     };

@@ -55,18 +55,18 @@
         owner = "root";
         mode = "400";
       };
-      datanixos_restic_pass = {
-        file = ./secrets/datanixos_restic_pass.age;
+      kirby_restic_pass = {
+        file = ./secrets/kirby_restic_pass.age;
         owner = "root";
         mode = "400";
       };
-      datanixos_rclone_env = {
-        file = ./secrets/datanixos_rclone_env.age;
+      kirby_rclone_env = {
+        file = ./secrets/kirby_rclone_env.age;
         owner = "root";
         mode = "400";
       };
-      datanixos_backupuser_authorized_keys = {
-        file = ./secrets/datanixos_backupuser_authorized_keys.age;
+      kirby_backupuser_authorized_keys = {
+        file = ./secrets/kirby_backupuser_authorized_keys.age;
         path = "/etc/ssh/authorized_keys.d/backupuser";
         owner = "backupuser";
         group = "backupuser";
@@ -78,8 +78,8 @@
         file = ./secrets/beszel_hub_key_file.age;
         mode = "444";
       };
-      datanixos_beszel_token_file = {
-        file = ./secrets/datanixos_beszel_token_file.age;
+      kirby_beszel_token_file = {
+        file = ./secrets/kirby_beszel_token_file.age;
         mode = "444";
       };
     };

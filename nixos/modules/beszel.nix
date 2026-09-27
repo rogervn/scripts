@@ -23,7 +23,7 @@ in
       hubUrl = lib.mkOption {
         type = lib.types.str;
         description = "URL of the beszel hub this agent registers with";
-        example = "http://datanixos.localdomain:8017";
+        example = "http://kirby.localdomain:8017";
       };
 
       keySecretPath = lib.mkOption {

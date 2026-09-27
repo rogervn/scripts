@@ -5,7 +5,7 @@ let
   piuk = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFFCnPLdKwtfQ/MmwhQnHwOunOpEQ9f6jCg0AYfbytPx";
   snorlax = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIA7oBoq6qfSegWYiov46W11wuOZMq+B4zaGt45SfN/g/";
   mog = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINeIjCWbfG/0k8wpBAN5WQu5ikl8mSAOiLEbqsSD0WaP";
-  datanixos = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIflQBy+YtPvpu2N5XVAsUn3c6lY8uNYExDv2THYFyYA";
+  kirby = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIflQBy+YtPvpu2N5XVAsUn3c6lY8uNYExDv2THYFyYA";
 in
 {
   "rogervn_pass_hash.age".publicKeys = [
@@ -54,15 +54,15 @@ in
   ];
   "datauser_pass_hash.age".publicKeys = [
     amdesktop
-    datanixos
+    kirby
   ];
   "datauser_private_key.age".publicKeys = [
     amdesktop
-    datanixos
+    kirby
   ];
   "datauser_authorized_keys.age".publicKeys = [
     amdesktop
-    datanixos
+    kirby
   ];
   "cloudflared_token.age".publicKeys = [
     amdesktop
@@ -82,48 +82,48 @@ in
   ];
   "authentik_env_file.age".publicKeys = [
     amdesktop
-    datanixos
+    kirby
   ];
   "paperlessngx_env_file.age".publicKeys = [
     amdesktop
-    datanixos
+    kirby
   ];
   "joplin_server_env_file.age".publicKeys = [
     amdesktop
-    datanixos
+    kirby
   ];
   "joplin_idp_file.age".publicKeys = [
     amdesktop
-    datanixos
+    kirby
   ];
   "nextcloud_admin_pass.age".publicKeys = [
     amdesktop
-    datanixos
+    kirby
   ];
   "smtp_password.age".publicKeys = [
     amdesktop
-    datanixos
+    kirby
   ];
-  "datanixos_restic_pass.age".publicKeys = [
+  "kirby_restic_pass.age".publicKeys = [
     amdesktop
-    datanixos
+    kirby
   ];
-  "datanixos_rclone_env.age".publicKeys = [
+  "kirby_rclone_env.age".publicKeys = [
     amdesktop
-    datanixos
+    kirby
   ];
-  "datanixos_backupuser_authorized_keys.age".publicKeys = [
+  "kirby_backupuser_authorized_keys.age".publicKeys = [
     amdesktop
-    datanixos
+    kirby
   ];
   "beszel_hub_key_file.age".publicKeys = [
     amdesktop
-    datanixos
+    kirby
     mog
   ];
-  "datanixos_beszel_token_file.age".publicKeys = [
+  "kirby_beszel_token_file.age".publicKeys = [
     amdesktop
-    datanixos
+    kirby
   ];
   "mog_beszel_token_file.age".publicKeys = [
     amdesktop

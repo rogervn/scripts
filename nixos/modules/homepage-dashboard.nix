@@ -128,14 +128,14 @@ in
         }
 
         # Widget credentials belong in the agenix-managed Homepage env file.
-        # datanixos
+        # kirby
         {
           group = "Applications";
           name = "Nextcloud";
           href = "https://nextcloud.vnunes.win";
           description = "File sync and collaboration";
           icon = "nextcloud";
-          siteMonitor = "http://datanixos.localdomain:8008";
+          siteMonitor = "http://kirby.localdomain:8008";
           widget = {
             type = "nextcloud";
             url = "https://nextcloud.vnunes.win";
@@ -155,7 +155,7 @@ in
           href = "https://immich.vnunes.win";
           description = "Photo and video library";
           icon = "immich";
-          siteMonitor = "http://datanixos.localdomain:8009";
+          siteMonitor = "http://kirby.localdomain:8009";
           widget = {
             type = "immich";
             url = "https://immich.vnunes.win";
@@ -175,7 +175,7 @@ in
           href = "https://authentik.vnunes.win";
           description = "Identity provider and single sign-on";
           icon = "authentik";
-          siteMonitor = "http://datanixos.localdomain:8011";
+          siteMonitor = "http://kirby.localdomain:8011";
         }
         {
           group = "Applications";
@@ -183,19 +183,19 @@ in
           href = "https://paperless.vnunes.win";
           description = "Document management and OCR";
           icon = "paperless-ngx";
-          siteMonitor = "http://datanixos.localdomain:8015";
+          siteMonitor = "http://kirby.localdomain:8015";
         }
         {
           group = "Infrastructure";
           name = "Beszel";
-          href = "http://datanixos.localdomain:8017";
+          href = "http://kirby.localdomain:8017";
           description = "Lightweight server monitoring";
           icon = "beszel";
-          siteMonitor = "http://datanixos.localdomain:8017";
+          siteMonitor = "http://kirby.localdomain:8017";
           # Beszel widget credentials require a superuser account.
           widget = {
             type = "beszel";
-            url = "http://datanixos.localdomain:8017";
+            url = "http://kirby.localdomain:8017";
             username = "{{HOMEPAGE_VAR_BESZEL_USERNAME}}";
             password = "{{HOMEPAGE_VAR_BESZEL_PASSWORD}}";
             version = 2;
@@ -207,18 +207,18 @@ in
         }
         {
           group = "Servers";
-          name = "datanixos";
-          id = "beszel-server-datanixos";
-          href = "http://datanixos.localdomain:8017/system/umkfo0xzaq4gnz1";
-          description = "Host monitoring for datanixos";
+          name = "kirby";
+          id = "beszel-server-kirby";
+          href = "http://kirby.localdomain:8017/system/umkfo0xzaq4gnz1";
+          description = "Host monitoring for kirby";
           icon = "mdi-server";
           widget = {
             type = "beszel";
-            url = "http://datanixos.localdomain:8017";
+            url = "http://kirby.localdomain:8017";
             username = "{{HOMEPAGE_VAR_BESZEL_USERNAME}}";
             password = "{{HOMEPAGE_VAR_BESZEL_PASSWORD}}";
             version = 2;
-            systemId = "datanixos";
+            systemId = "kirby";
             fields = [
               "name"
               "cpu"
@@ -231,12 +231,12 @@ in
           group = "Servers";
           name = "mog";
           id = "beszel-server-mog";
-          href = "http://datanixos.localdomain:8017/system/2larn2dhp2cztxn";
+          href = "http://kirby.localdomain:8017/system/2larn2dhp2cztxn";
           description = "Host monitoring for mog";
           icon = "mdi-server";
           widget = {
             type = "beszel";
-            url = "http://datanixos.localdomain:8017";
+            url = "http://kirby.localdomain:8017";
             username = "{{HOMEPAGE_VAR_BESZEL_USERNAME}}";
             password = "{{HOMEPAGE_VAR_BESZEL_PASSWORD}}";
             version = 2;
@@ -253,12 +253,12 @@ in
           group = "Servers";
           name = "pi5uk";
           id = "beszel-server-pi5uk";
-          href = "http://datanixos.localdomain:8017/system/a7iab7men2vm49v";
+          href = "http://kirby.localdomain:8017/system/a7iab7men2vm49v";
           description = "Host monitoring for pi5uk";
           icon = "mdi-server";
           widget = {
             type = "beszel";
-            url = "http://datanixos.localdomain:8017";
+            url = "http://kirby.localdomain:8017";
             username = "{{HOMEPAGE_VAR_BESZEL_USERNAME}}";
             password = "{{HOMEPAGE_VAR_BESZEL_PASSWORD}}";
             version = 2;
@@ -335,32 +335,32 @@ in
             letter-spacing: 0.02em;
           }
 
-          li.service[data-name="datanixos"] .service-card,
+          li.service[data-name="kirby"] .service-card,
           li.service[data-name="mog"] .service-card,
           li.service[data-name="pi5uk"] .service-card {
             align-items: stretch;
             display: flex;
           }
 
-          li.service[data-name="datanixos"] .service-title,
+          li.service[data-name="kirby"] .service-title,
           li.service[data-name="mog"] .service-title,
           li.service[data-name="pi5uk"] .service-title {
             flex: 0 0 3rem;
           }
 
-          li.service[data-name="datanixos"] .service-icon,
+          li.service[data-name="kirby"] .service-icon,
           li.service[data-name="mog"] .service-icon,
           li.service[data-name="pi5uk"] .service-icon {
             width: 100%;
           }
 
-          li.service[data-name="datanixos"] .service-title-text,
+          li.service[data-name="kirby"] .service-title-text,
           li.service[data-name="mog"] .service-title-text,
           li.service[data-name="pi5uk"] .service-title-text {
             display: none;
           }
 
-          li.service[data-name="datanixos"] .service-card > :not(.service-title),
+          li.service[data-name="kirby"] .service-card > :not(.service-title),
           li.service[data-name="mog"] .service-card > :not(.service-title),
           li.service[data-name="pi5uk"] .service-card > :not(.service-title) {
             flex: 1 1 0%;

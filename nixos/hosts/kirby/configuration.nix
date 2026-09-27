@@ -136,7 +136,7 @@ in
 
   # restic runs as root and hardcodes 0700 on all repo dirs, ignoring umask.
   # Fix ownership and group-read after each run so backupuser can rsync-pull.
-  systemd.services."restic-backups-datanixos".postStart = ''
+  systemd.services."restic-backups-kirby".postStart = ''
     chown -R root:backupuser ${resticRepo}
     chmod -R g+rX ${resticRepo}
   '';
@@ -157,7 +157,7 @@ in
       settings = {
         global = {
           workgroup = "WORKGROUP";
-          "server string" = "datanixos";
+          "server string" = "kirby";
           "server role" = "standalone server";
           security = "user";
         };
@@ -202,7 +202,7 @@ in
       port = 587;
       startTls = true;
       user = "piuk-admin@vnunes.win";
-      from = "datanixos@vnunes.win";
+      from = "kirby@vnunes.win";
       passwordSecretPath = config.age.secrets.smtp_password.path;
       recipient = "admin@vnunes.win";
     };
@@ -210,7 +210,7 @@ in
     resticBackup = {
       enable = true;
       repository = resticRepo;
-      passwordSecretPath = config.age.secrets.datanixos_restic_pass.path;
+      passwordSecretPath = config.age.secrets.kirby_restic_pass.path;
       paths = [ "/data/share" ];
       pruneOpts = [
         "--keep-daily 7"
@@ -229,7 +229,7 @@ in
     };
     repoSyncB2 = {
       enable = true;
-      environmentSecretPath = config.age.secrets.datanixos_rclone_env.path;
+      environmentSecretPath = config.age.secrets.kirby_rclone_env.path;
     };
     beszelHub = {
       enable = true;
@@ -239,7 +239,7 @@ in
       enable = true;
       hubUrl = "http://127.0.0.1:8017";
       keySecretPath = config.age.secrets.beszel_hub_key_file.path;
-      tokenSecretPath = config.age.secrets.datanixos_beszel_token_file.path;
+      tokenSecretPath = config.age.secrets.kirby_beszel_token_file.path;
     };
   };
 

@@ -101,8 +101,8 @@
 
   myServices.repoSync = {
     enable = true;
-    source = "backupuser@datanixos.localdomain:/data/backup/restic/";
-    destination = "/mnt/external/backup/datanixos";
+    source = "backupuser@kirby.localdomain:/data/backup/restic/";
+    destination = "/mnt/external/backup/kirby";
     sshKeyPath = "/home/backupuser/.ssh/id_ed25519";
     timerConfig = {
       OnCalendar = "Sat *-*-* 04:00:00";

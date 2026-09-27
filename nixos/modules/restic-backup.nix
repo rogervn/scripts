@@ -96,13 +96,13 @@ in
 
       source = lib.mkOption {
         type = lib.types.str;
-        default = "backupuser@datanixos.localdomain:/data/backup/restic/";
+        default = "backupuser@kirby.localdomain:/data/backup/restic/";
         description = "rsync source — SSH remote (user@host:/path) or local path";
       };
 
       destination = lib.mkOption {
         type = lib.types.str;
-        default = "/mnt/external/backup/datanixos";
+        default = "/mnt/external/backup/kirby";
         description = "Local destination path";
       };
 

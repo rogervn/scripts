@@ -86,9 +86,9 @@
             ];
           };
 
-        datanixos =
+        kirby =
           let
-            host = "datanixos";
+            host = "kirby";
           in
           nixpkgs.lib.nixosSystem {
             system = "x86_64-linux";
