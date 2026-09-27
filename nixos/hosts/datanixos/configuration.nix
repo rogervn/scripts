@@ -98,7 +98,7 @@ in
           "disk"
         ];
       };
-      # backupuser — mininixos SFTP-pushes here; snorlax rsync-pulls restic/
+      # backupuser — mog SFTP-pushes here; snorlax rsync-pulls restic/
       backupuser = {
         isSystemUser = true;
         group = "backupuser";
@@ -118,7 +118,7 @@ in
     "d ${pgBackupDir}          0700 postgres   postgres   -"
     "d ${resticRepo}           0750 backupuser backupuser -"
     "d ${serversDir}           0750 backupuser backupuser -"
-    "d ${serversDir}/mininixos 0750 backupuser backupuser -"
+    "d ${serversDir}/mog 0750 backupuser backupuser -"
   ];
 
   age = {

@@ -33,8 +33,8 @@ in
     allowedHosts = lib.mkOption {
       type = lib.types.listOf lib.types.str;
       default = map (host: "${host}:${toString cfg.listenPort}") [
-        "mininixos.localdomain"
-        "mininixos"
+        "mog.localdomain"
+        "mog"
         "localhost"
         "127.0.0.1"
       ];
@@ -73,14 +73,14 @@ in
   config = lib.mkMerge [
     {
       myServices.homepage.entries = lib.mkAfter [
-        # mininixos
+        # mog
         {
           group = "Infrastructure";
           name = "AdGuard Home";
-          href = "http://mininixos.localdomain:8001";
+          href = "http://mog.localdomain:8001";
           description = "DNS and network-wide ad blocking";
           icon = "adguard-home";
-          siteMonitor = "http://mininixos.localdomain:8001";
+          siteMonitor = "http://mog.localdomain:8001";
           # This widget is intentionally unauthenticated because AdGuard currently has no configured users.
           widget = {
             type = "adguard";
@@ -96,7 +96,7 @@ in
         {
           group = "Infrastructure";
           name = "Uptime Kuma";
-          href = "http://mininixos.localdomain:8003";
+          href = "http://mog.localdomain:8003";
           description = "Service uptime monitoring";
           icon = "uptime-kuma";
           widget = {
@@ -117,7 +117,7 @@ in
           href = "https://vaultwarden.vnunes.win";
           description = "Bitwarden-compatible password manager";
           icon = "vaultwarden";
-          siteMonitor = "http://mininixos.localdomain:8002";
+          siteMonitor = "http://mog.localdomain:8002";
         }
         {
           group = "Applications";
@@ -229,10 +229,10 @@ in
         }
         {
           group = "Servers";
-          name = "mininixos";
-          id = "beszel-server-mininixos";
+          name = "mog";
+          id = "beszel-server-mog";
           href = "http://datanixos.localdomain:8017/system/2larn2dhp2cztxn";
-          description = "Host monitoring for mininixos";
+          description = "Host monitoring for mog";
           icon = "mdi-server";
           widget = {
             type = "beszel";
@@ -240,7 +240,7 @@ in
             username = "{{HOMEPAGE_VAR_BESZEL_USERNAME}}";
             password = "{{HOMEPAGE_VAR_BESZEL_PASSWORD}}";
             version = 2;
-            systemId = "mininixos";
+            systemId = "mog";
             fields = [
               "name"
               "cpu"
@@ -336,32 +336,32 @@ in
           }
 
           li.service[data-name="datanixos"] .service-card,
-          li.service[data-name="mininixos"] .service-card,
+          li.service[data-name="mog"] .service-card,
           li.service[data-name="pi5uk"] .service-card {
             align-items: stretch;
             display: flex;
           }
 
           li.service[data-name="datanixos"] .service-title,
-          li.service[data-name="mininixos"] .service-title,
+          li.service[data-name="mog"] .service-title,
           li.service[data-name="pi5uk"] .service-title {
             flex: 0 0 3rem;
           }
 
           li.service[data-name="datanixos"] .service-icon,
-          li.service[data-name="mininixos"] .service-icon,
+          li.service[data-name="mog"] .service-icon,
           li.service[data-name="pi5uk"] .service-icon {
             width: 100%;
           }
 
           li.service[data-name="datanixos"] .service-title-text,
-          li.service[data-name="mininixos"] .service-title-text,
+          li.service[data-name="mog"] .service-title-text,
           li.service[data-name="pi5uk"] .service-title-text {
             display: none;
           }
 
           li.service[data-name="datanixos"] .service-card > :not(.service-title),
-          li.service[data-name="mininixos"] .service-card > :not(.service-title),
+          li.service[data-name="mog"] .service-card > :not(.service-title),
           li.service[data-name="pi5uk"] .service-card > :not(.service-title) {
             flex: 1 1 0%;
             min-width: 0;

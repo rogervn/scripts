@@ -25,8 +25,8 @@
         group = "vaultwarden";
         mode = "600";
       };
-      mininixos_backup_restic_pass = {
-        file = ./secrets/mininixos_backup_restic_pass.age;
+      mog_backup_restic_pass = {
+        file = ./secrets/mog_backup_restic_pass.age;
         owner = "root";
         group = "root";
         mode = "600";
@@ -47,8 +47,8 @@
         file = ./secrets/beszel_hub_key_file.age;
         mode = "444";
       };
-      mininixos_beszel_token_file = {
-        file = ./secrets/mininixos_beszel_token_file.age;
+      mog_beszel_token_file = {
+        file = ./secrets/mog_beszel_token_file.age;
         mode = "444";
       };
       # Homepage reads widget credentials from this agenix-managed env file.

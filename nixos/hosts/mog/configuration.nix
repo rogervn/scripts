@@ -97,8 +97,8 @@
 
     resticBackup = {
       enable = true;
-      repository = "sftp://backupuser@datanixos.localdomain/mininixos";
-      passwordSecretPath = config.age.secrets.mininixos_backup_restic_pass.path;
+      repository = "sftp://backupuser@datanixos.localdomain/mog";
+      passwordSecretPath = config.age.secrets.mog_backup_restic_pass.path;
       timerConfig = {
         OnCalendar = "daily";
         RandomizedDelaySec = "1h";
@@ -106,14 +106,14 @@
       };
       extraOptions = [ ''sftp.args="-i /root/.ssh/id_ed25519 -o StrictHostKeyChecking=accept-new"'' ];
       # paths populated automatically by vaultwarden.nix
-      # postgresqlBackup.enable defaults to false — mininixos has no postgres
+      # postgresqlBackup.enable defaults to false — mog has no postgres
     };
 
     beszelAgent = {
       enable = true;
       hubUrl = "http://datanixos.localdomain:8017";
       keySecretPath = config.age.secrets.beszel_hub_key_file.path;
-      tokenSecretPath = config.age.secrets.mininixos_beszel_token_file.path;
+      tokenSecretPath = config.age.secrets.mog_beszel_token_file.path;
     };
   };
 

@@ -63,9 +63,9 @@
             ];
           };
 
-        mininixos =
+        mog =
           let
-            host = "mininixos";
+            host = "mog";
           in
           nixpkgs.lib.nixosSystem {
             system = "x86_64-linux";

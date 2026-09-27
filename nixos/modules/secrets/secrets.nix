@@ -4,7 +4,7 @@ let
   megaman = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIND2J9suKBk/hgBXe7kwpZC3btO7iFkodaaziatObduP";
   piuk = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFFCnPLdKwtfQ/MmwhQnHwOunOpEQ9f6jCg0AYfbytPx";
   snorlax = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIA7oBoq6qfSegWYiov46W11wuOZMq+B4zaGt45SfN/g/";
-  mininixos = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINeIjCWbfG/0k8wpBAN5WQu5ikl8mSAOiLEbqsSD0WaP";
+  mog = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINeIjCWbfG/0k8wpBAN5WQu5ikl8mSAOiLEbqsSD0WaP";
   datanixos = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIflQBy+YtPvpu2N5XVAsUn3c6lY8uNYExDv2THYFyYA";
 in
 {
@@ -46,11 +46,11 @@ in
   ];
   "serveruser_pass_hash.age".publicKeys = [
     amdesktop
-    mininixos
+    mog
   ];
   "serveruser_authorized_keys.age".publicKeys = [
     amdesktop
-    mininixos
+    mog
   ];
   "datauser_pass_hash.age".publicKeys = [
     amdesktop
@@ -66,19 +66,19 @@ in
   ];
   "cloudflared_token.age".publicKeys = [
     amdesktop
-    mininixos
+    mog
   ];
   "tailscale_auth_key.age".publicKeys = [
     amdesktop
-    mininixos
+    mog
   ];
   "vaultwarden_env_file.age".publicKeys = [
     amdesktop
-    mininixos
+    mog
   ];
-  "mininixos_backup_restic_pass.age".publicKeys = [
+  "mog_backup_restic_pass.age".publicKeys = [
     amdesktop
-    mininixos
+    mog
   ];
   "authentik_env_file.age".publicKeys = [
     amdesktop
@@ -119,18 +119,18 @@ in
   "beszel_hub_key_file.age".publicKeys = [
     amdesktop
     datanixos
-    mininixos
+    mog
   ];
   "datanixos_beszel_token_file.age".publicKeys = [
     amdesktop
     datanixos
   ];
-  "mininixos_beszel_token_file.age".publicKeys = [
+  "mog_beszel_token_file.age".publicKeys = [
     amdesktop
-    mininixos
+    mog
   ];
   "homepage_env_file.age".publicKeys = [
     amdesktop
-    mininixos
+    mog
   ];
 }
