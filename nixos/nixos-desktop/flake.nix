@@ -31,9 +31,9 @@
     }:
     {
       nixosConfigurations = {
-        amdesktop =
+        kratos =
           let
-            host = "amdesktop";
+            host = "kratos";
           in
           nixpkgs.lib.nixosSystem {
             system = "x86_64-linux";

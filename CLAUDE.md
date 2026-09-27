@@ -43,7 +43,7 @@ ansible-playbook --ask-become-pass fedora.yml       # Requires python
 ### NixOS — Validate (no sudo required)
 ```bash
 # NixOS hosts — dry-build from the flake directory (no activation, no sudo):
-cd nixos/nixos-desktop && nixos-rebuild dry-build --flake .#amdesktop
+cd nixos/nixos-desktop && nixos-rebuild dry-build --flake .#kratos
 cd nixos/nixos-server  && nixos-rebuild dry-build --flake .#mog
 
 # Non-NixOS home-manager flake — evaluate and check outputs:
@@ -53,7 +53,7 @@ cd nixos/nix && nix flake check
 ### NixOS — Rebuild (run on target host)
 ```bash
 # NixOS hosts — if the machine's hostname matches the flake output name, the #<name> can be omitted:
-sudo nixos-rebuild switch --flake nixos/nixos-desktop/#amdesktop
+sudo nixos-rebuild switch --flake nixos/nixos-desktop/#kratos
 sudo nixos-rebuild switch --flake nixos/nixos-server/#mog
 sudo nixos-rebuild switch --flake nixos/nixos-rpi/#pi3nixos
 
@@ -114,7 +114,7 @@ There are four separate flakes, each targeting a different class of host:
 | Flake | Path | Hosts | nixpkgs |
 |-------|------|-------|---------|
 | `nix/flake.nix` | `nixos/nix/` | Non-NixOS distros (Arch, Fedora) — home-manager only, no system config | unstable |
-| `nixos-desktop/flake.nix` | `nixos/nixos-desktop/` | `amdesktop`, `thinknixos`, `nixos-vm` | unstable |
+| `nixos-desktop/flake.nix` | `nixos/nixos-desktop/` | `kratos`, `thinknixos`, `nixos-vm` | unstable |
 | `nixos-server/flake.nix` | `nixos/nixos-server/` | `snorlax`, `mog`, `kirby` | unstable |
 | `nixos-rpi/flake.nix` | `nixos/nixos-rpi/` | `pi3nixos`, `pi02nixos` | stable (25.11) |
 

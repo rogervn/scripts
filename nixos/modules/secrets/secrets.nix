@@ -1,5 +1,5 @@
 let
-  amdesktop = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICfXpVArWb1AGjOCRuWDFrd0iAmqaPiemkfyUuKFSp3B";
+  kratos = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICfXpVArWb1AGjOCRuWDFrd0iAmqaPiemkfyUuKFSp3B";
   thinknixos = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG2196OLuebzSeUdwtgf/eixm+Lqi0LIk3JBLfOtFWzF";
   megaman = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIND2J9suKBk/hgBXe7kwpZC3btO7iFkodaaziatObduP";
   piuk = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFFCnPLdKwtfQ/MmwhQnHwOunOpEQ9f6jCg0AYfbytPx";
@@ -9,128 +9,128 @@ let
 in
 {
   "rogervn_pass_hash.age".publicKeys = [
-    amdesktop
+    kratos
     thinknixos
     megaman
   ];
   "rogervn_private_key.age".publicKeys = [
-    amdesktop
+    kratos
     thinknixos
     megaman
   ];
   "rogervn_authorized_keys.age".publicKeys = [
-    amdesktop
+    kratos
     thinknixos
     megaman
   ];
   "openrouter_api_key.age".publicKeys = [
-    amdesktop
+    kratos
     thinknixos
     megaman
   ];
   "piuk_authorized_keys.age".publicKeys = [
-    amdesktop
+    kratos
     piuk
   ];
   "backupuser_pass_hash.age".publicKeys = [
-    amdesktop
+    kratos
     snorlax
   ];
   "backupuser_private_key.age".publicKeys = [
-    amdesktop
+    kratos
     snorlax
   ];
   "backupuser_authorized_keys.age".publicKeys = [
-    amdesktop
+    kratos
     snorlax
   ];
   "serveruser_pass_hash.age".publicKeys = [
-    amdesktop
+    kratos
     mog
   ];
   "serveruser_authorized_keys.age".publicKeys = [
-    amdesktop
+    kratos
     mog
   ];
   "datauser_pass_hash.age".publicKeys = [
-    amdesktop
+    kratos
     kirby
   ];
   "datauser_private_key.age".publicKeys = [
-    amdesktop
+    kratos
     kirby
   ];
   "datauser_authorized_keys.age".publicKeys = [
-    amdesktop
+    kratos
     kirby
   ];
   "cloudflared_token.age".publicKeys = [
-    amdesktop
+    kratos
     mog
   ];
   "tailscale_auth_key.age".publicKeys = [
-    amdesktop
+    kratos
     mog
   ];
   "vaultwarden_env_file.age".publicKeys = [
-    amdesktop
+    kratos
     mog
   ];
   "mog_backup_restic_pass.age".publicKeys = [
-    amdesktop
+    kratos
     mog
   ];
   "authentik_env_file.age".publicKeys = [
-    amdesktop
+    kratos
     kirby
   ];
   "paperlessngx_env_file.age".publicKeys = [
-    amdesktop
+    kratos
     kirby
   ];
   "joplin_server_env_file.age".publicKeys = [
-    amdesktop
+    kratos
     kirby
   ];
   "joplin_idp_file.age".publicKeys = [
-    amdesktop
+    kratos
     kirby
   ];
   "nextcloud_admin_pass.age".publicKeys = [
-    amdesktop
+    kratos
     kirby
   ];
   "smtp_password.age".publicKeys = [
-    amdesktop
+    kratos
     kirby
   ];
   "kirby_restic_pass.age".publicKeys = [
-    amdesktop
+    kratos
     kirby
   ];
   "kirby_rclone_env.age".publicKeys = [
-    amdesktop
+    kratos
     kirby
   ];
   "kirby_backupuser_authorized_keys.age".publicKeys = [
-    amdesktop
+    kratos
     kirby
   ];
   "beszel_hub_key_file.age".publicKeys = [
-    amdesktop
+    kratos
     kirby
     mog
   ];
   "kirby_beszel_token_file.age".publicKeys = [
-    amdesktop
+    kratos
     kirby
   ];
   "mog_beszel_token_file.age".publicKeys = [
-    amdesktop
+    kratos
     mog
   ];
   "homepage_env_file.age".publicKeys = [
-    amdesktop
+    kratos
     mog
   ];
 }
