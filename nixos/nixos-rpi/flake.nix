@@ -50,7 +50,7 @@
               {
                 imports = [ nixos-raspberrypi.nixosModules.trusted-nix-caches ];
               }
-              ../hosts/${host}/configuration.nix
+              ../rpihosts/${host}/configuration.nix
               ../modules/base.nix
               ../modules/rpisdcard.nix
               ../modules/secrets-piuk.nix
@@ -82,7 +82,7 @@
                   sd-image
                 ];
               }
-              ../hosts/${host}/configuration.nix
+              ../rpihosts/${host}/configuration.nix
               ../modules/base.nix
               ../modules/rpisdcard.nix
               ../modules/secrets-piuk.nix

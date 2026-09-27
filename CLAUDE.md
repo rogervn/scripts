@@ -119,7 +119,8 @@ There are four separate flakes, each targeting a different class of host:
 | `nixos-rpi/flake.nix` | `nixos/nixos-rpi/` | `pi3nixos`, `pi02nixos` | stable (25.11) |
 
 **Key directories:**
-- `hosts/<hostname>/` — Per-host config: `configuration.nix` (system), `hardware-configuration.nix` (auto-generated), `home.nix` (home-manager imports for that host)
+- `hosts/<hostname>/` — Desktop/server per-host config: `configuration.nix` (system), `hardware-configuration.nix` (auto-generated), `home.nix` (home-manager imports for that host)
+- `rpihosts/<hostname>/` — Raspberry Pi per-host config, imported by `nixos-rpi/flake.nix`
 - `home/` — Reusable home-manager modules imported by both NixOS hosts and the non-NixOS flake
 - `modules/` — Reusable NixOS system modules (system-level only; never home-manager config)
 
