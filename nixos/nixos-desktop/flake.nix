@@ -100,9 +100,9 @@
             ];
           };
 
-        nixos-vm =
+        glados =
           let
-            host = "nixos-vm";
+            host = "glados";
           in
           nixpkgs.lib.nixosSystem {
             system = "x86_64-linux";

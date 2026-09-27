@@ -114,7 +114,7 @@ There are four separate flakes, each targeting a different class of host:
 | Flake | Path | Hosts | nixpkgs |
 |-------|------|-------|---------|
 | `nix/flake.nix` | `nixos/nix/` | Non-NixOS distros (Arch, Fedora) — home-manager only, no system config | unstable |
-| `nixos-desktop/flake.nix` | `nixos/nixos-desktop/` | `kratos`, `deckard`, `nixos-vm` | unstable |
+| `nixos-desktop/flake.nix` | `nixos/nixos-desktop/` | `kratos`, `deckard`, `glados` | unstable |
 | `nixos-server/flake.nix` | `nixos/nixos-server/` | `snorlax`, `mog`, `kirby` | unstable |
 | `nixos-rpi/flake.nix` | `nixos/nixos-rpi/` | `pi3nixos`, `pi02nixos` | stable (25.11) |
 
