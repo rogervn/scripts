@@ -99,7 +99,9 @@
             modules = [
               ../hosts/${host}/configuration.nix
               ../hosts/${host}/hardware-configuration.nix
+              ../hosts/${host}/disko.nix
               ../hosts/${host}/home.nix
+              disko.nixosModules.disko
               agenix.nixosModules.default
               home-manager.nixosModules.home-manager
             ];

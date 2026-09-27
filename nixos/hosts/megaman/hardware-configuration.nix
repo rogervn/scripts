@@ -23,24 +23,9 @@
         "sd_mod"
       ];
       kernelModules = [ ];
-      luks.devices."cryptroot".device = "/dev/disk/by-uuid/6fccd78f-a0cf-4dca-808b-d32c8d6307fa";
     };
     kernelModules = [ "kvm-intel" ];
     extraModulePackages = [ ];
-  };
-
-  fileSystems."/" = {
-    device = "/dev/mapper/cryptroot";
-    fsType = "ext4";
-  };
-
-  fileSystems."/boot" = {
-    device = "/dev/disk/by-uuid/1688-2F9B";
-    fsType = "vfat";
-    options = [
-      "fmask=0022"
-      "dmask=0022"
-    ];
   };
 
   swapDevices = [ ];
