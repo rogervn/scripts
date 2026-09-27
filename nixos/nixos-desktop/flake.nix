@@ -55,9 +55,9 @@
             ];
           };
 
-        thinknixos =
+        deckard =
           let
-            host = "thinknixos";
+            host = "deckard";
           in
           nixpkgs.lib.nixosSystem {
             system = "x86_64-linux";
