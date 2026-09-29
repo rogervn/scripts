@@ -79,6 +79,13 @@
     };
   };
 
+  swapDevices = [
+    {
+      device = "/swapfile";
+      size = 2048;
+    }
+  ];
+
   users.users.${userName} = {
     isNormalUser = true;
     hashedPasswordFile = config.age.secrets."${userName}_pass_hash".path;
