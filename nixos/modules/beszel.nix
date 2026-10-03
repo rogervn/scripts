@@ -58,11 +58,13 @@ in
     # instead of DynamicUser/StateDirectory, so the service actually reads/writes
     # dataDir. Otherwise leave the upstream module's default behaviour untouched.
     (lib.mkIf (hubCfg.enable && hubDataDirOverridden) {
+      # Pinned so a reinstall keeps ownership of dataDir
       users.users.beszel-hub = {
+        uid = 996;
         isSystemUser = true;
         group = "beszel-hub";
       };
-      users.groups.beszel-hub = { };
+      users.groups.beszel-hub.gid = 996;
       systemd.tmpfiles.rules = [
         "d ${hubCfg.dataDir} 0750 beszel-hub beszel-hub -"
       ];

@@ -12,10 +12,11 @@ let
   pgBackupDir = "/data/backup/postgresql";
   resticRepo = "/data/backup/restic";
   serversDir = "/data/backup/servers";
-  smbUsers = [
-    "homeassistant"
-    "rogervn"
-  ];
+  # Samba users and their pinned UIDs
+  smbUsers = {
+    homeassistant = 995;
+    rogervn = 989;
+  };
 in
 {
   imports = [
@@ -112,9 +113,11 @@ in
     };
   };
 
+  # UIDs pinned so a reinstall keeps ownership of data on ZFS; service users pin theirs in their modules
   users = {
     users = {
       ${userName} = {
+        uid = 1000;
         isNormalUser = true;
         hashedPasswordFile = config.age.secrets."${userName}_pass_hash".path;
         extraGroups = [
@@ -124,17 +127,19 @@ in
       };
       # backupuser — mog SFTP-pushes here; snorlax rsync-pulls restic/
       backupuser = {
+        uid = 998;
         isSystemUser = true;
         group = "backupuser";
         home = serversDir;
         shell = pkgs.bash;
       };
     }
-    // lib.genAttrs smbUsers (_: {
+    // lib.mapAttrs (_: uid: {
+      inherit uid;
       isSystemUser = true;
       group = "nogroup";
-    });
-    groups.backupuser = { };
+    }) smbUsers;
+    groups.backupuser.gid = 998;
   };
 
   systemd = {
@@ -205,7 +210,7 @@ in
           "guest ok" = "no";
           # After adding a new user to smbUsers and rebuilding, run:
           #   sudo smbpasswd -a <username>
-          "valid users" = lib.concatStringsSep " " ([ userName ] ++ smbUsers);
+          "valid users" = lib.concatStringsSep " " ([ userName ] ++ lib.attrNames smbUsers);
           "create mask" = "0644";
           "directory mask" = "0755";
         };

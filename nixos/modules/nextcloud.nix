@@ -10,6 +10,12 @@ let
   externalUrl = "nextcloud.vnunes.win";
 in
 {
+  # Pinned so a reinstall keeps ownership of the data on ZFS
+  users = {
+    users.nextcloud.uid = 993;
+    groups.nextcloud.gid = 994;
+  };
+
   services = {
     nextcloud = {
       enable = true;

@@ -13,6 +13,12 @@ in
     # machine-learning.enable defaults to true
   };
 
+  # Pinned so a reinstall keeps ownership of the data on ZFS
+  users = {
+    users.immich.uid = 994;
+    groups.immich.gid = 995;
+  };
+
   myServices.resticBackup = {
     postgresqlBackup.databases = lib.mkAfter [ "immich" ];
     paths = lib.mkAfter [ mediaPath ];
