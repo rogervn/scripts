@@ -2,7 +2,7 @@
   pkgs,
   lib,
   # { output, mode ? "preferred", position ? "auto", scale ? 1,
-  #   transform ? 0, vrr ? 0 }; use `desc:` in output for EDID descriptions.
+  #   transform ? 0, vrr ? 0, bitdepth ? 8 }; use `desc:` in output for EDID descriptions.
   monitors ? [ ],
   # { name ? null, id ? null, output ? null, default ? false,
   #   persistent ? false }.

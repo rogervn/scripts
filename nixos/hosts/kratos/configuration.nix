@@ -61,6 +61,8 @@
       "quiet"
       "rd.udev.log_level=3"
       "rd.systemd.show_status=auto"
+      # HDMI 2.1 FRL is off by default until 7.4; without it 4K120 falls back to 4:2:0. Drop once on 7.4.
+      "amdgpu.dcfeaturemask=0x402"
     ];
     # amdgpu needs to load in initrd for early KMS, otherwise plymouth has no framebuffer to draw on.
     initrd.kernelModules = [ "amdgpu" ];
