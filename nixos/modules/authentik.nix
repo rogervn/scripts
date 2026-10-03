@@ -27,7 +27,8 @@ in
     };
   };
   myServices.resticBackup.postgresqlBackup.databases = lib.mkAfter [ "authentik" ];
-  myServices.resticBackup.paths = lib.mkAfter [ "/var/lib/authentik" ];
+  # /var/lib/authentik is a DynamicUser symlink; restic would store only the link
+  myServices.resticBackup.paths = lib.mkAfter [ "/var/lib/private/authentik" ];
 
   networking.firewall.allowedTCPPorts = [
     httpPort

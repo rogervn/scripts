@@ -60,6 +60,21 @@ in
   };
   nixpkgs.config.allowUnfree = true;
 
+  # zfs-mount.service mounts all datasets; fstab entries for nested datasets race their parents
+  boot.zfs.extraPools = [ "data" ];
+
+  fileSystems = {
+    # authentik-nix hardcodes its DynamicUser StateDirectory
+    "/var/lib/private/authentik" = {
+      device = "/data/apps/authentik";
+      fsType = "none";
+      options = [
+        "bind"
+        "x-systemd.requires=zfs-mount.service"
+      ];
+    };
+  };
+
   boot.loader = {
     systemd-boot.enable = true;
     efi.canTouchEfiVariables = true;
@@ -127,6 +142,8 @@ in
       chown -R root:backupuser ${resticRepo}
       chmod -R g+rX ${resticRepo}
     '';
+    # Never initdb into the parent dataset if data/apps/postgresql isn't mounted
+    services.postgresql.unitConfig.AssertPathIsMountPoint = "/data/apps/postgresql";
     services.beszel-agent = {
       path = [ pkgs.zfs ];
       serviceConfig = {
@@ -151,6 +168,8 @@ in
   };
 
   services = {
+    # ZFS dataset root; deliberately not created by tmpfiles so postgres fails if unmounted
+    postgresql.dataDir = "/data/apps/postgresql";
     # NFS server
     nfs.server = {
       enable = true;

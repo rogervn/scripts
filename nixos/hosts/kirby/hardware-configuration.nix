@@ -1,5 +1,4 @@
 # Placeholder — will be overwritten by nixos-generate-config on first boot.
-# After first boot, re-add the ZFS dataset mounts below manually.
 {
   config,
   lib,
@@ -41,13 +40,6 @@
         "fmask=0022"
         "dmask=0022"
       ];
-    };
-
-    # datasets are mounted automatically by zfs
-    "/data/share/nfs" = {
-      device = "data/share/nfs";
-      fsType = "zfs";
-      options = [ "zfsutil" ];
     };
   };
 
