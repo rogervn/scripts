@@ -86,7 +86,7 @@ in
 
     # ── OCI container ──────────────────────────────────────────────────────────
     virtualisation.oci-containers.containers.joplin_server = {
-      image = "joplin/server:latest";
+      image = "docker.io/joplin/server:latest";
       ports = [ "${toString httpPort}:22300" ];
       environmentFiles = [ config.age.secrets.joplin_server_env_file.path ];
       environment = {

@@ -60,9 +60,6 @@ in
   };
   nixpkgs.config.allowUnfree = true;
 
-  # zfs-mount.service mounts all datasets; fstab entries for nested datasets race their parents
-  boot.zfs.extraPools = [ "data" ];
-
   fileSystems = {
     # authentik-nix hardcodes its DynamicUser StateDirectory
     "/var/lib/private/authentik" = {
@@ -75,10 +72,22 @@ in
     };
   };
 
-  boot.loader = {
-    systemd-boot.enable = true;
-    efi.canTouchEfiVariables = true;
+  boot = {
+    loader = {
+      systemd-boot.enable = true;
+      efi.canTouchEfiVariables = true;
+    };
+    zswap.enable = true;
+    # zfs-mount.service mounts all datasets; fstab entries for nested datasets race their parents
+    zfs.extraPools = [ "data" ];
   };
+
+  swapDevices = [
+    {
+      device = "/var/lib/swapfile";
+      size = 16 * 1024;
+    }
+  ];
 
   time.timeZone = "Europe/London";
 
@@ -259,6 +268,7 @@ in
       hubUrl = "http://127.0.0.1:8017";
       keySecretPath = config.age.secrets.beszel_hub_key_file.path;
       tokenSecretPath = config.age.secrets.kirby_beszel_token_file.path;
+      smartmon = true;
     };
   };
 

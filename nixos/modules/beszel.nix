@@ -35,6 +35,8 @@ in
         type = lib.types.str;
         description = "Path to a file containing the hub's universal registration token (from age.secrets.*.path)";
       };
+
+      smartmon = lib.mkEnableOption "S.M.A.R.T. disk monitoring (per-drive health and temperature)";
     };
   };
 
@@ -80,6 +82,15 @@ in
           HUB_URL = agentCfg.hubUrl;
           KEY_FILE = agentCfg.keySecretPath;
           TOKEN_FILE = agentCfg.tokenSecretPath;
+        };
+        smartmon = lib.mkIf agentCfg.smartmon {
+          enable = true;
+          # Needed when a host restricts the agent's DeviceAllow (e.g. kirby for /dev/zfs)
+          deviceAllow = [
+            "char-nvme"
+            "block-blkext"
+            "block-sd"
+          ];
         };
       };
     })
