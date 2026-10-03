@@ -254,6 +254,8 @@ in
         input = {
           numlock_by_default = true;
           follow_mouse_shrink = 24;
+          # Don't refocus the hovered window when a layer (e.g. Noctalia panel) closes.
+          mouse_refocus = false;
           touchpad.scroll_factor = 0.8;
         };
         gestures.workspace_swipe_invert = false;
