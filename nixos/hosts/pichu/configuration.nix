@@ -6,6 +6,8 @@
   ...
 }:
 {
+  imports = [ ../../modules/adguardhome.nix ];
+
   nix.settings = {
     experimental-features = [
       "nix-command"

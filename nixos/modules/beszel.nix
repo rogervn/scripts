@@ -1,4 +1,9 @@
-{ config, lib, ... }:
+{
+  config,
+  lib,
+  options,
+  ...
+}:
 let
   hubCfg = config.myServices.beszelHub;
   agentCfg = config.myServices.beszelAgent;
@@ -41,16 +46,21 @@ in
   };
 
   config = lib.mkMerge [
-    (lib.mkIf hubCfg.enable {
-      services.beszel.hub = {
-        enable = true;
-        host = "0.0.0.0";
-        port = 8017;
-        inherit (hubCfg) dataDir;
-      };
-      networking.firewall.allowedTCPPorts = [ config.services.beszel.hub.port ];
-      myServices.resticBackup.paths = lib.mkAfter [ hubCfg.dataDir ];
-    })
+    (lib.mkIf hubCfg.enable (
+      {
+        services.beszel.hub = {
+          enable = true;
+          host = "0.0.0.0";
+          port = 8017;
+          inherit (hubCfg) dataDir;
+        };
+        networking.firewall.allowedTCPPorts = [ config.services.beszel.hub.port ];
+      }
+      # Only back up the data dir on hosts that import restic-backup.nix
+      // lib.optionalAttrs (options.myServices ? resticBackup) {
+        myServices.resticBackup.paths = lib.mkAfter [ hubCfg.dataDir ];
+      }
+    ))
 
     # Upstream module derives StateDirectory from baseNameOf dataDir, which only
     # resolves correctly when dataDir lives under /var/lib. Only when dataDir is

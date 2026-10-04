@@ -4,6 +4,7 @@ let
   megaman = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIND2J9suKBk/hgBXe7kwpZC3btO7iFkodaaziatObduP";
   # Shared age identity of the Raspberry Pis (pico, pichu)
   rpi = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFFCnPLdKwtfQ/MmwhQnHwOunOpEQ9f6jCg0AYfbytPx";
+  pikachu = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHlMwEhHRTS4l1Nv+yKHcmw1RrIdj8TjVe87639Jx2TL";
   snorlax = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIA7oBoq6qfSegWYiov46W11wuOZMq+B4zaGt45SfN/g/";
   mog = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINeIjCWbfG/0k8wpBAN5WQu5ikl8mSAOiLEbqsSD0WaP";
   kirby = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIflQBy+YtPvpu2N5XVAsUn3c6lY8uNYExDv2THYFyYA";
@@ -45,11 +46,13 @@ in
     kratos
     mog
     rpi
+    pikachu
   ];
   "serveruser_authorized_keys.age".publicKeys = [
     kratos
     mog
     rpi
+    pikachu
   ];
   "datauser_pass_hash.age".publicKeys = [
     kratos
@@ -70,6 +73,7 @@ in
   "tailscale_auth_key.age".publicKeys = [
     kratos
     mog
+    pikachu
   ];
   "vaultwarden_env_file.age".publicKeys = [
     kratos
@@ -119,6 +123,7 @@ in
     kratos
     kirby
     mog
+    pikachu
   ];
   "kirby_beszel_token_file.age".publicKeys = [
     kratos
@@ -131,5 +136,17 @@ in
   "homepage_env_file.age".publicKeys = [
     kratos
     mog
+  ];
+  "pikachu_beszel_token_file.age".publicKeys = [
+    kratos
+    pikachu
+  ];
+  "cloudflare_ddns_token.age".publicKeys = [
+    kratos
+    pikachu
+  ];
+  "cloudflare_ddns_env_file.age".publicKeys = [
+    kratos
+    pikachu
   ];
 }
