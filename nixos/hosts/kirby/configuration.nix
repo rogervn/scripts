@@ -152,18 +152,20 @@ in
     ];
     # restic runs as root and hardcodes 0700 on all repo dirs, ignoring umask.
     # Fix ownership and group-read after each run so backupuser can rsync-pull.
-    services."restic-backups-kirby".postStart = ''
-      chown -R root:backupuser ${resticRepo}
-      chmod -R g+rX ${resticRepo}
-    '';
-    # Never initdb into the parent dataset if data/apps/postgresql isn't mounted
-    services.postgresql.unitConfig.AssertPathIsMountPoint = "/data/apps/postgresql";
-    services.beszel-agent = {
-      path = [ pkgs.zfs ];
-      serviceConfig = {
-        PrivateDevices = lib.mkForce false;
-        PrivateUsers = lib.mkForce false;
-        DeviceAllow = [ "/dev/zfs rw" ];
+    services = {
+      "restic-backups-kirby".postStart = ''
+        chown -R root:backupuser ${resticRepo}
+        chmod -R g+rX ${resticRepo}
+      '';
+      # Never initdb into the parent dataset if data/apps/postgresql isn't mounted
+      postgresql.unitConfig.AssertPathIsMountPoint = "/data/apps/postgresql";
+      beszel-agent = {
+        path = [ pkgs.zfs ];
+        serviceConfig = {
+          PrivateDevices = lib.mkForce false;
+          PrivateUsers = lib.mkForce false;
+          DeviceAllow = [ "/dev/zfs rw" ];
+        };
       };
     };
   };
