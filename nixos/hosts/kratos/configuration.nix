@@ -31,9 +31,15 @@
         "flakes"
       ];
       trusted-users = [ userName ];
-      # Binary cache for the CachyOS kernel (nix-cachyos-kernel flake input)
-      extra-substituters = [ "https://attic.xuyh0120.win/lantian" ];
-      extra-trusted-public-keys = [ "lantian:EeAUQ+W+6r7EtwnmYjeVwx5kOGEBpjlBfPlzGlTNvHc=" ];
+      # Binary caches for the CachyOS kernel and the RPi vendor kernel (nixos-rpi flake)
+      extra-substituters = [
+        "https://attic.xuyh0120.win/lantian"
+        "https://nixos-raspberrypi.cachix.org"
+      ];
+      extra-trusted-public-keys = [
+        "lantian:EeAUQ+W+6r7EtwnmYjeVwx5kOGEBpjlBfPlzGlTNvHc="
+        "nixos-raspberrypi.cachix.org-1:4iMO9LXa8BqhU+Rpg6LQKiGa2lsNh/j2oiYLNOQ5sPI="
+      ];
     };
     gc = {
       automatic = true;

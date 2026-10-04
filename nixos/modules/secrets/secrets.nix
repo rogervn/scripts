@@ -2,7 +2,8 @@ let
   kratos = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICfXpVArWb1AGjOCRuWDFrd0iAmqaPiemkfyUuKFSp3B";
   deckard = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG2196OLuebzSeUdwtgf/eixm+Lqi0LIk3JBLfOtFWzF";
   megaman = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIND2J9suKBk/hgBXe7kwpZC3btO7iFkodaaziatObduP";
-  piuk = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFFCnPLdKwtfQ/MmwhQnHwOunOpEQ9f6jCg0AYfbytPx";
+  # Shared age identity of the Raspberry Pis (pico, pichu)
+  rpi = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFFCnPLdKwtfQ/MmwhQnHwOunOpEQ9f6jCg0AYfbytPx";
   snorlax = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIA7oBoq6qfSegWYiov46W11wuOZMq+B4zaGt45SfN/g/";
   mog = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINeIjCWbfG/0k8wpBAN5WQu5ikl8mSAOiLEbqsSD0WaP";
   kirby = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIflQBy+YtPvpu2N5XVAsUn3c6lY8uNYExDv2THYFyYA";
@@ -28,10 +29,6 @@ in
     deckard
     megaman
   ];
-  "piuk_authorized_keys.age".publicKeys = [
-    kratos
-    piuk
-  ];
   "backupuser_pass_hash.age".publicKeys = [
     kratos
     snorlax
@@ -47,10 +44,12 @@ in
   "serveruser_pass_hash.age".publicKeys = [
     kratos
     mog
+    rpi
   ];
   "serveruser_authorized_keys.age".publicKeys = [
     kratos
     mog
+    rpi
   ];
   "datauser_pass_hash.age".publicKeys = [
     kratos

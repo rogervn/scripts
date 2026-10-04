@@ -1,30 +1,38 @@
-{ pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 {
   i18n.defaultLocale = "en_US.UTF-8";
 
   services.openssh.enable = true;
   services.chrony.enable = true;
 
-  environment.systemPackages = with pkgs; [
-    curl
-    ghostty.terminfo
-    chrony
-    file
-    git
-    jq
-    killall
-    less
-    linux-firmware
-    man-db
-    ncurses
-    noto-fonts
-    openssh
-    tmux
-    rsync
-    usbutils
-    vim-full
-    wget
-  ];
+  environment.systemPackages =
+    with pkgs;
+    [
+      curl
+      ghostty.terminfo
+      chrony
+      file
+      git
+      jq
+      killall
+      less
+      man-db
+      ncurses
+      noto-fonts
+      openssh
+      tmux
+      rsync
+      usbutils
+      vim-full
+      wget
+    ]
+    # Only useful where the full firmware set is loaded; the Pis load just the RPi blobs.
+    ++ lib.optional config.hardware.enableRedistributableFirmware linux-firmware;
 
   programs.zsh = {
     enable = true;

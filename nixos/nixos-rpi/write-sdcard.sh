@@ -1,148 +1,129 @@
 #!/usr/bin/env bash
-
-TARGET_LABEL="NIXOS_SD"
+# Build a Pi SD image and flash it, then copy an extra-files dir onto its root (like nixos-anywhere --extra-files)
+# and optionally an iwd WiFi profile. Login secrets are decrypted by agenix on first boot.
 
 set -euo pipefail
+# ASCII-only character classes, matching iwd's SSID file-name rule
+export LC_ALL=C
 
-# 1. Usage check
-if [ "$#" -ne 4 ]; then
-	echo "Usage: $0 <image.img.zst> <device> <secrets_dir> <username>"
-	echo "Example: $0 ./pi.img.zst /dev/sdb ./my-secrets rogervn"
-	exit 1
+TARGET_LABEL="NIXOS_SD"
+# agenix identity; must match keyPath in flake.nix
+KEY_DEST="root/.ssh/id_ed25519"
+
+if [ "$#" -lt 3 ] || [ "$#" -gt 4 ]; then
+  echo "Usage: $0 <host> <device> <extra_files_dir> [wifi_ssid]"
+  echo "Example: $0 pichu /dev/sdb ~/secrets"
+  echo "extra_files_dir mirrors / on the Pi and must contain $KEY_DEST."
+  echo "With an SSID, the WiFi passphrase is prompted for and written as an iwd profile."
+  exit 1
 fi
 
-# 2. Automatic Sudo Elevation
-if [ "$EUID" -ne 0 ]; then
-	echo "Privileged access required for disk writing and mounting."
-	echo "Re-running with sudo..."
-	exec sudo "$0" "$@"
-fi
-
-IMG=$1
+HOST=$1
 DEV=$2
-SECRETS=$3
-USER_NAME=$4
+EXTRA=$3
+SSID=${4:-}
+FLAKE_DIR=$(cd "$(dirname "$0")" && pwd)
 
-# Check for required tools
-for tool in zstdcat dd mkpasswd lsblk; do
-	if ! command -v "$tool" &>/dev/null; then
-		echo "Error: Required tool '$tool' is not installed."
-		exit 1
-	fi
+for tool in nix zstdcat dd lsblk blockdev udevadm tar; do
+  if ! command -v "$tool" &>/dev/null; then
+    echo "Error: Required tool '$tool' is not installed."
+    exit 1
+  fi
 done
 
-# 3. Interactive Password Collection
-get_password() {
-	local account_name=$1
-	local var_name=$2 # The name of the variable to set
-	local p1 p2
-	while true; do
-		echo "--- Setting password for: $account_name ---"
-		read -r -s -p "Enter password: " p1
-		echo
-		read -r -s -p "Confirm password: " p2
-		echo
-
-		if [ "$p1" = "$p2" ] && [ -n "$p1" ]; then
-			# Use printf to assign the value to the variable name passed in
-			printf -v "$var_name" '%s' "$p1"
-			return 0
-		else
-			echo -e "ERROR: Passwords do not match or are empty. Try again.\n"
-		fi
-	done
+[ -f "$EXTRA/$KEY_DEST" ] || {
+  echo "Error: '$EXTRA/$KEY_DEST' not found; the agenix identity key is required."
+  exit 1
 }
+if [ -n "$SSID" ]; then
+  if [ "$(printf '%s' "$SSID" | wc -c)" -gt 32 ]; then
+    echo "Error: SSID is longer than 32 bytes."
+    exit 1
+  fi
+  while true; do
+    read -r -s -p "WiFi passphrase for '$SSID': " PASS
+    echo
+    read -r -s -p "Confirm passphrase: " PASS2
+    echo
+    [ "$PASS" = "$PASS2" ] && [ ${#PASS} -ge 8 ] && [ ${#PASS} -le 63 ] && break
+    echo "Passphrases do not match or are not 8-63 characters. Try again."
+  done
+  # iwd stores SSIDs with other characters hex-encoded as "=<hex>" (iwd.network(5))
+  if [[ "$SSID" =~ ^[A-Za-z0-9_\ -]+$ ]]; then
+    PSK_NAME="$SSID.psk"
+  else
+    PSK_NAME="=$(printf '%s' "$SSID" | od -An -tx1 | tr -d ' \n').psk"
+  fi
+fi
+[ "$(lsblk -dno TYPE "$DEV" 2>/dev/null)" = "disk" ] || {
+  echo "Error: $DEV is not a whole disk."
+  exit 1
+}
+# Refuse internal disks: only removable, USB or SD/MMC devices
+read -r RM TRAN < <(lsblk -dno RM,TRAN "$DEV")
+if [ "$RM" != "1" ] && [ "${TRAN:-}" != "usb" ] && [[ "$DEV" != /dev/mmcblk* ]]; then
+  echo "Error: $DEV is not a removable, USB or SD/MMC device."
+  exit 1
+fi
 
-echo "Starting deployment setup..."
-# Pass the variable names 'PASS_ROOT' as string
-get_password "root" "PASS_ROOT"
-get_password "$USER_NAME" "PASS_USER"
+echo "--- 1. Building image for $HOST ---"
+OUT=$(nix build --no-link --print-out-paths "$FLAKE_DIR#images.$HOST")
+IMG=$(find "$OUT/sd-image" -name '*.img*' | head -n 1)
+[ -n "$IMG" ] || {
+  echo "Error: no image found in $OUT/sd-image."
+  exit 1
+}
+echo "Image: $IMG"
 
-# 4. Confirmation and Unmounting
 echo -e "\n--- Target Device Info ---"
-lsblk "$DEV"
+lsblk -o NAME,SIZE,MODEL,LABEL,MOUNTPOINTS "$DEV"
 echo
 read -r -p "ARE YOU SURE you want to overwrite ALL data on $DEV? (y/N): " CONFIRM
 if [[ ! "$CONFIRM" =~ ^[Yy]$ ]]; then
-	echo "Aborting."
-	exit 1
+  echo "Aborting."
+  exit 1
 fi
 
-echo "--- 1. Writing image to $DEV ---"
-# Sparse skips writing the zeros from your swapfile pre-allocation
-zstdcat "$IMG" | dd of="$DEV" bs=4M conv=fsync,sparse status=progress
-
-sync
-echo "Waiting for partitions to settle..."
-sleep 3
-
-# 5. Locate partition by Label using --raw to kill tree symbols
-echo "--- 2. Locating $TARGET_LABEL Partition ---"
-PROPOSED_PART_PATH=$(lsblk --raw -f -p -n -o NAME,LABEL "$DEV" | grep "$TARGET_LABEL" | awk '{print $1}' | head -n 1)
-
-if [ -z "$PROPOSED_PART_PATH" ]; then
-	echo "Warning: Could not find '$TARGET_LABEL' label on $DEV."
-	lsblk "$DEV"
-	read -r -p "Enter root partition path manually (e.g. /dev/sdb2): " ROOT_DEV
+echo "--- 2. Writing image to $DEV ---"
+for part in $(lsblk -lnpo NAME "$DEV" | tail -n +2); do
+  sudo umount "$part" 2>/dev/null || true
+done
+if [[ "$IMG" == *.zst ]]; then
+  zstdcat "$IMG" | sudo dd of="$DEV" bs=4M conv=fsync status=progress
 else
-	read -r -p "Found $TARGET_LABEL at $PROPOSED_PART_PATH. Use this? (Y/n): " CONFIRM_PART
-	if [[ "$CONFIRM_PART" =~ ^[Nn]$ ]]; then
-		read -r -p "Enter partition path: " ROOT_DEV
-	else
-		ROOT_DEV="$PROPOSED_PART_PATH"
-	fi
+  sudo dd if="$IMG" of="$DEV" bs=4M conv=fsync status=progress
+fi
+sync
+sudo blockdev --rereadpt "$DEV"
+sudo udevadm settle
+
+ROOT_DEV=$(lsblk -lnpo NAME,LABEL "$DEV" | awk -v l="$TARGET_LABEL" '$2 == l {print $1; exit}')
+if [ -z "$ROOT_DEV" ]; then
+  echo "Error: could not find '$TARGET_LABEL' partition on $DEV."
+  lsblk -f "$DEV"
+  exit 1
 fi
 
-# 6. Mounting and Injection
-echo "--- 3. Mounting Root Partition ($ROOT_DEV) ---"
+echo "--- 3. Injecting secrets into $ROOT_DEV ---"
 MNT=$(mktemp -d)
-mount "$ROOT_DEV" "$MNT"
-
 cleanup() {
-	echo -e "\n--- Cleaning up ---"
-	umount "$MNT" 2>/dev/null || true
-	rmdir "$MNT" 2>/dev/null || true
+  sudo umount "$MNT" 2>/dev/null || true
+  rmdir "$MNT" 2>/dev/null || true
 }
 trap cleanup EXIT
 
-echo "--- 4. Injecting Secrets ---"
-# Root SSH Key
-mkdir -p "$MNT/root/.ssh"
-if compgen -G "$SECRETS/id_*" >/dev/null; then
-	cp "$SECRETS"/id_* "$MNT/root/.ssh/"
-	chmod 600 "$MNT/root/.ssh"/id_*
-	echo "Injected: SSH key(s)."
-else
-	echo "Warning: No files matching 'id_*' found in $SECRETS."
+sudo mount "$ROOT_DEV" "$MNT"
+# --no-overwrite-dir keeps the image's modes on existing dirs such as / and /root
+tar -C "$EXTRA" --owner=0 --group=0 -cf - . | sudo tar -C "$MNT" --no-overwrite-dir -xpf -
+sudo chmod 700 "$MNT/$(dirname "$KEY_DEST")"
+sudo chmod 600 "$MNT/$KEY_DEST"
+echo "Injected: extra files from $EXTRA."
+if [ -n "$SSID" ]; then
+  sudo install -d -m 700 "$MNT/var/lib/iwd"
+  printf '[Security]\nPassphrase=%s\n' "$PASS" |
+    sudo install -m 600 -o root -g root /dev/stdin "$MNT/var/lib/iwd/$PSK_NAME"
+  echo "Injected: WiFi profile for '$SSID'."
 fi
-
-# WiFi PSK (iwd)
-mkdir -p "$MNT/var/lib/iwd"
-if compgen -G "$SECRETS/*.psk" >/dev/null; then
-	cp "$SECRETS"/*.psk "$MNT/var/lib/iwd/"
-	chmod 700 "$MNT/var/lib/iwd"
-	chmod 600 "$MNT/var/lib/iwd"/*.psk
-	echo "Injected: WiFi configuration(s)."
-fi
-
-echo "--- 5. Setting Passwords ---"
-HASH_ROOT=$(mkpasswd -m sha-512 "$PASS_ROOT")
-HASH_USER=$(mkpasswd -m sha-512 "$PASS_USER")
-
-# Create file if missing, or ensure it has entries for our users
-mkdir -p "$MNT/etc"
-for acct in "root" "$USER_NAME"; do
-	if ! grep -q "^$acct:" "$MNT/etc/shadow" 2>/dev/null; then
-		echo "$acct:!:19000:0:99999:7:::" >>"$MNT/etc/shadow"
-	fi
-done
-
-chmod 600 "$MNT/etc/shadow"
-
-# Inject the hash
-sed -i "s#^root:[^:]*:#root:$HASH_ROOT:#" "$MNT/etc/shadow"
-sed -i "s#^$USER_NAME:[^:]*:#$USER_NAME:$HASH_USER:#" "$MNT/etc/shadow"
-
-echo "--- Finished! Syncing hardware... ---"
 sync
-echo "Done. You can now remove the SD card and boot your Pi."
+
+echo "Done. Boot the Pi; it will join the network and register as $HOST."

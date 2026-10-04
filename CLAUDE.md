@@ -55,7 +55,7 @@ cd nixos/nix && nix flake check
 # NixOS hosts — if the machine's hostname matches the flake output name, the #<name> can be omitted:
 sudo nixos-rebuild switch --flake nixos/nixos-desktop/#kratos
 sudo nixos-rebuild switch --flake nixos/nixos-server/#mog
-sudo nixos-rebuild switch --flake nixos/nixos-rpi/#pi3nixos
+sudo nixos-rebuild switch --flake nixos/nixos-rpi/#pico
 
 # Non-NixOS home-manager (Arch, Fedora) — from nixos/nix/:
 home-manager switch --flake .#rogervn-desktop   # desktop machine (Hyprland, window manager)
@@ -116,11 +116,10 @@ There are four separate flakes, each targeting a different class of host:
 | `nix/flake.nix` | `nixos/nix/` | Non-NixOS distros (Arch, Fedora) — home-manager only, no system config | unstable |
 | `nixos-desktop/flake.nix` | `nixos/nixos-desktop/` | `kratos`, `deckard`, `glados` | unstable |
 | `nixos-server/flake.nix` | `nixos/nixos-server/` | `snorlax`, `mog`, `kirby` | unstable |
-| `nixos-rpi/flake.nix` | `nixos/nixos-rpi/` | `pi3nixos`, `pi02nixos` | stable (25.11) |
+| `nixos-rpi/flake.nix` | `nixos/nixos-rpi/` | `pico`, `pichu` | stable (26.05), pinned by nixos-raspberrypi — never override it or the kernel cache misses |
 
 **Key directories:**
-- `hosts/<hostname>/` — Desktop/server per-host config: `configuration.nix` (system), `hardware-configuration.nix` (auto-generated), `home.nix` (home-manager imports for that host)
-- `rpihosts/<hostname>/` — Raspberry Pi per-host config, imported by `nixos-rpi/flake.nix`
+- `hosts/<hostname>/` — Per-host config for every flake (desktops, servers, Raspberry Pis): `configuration.nix` (system), `hardware-configuration.nix` (auto-generated), `home.nix` (home-manager imports for that host)
 - `home/` — Reusable home-manager modules imported by both NixOS hosts and the non-NixOS flake
 - `modules/` — Reusable NixOS system modules (system-level only; never home-manager config)
 
