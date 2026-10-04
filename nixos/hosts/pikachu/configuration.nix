@@ -12,6 +12,7 @@
     ../../modules/tailscale.nix
     ../../modules/uptime_kuma.nix
     ../../modules/beszel.nix
+    ../../modules/homepage-dashboard.nix
   ];
 
   nix.settings = {
@@ -74,6 +75,10 @@
       file = ../../modules/secrets/pikachu_beszel_token_file.age;
       mode = "444";
     };
+    homepage_env_file = {
+      file = ../../modules/secrets/homepage_env_file.age;
+      mode = "400";
+    };
   };
 
   services.cloudflare-dyndns = {
@@ -83,11 +88,14 @@
     ipv6 = true;
   };
 
-  myServices.beszelAgent = {
-    enable = true;
-    hubUrl = "http://kirby.localdomain:8017";
-    keySecretPath = config.age.secrets.beszel_hub_key_file.path;
-    tokenSecretPath = config.age.secrets.pikachu_beszel_token_file.path;
+  myServices = {
+    homepage.enable = true;
+    beszelAgent = {
+      enable = true;
+      hubUrl = "http://kirby.localdomain:8017";
+      keySecretPath = config.age.secrets.beszel_hub_key_file.path;
+      tokenSecretPath = config.age.secrets.pikachu_beszel_token_file.path;
+    };
   };
 
   systemd.services = {

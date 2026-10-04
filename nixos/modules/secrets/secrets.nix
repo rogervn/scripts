@@ -135,7 +135,7 @@ in
   ];
   "homepage_env_file.age".publicKeys = [
     kratos
-    mog
+    pikachu
   ];
   "pikachu_beszel_token_file.age".publicKeys = [
     kratos

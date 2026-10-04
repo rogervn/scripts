@@ -10,12 +10,10 @@
 {
   imports = [
     ../../modules/base.nix
-    ../../modules/homepage-dashboard.nix
     ../../modules/secrets-serveruser.nix
     ../../modules/cloudflared.nix
     ../../modules/adguardhome.nix
     ../../modules/home_assistant.nix
-    ../../modules/uptime_kuma.nix
     ../../modules/restic-backup.nix
     ../../modules/vaultwarden.nix
     ../../modules/beszel.nix
@@ -93,8 +91,6 @@
   };
 
   myServices = {
-    homepage.enable = true;
-
     resticBackup = {
       enable = true;
       repository = "sftp://backupuser@kirby.localdomain/mog";

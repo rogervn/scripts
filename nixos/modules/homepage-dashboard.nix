@@ -33,8 +33,8 @@ in
     allowedHosts = lib.mkOption {
       type = lib.types.listOf lib.types.str;
       default = map (host: "${host}:${toString cfg.listenPort}") [
-        "mog.localdomain"
-        "mog"
+        "${config.networking.hostName}.localdomain"
+        config.networking.hostName
         "localhost"
         "127.0.0.1"
       ];
@@ -84,7 +84,7 @@ in
           # This widget is intentionally unauthenticated because AdGuard currently has no configured users.
           widget = {
             type = "adguard";
-            url = "http://127.0.0.1:8001";
+            url = "http://mog.localdomain:8001";
             fields = [
               "queries"
               "blocked"
@@ -96,12 +96,12 @@ in
         {
           group = "Infrastructure";
           name = "Uptime Kuma";
-          href = "http://mog.localdomain:8003";
+          href = "http://pikachu.localdomain:8003";
           description = "Service uptime monitoring";
           icon = "uptime-kuma";
           widget = {
             type = "uptimekuma";
-            url = "http://127.0.0.1:8003";
+            url = "http://pikachu.localdomain:8003";
             slug = "home-services";
             fields = [
               "up"
@@ -125,6 +125,7 @@ in
           href = "http://10.0.0.15:8005";
           description = "Home automation control and monitoring";
           icon = "home-assistant";
+          siteMonitor = "http://10.0.0.15:8005";
         }
 
         # Widget credentials belong in the agenix-managed Homepage env file.
@@ -251,10 +252,10 @@ in
         }
         {
           group = "Servers";
-          name = "pi5uk";
-          id = "beszel-server-pi5uk";
+          name = "pikachu";
+          id = "beszel-server-pikachu";
           href = "http://kirby.localdomain:8017/system/a7iab7men2vm49v";
-          description = "Host monitoring for pi5uk";
+          description = "Host monitoring for pikachu";
           icon = "mdi-server";
           widget = {
             type = "beszel";
@@ -262,7 +263,7 @@ in
             username = "{{HOMEPAGE_VAR_BESZEL_USERNAME}}";
             password = "{{HOMEPAGE_VAR_BESZEL_PASSWORD}}";
             version = 2;
-            systemId = "pi5uk";
+            systemId = "pikachu";
             fields = [
               "name"
               "cpu"
@@ -337,32 +338,32 @@ in
 
           li.service[data-name="kirby"] .service-card,
           li.service[data-name="mog"] .service-card,
-          li.service[data-name="pi5uk"] .service-card {
+          li.service[data-name="pikachu"] .service-card {
             align-items: stretch;
             display: flex;
           }
 
           li.service[data-name="kirby"] .service-title,
           li.service[data-name="mog"] .service-title,
-          li.service[data-name="pi5uk"] .service-title {
+          li.service[data-name="pikachu"] .service-title {
             flex: 0 0 3rem;
           }
 
           li.service[data-name="kirby"] .service-icon,
           li.service[data-name="mog"] .service-icon,
-          li.service[data-name="pi5uk"] .service-icon {
+          li.service[data-name="pikachu"] .service-icon {
             width: 100%;
           }
 
           li.service[data-name="kirby"] .service-title-text,
           li.service[data-name="mog"] .service-title-text,
-          li.service[data-name="pi5uk"] .service-title-text {
+          li.service[data-name="pikachu"] .service-title-text {
             display: none;
           }
 
           li.service[data-name="kirby"] .service-card > :not(.service-title),
           li.service[data-name="mog"] .service-card > :not(.service-title),
-          li.service[data-name="pi5uk"] .service-card > :not(.service-title) {
+          li.service[data-name="pikachu"] .service-card > :not(.service-title) {
             flex: 1 1 0%;
             min-width: 0;
           }
