@@ -19,6 +19,42 @@ let
       };
     }) entries;
   }) groupedServices;
+
+  # Beszel system path IDs, used for the host monitoring cards.
+  beszelSystems = {
+    kirby = "umkfo0xzaq4gnz1";
+    mog = "2larn2dhp2cztxn";
+    pikachu = "a7iab7men2vm49v";
+  };
+
+  mkServerCard = name: systemPath: {
+    group = "Servers";
+    inherit name;
+    id = "beszel-server-${name}";
+    href = "http://kirby.localdomain:8017/system/${systemPath}";
+    description = "Host monitoring for ${name}";
+    icon = "mdi-server";
+    widget = {
+      type = "beszel";
+      url = "http://kirby.localdomain:8017";
+      username = "{{HOMEPAGE_VAR_BESZEL_USERNAME}}";
+      password = "{{HOMEPAGE_VAR_BESZEL_PASSWORD}}";
+      version = 2;
+      systemId = name;
+      fields = [
+        "name"
+        "cpu"
+        "memory"
+        "disk"
+      ];
+    };
+  };
+
+  serverSelector =
+    suffix:
+    lib.concatMapStringsSep ",\n" (name: ''li.service[data-name="${name}"] ${suffix}'') (
+      lib.attrNames beszelSystems
+    );
 in
 {
   options.myServices.homepage = {
@@ -72,7 +108,8 @@ in
 
   config = lib.mkMerge [
     {
-      myServices.homepage.entries = lib.mkAfter [
+      myServices.homepage.entries = lib.mkAfter (
+        [
         # mog
         {
           group = "Infrastructure";
@@ -99,6 +136,7 @@ in
           href = "http://pikachu.localdomain:8003";
           description = "Service uptime monitoring";
           icon = "uptime-kuma";
+          siteMonitor = "http://pikachu.localdomain:8003";
           widget = {
             type = "uptimekuma";
             url = "http://pikachu.localdomain:8003";
@@ -122,10 +160,10 @@ in
         {
           group = "Applications";
           name = "Home Assistant";
-          href = "http://10.0.0.15:8005";
+          href = "http://homeassistant.localdomain:8005";
           description = "Home automation control and monitoring";
           icon = "home-assistant";
-          siteMonitor = "http://10.0.0.15:8005";
+          siteMonitor = "http://homeassistant.localdomain:8005";
         }
 
         # Widget credentials belong in the agenix-managed Homepage env file.
@@ -206,73 +244,9 @@ in
             ];
           };
         }
-        {
-          group = "Servers";
-          name = "kirby";
-          id = "beszel-server-kirby";
-          href = "http://kirby.localdomain:8017/system/umkfo0xzaq4gnz1";
-          description = "Host monitoring for kirby";
-          icon = "mdi-server";
-          widget = {
-            type = "beszel";
-            url = "http://kirby.localdomain:8017";
-            username = "{{HOMEPAGE_VAR_BESZEL_USERNAME}}";
-            password = "{{HOMEPAGE_VAR_BESZEL_PASSWORD}}";
-            version = 2;
-            systemId = "kirby";
-            fields = [
-              "name"
-              "cpu"
-              "memory"
-              "disk"
-            ];
-          };
-        }
-        {
-          group = "Servers";
-          name = "mog";
-          id = "beszel-server-mog";
-          href = "http://kirby.localdomain:8017/system/2larn2dhp2cztxn";
-          description = "Host monitoring for mog";
-          icon = "mdi-server";
-          widget = {
-            type = "beszel";
-            url = "http://kirby.localdomain:8017";
-            username = "{{HOMEPAGE_VAR_BESZEL_USERNAME}}";
-            password = "{{HOMEPAGE_VAR_BESZEL_PASSWORD}}";
-            version = 2;
-            systemId = "mog";
-            fields = [
-              "name"
-              "cpu"
-              "memory"
-              "disk"
-            ];
-          };
-        }
-        {
-          group = "Servers";
-          name = "pikachu";
-          id = "beszel-server-pikachu";
-          href = "http://kirby.localdomain:8017/system/a7iab7men2vm49v";
-          description = "Host monitoring for pikachu";
-          icon = "mdi-server";
-          widget = {
-            type = "beszel";
-            url = "http://kirby.localdomain:8017";
-            username = "{{HOMEPAGE_VAR_BESZEL_USERNAME}}";
-            password = "{{HOMEPAGE_VAR_BESZEL_PASSWORD}}";
-            version = 2;
-            systemId = "pikachu";
-            fields = [
-              "name"
-              "cpu"
-              "memory"
-              "disk"
-            ];
-          };
-        }
-      ];
+      ]
+      ++ lib.mapAttrsToList mkServerCard beszelSystems
+      );
     }
 
     (lib.mkIf cfg.enable {
@@ -336,34 +310,24 @@ in
             letter-spacing: 0.02em;
           }
 
-          li.service[data-name="kirby"] .service-card,
-          li.service[data-name="mog"] .service-card,
-          li.service[data-name="pikachu"] .service-card {
+          ${serverSelector ".service-card"} {
             align-items: stretch;
             display: flex;
           }
 
-          li.service[data-name="kirby"] .service-title,
-          li.service[data-name="mog"] .service-title,
-          li.service[data-name="pikachu"] .service-title {
+          ${serverSelector ".service-title"} {
             flex: 0 0 3rem;
           }
 
-          li.service[data-name="kirby"] .service-icon,
-          li.service[data-name="mog"] .service-icon,
-          li.service[data-name="pikachu"] .service-icon {
+          ${serverSelector ".service-icon"} {
             width: 100%;
           }
 
-          li.service[data-name="kirby"] .service-title-text,
-          li.service[data-name="mog"] .service-title-text,
-          li.service[data-name="pikachu"] .service-title-text {
+          ${serverSelector ".service-title-text"} {
             display: none;
           }
 
-          li.service[data-name="kirby"] .service-card > :not(.service-title),
-          li.service[data-name="mog"] .service-card > :not(.service-title),
-          li.service[data-name="pikachu"] .service-card > :not(.service-title) {
+          ${serverSelector ".service-card > :not(.service-title)"} {
             flex: 1 1 0%;
             min-width: 0;
           }

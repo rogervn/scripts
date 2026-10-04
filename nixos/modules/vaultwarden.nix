@@ -1,6 +1,12 @@
-{ config, lib, ... }:
+{
+  config,
+  lib,
+  hostName,
+  ...
+}:
 let
-  httpPort = 8002;
+  registry = import ./service-registry.nix;
+  httpPort = registry.services.vaultwarden.port;
   backupDir = "/var/backup/vaultwarden";
 in
 {
@@ -22,6 +28,8 @@ in
       # most configs are in secrets environment
     };
   };
+
+  assertions = [ (registry.hostAssertion hostName "vaultwarden") ];
 
   myServices.resticBackup.paths = lib.mkAfter [ backupDir ];
 

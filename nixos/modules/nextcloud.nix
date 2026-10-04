@@ -6,10 +6,13 @@
   ...
 }:
 let
-  port = 8008;
-  externalUrl = "nextcloud.vnunes.win";
+  registry = import ./service-registry.nix;
+  inherit (registry.services.nextcloud) port;
+  externalUrl = registry.services.nextcloud.domain;
 in
 {
+  assertions = [ (registry.hostAssertion hostName "nextcloud") ];
+
   # Pinned so a reinstall keeps ownership of the data on ZFS
   users = {
     users.nextcloud.uid = 993;

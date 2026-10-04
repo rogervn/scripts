@@ -1,6 +1,7 @@
-{ lib, ... }:
+{ lib, hostName, ... }:
 let
-  httpPort = 8009;
+  registry = import ./service-registry.nix;
+  httpPort = registry.services.immich.port;
   mediaPath = "/data/apps/immich";
 in
 {
@@ -12,6 +13,8 @@ in
     # database.createLocally and redis.createLocally default to true
     # machine-learning.enable defaults to true
   };
+
+  assertions = [ (registry.hostAssertion hostName "immich") ];
 
   # Pinned so a reinstall keeps ownership of the data on ZFS
   users = {

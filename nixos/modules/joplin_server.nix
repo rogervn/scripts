@@ -1,10 +1,12 @@
 {
   config,
   lib,
+  hostName,
   ...
 }:
 let
-  httpPort = 8014;
+  registry = import ./service-registry.nix;
+  httpPort = registry.services.joplin.port;
   cfg = config.services.joplinServer;
 in
 {
@@ -18,12 +20,14 @@ in
     };
     url = lib.mkOption {
       type = lib.types.str;
-      default = "https://joplin.vnunes.win";
+      default = "https://${registry.services.joplin.domain}";
       description = "Public base URL for Joplin Server (used in SAML SP XML and APP_BASE_URL)";
     };
   };
 
   config = {
+    assertions = [ (registry.hostAssertion hostName "joplin") ];
+
     # ── PostgreSQL ──────────────────────────────────────────────────────────────
     services.postgresql = {
       ensureDatabases = [ "joplin" ];

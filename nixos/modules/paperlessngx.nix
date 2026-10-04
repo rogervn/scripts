@@ -1,11 +1,20 @@
-{ config, lib, ... }:
+{
+  config,
+  lib,
+  hostName,
+  ...
+}:
 let
-  httpPort = 8015;
+  registry = import ./service-registry.nix;
+  inherit (registry.services.paperless) domain;
+  httpPort = registry.services.paperless.port;
   dataDir = "/data/apps/paperlessngx";
   inherit (config.myServices) smtp;
 in
 {
   imports = [ ./smtp.nix ];
+
+  assertions = [ (registry.hostAssertion hostName "paperless") ];
 
   services.redis.servers.paperless = {
     enable = true;
@@ -19,7 +28,7 @@ in
     inherit dataDir;
     environmentFile = config.age.secrets.paperlessngx_env_file.path;
     settings = {
-      PAPERLESS_URL = "https://paperless.vnunes.win";
+      PAPERLESS_URL = "https://${domain}";
       PAPERLESS_TIME_ZONE = "Europe/London";
       PAPERLESS_OCR_LANGUAGE = "eng";
       PAPERLESS_ADMIN_USER = "admin";

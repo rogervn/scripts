@@ -11,7 +11,6 @@ _: {
     port = 8001;
     settings = {
       schema_version = 20;
-      httsp.address = "0.0.0.0:8001";
       dns = {
         upstream_dns = [
           "9.9.9.9"

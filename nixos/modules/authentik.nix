@@ -1,6 +1,12 @@
-{ config, lib, ... }:
+{
+  config,
+  lib,
+  hostName,
+  ...
+}:
 let
-  httpPort = 8011;
+  registry = import ./service-registry.nix;
+  httpPort = registry.services.authentik.port;
   httpsPort = 8012;
   inherit (config.myServices) smtp;
 in
@@ -26,6 +32,8 @@ in
       disable_startup_analytics = true;
     };
   };
+  assertions = [ (registry.hostAssertion hostName "authentik") ];
+
   myServices.resticBackup.postgresqlBackup.databases = lib.mkAfter [ "authentik" ];
   # /var/lib/authentik is a DynamicUser symlink; restic would store only the link
   myServices.resticBackup.paths = lib.mkAfter [ "/var/lib/private/authentik" ];
