@@ -76,12 +76,15 @@ in
 
     allowedHosts = lib.mkOption {
       type = lib.types.listOf lib.types.str;
-      default = map (host: "${host}:${toString cfg.listenPort}") [
-        "${config.networking.hostName}.localdomain"
-        config.networking.hostName
-        "localhost"
-        "127.0.0.1"
-      ];
+      default =
+        map (host: "${host}:${toString cfg.listenPort}") [
+          "${config.networking.hostName}.localdomain"
+          config.networking.hostName
+          "localhost"
+          "127.0.0.1"
+        ]
+        # Proxied by nginx on 443, so no port in the Host header
+        ++ [ registry.services.homepage.domain ];
       description = "Hostnames allowed to access Homepage Dashboard.";
     };
 

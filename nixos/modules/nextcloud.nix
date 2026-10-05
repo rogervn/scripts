@@ -49,6 +49,8 @@ in
           externalUrl
         ];
         default_phone_region = "GB";
+        # OIDC provider resolves to the LAN nginx, which Nextcloud blocks by default
+        allow_local_remote_servers = true;
         maintenance_window_start = 2;
         overwriteprotocol = "https";
         trusted_proxies = [

@@ -23,6 +23,8 @@ rec {
     homepage = {
       host = "pikachu.localdomain";
       port = 8016;
+      # Not on Cloudflare, so it only resolves through the local AdGuard
+      domain = "homepage.vnunes.win";
     };
     immich = {
       host = "kirby.localdomain";
@@ -37,7 +39,8 @@ rec {
     # HTTPS for the public domains on the LAN
     nginx = {
       host = "mog.localdomain";
-      port = 443;
+      # Default site, redirects to the homepage
+      port = 80;
     };
     nextcloud = {
       host = "kirby.localdomain";

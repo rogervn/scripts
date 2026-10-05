@@ -58,7 +58,13 @@ in
             '';
           };
         }
-      ) publicServices;
+      ) publicServices
+      // {
+        ${registry.services.nginx.host} = {
+          default = true;
+          locations."/".return = "301 https://${registry.services.homepage.domain}";
+        };
+      };
     };
 
     networking.firewall.allowedTCPPorts = [
