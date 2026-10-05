@@ -36,6 +36,11 @@
         owner = "root";
         mode = "400";
       };
+      cloudflare_ddns_token = {
+        file = ./secrets/cloudflare_ddns_token.age;
+        owner = "root";
+        mode = "400";
+      };
       tailscale_auth_key = {
         file = ./secrets/tailscale_auth_key.age;
         owner = "root";

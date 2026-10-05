@@ -34,6 +34,11 @@ rec {
       port = 8014;
       domain = "joplin.vnunes.win";
     };
+    # HTTPS for the public domains on the LAN
+    nginx = {
+      host = "mog.localdomain";
+      port = 443;
+    };
     nextcloud = {
       host = "kirby.localdomain";
       port = 8008;

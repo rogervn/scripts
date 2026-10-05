@@ -17,6 +17,7 @@
     ../../modules/restic-backup.nix
     ../../modules/vaultwarden.nix
     ../../modules/beszel.nix
+    ../../modules/nginx.nix
   ];
 
   home-manager = {
@@ -109,6 +110,10 @@
       enable = true;
       keySecretPath = config.age.secrets.beszel_hub_key_file.path;
       tokenSecretPath = config.age.secrets.mog_beszel_token_file.path;
+    };
+    nginx = {
+      enable = true;
+      cloudflareTokenFile = config.age.secrets.cloudflare_ddns_token.path;
     };
   };
 

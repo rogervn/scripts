@@ -144,6 +144,7 @@ in
   "cloudflare_ddns_token.age".publicKeys = [
     kratos
     pikachu
+    mog
   ];
   "cloudflare_ddns_env_file.age".publicKeys = [
     kratos
