@@ -1,8 +1,11 @@
-_:
+{ hostName, ... }:
 let
-  httpPort = 8003;
+  registry = import ./service-registry.nix;
+  httpPort = registry.services.uptimekuma.port;
 in
 {
+  assertions = [ (registry.hostAssertion hostName "uptimekuma") ];
+
   services.uptime-kuma = {
     enable = true;
     settings = {

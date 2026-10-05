@@ -1,5 +1,13 @@
-{ config, lib, ... }:
+{
+  config,
+  lib,
+  hostName,
+  ...
+}:
 let
+  registry = import ./service-registry.nix;
+  inherit (registry) localUrl;
+  publicUrl = name: "https://${registry.services.${name}.domain}";
   cfg = config.myServices.homepage;
 
   groupedServices = lib.groupBy (entry: entry.group) cfg.entries;
@@ -31,12 +39,12 @@ let
     group = "Servers";
     inherit name;
     id = "beszel-server-${name}";
-    href = "http://kirby.localdomain:8017/system/${systemPath}";
+    href = "${localUrl "beszel"}/system/${systemPath}";
     description = "Host monitoring for ${name}";
     icon = "mdi-server";
     widget = {
       type = "beszel";
-      url = "http://kirby.localdomain:8017";
+      url = localUrl "beszel";
       username = "{{HOMEPAGE_VAR_BESZEL_USERNAME}}";
       password = "{{HOMEPAGE_VAR_BESZEL_PASSWORD}}";
       version = 2;
@@ -62,7 +70,7 @@ in
 
     listenPort = lib.mkOption {
       type = lib.types.port;
-      default = 8016;
+      default = registry.services.homepage.port;
       description = "Port on which Homepage Dashboard listens.";
     };
 
@@ -114,14 +122,14 @@ in
         {
           group = "Infrastructure";
           name = "AdGuard Home";
-          href = "http://mog.localdomain:8001";
+          href = localUrl "adguardhome";
           description = "DNS and network-wide ad blocking";
           icon = "adguard-home";
-          siteMonitor = "http://mog.localdomain:8001";
+          siteMonitor = localUrl "adguardhome";
           # This widget is intentionally unauthenticated because AdGuard currently has no configured users.
           widget = {
             type = "adguard";
-            url = "http://mog.localdomain:8001";
+            url = localUrl "adguardhome";
             fields = [
               "queries"
               "blocked"
@@ -133,13 +141,13 @@ in
         {
           group = "Infrastructure";
           name = "Uptime Kuma";
-          href = "http://pikachu.localdomain:8003";
+          href = localUrl "uptimekuma";
           description = "Service uptime monitoring";
           icon = "uptime-kuma";
-          siteMonitor = "http://pikachu.localdomain:8003";
+          siteMonitor = localUrl "uptimekuma";
           widget = {
             type = "uptimekuma";
-            url = "http://pikachu.localdomain:8003";
+            url = localUrl "uptimekuma";
             slug = "home-services";
             fields = [
               "up"
@@ -152,18 +160,18 @@ in
         {
           group = "Applications";
           name = "Vaultwarden";
-          href = "https://vaultwarden.vnunes.win";
+          href = publicUrl "vaultwarden";
           description = "Bitwarden-compatible password manager";
           icon = "vaultwarden";
-          siteMonitor = "http://mog.localdomain:8002";
+          siteMonitor = localUrl "vaultwarden";
         }
         {
           group = "Applications";
           name = "Home Assistant";
-          href = "http://homeassistant.localdomain:8005";
+          href = localUrl "homeassistant";
           description = "Home automation control and monitoring";
           icon = "home-assistant";
-          siteMonitor = "http://homeassistant.localdomain:8005";
+          siteMonitor = localUrl "homeassistant";
         }
 
         # Widget credentials belong in the agenix-managed Homepage env file.
@@ -171,13 +179,13 @@ in
         {
           group = "Applications";
           name = "Nextcloud";
-          href = "https://nextcloud.vnunes.win";
+          href = publicUrl "nextcloud";
           description = "File sync and collaboration";
           icon = "nextcloud";
-          siteMonitor = "http://kirby.localdomain:8008";
+          siteMonitor = localUrl "nextcloud";
           widget = {
             type = "nextcloud";
-            url = "https://nextcloud.vnunes.win";
+            url = publicUrl "nextcloud";
             username = "admin";
             password = "{{HOMEPAGE_VAR_NEXTCLOUD_TOKEN}}";
             fields = [
@@ -191,13 +199,13 @@ in
         {
           group = "Applications";
           name = "Immich";
-          href = "https://immich.vnunes.win";
+          href = publicUrl "immich";
           description = "Photo and video library";
           icon = "immich";
-          siteMonitor = "http://kirby.localdomain:8009";
+          siteMonitor = localUrl "immich";
           widget = {
             type = "immich";
-            url = "https://immich.vnunes.win";
+            url = publicUrl "immich";
             key = "{{HOMEPAGE_VAR_IMMICH_TOKEN}}";
             version = 2;
             fields = [
@@ -211,30 +219,30 @@ in
         {
           group = "Applications";
           name = "Authentik";
-          href = "https://authentik.vnunes.win";
+          href = publicUrl "authentik";
           description = "Identity provider and single sign-on";
           icon = "authentik";
-          siteMonitor = "http://kirby.localdomain:8011";
+          siteMonitor = localUrl "authentik";
         }
         {
           group = "Applications";
           name = "Paperless-ngx";
-          href = "https://paperless.vnunes.win";
+          href = publicUrl "paperless";
           description = "Document management and OCR";
           icon = "paperless-ngx";
-          siteMonitor = "http://kirby.localdomain:8015";
+          siteMonitor = localUrl "paperless";
         }
         {
           group = "Infrastructure";
           name = "Beszel";
-          href = "http://kirby.localdomain:8017";
+          href = localUrl "beszel";
           description = "Lightweight server monitoring";
           icon = "beszel";
-          siteMonitor = "http://kirby.localdomain:8017";
+          siteMonitor = localUrl "beszel";
           # Beszel widget credentials require a superuser account.
           widget = {
             type = "beszel";
-            url = "http://kirby.localdomain:8017";
+            url = localUrl "beszel";
             username = "{{HOMEPAGE_VAR_BESZEL_USERNAME}}";
             password = "{{HOMEPAGE_VAR_BESZEL_PASSWORD}}";
             version = 2;
@@ -250,6 +258,8 @@ in
     }
 
     (lib.mkIf cfg.enable {
+      assertions = [ (registry.hostAssertion hostName "homepage") ];
+
       services.homepage-dashboard = {
         enable = true;
         inherit (cfg) listenPort;

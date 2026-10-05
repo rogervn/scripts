@@ -2,9 +2,11 @@
   config,
   lib,
   options,
+  hostName,
   ...
 }:
 let
+  registry = import ./service-registry.nix;
   hubCfg = config.myServices.beszelHub;
   agentCfg = config.myServices.beszelAgent;
   hubDataDirOverridden = hubCfg.dataDir != "/var/lib/beszel-hub";
@@ -27,8 +29,8 @@ in
 
       hubUrl = lib.mkOption {
         type = lib.types.str;
+        default = registry.localUrl "beszel";
         description = "URL of the beszel hub this agent registers with";
-        example = "http://kirby.localdomain:8017";
       };
 
       keySecretPath = lib.mkOption {
@@ -48,10 +50,11 @@ in
   config = lib.mkMerge [
     (lib.mkIf hubCfg.enable (
       {
+        assertions = [ (registry.hostAssertion hostName "beszel") ];
         services.beszel.hub = {
           enable = true;
           host = "0.0.0.0";
-          port = 8017;
+          inherit (registry.services.beszel) port;
           inherit (hubCfg) dataDir;
         };
         networking.firewall.allowedTCPPorts = [ config.services.beszel.hub.port ];

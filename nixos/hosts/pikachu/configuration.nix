@@ -92,7 +92,6 @@
     homepage.enable = true;
     beszelAgent = {
       enable = true;
-      hubUrl = "http://kirby.localdomain:8017";
       keySecretPath = config.age.secrets.beszel_hub_key_file.path;
       tokenSecretPath = config.age.secrets.pikachu_beszel_token_file.path;
     };

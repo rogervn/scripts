@@ -1,4 +1,7 @@
-_: {
+let
+  registry = import ./service-registry.nix;
+in
+{
   # free up port 53 locally
   services.resolved = {
     enable = true;
@@ -8,7 +11,8 @@ _: {
   services.adguardhome = {
     enable = true;
     openFirewall = true;
-    port = 8001;
+    # No host assertion: every DNS host runs an instance
+    inherit (registry.services.adguardhome) port;
     settings = {
       schema_version = 20;
       dns = {
