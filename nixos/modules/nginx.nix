@@ -21,7 +21,7 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    assertions = [ (registry.hostAssertion hostName "nginx") ];
+    assertions = [ (registry.services.nginx.hosts.assertOn hostName) ];
 
     security.acme = {
       acceptTerms = true;
@@ -45,12 +45,12 @@ in
       clientMaxBodySize = "0";
       virtualHosts =
         lib.mapAttrs' (
-          name: svc:
+          _: svc:
           lib.nameValuePair svc.domain {
             useACMEHost = certName;
             forceSSL = true;
             locations."/" = {
-              proxyPass = registry.localUrl name;
+              proxyPass = svc.hosts.getSingleHost.localUrl;
               proxyWebsockets = true;
               extraConfig = ''
                 proxy_request_buffering off;
@@ -61,9 +61,9 @@ in
           }
         ) publicServices
         // {
-          ${registry.services.nginx.host} = {
+          ${registry.machines.${hostName}.fqdn} = {
             default = true;
-            locations."/".return = "301 ${registry.publicUrl "homepage"}";
+            locations."/".return = "301 ${registry.services.homepage.publicUrl}";
           };
         };
     };

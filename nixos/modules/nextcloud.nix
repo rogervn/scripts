@@ -10,7 +10,7 @@ let
   inherit (registry.services.nextcloud) port domain;
 in
 {
-  assertions = [ (registry.hostAssertion hostName "nextcloud") ];
+  assertions = [ (registry.services.nextcloud.hosts.assertOn hostName) ];
 
   # Pinned so a reinstall keeps ownership of the data on ZFS
   users = {
@@ -55,8 +55,8 @@ in
         trusted_proxies = [
           "127.0.0.1"
           "::1"
-          (registry.hostIp "nginx")
-        ];
+        ]
+        ++ map (h: h.ip) registry.services.nginx.hosts.getHosts;
       };
 
       phpOptions = {

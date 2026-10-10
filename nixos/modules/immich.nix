@@ -14,7 +14,7 @@ in
     # machine-learning.enable defaults to true
   };
 
-  assertions = [ (registry.hostAssertion hostName "immich") ];
+  assertions = [ (registry.services.immich.hosts.assertOn hostName) ];
 
   # Pinned so a reinstall keeps ownership of the data on ZFS
   users = {

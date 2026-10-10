@@ -20,13 +20,13 @@ in
     };
     url = lib.mkOption {
       type = lib.types.str;
-      default = registry.publicUrl "joplin";
+      default = registry.services.joplin.publicUrl;
       description = "Public base URL for Joplin Server (used in SAML SP XML and APP_BASE_URL)";
     };
   };
 
   config = {
-    assertions = [ (registry.hostAssertion hostName "joplin") ];
+    assertions = [ (registry.services.joplin.hosts.assertOn hostName) ];
 
     # ── PostgreSQL ──────────────────────────────────────────────────────────────
     services.postgresql = {

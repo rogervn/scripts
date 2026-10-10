@@ -29,7 +29,7 @@ in
     };
   };
 
-  assertions = [ (registry.hostAssertion hostName "vaultwarden") ];
+  assertions = [ (registry.services.vaultwarden.hosts.assertOn hostName) ];
 
   myServices.resticBackup.paths = lib.mkAfter [ backupDir ];
 

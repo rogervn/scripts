@@ -32,7 +32,7 @@ in
       disable_startup_analytics = true;
     };
   };
-  assertions = [ (registry.hostAssertion hostName "authentik") ];
+  assertions = [ (registry.services.authentik.hosts.assertOn hostName) ];
 
   myServices.resticBackup.postgresqlBackup.databases = lib.mkAfter [ "authentik" ];
   # /var/lib/authentik is a DynamicUser symlink; restic would store only the link

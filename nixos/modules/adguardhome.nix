@@ -24,8 +24,7 @@ in
         # Public domains go to the local nginx; schema 20 location, migrated to filtering.rewrites
         rewrites = lib.mapAttrsToList (_: svc: {
           inherit (svc) domain;
-          # IP, not a .localdomain CNAME: the router forwards those back here, looping
-          answer = registry.hostIp "nginx";
+          answer = registry.services.nginx.hosts.getSingleHost.ip;
         }) (lib.filterAttrs (_: svc: svc ? domain) registry.services);
       };
       filtering = {

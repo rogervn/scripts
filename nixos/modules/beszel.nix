@@ -29,7 +29,7 @@ in
 
       hubUrl = lib.mkOption {
         type = lib.types.str;
-        default = registry.localUrl "beszel";
+        default = registry.services.beszel.hosts.getSingleHost.localUrl;
         description = "URL of the beszel hub this agent registers with";
       };
 
@@ -50,7 +50,7 @@ in
   config = lib.mkMerge [
     (lib.mkIf hubCfg.enable (
       {
-        assertions = [ (registry.hostAssertion hostName "beszel") ];
+        assertions = [ (registry.services.beszel.hosts.assertOn hostName) ];
         services.beszel.hub = {
           enable = true;
           host = "0.0.0.0";

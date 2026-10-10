@@ -13,7 +13,7 @@ in
 {
   imports = [ ./smtp.nix ];
 
-  assertions = [ (registry.hostAssertion hostName "paperless") ];
+  assertions = [ (registry.services.paperless.hosts.assertOn hostName) ];
 
   services.redis.servers.paperless = {
     enable = true;
@@ -27,7 +27,7 @@ in
     inherit dataDir;
     environmentFile = config.age.secrets.paperlessngx_env_file.path;
     settings = {
-      PAPERLESS_URL = registry.publicUrl "paperless";
+      PAPERLESS_URL = registry.services.paperless.publicUrl;
       PAPERLESS_TIME_ZONE = "Europe/London";
       PAPERLESS_ADMIN_USER = "admin";
       PAPERLESS_EMAIL_HOST = if smtp.enable then smtp.host else "smtp-relay.brevo.com";

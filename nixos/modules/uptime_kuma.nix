@@ -4,7 +4,7 @@ let
   httpPort = registry.services.uptimekuma.port;
 in
 {
-  assertions = [ (registry.hostAssertion hostName "uptimekuma") ];
+  assertions = [ (registry.services.uptimekuma.hosts.assertOn hostName) ];
 
   services.uptime-kuma = {
     enable = true;

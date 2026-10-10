@@ -6,7 +6,8 @@
 }:
 let
   registry = import ./service-registry.nix;
-  inherit (registry) localUrl publicUrl;
+  localUrl = name: registry.services.${name}.hosts.getSingleHost.localUrl;
+  publicUrl = name: registry.services.${name}.publicUrl;
   cfg = config.myServices.homepage;
 
   groupedServices = lib.groupBy (entry: entry.group) cfg.entries;
@@ -53,6 +54,26 @@ let
         "cpu"
         "memory"
         "disk"
+      ];
+    };
+  };
+
+  mkAdguardCard = host: {
+    group = "Infrastructure";
+    name = "AdGuard Home (${host.name})";
+    href = host.localUrl;
+    description = "DNS and network-wide ad blocking";
+    icon = "adguard-home";
+    siteMonitor = host.localUrl;
+    # This widget is intentionally unauthenticated because AdGuard currently has no configured users.
+    widget = {
+      type = "adguard";
+      url = host.localUrl;
+      fields = [
+        "queries"
+        "blocked"
+        "filtered"
+        "latency"
       ];
     };
   };
@@ -119,27 +140,8 @@ in
   config = lib.mkMerge [
     {
       myServices.homepage.entries = lib.mkAfter (
-        [
-          # mog
-          {
-            group = "Infrastructure";
-            name = "AdGuard Home";
-            href = localUrl "adguardhome";
-            description = "DNS and network-wide ad blocking";
-            icon = "adguard-home";
-            siteMonitor = localUrl "adguardhome";
-            # This widget is intentionally unauthenticated because AdGuard currently has no configured users.
-            widget = {
-              type = "adguard";
-              url = localUrl "adguardhome";
-              fields = [
-                "queries"
-                "blocked"
-                "filtered"
-                "latency"
-              ];
-            };
-          }
+        map mkAdguardCard registry.services.adguardhome.hosts.getHosts
+        ++ [
           {
             group = "Infrastructure";
             name = "Uptime Kuma";
@@ -260,7 +262,7 @@ in
     }
 
     (lib.mkIf cfg.enable {
-      assertions = [ (registry.hostAssertion hostName "homepage") ];
+      assertions = [ (registry.services.homepage.hosts.assertOn hostName) ];
 
       services.homepage-dashboard = {
         enable = true;
