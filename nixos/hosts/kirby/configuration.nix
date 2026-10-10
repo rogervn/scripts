@@ -196,8 +196,7 @@ in
     # Samba
     samba = {
       enable = true;
-      # TODO: Restore samba4Full once nixpkgs#560020 is merged.
-      package = pkgs.samba.override { enableMDNS = true; };
+      package = pkgs.samba4Full;
       settings = {
         global = {
           workgroup = "WORKGROUP";

@@ -30,7 +30,6 @@ in
     settings = {
       PAPERLESS_URL = "https://${domain}";
       PAPERLESS_TIME_ZONE = "Europe/London";
-      PAPERLESS_OCR_LANGUAGE = "eng";
       PAPERLESS_ADMIN_USER = "admin";
       PAPERLESS_EMAIL_HOST = if smtp.enable then smtp.host else "smtp-relay.brevo.com";
       PAPERLESS_EMAIL_PORT = if smtp.enable then smtp.port else 587;
