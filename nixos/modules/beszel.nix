@@ -1,12 +1,13 @@
 {
   config,
   lib,
+  pkgs,
   options,
   hostName,
   ...
 }:
 let
-  registry = import ./service-registry.nix;
+  registry = import ./service-registry.nix { inherit pkgs; };
   hubCfg = config.myServices.beszelHub;
   agentCfg = config.myServices.beszelAgent;
   hubDataDirOverridden = hubCfg.dataDir != "/var/lib/beszel-hub";

@@ -1,6 +1,6 @@
-{ hostName, ... }:
+{ pkgs, hostName, ... }:
 let
-  registry = import ./service-registry.nix;
+  registry = import ./service-registry.nix { inherit pkgs; };
   httpPort = registry.services.uptimekuma.port;
 in
 {

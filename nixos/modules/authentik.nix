@@ -1,11 +1,12 @@
 {
   config,
   lib,
+  pkgs,
   hostName,
   ...
 }:
 let
-  registry = import ./service-registry.nix;
+  registry = import ./service-registry.nix { inherit pkgs; };
   httpPort = registry.services.authentik.port;
   httpsPort = 8012;
   inherit (config.myServices) smtp;

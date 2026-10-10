@@ -1,12 +1,13 @@
 {
   config,
   lib,
+  pkgs,
   hostName,
   ...
 }:
 let
   cfg = config.myServices.nginx;
-  registry = import ./service-registry.nix;
+  registry = import ./service-registry.nix { inherit pkgs; };
   certName = "vnunes.win";
   publicServices = lib.filterAttrs (_: svc: svc ? domain) registry.services;
 in

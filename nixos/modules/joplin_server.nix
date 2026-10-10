@@ -1,11 +1,12 @@
 {
   config,
   lib,
+  pkgs,
   hostName,
   ...
 }:
 let
-  registry = import ./service-registry.nix;
+  registry = import ./service-registry.nix { inherit pkgs; };
   httpPort = registry.services.joplin.port;
   cfg = config.services.joplinServer;
 in

@@ -1,4 +1,5 @@
-# Plain data shared across flakes: where each service runs and its public name.
+# Shared across flakes: where each service runs and its public name; pkgs is for check commands
+{ pkgs }:
 let
   domain = "localdomain";
 
@@ -54,9 +55,17 @@ let
     };
     # HTTPS for the public domains on the LAN
     nginx = {
-      hosts = [ mog ];
+      # First host is the keepalived master
+      hosts = [
+        mog
+        pikachu
+      ];
+      # Floating IP held by whichever host is master
+      vip = "10.0.0.50";
       # Default site, redirects to the homepage
       port = 80;
+      # keepalived check over TLS so a self-signed fallback cert fails it; any HTTP status counts
+      check = "${pkgs.curl}/bin/curl -so /dev/null --max-time 2 --resolve ${rawServices.homepage.domain}:443:127.0.0.1 https://${rawServices.homepage.domain}";
     };
     nextcloud = {
       hosts = [ kirby ];

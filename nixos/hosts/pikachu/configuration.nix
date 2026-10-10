@@ -13,6 +13,8 @@
     ../../modules/uptime_kuma.nix
     ../../modules/beszel.nix
     ../../modules/homepage-dashboard.nix
+    ../../modules/nginx.nix
+    ../../modules/keepalived.nix
   ];
 
   nix.settings = {
@@ -94,6 +96,14 @@
       enable = true;
       keySecretPath = config.age.secrets.beszel_hub_key_file.path;
       tokenSecretPath = config.age.secrets.pikachu_beszel_token_file.path;
+    };
+    nginx = {
+      enable = true;
+      cloudflareTokenFile = config.age.secrets.cloudflare_ddns_token.path;
+    };
+    keepalived = {
+      interface = "end0";
+      services.nginx.enable = true;
     };
   };
 

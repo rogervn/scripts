@@ -1,6 +1,11 @@
-{ lib, hostName, ... }:
+{
+  lib,
+  pkgs,
+  hostName,
+  ...
+}:
 let
-  registry = import ./service-registry.nix;
+  registry = import ./service-registry.nix { inherit pkgs; };
   httpPort = registry.services.immich.port;
   mediaPath = "/data/apps/immich";
 in

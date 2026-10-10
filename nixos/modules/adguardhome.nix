@@ -1,6 +1,6 @@
-{ lib, ... }:
+{ lib, pkgs, ... }:
 let
-  registry = import ./service-registry.nix;
+  registry = import ./service-registry.nix { inherit pkgs; };
 in
 {
   # free up port 53 locally
@@ -21,10 +21,10 @@ in
           "9.9.9.9"
           "149.112.112.112"
         ];
-        # Public domains go to the local nginx; schema 20 location, migrated to filtering.rewrites
+        # Public domains go to the nginx VIP; schema 20 location, migrated to filtering.rewrites
         rewrites = lib.mapAttrsToList (_: svc: {
           inherit (svc) domain;
-          answer = registry.services.nginx.hosts.getSingleHost.ip;
+          answer = registry.services.nginx.vip;
         }) (lib.filterAttrs (_: svc: svc ? domain) registry.services);
       };
       filtering = {

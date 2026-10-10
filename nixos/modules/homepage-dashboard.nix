@@ -1,11 +1,12 @@
 {
   config,
   lib,
+  pkgs,
   hostName,
   ...
 }:
 let
-  registry = import ./service-registry.nix;
+  registry = import ./service-registry.nix { inherit pkgs; };
   localUrl = name: registry.services.${name}.hosts.getSingleHost.localUrl;
   publicUrl = name: registry.services.${name}.publicUrl;
   cfg = config.myServices.homepage;

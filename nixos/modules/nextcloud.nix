@@ -6,7 +6,7 @@
   ...
 }:
 let
-  registry = import ./service-registry.nix;
+  registry = import ./service-registry.nix { inherit pkgs; };
   inherit (registry.services.nextcloud) port domain;
 in
 {

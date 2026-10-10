@@ -18,6 +18,7 @@
     ../../modules/vaultwarden.nix
     ../../modules/beszel.nix
     ../../modules/nginx.nix
+    ../../modules/keepalived.nix
   ];
 
   home-manager = {
@@ -114,6 +115,10 @@
     nginx = {
       enable = true;
       cloudflareTokenFile = config.age.secrets.cloudflare_ddns_token.path;
+    };
+    keepalived = {
+      interface = "enp2s0";
+      services.nginx.enable = true;
     };
   };
 
