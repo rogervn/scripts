@@ -43,28 +43,29 @@ in
       recommendedOptimisation = true;
       # Immich and Nextcloud uploads
       clientMaxBodySize = "0";
-      virtualHosts = lib.mapAttrs' (
-        name: svc:
-        lib.nameValuePair svc.domain {
-          useACMEHost = certName;
-          forceSSL = true;
-          locations."/" = {
-            proxyPass = registry.localUrl name;
-            proxyWebsockets = true;
-            extraConfig = ''
-              proxy_request_buffering off;
-              proxy_read_timeout 600s;
-              proxy_send_timeout 600s;
-            '';
+      virtualHosts =
+        lib.mapAttrs' (
+          name: svc:
+          lib.nameValuePair svc.domain {
+            useACMEHost = certName;
+            forceSSL = true;
+            locations."/" = {
+              proxyPass = registry.localUrl name;
+              proxyWebsockets = true;
+              extraConfig = ''
+                proxy_request_buffering off;
+                proxy_read_timeout 600s;
+                proxy_send_timeout 600s;
+              '';
+            };
+          }
+        ) publicServices
+        // {
+          ${registry.services.nginx.host} = {
+            default = true;
+            locations."/".return = "301 ${registry.publicUrl "homepage"}";
           };
-        }
-      ) publicServices
-      // {
-        ${registry.services.nginx.host} = {
-          default = true;
-          locations."/".return = "301 https://${registry.services.homepage.domain}";
         };
-      };
     };
 
     networking.firewall.allowedTCPPorts = [

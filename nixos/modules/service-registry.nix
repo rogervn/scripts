@@ -83,6 +83,8 @@ assert
 
   localUrl = name: "http://${services.${name}.host}:${toString services.${name}.port}";
 
+  publicUrl = name: "https://${services.${name}.domain}";
+
   # Fails the build when a service is deployed somewhere the registry doesn't say
   hostAssertion = hostName: name: {
     assertion = "${hostName}.localdomain" == services.${name}.host;

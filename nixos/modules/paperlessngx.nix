@@ -6,7 +6,6 @@
 }:
 let
   registry = import ./service-registry.nix;
-  inherit (registry.services.paperless) domain;
   httpPort = registry.services.paperless.port;
   dataDir = "/data/apps/paperlessngx";
   inherit (config.myServices) smtp;
@@ -28,7 +27,7 @@ in
     inherit dataDir;
     environmentFile = config.age.secrets.paperlessngx_env_file.path;
     settings = {
-      PAPERLESS_URL = "https://${domain}";
+      PAPERLESS_URL = registry.publicUrl "paperless";
       PAPERLESS_TIME_ZONE = "Europe/London";
       PAPERLESS_ADMIN_USER = "admin";
       PAPERLESS_EMAIL_HOST = if smtp.enable then smtp.host else "smtp-relay.brevo.com";

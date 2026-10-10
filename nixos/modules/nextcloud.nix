@@ -7,8 +7,7 @@
 }:
 let
   registry = import ./service-registry.nix;
-  inherit (registry.services.nextcloud) port;
-  externalUrl = registry.services.nextcloud.domain;
+  inherit (registry.services.nextcloud) port domain;
 in
 {
   assertions = [ (registry.hostAssertion hostName "nextcloud") ];
@@ -24,7 +23,7 @@ in
       enable = true;
       package = pkgs.nextcloud34;
 
-      hostName = externalUrl;
+      hostName = domain;
       home = "/data/apps/nextcloud";
       https = false; # reverse proxy handles TLS
 
@@ -46,7 +45,7 @@ in
       settings = {
         trusted_domains = [
           hostName
-          externalUrl
+          domain
         ];
         default_phone_region = "GB";
         # OIDC provider resolves to the LAN nginx, which Nextcloud blocks by default
@@ -73,7 +72,7 @@ in
     };
 
     # Override nginx vhost to listen on port 8008 instead of default 80/443
-    nginx.virtualHosts.${externalUrl} = {
+    nginx.virtualHosts.${domain} = {
       forceSSL = false;
       listen = [
         {

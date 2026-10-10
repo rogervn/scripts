@@ -20,7 +20,7 @@ in
     };
     url = lib.mkOption {
       type = lib.types.str;
-      default = "https://${registry.services.joplin.domain}";
+      default = registry.publicUrl "joplin";
       description = "Public base URL for Joplin Server (used in SAML SP XML and APP_BASE_URL)";
     };
   };

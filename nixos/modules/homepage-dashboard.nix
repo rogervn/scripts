@@ -6,8 +6,7 @@
 }:
 let
   registry = import ./service-registry.nix;
-  inherit (registry) localUrl;
-  publicUrl = name: "https://${registry.services.${name}.domain}";
+  inherit (registry) localUrl publicUrl;
   cfg = config.myServices.homepage;
 
   groupedServices = lib.groupBy (entry: entry.group) cfg.entries;
@@ -121,142 +120,142 @@ in
     {
       myServices.homepage.entries = lib.mkAfter (
         [
-        # mog
-        {
-          group = "Infrastructure";
-          name = "AdGuard Home";
-          href = localUrl "adguardhome";
-          description = "DNS and network-wide ad blocking";
-          icon = "adguard-home";
-          siteMonitor = localUrl "adguardhome";
-          # This widget is intentionally unauthenticated because AdGuard currently has no configured users.
-          widget = {
-            type = "adguard";
-            url = localUrl "adguardhome";
-            fields = [
-              "queries"
-              "blocked"
-              "filtered"
-              "latency"
-            ];
-          };
-        }
-        {
-          group = "Infrastructure";
-          name = "Uptime Kuma";
-          href = localUrl "uptimekuma";
-          description = "Service uptime monitoring";
-          icon = "uptime-kuma";
-          siteMonitor = localUrl "uptimekuma";
-          widget = {
-            type = "uptimekuma";
-            url = localUrl "uptimekuma";
-            slug = "home-services";
-            fields = [
-              "up"
-              "down"
-              "uptime"
-              "incident"
-            ];
-          };
-        }
-        {
-          group = "Applications";
-          name = "Vaultwarden";
-          href = publicUrl "vaultwarden";
-          description = "Bitwarden-compatible password manager";
-          icon = "vaultwarden";
-          siteMonitor = localUrl "vaultwarden";
-        }
-        {
-          group = "Applications";
-          name = "Home Assistant";
-          href = localUrl "homeassistant";
-          description = "Home automation control and monitoring";
-          icon = "home-assistant";
-          siteMonitor = localUrl "homeassistant";
-        }
+          # mog
+          {
+            group = "Infrastructure";
+            name = "AdGuard Home";
+            href = localUrl "adguardhome";
+            description = "DNS and network-wide ad blocking";
+            icon = "adguard-home";
+            siteMonitor = localUrl "adguardhome";
+            # This widget is intentionally unauthenticated because AdGuard currently has no configured users.
+            widget = {
+              type = "adguard";
+              url = localUrl "adguardhome";
+              fields = [
+                "queries"
+                "blocked"
+                "filtered"
+                "latency"
+              ];
+            };
+          }
+          {
+            group = "Infrastructure";
+            name = "Uptime Kuma";
+            href = localUrl "uptimekuma";
+            description = "Service uptime monitoring";
+            icon = "uptime-kuma";
+            siteMonitor = localUrl "uptimekuma";
+            widget = {
+              type = "uptimekuma";
+              url = localUrl "uptimekuma";
+              slug = "home-services";
+              fields = [
+                "up"
+                "down"
+                "uptime"
+                "incident"
+              ];
+            };
+          }
+          {
+            group = "Applications";
+            name = "Vaultwarden";
+            href = publicUrl "vaultwarden";
+            description = "Bitwarden-compatible password manager";
+            icon = "vaultwarden";
+            siteMonitor = localUrl "vaultwarden";
+          }
+          {
+            group = "Applications";
+            name = "Home Assistant";
+            href = localUrl "homeassistant";
+            description = "Home automation control and monitoring";
+            icon = "home-assistant";
+            siteMonitor = localUrl "homeassistant";
+          }
 
-        # Widget credentials belong in the agenix-managed Homepage env file.
-        # kirby
-        {
-          group = "Applications";
-          name = "Nextcloud";
-          href = publicUrl "nextcloud";
-          description = "File sync and collaboration";
-          icon = "nextcloud";
-          siteMonitor = localUrl "nextcloud";
-          widget = {
-            type = "nextcloud";
-            url = publicUrl "nextcloud";
-            username = "admin";
-            password = "{{HOMEPAGE_VAR_NEXTCLOUD_TOKEN}}";
-            fields = [
-              "freespace"
-              "activeusers"
-              "numfiles"
-              "numshares"
-            ];
-          };
-        }
-        {
-          group = "Applications";
-          name = "Immich";
-          href = publicUrl "immich";
-          description = "Photo and video library";
-          icon = "immich";
-          siteMonitor = localUrl "immich";
-          widget = {
-            type = "immich";
-            url = publicUrl "immich";
-            key = "{{HOMEPAGE_VAR_IMMICH_TOKEN}}";
-            version = 2;
-            fields = [
-              "users"
-              "photos"
-              "videos"
-              "storage"
-            ];
-          };
-        }
-        {
-          group = "Applications";
-          name = "Authentik";
-          href = publicUrl "authentik";
-          description = "Identity provider and single sign-on";
-          icon = "authentik";
-          siteMonitor = localUrl "authentik";
-        }
-        {
-          group = "Applications";
-          name = "Paperless-ngx";
-          href = publicUrl "paperless";
-          description = "Document management and OCR";
-          icon = "paperless-ngx";
-          siteMonitor = localUrl "paperless";
-        }
-        {
-          group = "Infrastructure";
-          name = "Beszel";
-          href = localUrl "beszel";
-          description = "Lightweight server monitoring";
-          icon = "beszel";
-          siteMonitor = localUrl "beszel";
-          # Beszel widget credentials require a superuser account.
-          widget = {
-            type = "beszel";
-            url = localUrl "beszel";
-            username = "{{HOMEPAGE_VAR_BESZEL_USERNAME}}";
-            password = "{{HOMEPAGE_VAR_BESZEL_PASSWORD}}";
-            version = 2;
-            fields = [
-              "systems"
-              "up"
-            ];
-          };
-        }
-      ]
-      ++ lib.mapAttrsToList mkServerCard beszelSystems
+          # Widget credentials belong in the agenix-managed Homepage env file.
+          # kirby
+          {
+            group = "Applications";
+            name = "Nextcloud";
+            href = publicUrl "nextcloud";
+            description = "File sync and collaboration";
+            icon = "nextcloud";
+            siteMonitor = localUrl "nextcloud";
+            widget = {
+              type = "nextcloud";
+              url = publicUrl "nextcloud";
+              username = "admin";
+              password = "{{HOMEPAGE_VAR_NEXTCLOUD_TOKEN}}";
+              fields = [
+                "freespace"
+                "activeusers"
+                "numfiles"
+                "numshares"
+              ];
+            };
+          }
+          {
+            group = "Applications";
+            name = "Immich";
+            href = publicUrl "immich";
+            description = "Photo and video library";
+            icon = "immich";
+            siteMonitor = localUrl "immich";
+            widget = {
+              type = "immich";
+              url = publicUrl "immich";
+              key = "{{HOMEPAGE_VAR_IMMICH_TOKEN}}";
+              version = 2;
+              fields = [
+                "users"
+                "photos"
+                "videos"
+                "storage"
+              ];
+            };
+          }
+          {
+            group = "Applications";
+            name = "Authentik";
+            href = publicUrl "authentik";
+            description = "Identity provider and single sign-on";
+            icon = "authentik";
+            siteMonitor = localUrl "authentik";
+          }
+          {
+            group = "Applications";
+            name = "Paperless-ngx";
+            href = publicUrl "paperless";
+            description = "Document management and OCR";
+            icon = "paperless-ngx";
+            siteMonitor = localUrl "paperless";
+          }
+          {
+            group = "Infrastructure";
+            name = "Beszel";
+            href = localUrl "beszel";
+            description = "Lightweight server monitoring";
+            icon = "beszel";
+            siteMonitor = localUrl "beszel";
+            # Beszel widget credentials require a superuser account.
+            widget = {
+              type = "beszel";
+              url = localUrl "beszel";
+              username = "{{HOMEPAGE_VAR_BESZEL_USERNAME}}";
+              password = "{{HOMEPAGE_VAR_BESZEL_PASSWORD}}";
+              version = 2;
+              fields = [
+                "systems"
+                "up"
+              ];
+            };
+          }
+        ]
+        ++ lib.mapAttrsToList mkServerCard beszelSystems
       );
     }
 
