@@ -339,11 +339,17 @@ in
           }
 
           ${serverSelector ".service-title"} {
-            flex: 0 0 3rem;
+            flex: 0 0 4rem;
           }
 
           ${serverSelector ".service-icon"} {
             width: 100%;
+          }
+
+          /* Overrides the 32px inline size set by Homepage */
+          ${serverSelector ".service-icon img"} {
+            width: 3rem !important;
+            height: 3rem !important;
           }
 
           ${serverSelector ".service-title-text"} {
