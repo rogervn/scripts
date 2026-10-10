@@ -68,6 +68,11 @@
     };
   };
 
+  # brcmfmac power save can wedge the BCM43430 firmware, leaving WiFi down until reboot.
+  services.udev.extraRules = ''
+    ACTION=="add", SUBSYSTEM=="net", KERNEL=="wlan0", RUN+="${pkgs.iw}/bin/iw dev %k set power_save off"
+  '';
+
   systemd.services = {
     # No RTC: wait for NTP so AdGuard's TLS filter downloads see the real date.
     chrony-wait = {
