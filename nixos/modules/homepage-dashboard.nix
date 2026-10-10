@@ -11,6 +11,13 @@ let
   publicUrl = name: registry.services.${name}.publicUrl;
   cfg = config.myServices.homepage;
 
+  # Packaged public/ plus our icons, bind-mounted over the read-only original
+  packagePublic = "${config.services.homepage-dashboard.package}/share/homepage/public";
+  publicDir = pkgs.runCommand "homepage-public" { } ''
+    cp -r --no-preserve=mode ${packagePublic} $out
+    cp -r --no-preserve=mode ${../images} $out/icons
+  '';
+
   groupedServices = lib.groupBy (entry: entry.group) cfg.entries;
   homepageServices = lib.mapAttrsToList (group: entries: {
     "${group}" = map (entry: {
@@ -42,7 +49,8 @@ let
     id = "beszel-server-${name}";
     href = "${localUrl "beszel"}/system/${systemPath}";
     description = "Host monitoring for ${name}";
-    icon = "mdi-server";
+    # From nixos/images, see publicDir
+    icon = "/icons/${name}.png";
     widget = {
       type = "beszel";
       url = localUrl "beszel";
@@ -366,7 +374,10 @@ in
         };
       };
 
-      systemd.services.homepage-dashboard.environment.HOMEPAGE_PROXY_DISABLE_IPV6 = "true";
+      systemd.services.homepage-dashboard = {
+        environment.HOMEPAGE_PROXY_DISABLE_IPV6 = "true";
+        serviceConfig.BindReadOnlyPaths = [ "${publicDir}:${packagePublic}" ];
+      };
 
       networking.firewall.allowedTCPPorts = [ cfg.listenPort ];
     })
