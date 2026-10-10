@@ -56,8 +56,7 @@ in
         trusted_proxies = [
           "127.0.0.1"
           "::1"
-          # mog: nginx host in service-registry.nix
-          "10.0.0.14"
+          (registry.hostIp "nginx")
         ];
       };
 

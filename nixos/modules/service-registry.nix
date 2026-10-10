@@ -1,5 +1,12 @@
 # Plain data shared across flakes: where each service runs and its public name.
-rec {
+let
+  hosts = {
+    "homeassistant.localdomain" = "10.0.0.15";
+    "kirby.localdomain" = "10.0.0.16";
+    "mog.localdomain" = "10.0.0.14";
+    "pikachu.localdomain" = "10.0.0.12";
+  };
+
   services = {
     # Also runs on every other DNS host; this is the instance others link to
     adguardhome = {
@@ -62,6 +69,17 @@ rec {
       domain = "vaultwarden.vnunes.win";
     };
   };
+
+  missing = builtins.filter (n: !(hosts ? ${services.${n}.host})) (builtins.attrNames services);
+in
+assert
+  missing == [ ]
+  || throw "service-registry.nix: no hosts entry for the host of: ${builtins.concatStringsSep ", " missing}";
+{
+  inherit hosts services;
+
+  # Lets DNS rewrites and proxy trust lists work without resolving .localdomain
+  hostIp = name: hosts.${services.${name}.host};
 
   localUrl = name: "http://${services.${name}.host}:${toString services.${name}.port}";
 

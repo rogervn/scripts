@@ -20,13 +20,12 @@ in
         upstream_dns = [
           "9.9.9.9"
           "149.112.112.112"
-          # Rewrite CNAME targets only exist on the router
-          "[/localdomain/]10.0.0.1"
         ];
         # Public domains go to the local nginx; schema 20 location, migrated to filtering.rewrites
         rewrites = lib.mapAttrsToList (_: svc: {
           inherit (svc) domain;
-          answer = registry.services.nginx.host;
+          # IP, not a .localdomain CNAME: the router forwards those back here, looping
+          answer = registry.hostIp "nginx";
         }) (lib.filterAttrs (_: svc: svc ? domain) registry.services);
       };
       filtering = {
