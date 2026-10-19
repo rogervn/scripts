@@ -21,7 +21,7 @@ in
   services = {
     nextcloud = {
       enable = true;
-      package = pkgs.nextcloud34;
+      package = pkgs.nextcloud35;
 
       hostName = domain;
       home = "/data/apps/nextcloud";
@@ -38,7 +38,7 @@ in
       };
 
       extraApps = {
-        inherit (pkgs.nextcloud34.packages.apps) user_oidc gpoddersync news;
+        inherit (pkgs.nextcloud35.packages.apps) user_oidc gpoddersync news;
       };
       extraAppsEnable = true;
 
