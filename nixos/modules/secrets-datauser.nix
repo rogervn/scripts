@@ -45,11 +45,6 @@
         file = ./secrets/joplin_idp_file.age;
         mode = "444";
       };
-      nextcloud_admin_pass = {
-        file = ./secrets/nextcloud_admin_pass.age;
-        owner = "nextcloud";
-        mode = "400";
-      };
       smtp_password = {
         file = ./secrets/smtp_password.age;
         owner = "root";

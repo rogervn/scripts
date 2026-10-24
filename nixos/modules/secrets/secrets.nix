@@ -99,10 +99,6 @@ in
     kratos
     kirby
   ];
-  "nextcloud_admin_pass.age".publicKeys = [
-    kratos
-    kirby
-  ];
   "smtp_password.age".publicKeys = [
     kratos
     kirby

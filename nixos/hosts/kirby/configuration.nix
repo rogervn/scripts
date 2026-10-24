@@ -196,7 +196,7 @@ in
     # Samba
     samba = {
       enable = true;
-      package = pkgs.samba4Full;
+      package = pkgs.samba.override { enableMDNS = true; };
       settings = {
         global = {
           workgroup = "WORKGROUP";
@@ -222,9 +222,10 @@ in
       enable = true;
       openFirewall = true;
       nssmdns4 = true;
-      publish = {
-        enable = true;
-        userServices = true;
+      settings.publish = {
+        disable-publishing = false;
+        disable-user-service-publishing = false;
+        publish-addresses = true;
       };
     };
   };

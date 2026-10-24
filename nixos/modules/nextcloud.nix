@@ -32,8 +32,6 @@ in
       configureRedis = true; # auto-wires Redis memcache + file locking
 
       config = {
-        adminuser = "admin";
-        adminpassFile = config.age.secrets.nextcloud_admin_pass.path;
         dbtype = "pgsql";
       };
 
