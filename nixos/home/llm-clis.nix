@@ -66,16 +66,16 @@
 
   programs.opencode = {
     enable = true;
-    tui.plugin = [
-      [
-        "@leohenon/opencode-vim-plugin"
-        {
+    cli.plugins = [
+      {
+        package = "@leohenon/opencode-vim-plugin";
+        options = {
           enabled = true;
           vim_escape_sequence = "jk";
           vim_enter_submit = true;
           vim_insert_after_submit = true;
-        }
-      ]
+        };
+      }
     ];
     settings = {
       model = "openrouter/deepseek/deepseek-v4-pro-0813";

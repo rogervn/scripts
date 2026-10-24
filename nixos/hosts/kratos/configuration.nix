@@ -33,11 +33,11 @@
       trusted-users = [ userName ];
       # Binary caches for the CachyOS kernel and the RPi vendor kernel (nixos-rpi flake)
       extra-substituters = [
-        "https://attic.xuyh0120.win/lantian"
+        "https://cache.lantian.pub/lantian"
         "https://nixos-raspberrypi.cachix.org"
       ];
       extra-trusted-public-keys = [
-        "lantian:EeAUQ+W+6r7EtwnmYjeVwx5kOGEBpjlBfPlzGlTNvHc="
+        "lantian:WVGO7vsRMSEN+h7Lp7kv6SAmrkEXgUGbbXm7jMDjBuQ="
         "nixos-raspberrypi.cachix.org-1:4iMO9LXa8BqhU+Rpg6LQKiGa2lsNh/j2oiYLNOQ5sPI="
       ];
     };
@@ -85,7 +85,6 @@
     wirelessRegulatoryDatabase = true;
     bluetooth.enable = true;
     enableAllFirmware = true;
-    xone.enable = true;
   };
 
   fonts.packages = [ pkgs.nerd-fonts.jetbrains-mono ];
