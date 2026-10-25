@@ -62,7 +62,6 @@
     # Keep Plymouth on screen without kernel or initrd status messages until
     # the display manager takes over.
     consoleLogLevel = 3;
-    initrd.verbose = false;
     kernelParams = [
       "quiet"
       "rd.udev.log_level=3"

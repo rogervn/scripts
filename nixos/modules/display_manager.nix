@@ -117,7 +117,7 @@ in
       # Read the LUKS passphrase retained by systemd-cryptsetup and make it
       # available to compatible PAM modules in greetd's login stack.
       rules.auth.systemd_loadkey =
-        lib.mkIf (config.boot.initrd.systemd.enable && config.boot.initrd.luks.devices != { })
+        lib.mkIf (config.boot.initrd.luks.devices != { })
           {
             order = 10000;
             control = "optional";
@@ -125,7 +125,7 @@ in
           };
       # Run before fprintd, which otherwise short-circuits the login substack.
       rules.auth.gnome_keyring_loadkey =
-        lib.mkIf (config.boot.initrd.systemd.enable && config.boot.initrd.luks.devices != { })
+        lib.mkIf (config.boot.initrd.luks.devices != { })
           {
             order = 10001;
             control = "optional";

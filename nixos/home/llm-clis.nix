@@ -8,7 +8,8 @@
     packages = with pkgs; [
       claude-code
       codex
-      ha-mcp
+      # Drop override once nixos-unstable has NixOS/nixpkgs#578535.
+      (python3Packages.overrideScope (final: _: { mcp = final.mcp_1; })).ha-mcp
       uv
       python313
     ];
