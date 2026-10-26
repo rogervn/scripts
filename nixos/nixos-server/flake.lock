@@ -226,6 +226,22 @@
         "type": "github"
       }
     },
+    "nixpkgs-master": {
+      "locked": {
+        "lastModified": 1793047039,
+        "narHash": "sha256-pRj0Wt1dGznUIMBpX8O7vtTCMnNlFPdx1IQ+r7G4ad4=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "5d2d0d0b08f226a0cb835ed43ad852302236f85a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "master",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "nixpkgs_2": {
       "locked": {
         "lastModified": 1791956154,
@@ -356,6 +372,7 @@
         "disko": "disko",
         "home-manager": "home-manager",
         "nixpkgs": "nixpkgs_3",
+        "nixpkgs-master": "nixpkgs-master",
         "nixvim": "nixvim",
         "nixvirt": "nixvirt"
       }

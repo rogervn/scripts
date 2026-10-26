@@ -10,6 +10,8 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    # TODO: Drop once nixos-unstable has NixOS/nixpkgs#576762 (see modules/cloudflared.nix).
+    nixpkgs-master.url = "github:NixOS/nixpkgs/master";
     agenix.url = "github:ryantm/agenix";
     disko = {
       url = "github:nix-community/disko";
@@ -36,6 +38,7 @@
   outputs =
     {
       nixpkgs,
+      nixpkgs-master,
       agenix,
       disko,
       home-manager,
@@ -78,7 +81,7 @@
               userName = "serveruser";
               hostName = host;
               keyPath = "/root/.ssh/id_ed25519";
-              inherit nixvim nixvirt;
+              inherit nixvim nixvirt nixpkgs-master;
               agenixPackage = agenix.packages.x86_64-linux.default;
             };
             modules = [
