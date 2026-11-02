@@ -228,7 +228,8 @@ in
           allow_tearing = true;
         };
         scrolling = {
-          follow_focus = false;
+          follow_focus = true;
+          follow_min_visible = 0.5;
           wrap_focus = false;
           wrap_swapcol = false;
         };
