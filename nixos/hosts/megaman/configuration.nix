@@ -78,6 +78,7 @@
       pulse.enable = true;
     };
     fprintd.enable = true;
+    fwupd.enable = true;
     # Enable touchpad support (enabled default in most desktopManager).
     libinput.enable = true;
   };
