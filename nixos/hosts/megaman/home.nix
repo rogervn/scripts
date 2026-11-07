@@ -62,5 +62,7 @@
         ../../home/ghostty.nix
         ../../home/noctalia_config.nix
       ];
+
+      services.wluma.enable = true;
     };
 }
