@@ -279,13 +279,13 @@ in
           fingers = 3;
           direction = "horizontal";
           action = "scroll_move";
-          scale = 3.0;
+          scale = -3.0;
         }
         {
           fingers = 3;
           direction = "vertical";
           action = "scroll_move";
-          scale = 3.0;
+          scale = -3.0;
         }
         {
           fingers = 4;
