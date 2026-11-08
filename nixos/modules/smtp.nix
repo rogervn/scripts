@@ -1,4 +1,9 @@
-{ config, lib, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   cfg = config.myServices.smtp;
 in
@@ -53,5 +58,19 @@ in
     };
     services.mail.sendmailSetuidWrapper.enable = true;
     environment.etc.aliases.text = "root: ${cfg.recipient}\n";
+
+    # Units opt in with onFailure = [ "mail-on-failure@%n.service" ]
+    systemd.services."mail-on-failure@" = {
+      description = "Mail failure log of %i";
+      serviceConfig.Type = "oneshot";
+      scriptArgs = "%i";
+      script = ''
+        {
+          echo "Subject: [${config.networking.hostName}] $1 failed"
+          echo
+          ${pkgs.systemd}/bin/journalctl -u "$1" -n 100 --no-pager
+        } | /run/wrappers/bin/sendmail root
+      '';
+    };
   };
 }

@@ -103,6 +103,7 @@ in
     kratos
     kirby
     snorlax
+    mog
   ];
   "kirby_restic_pass.age".publicKeys = [
     kratos

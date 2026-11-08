@@ -93,6 +93,16 @@
   };
 
   myServices = {
+    smtp = {
+      enable = true;
+      host = "smtp-relay.brevo.com";
+      port = 587;
+      startTls = true;
+      user = "piuk-admin@vnunes.win";
+      from = "mog@vnunes.win";
+      passwordSecretPath = config.age.secrets.smtp_password.path;
+      recipient = "admin@vnunes.win";
+    };
     resticBackup = {
       enable = true;
       repository = "sftp://backupuser@kirby.localdomain/mog";

@@ -117,7 +117,6 @@
       destination = "/mnt/external/backup/kirby";
       sshKeyPath = "/home/backupuser/.ssh/id_ed25519";
       shutdownOnSuccess = true;
-      mailOnFailure = true;
       timerConfig = {
         OnCalendar = "Sat *-*-* 04:00:00";
         Persistent = true;

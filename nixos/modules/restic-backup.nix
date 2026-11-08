@@ -10,6 +10,7 @@ let
   pgCfg = cfg.postgresqlBackup;
   repoSyncCfg = config.myServices.repoSync;
   repoSyncB2Cfg = config.myServices.repoSyncB2;
+  mailOnFailure = lib.optional config.myServices.smtp.enable "mail-on-failure@%n.service";
 in
 {
   imports = [ ./smtp.nix ];
@@ -116,8 +117,6 @@ in
 
       shutdownOnSuccess = lib.mkEnableOption "powering off 5 minutes after a successful sync";
 
-      mailOnFailure = lib.mkEnableOption "mailing root (via myServices.smtp) when the sync fails";
-
       timerConfig = lib.mkOption {
         type = lib.types.attrs;
         default = {
@@ -170,10 +169,20 @@ in
         inherit (cfg) extraOptions;
       };
 
-      systemd.services."restic-backups-${hostName}" = lib.mkIf pgCfg.enable {
-        wants = lib.mkAfter (map (db: "postgresqlBackup-${db}.service") pgCfg.databases);
-        after = lib.mkAfter (map (db: "postgresqlBackup-${db}.service") pgCfg.databases);
-      };
+      systemd.services = {
+        "restic-backups-${hostName}" = {
+          onFailure = mailOnFailure;
+        }
+        // lib.optionalAttrs pgCfg.enable {
+          wants = lib.mkAfter (map (db: "postgresqlBackup-${db}.service") pgCfg.databases);
+          after = lib.mkAfter (map (db: "postgresqlBackup-${db}.service") pgCfg.databases);
+        };
+      }
+      // lib.optionalAttrs pgCfg.enable (
+        lib.genAttrs (map (db: "postgresqlBackup-${db}") pgCfg.databases) (_: {
+          onFailure = mailOnFailure;
+        })
+      );
     })
 
     (lib.mkIf repoSyncCfg.enable {
@@ -188,7 +197,7 @@ in
             "network-online.target"
             "nss-lookup.target"
           ];
-          onFailure = lib.optional repoSyncCfg.mailOnFailure "repo-sync-failure-mail.service";
+          onFailure = mailOnFailure;
           serviceConfig.Type = "oneshot";
           script = ''
             ${pkgs.rsync}/bin/rsync -avz --delete \
@@ -200,17 +209,6 @@ in
           # Cancel with `shutdown -c` to keep the host up
           postStart = lib.mkIf repoSyncCfg.shutdownOnSuccess ''
             ${pkgs.systemd}/bin/shutdown +5 "repo-sync finished, powering off"
-          '';
-        };
-        services.repo-sync-failure-mail = lib.mkIf repoSyncCfg.mailOnFailure {
-          description = "Mail repo-sync failure log";
-          serviceConfig.Type = "oneshot";
-          script = ''
-            {
-              echo "Subject: [${hostName}] repo-sync failed"
-              echo
-              ${pkgs.systemd}/bin/journalctl -u repo-sync.service -n 100 --no-pager
-            } | /run/wrappers/bin/sendmail root
           '';
         };
         timers.repo-sync = {
@@ -226,6 +224,7 @@ in
           description = "Sync ${repoSyncB2Cfg.sourceDir} to Backblaze B2";
           after = [ "network-online.target" ];
           wants = [ "network-online.target" ];
+          onFailure = mailOnFailure;
           serviceConfig = {
             Type = "oneshot";
             EnvironmentFile = repoSyncB2Cfg.environmentSecretPath;
