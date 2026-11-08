@@ -102,6 +102,7 @@ in
   "smtp_password.age".publicKeys = [
     kratos
     kirby
+    snorlax
   ];
   "kirby_restic_pass.age".publicKeys = [
     kratos

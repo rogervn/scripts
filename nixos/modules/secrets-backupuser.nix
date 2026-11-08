@@ -25,6 +25,11 @@
         group = "users";
         mode = "600";
       };
+      smtp_password = {
+        file = ./secrets/smtp_password.age;
+        owner = "root";
+        mode = "400";
+      };
     };
   };
 }

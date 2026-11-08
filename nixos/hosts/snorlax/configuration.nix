@@ -99,14 +99,29 @@
     mode = "600";
   };
 
-  myServices.repoSync = {
-    enable = true;
-    source = "backupuser@kirby.localdomain:/data/backup/restic/";
-    destination = "/mnt/external/backup/kirby";
-    sshKeyPath = "/home/backupuser/.ssh/id_ed25519";
-    timerConfig = {
-      OnCalendar = "Sat *-*-* 04:00:00";
-      Persistent = true;
+  myServices = {
+    smtp = {
+      enable = true;
+      host = "smtp-relay.brevo.com";
+      port = 587;
+      startTls = true;
+      user = "piuk-admin@vnunes.win";
+      from = "snorlax@vnunes.win";
+      passwordSecretPath = config.age.secrets.smtp_password.path;
+      recipient = "admin@vnunes.win";
+    };
+    # BIOS Auto On wakes the host Saturdays at 03:55
+    repoSync = {
+      enable = true;
+      source = "backupuser@kirby.localdomain:/data/backup/restic/";
+      destination = "/mnt/external/backup/kirby";
+      sshKeyPath = "/home/backupuser/.ssh/id_ed25519";
+      shutdownOnSuccess = true;
+      mailOnFailure = true;
+      timerConfig = {
+        OnCalendar = "Sat *-*-* 04:00:00";
+        Persistent = true;
+      };
     };
   };
 
