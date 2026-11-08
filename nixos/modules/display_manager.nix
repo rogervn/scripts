@@ -116,21 +116,17 @@ in
 
       # Read the LUKS passphrase retained by systemd-cryptsetup and make it
       # available to compatible PAM modules in greetd's login stack.
-      rules.auth.systemd_loadkey =
-        lib.mkIf (config.boot.initrd.luks.devices != { })
-          {
-            order = 10000;
-            control = "optional";
-            modulePath = "${config.systemd.package}/lib/security/pam_systemd_loadkey.so";
-          };
+      rules.auth.systemd_loadkey = lib.mkIf (config.boot.initrd.luks.devices != { }) {
+        order = 10000;
+        control = "optional";
+        modulePath = "${config.systemd.package}/lib/security/pam_systemd_loadkey.so";
+      };
       # Run before fprintd, which otherwise short-circuits the login substack.
-      rules.auth.gnome_keyring_loadkey =
-        lib.mkIf (config.boot.initrd.luks.devices != { })
-          {
-            order = 10001;
-            control = "optional";
-            modulePath = "${pkgs.gnome-keyring}/lib/security/pam_gnome_keyring.so";
-          };
+      rules.auth.gnome_keyring_loadkey = lib.mkIf (config.boot.initrd.luks.devices != { }) {
+        order = 10001;
+        control = "optional";
+        modulePath = "${pkgs.gnome-keyring}/lib/security/pam_gnome_keyring.so";
+      };
     };
   };
 }
