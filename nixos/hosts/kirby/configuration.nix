@@ -21,6 +21,7 @@ in
 {
   imports = [
     ../../modules/base.nix
+    ../../modules/nix-gc.nix
     ../../modules/secrets-datauser.nix
     ../../modules/smtp.nix
     ../../modules/zfs.nix
@@ -52,11 +53,6 @@ in
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
       ];
       trusted-users = [ userName ];
-    };
-    gc = {
-      automatic = true;
-      dates = "weekly";
-      options = "--delete-older-than 14d";
     };
   };
   nixpkgs.config.allowUnfree = true;

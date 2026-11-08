@@ -10,6 +10,7 @@
 {
   imports = [
     ../../modules/base.nix
+    ../../modules/nix-gc.nix
     ../../modules/secrets-serveruser.nix
     ../../modules/cloudflared.nix
     ../../modules/adguardhome.nix

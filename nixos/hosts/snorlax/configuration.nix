@@ -10,6 +10,7 @@
 {
   imports = [
     ../../modules/base.nix
+    ../../modules/nix-gc.nix
     ../../modules/secrets-backupuser.nix
     ../../modules/restic-backup.nix
   ];
