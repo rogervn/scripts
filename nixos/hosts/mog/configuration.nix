@@ -108,6 +108,7 @@
       enable = true;
       repository = "sftp://backupuser@kirby.localdomain/mog";
       passwordSecretPath = config.age.secrets.mog_backup_restic_pass.path;
+      # Uptime Kuma push URL hardcoded to pikachu; re-encrypt if Kuma moves or its token resets
       pushUrlFile = config.age.secrets.mog_restic_push_url.path;
       timerConfig = {
         OnCalendar = "daily";

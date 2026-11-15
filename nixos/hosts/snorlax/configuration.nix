@@ -118,6 +118,7 @@
       destination = "/mnt/external/backup/kirby";
       sshKeyPath = "/home/backupuser/.ssh/id_ed25519";
       shutdownOnSuccess = true;
+      # Uptime Kuma push URL hardcoded to pikachu; re-encrypt if Kuma moves or its token resets
       pushUrlFile = config.age.secrets.snorlax_repo_sync_push_url.path;
       timerConfig = {
         OnCalendar = "Sat *-*-* 04:00:00";
