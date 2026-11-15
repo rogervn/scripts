@@ -11,6 +11,22 @@ let
   repoSyncCfg = config.myServices.repoSync;
   repoSyncB2Cfg = config.myServices.repoSyncB2;
   mailOnFailure = lib.optional config.myServices.smtp.enable "mail-on-failure@%n.service";
+  # Best-effort Uptime Kuma push (up/down per result); never fails the unit
+  kumaPush =
+    urlFile:
+    lib.mkIf (urlFile != null) [
+      "-${pkgs.writeShellScript "kuma-push" ''
+        status=up
+        [ "$SERVICE_RESULT" = success ] || status=down
+        ${pkgs.curl}/bin/curl -fsS -m 10 --retry 3 -o /dev/null \
+          "$(cat ${urlFile})?status=$status&msg=$SERVICE_RESULT" || true
+      ''}"
+    ];
+  pushUrlFileOption = lib.mkOption {
+    type = lib.types.nullOr lib.types.str;
+    default = null;
+    description = "Path to a secret holding an Uptime Kuma push URL (without query string)";
+  };
 in
 {
   imports = [ ./smtp.nix ];
@@ -68,6 +84,8 @@ in
         default = [ ];
       };
 
+      pushUrlFile = pushUrlFileOption;
+
       postgresqlBackup = {
         enable = lib.mkEnableOption "PostgreSQL dump sub-feature";
 
@@ -117,6 +135,8 @@ in
 
       shutdownOnSuccess = lib.mkEnableOption "powering off 5 minutes after a successful sync";
 
+      pushUrlFile = pushUrlFileOption;
+
       timerConfig = lib.mkOption {
         type = lib.types.attrs;
         default = {
@@ -138,6 +158,8 @@ in
         type = lib.types.str;
         description = "Path to env file with B2_ACCOUNT_ID, B2_APPLICATION_KEY, B2_BUCKET";
       };
+
+      pushUrlFile = pushUrlFileOption;
 
       timerConfig = lib.mkOption {
         type = lib.types.attrs;
@@ -172,6 +194,7 @@ in
       systemd.services = {
         "restic-backups-${hostName}" = {
           onFailure = mailOnFailure;
+          serviceConfig.ExecStopPost = kumaPush cfg.pushUrlFile;
         }
         // lib.optionalAttrs pgCfg.enable {
           wants = lib.mkAfter (map (db: "postgresqlBackup-${db}.service") pgCfg.databases);
@@ -198,7 +221,10 @@ in
             "nss-lookup.target"
           ];
           onFailure = mailOnFailure;
-          serviceConfig.Type = "oneshot";
+          serviceConfig = {
+            Type = "oneshot";
+            ExecStopPost = kumaPush repoSyncCfg.pushUrlFile;
+          };
           script = ''
             ${pkgs.rsync}/bin/rsync -avz --delete \
               ${lib.optionalString (repoSyncCfg.sshKeyPath != null)
@@ -228,6 +254,7 @@ in
           serviceConfig = {
             Type = "oneshot";
             EnvironmentFile = repoSyncB2Cfg.environmentSecretPath;
+            ExecStopPost = kumaPush repoSyncB2Cfg.pushUrlFile;
           };
           script = ''
             ${pkgs.rclone}/bin/rclone sync \

@@ -60,6 +60,16 @@
         owner = "root";
         mode = "400";
       };
+      kirby_rclone_b2_push_url = {
+        file = ./secrets/kirby_rclone_b2_push_url.age;
+        owner = "root";
+        mode = "400";
+      };
+      kirby_restic_push_url = {
+        file = ./secrets/kirby_restic_push_url.age;
+        owner = "root";
+        mode = "400";
+      };
       kirby_backupuser_authorized_keys = {
         file = ./secrets/kirby_backupuser_authorized_keys.age;
         path = "/etc/ssh/authorized_keys.d/backupuser";

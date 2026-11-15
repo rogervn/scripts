@@ -108,6 +108,7 @@
       enable = true;
       repository = "sftp://backupuser@kirby.localdomain/mog";
       passwordSecretPath = config.age.secrets.mog_backup_restic_pass.path;
+      pushUrlFile = config.age.secrets.mog_restic_push_url.path;
       timerConfig = {
         OnCalendar = "daily";
         RandomizedDelaySec = "1h";

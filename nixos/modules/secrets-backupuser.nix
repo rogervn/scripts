@@ -30,6 +30,11 @@
         owner = "root";
         mode = "400";
       };
+      snorlax_repo_sync_push_url = {
+        file = ./secrets/snorlax_repo_sync_push_url.age;
+        owner = "root";
+        mode = "400";
+      };
     };
   };
 }

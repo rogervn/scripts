@@ -242,6 +242,7 @@ in
       enable = true;
       repository = resticRepo;
       passwordSecretPath = config.age.secrets.kirby_restic_pass.path;
+      pushUrlFile = config.age.secrets.kirby_restic_push_url.path;
       paths = [ "/data/share" ];
       pruneOpts = [
         "--keep-daily 7"
@@ -261,6 +262,7 @@ in
     repoSyncB2 = {
       enable = true;
       environmentSecretPath = config.age.secrets.kirby_rclone_env.path;
+      pushUrlFile = config.age.secrets.kirby_rclone_b2_push_url.path;
     };
     beszelHub = {
       enable = true;

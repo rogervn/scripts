@@ -42,6 +42,10 @@ in
     kratos
     snorlax
   ];
+  "snorlax_repo_sync_push_url.age".publicKeys = [
+    kratos
+    snorlax
+  ];
   "serveruser_pass_hash.age".publicKeys = [
     kratos
     mog
@@ -83,6 +87,10 @@ in
     kratos
     mog
   ];
+  "mog_restic_push_url.age".publicKeys = [
+    kratos
+    mog
+  ];
   "authentik_env_file.age".publicKeys = [
     kratos
     kirby
@@ -110,6 +118,14 @@ in
     kirby
   ];
   "kirby_rclone_env.age".publicKeys = [
+    kratos
+    kirby
+  ];
+  "kirby_rclone_b2_push_url.age".publicKeys = [
+    kratos
+    kirby
+  ];
+  "kirby_restic_push_url.age".publicKeys = [
     kratos
     kirby
   ];
