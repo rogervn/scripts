@@ -28,6 +28,10 @@ in
   };
   programs.home-manager.enable = true;
 
+  # Nix GLib can't see Fedora's dconf module and falls back to default gsettings; NixOS sets this itself (with gvfs).
+  home.sessionVariables.GIO_EXTRA_MODULES = "${pkgs.dconf.lib}/lib/gio/modules";
+  systemd.user.sessionVariables.GIO_EXTRA_MODULES = "${pkgs.dconf.lib}/lib/gio/modules";
+
   # systemd skips symlinked units under XDG_DATA_DIRS, so ~/.nix-profile's units are invisible unless copied in here.
   home.file = builtins.listToAttrs (
     map
