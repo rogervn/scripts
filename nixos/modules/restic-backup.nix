@@ -174,6 +174,7 @@ in
   config = lib.mkMerge [
     (lib.mkIf cfg.enable {
       services.postgresqlBackup = lib.mkIf pgCfg.enable {
+        enable = true;
         inherit (pgCfg) location;
         inherit (pgCfg) startAt;
         inherit (pgCfg) compression;
