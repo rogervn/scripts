@@ -7,6 +7,9 @@
   agenixPackage,
   ...
 }:
+let
+  registry = import ../../modules/service-registry.nix { inherit pkgs; };
+in
 {
   imports = [
     ../../modules/base.nix
@@ -73,6 +76,24 @@
       IPv6PrivacyExtensions = "kernel";
       Domains = "~localdomain";
     };
+    macvlan = [ "mac-shim" ];
+  };
+
+  # Host-side macvlan to reach the HAOS macvtap address without a linux bridge
+  systemd.network.netdevs."20-mac-shim" = {
+    netdevConfig = {
+      Name = "mac-shim";
+      Kind = "macvlan";
+    };
+    macvlanConfig.Mode = "bridge";
+  };
+  systemd.network.networks."50-mac-shim" = {
+    matchConfig.Name = "mac-shim";
+    networkConfig.LinkLocalAddressing = "no";
+    linkConfig.RequiredForOnline = "no";
+    routes = [
+      { Destination = "${registry.services.homeassistant.hosts.getSingleHost.ip}/32"; }
+    ];
   };
 
   users.users.${userName} = {
