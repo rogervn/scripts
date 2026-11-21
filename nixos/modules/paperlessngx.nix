@@ -8,6 +8,7 @@
 let
   registry = import ./service-registry.nix { inherit pkgs; };
   httpPort = registry.services.paperless.port;
+  host = registry.services.paperless.hosts.getSingleHost;
   dataDir = "/data/apps/paperlessngx";
   inherit (config.myServices) smtp;
 in
@@ -28,6 +29,13 @@ in
     environmentFile = config.age.secrets.paperlessngx_env_file.path;
     settings = {
       PAPERLESS_URL = registry.services.paperless.publicUrl;
+      # LAN health checks hit the host by name/IP, which PAPERLESS_URL alone rejects
+      PAPERLESS_ALLOWED_HOSTS = lib.concatStringsSep "," [
+        registry.services.paperless.domain
+        host.fqdn
+        host.ip
+        "localhost"
+      ];
       PAPERLESS_TIME_ZONE = "Europe/London";
       PAPERLESS_ADMIN_USER = "admin";
       PAPERLESS_EMAIL_HOST = if smtp.enable then smtp.host else "smtp-relay.brevo.com";
