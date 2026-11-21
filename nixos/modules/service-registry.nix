@@ -36,6 +36,7 @@ let
     homeassistant = {
       hosts = [ homeassistant ];
       port = 8005;
+      domain = "homeassistant.vnunes.win";
     };
     homepage = {
       hosts = [ pikachu ];
