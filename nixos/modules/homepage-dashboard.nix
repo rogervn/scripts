@@ -18,6 +18,14 @@ let
     cp -r --no-preserve=mode ${../images} $out/icons
   '';
 
+  # TODO: drop when homepage is updated past 1.12.3 (fixed upstream in gethomepage/homepage#7353)
+  # Beszel answers an expired token with 401, which the proxy never re-logs in on
+  packageProxy = "${config.services.homepage-dashboard.package}/share/homepage/.next/server/pages/api/services/proxy.js";
+  patchedProxy = pkgs.runCommand "homepage-proxy.js" { } ''
+    cp ${packageProxy} $out
+    substituteInPlace $out --replace-fail '[400,403].includes(c)' '[400,401,403].includes(c)'
+  '';
+
   groupedServices = lib.groupBy (entry: entry.group) cfg.entries;
   homepageServices = lib.mapAttrsToList (group: entries: {
     "${group}" = map (entry: {
@@ -382,7 +390,10 @@ in
 
       systemd.services.homepage-dashboard = {
         environment.HOMEPAGE_PROXY_DISABLE_IPV6 = "true";
-        serviceConfig.BindReadOnlyPaths = [ "${publicDir}:${packagePublic}" ];
+        serviceConfig.BindReadOnlyPaths = [
+          "${publicDir}:${packagePublic}"
+          "${patchedProxy}:${packageProxy}"
+        ];
       };
 
       networking.firewall.allowedTCPPorts = [ cfg.listenPort ];
