@@ -90,20 +90,9 @@ in
     exclude = lib.mkAfter [ "${config.services.nextcloud.home}/.opcache" ];
   };
 
-  systemd.services."nextcloud-maintenance-mode" = {
-    description = "Nextcloud maintenance mode for DB backup";
-    before = [ "postgresqlBackup-nextcloud.service" ];
-    wantedBy = [ "postgresqlBackup-nextcloud.service" ];
-    serviceConfig = {
-      Type = "oneshot";
-      RemainAfterExit = true;
-      ExecStart = "${config.services.nextcloud.occ}/bin/nextcloud-occ maintenance:mode --on";
-      ExecStop = "${config.services.nextcloud.occ}/bin/nextcloud-occ maintenance:mode --off";
-      User = "nextcloud";
-    };
-  };
-  systemd.services."postgresqlBackup-nextcloud" = {
-    after = lib.mkAfter [ "nextcloud-maintenance-mode.service" ];
-    requires = lib.mkAfter [ "nextcloud-maintenance-mode.service" ];
+  # Maintenance mode only for the dump; "+" runs as root so occ can sudo to nextcloud
+  systemd.services."postgresqlBackup-nextcloud".serviceConfig = {
+    ExecStartPre = [ "+${config.services.nextcloud.occ}/bin/nextcloud-occ maintenance:mode --on" ];
+    ExecStopPost = [ "+${config.services.nextcloud.occ}/bin/nextcloud-occ maintenance:mode --off" ];
   };
 }
