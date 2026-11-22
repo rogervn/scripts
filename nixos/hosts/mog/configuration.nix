@@ -68,31 +68,42 @@ in
     };
   };
 
-  # Tailscale sets ~. on tailscale0, overriding all DNS including .localdomain — route it back to the local DNS server
-  systemd.network.networks."40-enp2s0" = {
-    matchConfig.Name = "enp2s0";
-    networkConfig = {
-      DHCP = "yes";
-      IPv6PrivacyExtensions = "kernel";
-      Domains = "~localdomain";
-    };
-    macvlan = [ "mac-shim" ];
-  };
+  systemd = {
+    network = {
+      networks = {
+        # Tailscale sets ~. on tailscale0, overriding all DNS including .localdomain — route it back to the local DNS server
+        "40-enp2s0" = {
+          matchConfig.Name = "enp2s0";
+          networkConfig = {
+            DHCP = "yes";
+            IPv6PrivacyExtensions = "kernel";
+            Domains = "~localdomain";
+          };
+          macvlan = [ "mac-shim" ];
+        };
 
-  # Host-side macvlan to reach the HAOS macvtap address without a linux bridge
-  systemd.network.netdevs."20-mac-shim" = {
-    netdevConfig = {
-      Name = "mac-shim";
-      Kind = "macvlan";
+        "50-mac-shim" = {
+          matchConfig.Name = "mac-shim";
+          networkConfig.LinkLocalAddressing = "no";
+          linkConfig.RequiredForOnline = "no";
+          routes = [
+            { Destination = "${registry.services.homeassistant.hosts.getSingleHost.ip}/32"; }
+          ];
+        };
+      };
+
+      # Host-side macvlan to reach the HAOS macvtap address without a linux bridge
+      netdevs."20-mac-shim" = {
+        netdevConfig = {
+          Name = "mac-shim";
+          Kind = "macvlan";
+        };
+        macvlanConfig.Mode = "bridge";
+      };
     };
-    macvlanConfig.Mode = "bridge";
-  };
-  systemd.network.networks."50-mac-shim" = {
-    matchConfig.Name = "mac-shim";
-    networkConfig.LinkLocalAddressing = "no";
-    linkConfig.RequiredForOnline = "no";
-    routes = [
-      { Destination = "${registry.services.homeassistant.hosts.getSingleHost.ip}/32"; }
+
+    tmpfiles.rules = [
+      "d /home/${userName}/.ssh 0700 ${userName} users -"
     ];
   };
 
@@ -105,9 +116,6 @@ in
       "libvirtd"
     ];
   };
-  systemd.tmpfiles.rules = [
-    "d /home/${userName}/.ssh 0700 ${userName} users -"
-  ];
   age.secrets."${userName}_authorized_keys" = {
     path = "/home/${userName}/.ssh/authorized_keys";
     owner = userName;
