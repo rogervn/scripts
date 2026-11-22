@@ -422,6 +422,13 @@ in
           float = true;
         }
         {
+          # Bitwarden extension popup draws half-blank when tiled
+          match.class = "^vivaldi-stable$";
+          match.initial_title = "^Bitwarden - Vivaldi$";
+          float = true;
+          center = true;
+        }
+        {
           match.class = "^steam_app_";
           immediate = true;
         }
