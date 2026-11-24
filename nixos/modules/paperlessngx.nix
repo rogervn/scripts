@@ -19,10 +19,6 @@ in
 
   services.paperless = {
     enable = true;
-    # TODO: drop once nixpkgs paperless-ngx accepts torch 2.15
-    package = pkgs.paperless-ngx.overrideAttrs (old: {
-      pythonRelaxDeps = old.pythonRelaxDeps ++ [ "torch" ];
-    });
     address = "0.0.0.0";
     port = httpPort;
     inherit dataDir;
