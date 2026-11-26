@@ -192,7 +192,6 @@ in
     # Samba
     samba = {
       enable = true;
-      package = pkgs.samba.override { enableMDNS = true; };
       settings = {
         global = {
           workgroup = "WORKGROUP";
@@ -223,6 +222,18 @@ in
         disable-user-service-publishing = false;
         publish-addresses = true;
       };
+      # Advertise SMB via a static service file so the cached samba package can be used
+      extraServiceFiles.smb = ''
+        <?xml version="1.0" standalone='no'?>
+        <!DOCTYPE service-group SYSTEM "avahi-service.dtd">
+        <service-group>
+          <name replace-wildcards="yes">%h</name>
+          <service>
+            <type>_smb._tcp</type>
+            <port>445</port>
+          </service>
+        </service-group>
+      '';
     };
   };
 
